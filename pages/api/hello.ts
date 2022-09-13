@@ -34,7 +34,7 @@ export default async function handler(
   // const a = convertToNumber(request.query.a as string);
   // const b = convertToNumber(request.query.b as string);
 
-  const { exports } = (await WebAssembly.instantiate(wasm2)) as any;
+  const { exports } = (await WebAssembly.instantiate(wasm)) as any;
 
   res.status(200).json({ info: exports });
   // const value = exports.xor(a, b);

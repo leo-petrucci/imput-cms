@@ -22,15 +22,13 @@ function hexFormat(given: number) {
   return "0x" + "0".repeat(8 - str.length) + str;
 }
 
-export default async function handler(request: Request, event: Event) {
-  const url = new URL(request.url);
-
-  if (!url.searchParams.get("a") || !url.searchParams.get("b")) {
+export default async function handler(request: NextApiRequest) {
+  if (!request.query.a || !request.query.b) {
     return new Response("Two inputs are required", { status: 400 });
   }
 
-  const a = convertToNumber(url.searchParams.get("a")!);
-  const b = convertToNumber(url.searchParams.get("b")!);
+  const a = convertToNumber(request.query.a as string);
+  const b = convertToNumber(request.query.b as string);
 
   const { exports } = (await WebAssembly.instantiate(wasm)) as any;
 

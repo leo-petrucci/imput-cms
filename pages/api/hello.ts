@@ -1,18 +1,24 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
-import db from "../../lib/db";
+// import initDb from "../../lib/db";
+// @ts-ignore
+import wasmModule from "https://sql.js.org/dist/sql-wasm.wasm?module";
 
 type Data = {
   info: any;
 };
 
-export default function handler(
-  _req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  db.serialize(() => {
-    db.all("SELECT rowid AS id, info FROM lorem", (err, row) => {
-      res.status(200).json({ info: row });
-    });
-  });
-}
+export const config = {
+  runtime: "experimental-edge",
+};
+
+const hello = async (_req: NextApiRequest, res: NextApiResponse<Data>) => {
+  const { exports } = (await WebAssembly.instantiate(wasmModule)) as any;
+  // const db = await initDb();
+  // const stmt = db.prepare("SELECT rowid AS id, info FROM lorem");
+
+  // const result = stmt.getAsObject();
+  res.status(200).json({ info: exports });
+};
+
+export default hello;

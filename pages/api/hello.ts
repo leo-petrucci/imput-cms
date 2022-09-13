@@ -1,9 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-// import initDb from "../../lib/db";
+import type { NextApiRequest } from "next";
 // @ts-ignore
-// import wasmModule from "../../lib/sql-wasm.wasm?module";
-import wasm from "../../lib/pkg/wasm_bg.wasm?module";
+import wasm from "../../lib/wasm_bg.wasm?module";
 
 export const config = {
   runtime: "experimental-edge",

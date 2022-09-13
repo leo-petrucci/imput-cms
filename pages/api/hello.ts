@@ -3,6 +3,9 @@ import type { NextApiRequest } from "next";
 // @ts-ignore
 import wasm from "../../lib/wasm_bg.wasm?module";
 
+// @ts-ignore
+import wasm2 from "../../lib/sql-wasm.wasm?module";
+
 export const config = {
   runtime: "experimental-edge",
 };

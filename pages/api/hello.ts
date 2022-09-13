@@ -2,7 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 // import initDb from "../../lib/db";
 // @ts-ignore
-import wasmModule from "./sql-wasm.wasm";
+import wasmModule from "../../lib/sql-wasm.wasm";
 
 type Data = {
   info: any;

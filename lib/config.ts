@@ -1,7 +1,7 @@
-export const config = (provider) => ({
+export const config = (provider: "github" | "gitlab") => ({
   client: {
-    id: client[provider].id,
-    secret: client[provider].secret,
+    id: client[provider].id as string,
+    secret: client[provider].secret as string,
   },
   auth: {
     tokenHost: auth[provider].tokenHost,

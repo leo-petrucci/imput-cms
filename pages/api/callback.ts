@@ -1,11 +1,11 @@
 import { AuthorizationCode } from "simple-oauth2";
 import { config } from "../../lib/config";
 
-export default async (req, res) => {
+const callback = async (req: any, res: any) => {
   const { host } = req.headers;
   const url = new URL(`https://${host}/${req.url}`);
   const urlParams = url.searchParams;
-  const code = urlParams.get("code");
+  const code = urlParams.get("code") as string;
   const provider = urlParams.get("provider");
   const client = new AuthorizationCode(config(provider));
   const tokenParams = {
@@ -30,7 +30,7 @@ export default async (req, res) => {
   }
 };
 
-function renderBody(status, content) {
+function renderBody(status: any, content: any) {
   return `
     <script>
       const receiveMessage = (message) => {
@@ -47,3 +47,5 @@ function renderBody(status, content) {
     </script>
   `;
 }
+
+export default callback;

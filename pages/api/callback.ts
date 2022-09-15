@@ -6,7 +6,8 @@ const callback = async (req: any, res: any) => {
   const url = new URL(`https://${host}/${req.url}`);
   const urlParams = url.searchParams;
   const code = urlParams.get("code") as string;
-  const provider = urlParams.get("provider");
+
+  const provider = urlParams.get("provider") as "github" | "gitlab";
   const client = new AuthorizationCode(config(provider));
   const tokenParams = {
     code,

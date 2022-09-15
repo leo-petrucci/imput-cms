@@ -3,6 +3,8 @@ backend:
   repo: creativiii/sqlite-experiment
   branch: main
   auth_endpoint: "api/auth"
+media_folder: "public/images"
+public_folder: "/images"
 collections:
   - name: "blog" # Used in routes, e.g., /admin/collections/blog
     label: "Blog" # Used in the UI

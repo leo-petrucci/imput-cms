@@ -6,8 +6,9 @@ const Login = () => {
       token: string;
       provider: "github";
     };
-    document.cookie = `token=${token};`;
-    document.cookie = `provider=${provider};`;
+    console.log({ token, provider });
+    document.cookie = `token=${token}; Max-Age=604800;`;
+    document.cookie = `provider=${provider}; Max-Age=604800;`;
   };
 
   const openWindow = () => {

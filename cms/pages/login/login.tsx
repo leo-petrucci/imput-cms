@@ -2,7 +2,12 @@ import React from "react";
 
 const Login = () => {
   const receiveMessage = (event: any) => {
-    console.log(event.data);
+    const { token, provider } = JSON.parse(event.data) as {
+      token: string;
+      provider: "github";
+    };
+    document.cookie = `token=${token};`;
+    document.cookie = `provider=${provider};`;
   };
 
   const openWindow = () => {
@@ -42,7 +47,7 @@ const Login = () => {
 
   React.useEffect(() => {
     window.addEventListener("message", receiveMessage, false);
-    // return window.removeEventListener("message", receiveMessage);
+    return window.removeEventListener("message", receiveMessage);
   }, []);
 
   return (

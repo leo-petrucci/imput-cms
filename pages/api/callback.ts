@@ -19,11 +19,6 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     const accessToken = await client.getToken(tokenParams);
     const token = accessToken.token["access_token"];
 
-    // const responseBody = renderBody("success", {
-    //   token,
-    //   provider,
-    // });
-
     res.statusCode = 200;
 
     res.setHeader("Content-Type", "text/html");

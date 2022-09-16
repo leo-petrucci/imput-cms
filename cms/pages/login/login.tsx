@@ -38,14 +38,12 @@ const Login = () => {
         left=${left}
       `
     );
-
-    window.addEventListener("message", receiveMessage, false);
   };
 
-  //   React.useEffect(() => {
-
-  //     return window.removeEventListener("message", receiveMessage);
-  //   }, []);
+  React.useEffect(() => {
+    window.addEventListener("message", receiveMessage, false);
+    return window.removeEventListener("message", receiveMessage);
+  }, []);
 
   return (
     <div

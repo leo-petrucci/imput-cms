@@ -1,7 +1,8 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { AuthorizationCode } from "simple-oauth2";
 import { config } from "../../lib/config";
 
-const callback = async (req: any, res: any) => {
+const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   const { host } = req.headers;
   const url = new URL(`https://${host}/${req.url}`);
   const urlParams = url.searchParams;
@@ -18,14 +19,15 @@ const callback = async (req: any, res: any) => {
     const accessToken = await client.getToken(tokenParams);
     const token = accessToken.token["access_token"];
 
-    const responseBody = renderBody("success", {
-      token,
-      provider,
-    });
+    // const responseBody = renderBody("success", {
+    //   token,
+    //   provider,
+    // });
+
+    res.statusCode = 200;
 
     res.setHeader("Content-Type", "text/html");
-    res.send(
-      Buffer.from(`
+    res.end(`
         <script type="text/javascript">
           if (window.opener) {
               window.opener.postMessage("${JSON.stringify({
@@ -35,8 +37,7 @@ const callback = async (req: any, res: any) => {
           }
           window.close();
         </script>
-    `)
-    );
+    `);
   } catch (e) {
     res.statusCode = 200;
     res.end(renderBody("error", e));

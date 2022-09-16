@@ -34,17 +34,12 @@ const callback = async (req: any, res: any) => {
 function renderBody(status: any, content: any) {
   return `
     <script>
-      const receiveMessage = (message) => {
         window.opener.postMessage(
           'authorization:${content.provider}:${status}:${JSON.stringify(
-                content
-            )}',
+    content
+  )}',
           message.origin
         );
-        window.removeEventListener("message", receiveMessage, false);
-      }
-      window.addEventListener("message", receiveMessage, false);
-      window.opener.postMessage("authorizing:${content.provider}", "*");
     </script>
   `;
 }

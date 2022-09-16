@@ -2,6 +2,7 @@ import React from "react";
 
 const Login = () => {
   const receiveMessage = (event: any) => {
+    console.log(event.data);
     const { token, provider } = JSON.parse(event.data) as {
       token: string;
       provider: "github";

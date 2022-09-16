@@ -30,10 +30,10 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
     res.end(`
         <script type="text/javascript">
           if (window.opener) {
-              window.opener.postMessage("${JSON.stringify({
+              window.opener.postMessage('${JSON.stringify({
                 token,
                 provider,
-              })}", "*");
+              })}', "*");
           }
           window.close();
         </script>

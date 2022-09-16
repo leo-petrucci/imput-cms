@@ -23,8 +23,20 @@ const callback = async (req: any, res: any) => {
       provider,
     });
 
-    res.statusCode = 200;
-    res.end(responseBody);
+    res.setHeader("Content-Type", "text/html");
+    res.send(
+      Buffer.from(`
+        <script type="text/javascript">
+          if (window.opener) {
+              window.opener.postMessage("${JSON.stringify({
+                token,
+                provider,
+              })}", "*");
+          }
+          window.close();
+        </script>
+    `)
+    );
   } catch (e) {
     res.statusCode = 200;
     res.end(renderBody("error", e));
@@ -34,11 +46,11 @@ const callback = async (req: any, res: any) => {
 function renderBody(status: any, content: any) {
   return `
     <script>
-        window.opener.postMessage(
-          'authorization:${content.provider}:${status}:${JSON.stringify(
+        event.source.postMessage(
+            'authorization:${content.provider}:${status}:${JSON.stringify(
     content
   )}',
-          message.origin
+            message.origin
         );
     </script>
   `;

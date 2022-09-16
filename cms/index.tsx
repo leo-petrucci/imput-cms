@@ -1,12 +1,8 @@
-import { NextPage } from "next";
-import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
 
-const NextCMS: NextPage = () => {
-  const router = useRouter();
-
-  console.log(router);
-
-  return <>Cms</>;
-};
+// This will ensure all pages are rendered client-side only
+const NextCMS = dynamic(() => import("./routes"), {
+  ssr: false,
+});
 
 export default NextCMS;

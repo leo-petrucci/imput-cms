@@ -37,8 +37,8 @@ function renderBody(status: any, content: any) {
       const receiveMessage = (message) => {
         window.opener.postMessage(
           'authorization:${content.provider}:${status}:${JSON.stringify(
-    content
-  )}',
+                content
+            )}',
           message.origin
         );
         window.removeEventListener("message", receiveMessage, false);

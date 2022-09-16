@@ -49,7 +49,7 @@ const Login = () => {
 
   React.useEffect(() => {
     window.addEventListener("message", receiveMessage, false);
-    return window.removeEventListener("message", receiveMessage);
+    // return window.removeEventListener("message", receiveMessage);
   }, []);
 
   return (

@@ -6,6 +6,7 @@ import {
   CMSProvider,
   useCMSContext,
 } from "../contexts/cmsContext/useCMSContext";
+import { UserProvider, useUser } from "../contexts/userContext/userContext";
 
 /**
  * Central routing point for all of our private CMS pages
@@ -13,8 +14,9 @@ import {
 const NextCMSPrivateRoutes: NextPage = () => {
   const { query } = useRouter();
   const settings = useCMSContext();
+  const user = useUser();
 
-  console.log(settings);
+  console.log({ settings, user });
 
   /**
    * If query does not exist then we're on the index page, if it does we're on one of the other routes.
@@ -44,7 +46,9 @@ const NextCMSRoutes = (props: { settings: NextCMSContext["settings"] }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <CMSProvider settings={props.settings}>
-        <NextCMSPrivateRoutes />
+        <UserProvider>
+          <NextCMSPrivateRoutes />
+        </UserProvider>
       </CMSProvider>
     </QueryClientProvider>
   );

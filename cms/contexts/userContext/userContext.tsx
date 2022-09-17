@@ -18,11 +18,15 @@ export const UserProvider = ({
 }): JSX.Element => {
   const tokenQuery = useGithubToken();
 
-  const { data, isSuccess } = useGithubUser(tokenQuery.data);
+  const { data, isSuccess, isLoading } = useGithubUser(tokenQuery.data);
 
-  return (
-    <UserContextProvider value={data}>
-      {isSuccess ? <>{children}</> : <Login />}
-    </UserContextProvider>
-  );
+  if (tokenQuery.isLoading || isLoading) {
+    return <>Loading...</>;
+  }
+
+  if (!isSuccess) {
+    return <Login />;
+  }
+
+  return <UserContextProvider value={data!}>{children}</UserContextProvider>;
 };

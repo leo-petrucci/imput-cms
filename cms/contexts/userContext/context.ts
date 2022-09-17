@@ -1,7 +1,11 @@
 import React from "react";
-import { Endpoints } from "octokit";
+import { Endpoints } from "@octokit/types";
 
-export interface UserContext extends Endpoints<"GET /user"> {}
+export interface UserContext {
+  avatar_url: Endpoints["GET /user"]["response"]["data"]["avatar_url"];
+  url: Endpoints["GET /user"]["response"]["data"]["html_url"];
+  username: Endpoints["GET /user"]["response"]["data"]["login"];
+}
 
 const ctxt = React.createContext({} as UserContext);
 

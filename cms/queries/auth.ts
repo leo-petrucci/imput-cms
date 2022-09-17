@@ -28,8 +28,8 @@ export const useGithubUser = (token: string | undefined) => {
       const user = await octokit.request("GET /user");
       return {
         avatar_url: user.data.avatar_url,
-        url: user.data.url,
-        username: user.data.name,
+        url: user.data.html_url,
+        username: user.data.login,
       };
     },
     {

@@ -1,7 +1,11 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { NextCMSSettings } from "../context/context";
-import { CMSProvider, useCMSContext } from "../context/useCMSContext";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { NextCMSContext } from "../contexts/cmsContext/context";
+import {
+  CMSProvider,
+  useCMSContext,
+} from "../contexts/cmsContext/useCMSContext";
 
 /**
  * Central routing point for all of our private CMS pages
@@ -31,14 +35,18 @@ const NextCMSPrivateRoutes: NextPage = () => {
   return <>Cms fallback</>;
 };
 
+const queryClient = new QueryClient();
+
 /**
  * NextCMS wrapper. Checks for login status, sets up contexts, etc.
  */
-const NextCMSRoutes = (props: NextCMSSettings) => {
+const NextCMSRoutes = (props: { settings: NextCMSContext["settings"] }) => {
   return (
-    <CMSProvider settings={props}>
-      <NextCMSPrivateRoutes />
-    </CMSProvider>
+    <QueryClientProvider client={queryClient}>
+      <CMSProvider settings={props.settings}>
+        <NextCMSPrivateRoutes />
+      </CMSProvider>
+    </QueryClientProvider>
   );
 };
 

@@ -3,7 +3,7 @@ import NextCMS from "../../cms";
 const CMS = () => (
   <NextCMS
     {...{
-      setting: "example",
+      settings: "example",
     }}
   />
 );

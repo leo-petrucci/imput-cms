@@ -2,12 +2,10 @@ import React from "react";
 
 const Login = () => {
   const receiveMessage = (event: any) => {
-    console.log(event.data);
     const { token, provider } = JSON.parse(event.data) as {
       token: string;
       provider: "github";
     };
-    console.log({ token, provider });
     document.cookie = `token=${token}; Max-Age=604800;`;
     document.cookie = `provider=${provider}; Max-Age=604800;`;
   };

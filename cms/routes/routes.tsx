@@ -5,6 +5,7 @@ import { NextCMSContext } from "../contexts/cmsContext/context";
 import { CMSProvider } from "../contexts/cmsContext/useCMSContext";
 import { UserProvider } from "../contexts/userContext/userContext";
 import HomePage from "../pages/home";
+import CollectionPage from "../pages/collection";
 
 /**
  * Central routing point for all of our private CMS pages
@@ -22,7 +23,7 @@ const NextCMSPrivateRoutes: NextPage = () => {
       return <HomePage />;
     // viewing a single category
     case 1:
-      return <>Category home</>;
+      return <CollectionPage />;
     // viewing a file in a category
     case 2:
       return <>Viewing a page</>;

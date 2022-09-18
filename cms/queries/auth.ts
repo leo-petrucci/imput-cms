@@ -18,12 +18,16 @@ function getCookie(cname: string) {
   return undefined;
 }
 
+export const getToken = () => {
+  return getCookie("token");
+};
+
 export const useGithubUser = (token: string | undefined) => {
   return useQuery(
     queryKeys.auth.user(token!),
     async () => {
       const octokit = new Octokit({
-        auth: token,
+        auth: getToken(),
       });
       const user = await octokit.request("GET /user");
       return {
@@ -40,6 +44,6 @@ export const useGithubUser = (token: string | undefined) => {
 
 export const useGithubToken = () => {
   return useQuery(queryKeys.auth.token, async () => {
-    return getCookie("token");
+    return getToken();
   });
 };

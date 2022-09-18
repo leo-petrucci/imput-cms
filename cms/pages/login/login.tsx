@@ -1,6 +1,9 @@
 import React from "react";
+import { useCMS } from "../../contexts/cmsContext/useCMSContext";
 
 const Login = () => {
+  const { backend } = useCMS();
+
   const receiveMessage = (event: any) => {
     const { token, provider } = JSON.parse(event.data) as {
       token: string;
@@ -34,7 +37,7 @@ const Login = () => {
     const top = (height - h) / 2 / systemZoom + dualScreenTop;
 
     window.open(
-      `/api/auth?provider=github`,
+      `${backend.base_url}${backend.auth_endpoint}?provider=github`,
       "Twitter Login",
       `
         height=${h},

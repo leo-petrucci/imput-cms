@@ -2,21 +2,15 @@ import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { NextCMSContext } from "../contexts/cmsContext/context";
-import {
-  CMSProvider,
-  useCMSContext,
-} from "../contexts/cmsContext/useCMSContext";
-import { UserProvider, useUser } from "../contexts/userContext/userContext";
+import { CMSProvider } from "../contexts/cmsContext/useCMSContext";
+import { UserProvider } from "../contexts/userContext/userContext";
+import HomePage from "../pages/home";
 
 /**
  * Central routing point for all of our private CMS pages
  */
 const NextCMSPrivateRoutes: NextPage = () => {
   const { query } = useRouter();
-  const settings = useCMSContext();
-  const user = useUser();
-
-  console.log({ settings, user });
 
   /**
    * If query does not exist then we're on the index page, if it does we're on one of the other routes.
@@ -25,7 +19,7 @@ const NextCMSPrivateRoutes: NextPage = () => {
   switch (queryLength) {
     // index
     case 0:
-      return <>Index page</>;
+      return <HomePage />;
     // viewing a single category
     case 1:
       return <>Category home</>;

@@ -6,6 +6,8 @@ import { CMSProvider } from "../contexts/cmsContext/useCMSContext";
 import { UserProvider } from "../contexts/userContext/userContext";
 import HomePage from "../pages/home";
 import CollectionPage from "../pages/collection";
+import ContentPage from "../pages/content";
+import { ImagesProvider } from "../contexts/imageContext/useImageContext";
 
 /**
  * Central routing point for all of our private CMS pages
@@ -26,7 +28,7 @@ const NextCMSPrivateRoutes: NextPage = () => {
       return <CollectionPage />;
     // viewing a file in a category
     case 2:
-      return <>Viewing a page</>;
+      return <ContentPage />;
   }
 
   return <>Cms fallback</>;
@@ -40,9 +42,14 @@ const queryClient = new QueryClient();
 const NextCMSRoutes = (props: { settings: NextCMSContext["settings"] }) => {
   return (
     <QueryClientProvider client={queryClient}>
+      {/* CMS settings and such */}
       <CMSProvider settings={props.settings}>
+        {/* Github user info */}
         <UserProvider>
-          <NextCMSPrivateRoutes />
+          {/* All images to be used in the CMS */}
+          <ImagesProvider>
+            <NextCMSPrivateRoutes />
+          </ImagesProvider>
         </UserProvider>
       </CMSProvider>
     </QueryClientProvider>

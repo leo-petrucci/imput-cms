@@ -11,6 +11,7 @@ const CMS = () => (
           base_url: "https://sqlite-experiment.vercel.app/",
           auth_endpoint: "api/auth",
         },
+        media_folder: "public/images",
         collections: [
           {
             name: "blog",
@@ -18,6 +19,7 @@ const CMS = () => (
             folder: "_posts/blog",
             create: true,
             slug: "{{slug}}",
+            extension: "md",
             fields: [
               { label: "Title", name: "title", widget: "string" },
               {

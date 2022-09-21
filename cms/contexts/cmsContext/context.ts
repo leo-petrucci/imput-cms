@@ -58,6 +58,10 @@ export interface NextCMSContext {
       auth_endpoint: string;
     };
     /**
+     * Git directory where images are stored
+     */
+    media_folder: string;
+    /**
      * The shape of the contents of your website.
      * Each collection object is a different type of content:
      * - blobposts
@@ -85,6 +89,10 @@ export interface NextCMSContext {
        * A slug-ified string which will become the filename of the resource created
        */
       slug: string;
+      /**
+       * File that will be created when adding new content to this collection
+       */
+      extension: "md" | "mdx";
       /**
        * This will dictate the
        * inputs displayed when editing or creating content.

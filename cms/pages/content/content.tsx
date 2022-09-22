@@ -1,8 +1,9 @@
 import { useRouter } from "next/router";
 import { useCMS } from "../../contexts/cmsContext/useCMSContext";
+import Editor from "../../components/editor";
 import {
   useGetGithubCollection,
-  useGetGithubFileBlob,
+  useGetGithubDecodedFile,
 } from "../../queries/github";
 
 const ContentPage = () => {
@@ -20,12 +21,13 @@ const ContentPage = () => {
       )!.sha
     : undefined;
 
-  const { data } = useGetGithubFileBlob(
-    thisCollection!.folder || collections[0].folder,
-    sha
-  );
+  const { data, isSuccess } = useGetGithubDecodedFile(sha);
 
-  return <></>;
+  if (isSuccess) {
+    return <Editor frontMatter={data!} />;
+  }
+
+  return <>Loading...</>;
 };
 
 export default ContentPage;

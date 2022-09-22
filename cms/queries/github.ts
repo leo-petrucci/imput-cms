@@ -41,24 +41,40 @@ export const useGetGithubImages = () => {
   });
 };
 
-export const useGetGithubFileBlob = (type: string, sha: string | undefined) => {
+/**
+ * Returns a base64 string for a specific sha file in a repo
+ */
+export const getGithubFileBase64 = async (
+  owner: string,
+  repo: string,
+  sha: string
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  });
+  const response = await octokit.request(
+    "GET /repos/{owner}/{repo}/git/blobs/{file_sha}",
+    {
+      owner,
+      repo,
+      file_sha: sha!,
+    }
+  );
+  return response.data.content;
+};
+
+/**
+ * Returns an utf-8 decoded file fetched from a bae64 encoded sha
+ */
+export const useGetGithubDecodedFile = (sha: string | undefined) => {
   const { backend } = useCMS();
   const [owner, repo] = backend.repo.split("/");
   return useQuery(
-    queryKeys.github.fileBlob(type, sha!),
+    queryKeys.github.fileBlob(sha!),
     async () => {
-      const octokit = new Octokit({
-        auth: getToken(),
-      });
-      const response = await octokit.request(
-        "GET /repos/{owner}/{repo}/git/blobs/{file_sha}",
-        {
-          owner,
-          repo,
-          file_sha: sha!,
-        }
-      );
-      const buf = Buffer.from(response.data.content, "base64");
+      const base64 = await getGithubFileBase64(owner, repo, sha!);
+
+      const buf = Buffer.from(base64, "base64");
       return buf.toString("utf-8");
     },
     {

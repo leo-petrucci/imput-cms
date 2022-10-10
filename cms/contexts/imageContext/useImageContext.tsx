@@ -8,7 +8,7 @@ import { base64ToBlob } from "../../utils/base64ToBlob";
 /**
  * Returns a page's images and methods related to those images.
  */
-export const useImages = (markdown: string) => {
+export const useImages = () => {
   const {
     imageTree,
     images: [images, setImages],
@@ -17,14 +17,10 @@ export const useImages = (markdown: string) => {
   const { backend } = useCMS();
   const [owner, repo] = backend.repo.split("/");
 
-  React.useEffect(() => {
-    loadImages();
-  }, [markdown]);
-
   /**
    * Extracts all image urls from markdown and converts them to useful objects containing blob urls, then sets them to state.
    */
-  const loadImages = async () => {
+  const loadImages = async (markdown: string) => {
     const { content } = matter(markdown);
     const exp = new RegExp(
       /!\[(?<alttext>.*?)]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g
@@ -62,7 +58,7 @@ export const useImages = (markdown: string) => {
     setImages(parsed);
   };
 
-  return { imageTree, images };
+  return { imageTree, images, loadImages };
 };
 
 const ImagesContextProvider = ctxt.Provider;

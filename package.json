@@ -10,6 +10,8 @@
   "dependencies": {
     "@lukemorales/query-key-factory": "^0.6.1",
     "@milkdown/core": "^6.4.1",
+    "@milkdown/plugin-history": "^6.4.1",
+    "@milkdown/plugin-menu": "^6.4.1",
     "@milkdown/preset-commonmark": "^6.4.2",
     "@milkdown/prose": "^6.4.1",
     "@milkdown/react": "^6.4.1",

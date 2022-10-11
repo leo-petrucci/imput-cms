@@ -1,17 +1,21 @@
 import matter from "gray-matter";
 import React from "react";
-import { styled } from '@stitches/react';
+import { styled } from "@stitches/react";
 import { Editor, rootCtx, defaultValueCtx } from "@milkdown/core";
+import { redo, undo } from "@milkdown/prose/history";
+import { history } from "@milkdown/plugin-history";
 import { nord } from "@milkdown/theme-nord";
 import { ReactEditor, useEditor, useNodeCtx } from "@milkdown/react";
+import { menu, menuPlugin } from "./menu/index";
 import { commonmark, image } from "@milkdown/preset-commonmark";
 import { useImages } from "../../contexts/imageContext/useImageContext";
+import Head from "next/head";
 
-const ImageContainer = styled('span', {
-  '& > img' : {
-    width: "100%"
-  }
-})
+const ImageContainer = styled("span", {
+  "& > img": {
+    width: "100%",
+  },
+});
 
 const CustomImage: React.FC = () => {
   const { node } = useNodeCtx();
@@ -21,7 +25,11 @@ const CustomImage: React.FC = () => {
   const loadedImage = images.find((i) => i.filename === node.attrs.src);
   const src = loadedImage ? loadedImage.blob : "";
 
-  return <ImageContainer><img src={src} alt={node.attrs.alt} title={node.attrs.title} /></ImageContainer>;
+  return (
+    <ImageContainer>
+      <img src={src} alt={node.attrs.alt} title={node.attrs.title} />
+    </ImageContainer>
+  );
 };
 
 export interface EditorProps {
@@ -46,13 +54,24 @@ const EditorComponent = ({ frontMatter }: EditorProps) => {
         ctx.set(defaultValueCtx, content);
       })
       .use(nord)
+      .use(history)
+      .use(menu)
       .use(nodes);
   });
 
   return (
-    <div style={{ maxWidth: "50vw" }}>
-      <ReactEditor editor={editor} />
-    </div>
+    <>
+      <Head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+          rel="stylesheet"
+        />
+        <script src="https://unpkg.com/phosphor-icons"></script>
+      </Head>
+      <div style={{ maxWidth: "50vw" }}>
+        <ReactEditor editor={editor} />
+      </div>
+    </>
   );
 };
 

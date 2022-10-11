@@ -285,6 +285,23 @@
   dependencies:
     tslib "^2.4.0"
 
+"@milkdown/plugin-history@^6.4.1":
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/@milkdown/plugin-history/-/plugin-history-6.4.1.tgz#816e342dcd6cdaa388db67ca20708a40135f026a"
+  integrity sha512-58sbIT6PtmNxsh5MFOWUDnU8mgBDFbjPZ04YFBFGB01RFrmSdflDdPfzQEkG5dCTK/MGZaDLwsIEXKsY5y5H8w==
+  dependencies:
+    "@milkdown/utils" "6.4.1"
+    tslib "^2.4.0"
+
+"@milkdown/plugin-menu@^6.4.1":
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/@milkdown/plugin-menu/-/plugin-menu-6.4.1.tgz#95ba45266f124ab6122a91f91b668040a325c642"
+  integrity sha512-IR5YLkWZzzQ1XuWBh6NU03SoBCggzL0rsLt5nH6ipFLZ6Hc93MEnq6fqGl9WPl9tSn84AD5sdwg7GxFn1Bi58g==
+  dependencies:
+    "@milkdown/exception" "6.4.1"
+    "@milkdown/utils" "6.4.1"
+    tslib "^2.4.0"
+
 "@milkdown/preset-commonmark@^6.4.2":
   version "6.4.2"
   resolved "https://registry.yarnpkg.com/@milkdown/preset-commonmark/-/preset-commonmark-6.4.2.tgz#fb888c969a2c4ba863759e3b0a48cf75fbe5f53a"

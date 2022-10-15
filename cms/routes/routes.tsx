@@ -9,6 +9,9 @@ import CollectionPage from "../pages/collection";
 import ContentPage from "../pages/content";
 import { ImagesProvider } from "../contexts/imageContext/useImageContext";
 
+import "node_modules/modern-normalize/modern-normalize.css";
+import Box from "cms/components/designSystem/box";
+
 /**
  * Central routing point for all of our private CMS pages
  */
@@ -48,7 +51,13 @@ const NextCMSRoutes = (props: { settings: NextCMSContext["settings"] }) => {
         <UserProvider>
           {/* All images to be used in the CMS */}
           <ImagesProvider>
-            <NextCMSPrivateRoutes />
+            <Box
+              css={{
+                fontSize: 16,
+              }}
+            >
+              <NextCMSPrivateRoutes />
+            </Box>
           </ImagesProvider>
         </UserProvider>
       </CMSProvider>

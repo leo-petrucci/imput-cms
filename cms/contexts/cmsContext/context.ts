@@ -62,6 +62,10 @@ export interface NextCMSContext {
      */
     media_folder: string;
     /**
+     * Public web directory where files are stored
+     */
+    public_folder: string;
+    /**
      * The shape of the contents of your website.
      * Each collection object is a different type of content:
      * - blobposts

@@ -5,6 +5,7 @@ import {
   useGetGithubCollection,
   useGetGithubDecodedFile,
 } from "../../queries/github";
+import Form from "cms/components/forms/form";
 
 const ContentPage = () => {
   const router = useRouter();
@@ -24,7 +25,14 @@ const ContentPage = () => {
   const { data, isSuccess } = useGetGithubDecodedFile(sha);
 
   if (isSuccess) {
-    return <Editor frontMatter={data!} />;
+    return (
+      <Form onSubmit={(d) => console.log(d)} debug>
+        <button type="submit">Save</button>
+        <Form.Item name="body" label="Body">
+          <Editor frontMatter={data!} />
+        </Form.Item>
+      </Form>
+    );
   }
 
   return <>Loading...</>;

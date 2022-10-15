@@ -7,7 +7,6 @@ import {
   Ctx,
   ThemeBorder,
   ThemeColor,
-  ThemeIcon,
   ThemeShadow,
   ThemeSize,
 } from "@milkdown/core";

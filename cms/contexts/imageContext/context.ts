@@ -1,12 +1,19 @@
 import { Endpoints } from "@octokit/types";
 import React from "react";
 
+export enum ImageState {
+  Uploaded,
+  New,
+}
+
 export interface LoadedImages {
   markdown: string;
   filename: string;
+  state: ImageState.Uploaded | ImageState.New;
   alttext?: string;
   title?: string;
-  blob?: string;
+  blobUrl?: string;
+  blob?: Blob;
 }
 
 export interface GithubImagesTreeContext {
@@ -15,6 +22,7 @@ export interface GithubImagesTreeContext {
     LoadedImages[],
     React.Dispatch<React.SetStateAction<LoadedImages[]>>
   ];
+  imagesRef: React.MutableRefObject<LoadedImages[]>;
 }
 
 const ctxt = React.createContext({} as GithubImagesTreeContext);

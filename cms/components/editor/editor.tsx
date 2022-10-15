@@ -1,42 +1,36 @@
 import matter from "gray-matter";
 import React from "react";
-import { styled } from "@stitches/react";
 import { Editor, rootCtx, defaultValueCtx } from "@milkdown/core";
-import { redo, undo } from "@milkdown/prose/history";
 import { history } from "@milkdown/plugin-history";
-import { nord } from "@milkdown/theme-nord";
+import { listener, listenerCtx } from "@milkdown/plugin-listener";
 import { ReactEditor, useEditor, useNodeCtx } from "@milkdown/react";
-import { menu, menuPlugin } from "./menu/index";
+import { menu } from "./menu/index";
 import { commonmark, image } from "@milkdown/preset-commonmark";
 import { useImages } from "../../contexts/imageContext/useImageContext";
+import CustomImage from "./image/customImage";
 import Head from "next/head";
-
-const ImageContainer = styled("span", {
-  "& > img": {
-    width: "100%",
-  },
-});
-
-const CustomImage: React.FC = () => {
-  const { node } = useNodeCtx();
-
-  const { images } = useImages();
-
-  const loadedImage = images.find((i) => i.filename === node.attrs.src);
-  const src = loadedImage ? loadedImage.blob : "";
-
-  return (
-    <ImageContainer>
-      <img src={src} alt={node.attrs.alt} title={node.attrs.title} />
-    </ImageContainer>
-  );
-};
+import { EditorProvider } from "cms/contexts/editorContext/useEditor";
+import { useController, useFormContext } from "react-hook-form";
+import { useFormItem } from "../forms/form/form";
 
 export interface EditorProps {
   frontMatter: string;
 }
 
 const EditorComponent = ({ frontMatter }: EditorProps) => {
+  /**
+   * Editor will be a complex form item, it'll save its markdown whenever it's updated to `react-hook-form`
+   */
+  const { control } = useFormContext();
+  const { name, rules } = useFormItem();
+  const c = useController({
+    name,
+    rules,
+    control,
+    // make sure the default value is set to the initial markdown
+    defaultValue: matter(frontMatter).content,
+  });
+
   const { loadImages } = useImages();
 
   React.useEffect(() => {
@@ -49,12 +43,16 @@ const EditorComponent = ({ frontMatter }: EditorProps) => {
     });
     return Editor.make()
       .config((ctx) => {
+        ctx.get(listenerCtx).markdownUpdated((_ctx, m, _prevMarkdown) => {
+          // set the markdown value to form state on every edit
+          c.field.onChange(m);
+        });
         ctx.set(rootCtx, root);
         const { content } = matter(frontMatter);
         ctx.set(defaultValueCtx, content);
       })
-      .use(nord)
       .use(history)
+      .use(listener)
       .use(menu)
       .use(nodes);
   });
@@ -62,15 +60,13 @@ const EditorComponent = ({ frontMatter }: EditorProps) => {
   return (
     <>
       <Head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
-          rel="stylesheet"
-        />
         <script src="https://unpkg.com/phosphor-icons"></script>
       </Head>
-      <div style={{ maxWidth: "50vw" }}>
-        <ReactEditor editor={editor} />
-      </div>
+      <EditorProvider editor={editor}>
+        <div style={{ maxWidth: "50vw" }}>
+          <ReactEditor editor={editor} />
+        </div>
+      </EditorProvider>
     </>
   );
 };

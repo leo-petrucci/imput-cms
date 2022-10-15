@@ -12,6 +12,7 @@ const CMS = () => (
           auth_endpoint: "api/auth",
         },
         media_folder: "public/images",
+        public_folder: "images",
         collections: [
           {
             name: "blog",

@@ -4,6 +4,8 @@ title: Test
 ---
 T﻿esting
 
+<Component>Test</Component>
+
 ![](/images/img_20220326_175845.jpg)
 
 More

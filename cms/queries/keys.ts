@@ -5,4 +5,8 @@ export const queryKeys = createQueryKeyStore({
     token: null,
     user: (token: string) => token,
   },
+  github: {
+    collection: (type: string) => type,
+    fileBlob: (sha: string) => sha,
+  },
 });

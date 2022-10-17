@@ -1,7 +1,10 @@
 import React, { useContext } from "react";
 import ctxt, { NextCMSContext } from "./context";
 
-export const useCMSContext = () => {
+/**
+ * Returns the CMS settings object
+ */
+export const useCMS = () => {
   const { settings } = useContext(ctxt);
 
   return settings;
@@ -9,6 +12,9 @@ export const useCMSContext = () => {
 
 const CMSContextProvider = ctxt.Provider;
 
+/**
+ * Context containing all user-set settings for the CMs
+ */
 export const CMSProvider = ({
   children,
   settings,

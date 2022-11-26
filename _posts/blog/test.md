@@ -4,10 +4,10 @@ title: Test
 ---
 T﻿esting
 
-<Component>Test</Component>
+<Component>
+  
+Test
 
-![](/images/img_20220326_175845.jpg)
+</Component>
 
 More
-
-![Alt text](/images/img_20220326_175846.jpg)

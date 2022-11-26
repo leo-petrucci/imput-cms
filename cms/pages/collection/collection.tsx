@@ -12,10 +12,21 @@ const CollectionPage = () => {
     thisCollection!.folder || collections[0].folder
   );
 
+  const cachedPostsTree = [
+    {
+      path: "test.md",
+      mode: "100644",
+      type: "blob",
+      sha: "0fb8d413ef659d2776446ae08ad0ec8d4208deb8",
+      size: 163,
+      url: "https://api.github.com/repos/creativiii/meow-cms/git/blobs/0fb8d413ef659d2776446ae08ad0ec8d4208deb8",
+    },
+  ];
+
   return (
     <>
-      {isSuccess &&
-        data!.data.tree
+      {true &&
+        cachedPostsTree
           .filter((content) =>
             content.path!.includes(thisCollection!.extension)
           )

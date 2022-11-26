@@ -32,13 +32,12 @@ export const useImages = () => {
    * Only use this on first load.
    */
   const loadImages = async (markdown: string) => {
-    const { content } = matter(markdown);
     const exp = new RegExp(
       /!\[(?<alttext>.*?)]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g
     );
     // Contains all of the images from markdown
     // @ts-ignore
-    const match = [...content.matchAll(exp)];
+    const match = [...markdown.matchAll(exp)];
 
     const parsed = await Promise.all(
       match.map(async (m) => {
@@ -141,15 +140,34 @@ export const ImagesProvider = ({
   const imagesRef = React.useRef<LoadedImages[]>([]);
   const { isLoading, data } = useGetGithubImages();
 
-  console.log(images[0]);
+  const imageTreeCache = [
+    {
+      mode: "100644",
 
-  if (isLoading) {
+      path: "img_20220326_175845.jpg",
+
+      sha: "7a2558cba4693c2de10e5b815db8b2f46628d997",
+
+      size: 2696381,
+
+      type: "blob",
+
+      url: "https://api.github.com/repos/creativiii/meow-cms/git/blobs/7a2558cba4693c2de10e5b815db8b2f46628d997",
+    },
+  ];
+  if (false) {
     return <>Loading...</>;
   }
 
   return (
     <ImagesContextProvider
-      value={{ imageTree: data!.data.tree, images, imagesRef }}
+      value={{
+        imageTree:
+          // data!.data.tree
+          imageTreeCache,
+        images,
+        imagesRef,
+      }}
     >
       {children}
     </ImagesContextProvider>

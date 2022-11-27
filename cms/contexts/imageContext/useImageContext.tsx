@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import matter from "gray-matter";
-import { getGithubFileBase64, useGetGithubImages } from "../../queries/github";
-import ctxt, { ImageState, LoadedImages } from "./context";
-import { useCMS } from "../cmsContext/useCMSContext";
-import { base64ToBlob } from "../../utils/base64ToBlob";
-import type { Ctx, ThemeImageType } from "@milkdown/core";
-import { commandsCtx } from "@milkdown/core";
-import { InsertImage, ModifyImage } from "@milkdown/preset-commonmark";
+import React, { useContext } from 'react'
+import matter from 'gray-matter'
+import { getGithubFileBase64, useGetGithubImages } from '../../queries/github'
+import ctxt, { ImageState, LoadedImages } from './context'
+import { useCMS } from '../cmsContext/useCMSContext'
+import { base64ToBlob } from '../../utils/base64ToBlob'
+import type { Ctx, ThemeImageType } from '@milkdown/core'
+import { commandsCtx } from '@milkdown/core'
+import { InsertImage, ModifyImage } from '@milkdown/preset-commonmark'
 
 const fileToBlob = async (file: File) =>
-  new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
+  new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })
 
 /**
  * Returns a page's images and methods related to those images.
@@ -19,10 +19,10 @@ export const useImages = () => {
     imageTree,
     images: [images, setImages],
     imagesRef,
-  } = useContext(ctxt);
+  } = useContext(ctxt)
 
-  const { backend } = useCMS();
-  const [owner, repo] = backend.repo.split("/");
+  const { backend } = useCMS()
+  const [owner, repo] = backend.repo.split('/')
 
   // const resetLoadedImages = () => setImages([]);
 
@@ -34,10 +34,10 @@ export const useImages = () => {
   const loadImages = async (markdown: string) => {
     const exp = new RegExp(
       /!\[(?<alttext>.*?)]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g
-    );
+    )
     // Contains all of the images from markdown
     // @ts-ignore
-    const match = [...markdown.matchAll(exp)];
+    const match = [...markdown.matchAll(exp)]
 
     const parsed = await Promise.all(
       match.map(async (m) => {
@@ -46,7 +46,7 @@ export const useImages = () => {
          * `imageTree` contains all the base64 files, so we just need to match filename to filename
          * then load the base64's to state.
          */
-        const foundImage = imageTree.find((i) => m[0].includes(i.path));
+        const foundImage = imageTree.find((i) => m[0].includes(i.path))
         const blob =
           /**
            * TODO: handle remote images
@@ -55,24 +55,24 @@ export const useImages = () => {
             ? await base64ToBlob(
                 await getGithubFileBase64(owner, repo, foundImage.sha!)
               )
-            : undefined;
+            : undefined
         return {
           // the full markdown string before we separate it
           markdown: m[0] as string,
           // all these images were previously uploaded
           state: ImageState.Uploaded,
           // the file's url
-          filename: m["groups"]["filename"] as string,
+          filename: m['groups']['filename'] as string,
           // the image's seo title
-          title: m["groups"]["title"] as string | undefined,
+          title: m['groups']['title'] as string | undefined,
           // alt text associated with the image
-          alttext: m["groups"]["alttext"] as string,
+          alttext: m['groups']['alttext'] as string,
           // the blob url
           blobUrl: blob ? URL.createObjectURL(blob) : undefined,
           blob,
-        };
+        }
       })
-    );
+    )
 
     /**
      * Reset all currently loaded images, in case user changed content
@@ -82,20 +82,19 @@ export const useImages = () => {
     /**
      * Set new images to state
      */
-    setImages(parsed);
-  };
+    setImages(parsed)
+  }
 
-  const { public_folder } = useCMS();
+  const { public_folder } = useCMS()
 
   /**
    * Add a new image to to the images state
-   * @param ctx - milkdown's context
    * @param file - the file to add to the state
    */
-  const addImage = async (ctx: Ctx, file: File) => {
-    const blob = await fileToBlob(file);
+  const addImage = async (file: File) => {
+    const blob = await fileToBlob(file)
     // this has to be encoded or markdown serialises the image weird
-    const encodedFileName = encodeURIComponent(file.name);
+    const encodedFileName = encodeURIComponent(file.name)
     const image: LoadedImages = {
       markdown: encodedFileName,
       // this is to identify which images need to be uploaded once the page has been saved
@@ -103,13 +102,15 @@ export const useImages = () => {
       filename: `/${public_folder}/${encodedFileName}`,
       blobUrl: URL.createObjectURL(blob),
       blob,
-    };
-    setImages([...images, image]);
+    }
+    setImages([...images, image])
+
+    return image
 
     // this will insert the image in the editor
-    const commandManager = ctx.get(commandsCtx);
-    commandManager.call(InsertImage, image.filename);
-  };
+    // const commandManager = ctx.get(commandsCtx)
+    // commandManager.call(InsertImage, image.filename)
+  }
 
   /**
    * Remove image from images state. NOTE: Deleting an image does not remove it from the repo.
@@ -123,10 +124,10 @@ export const useImages = () => {
   //   setImages(newImages);
   // };
 
-  return { imageTree, images, loadImages, addImage };
-};
+  return { imageTree, images, loadImages, addImage }
+}
 
-const ImagesContextProvider = ctxt.Provider;
+const ImagesContextProvider = ctxt.Provider
 
 /**
  * Context containing all images in uploads folder
@@ -134,42 +135,41 @@ const ImagesContextProvider = ctxt.Provider;
 export const ImagesProvider = ({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }): JSX.Element => {
-  const images = React.useState<LoadedImages[]>([]);
-  const imagesRef = React.useRef<LoadedImages[]>([]);
-  const { isLoading, data } = useGetGithubImages();
+  const images = React.useState<LoadedImages[]>([])
+  const imagesRef = React.useRef<LoadedImages[]>([])
+  const { isLoading, data } = useGetGithubImages()
 
   const imageTreeCache = [
     {
-      mode: "100644",
+      mode: '100644',
 
-      path: "img_20220326_175845.jpg",
+      path: 'img_20220326_175845.jpg',
 
-      sha: "7a2558cba4693c2de10e5b815db8b2f46628d997",
+      sha: '7a2558cba4693c2de10e5b815db8b2f46628d997',
 
       size: 2696381,
 
-      type: "blob",
+      type: 'blob',
 
-      url: "https://api.github.com/repos/creativiii/meow-cms/git/blobs/7a2558cba4693c2de10e5b815db8b2f46628d997",
+      url: 'https://api.github.com/repos/creativiii/meow-cms/git/blobs/7a2558cba4693c2de10e5b815db8b2f46628d997',
     },
-  ];
-  if (false) {
-    return <>Loading...</>;
+  ]
+  if (isLoading) {
+    return <>Loading...</>
   }
 
   return (
     <ImagesContextProvider
       value={{
-        imageTree:
-          // data!.data.tree
-          imageTreeCache,
+        imageTree: data!.data.tree,
+        // imageTreeCache,
         images,
         imagesRef,
       }}
     >
       {children}
     </ImagesContextProvider>
-  );
-};
+  )
+}

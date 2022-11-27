@@ -1,17 +1,18 @@
-import React from "react";
-import remarkMdx from "remark-mdx";
-import remarkParse from "remark-parse";
-import remarkSlate, { serialize as remarkSerialize } from "./remark-slate";
-import { createEditor, Descendant } from "slate";
-import { Element } from "./element";
-import MoveElement from "./moveElement";
-import { Leaf } from "./leaf";
-import { Slate, Editable, withReact, ReactEditor } from "slate-react";
-import { unified } from "unified";
-import Toolbar from "./toolbar";
-import { BlockButton, MarkButton } from "./button/button";
+import React from 'react'
+import remarkMdx from 'remark-mdx'
+import remarkParse from 'remark-parse'
+import remarkSlate, { serialize as remarkSerialize } from './remark-slate'
+import { createEditor, Descendant, Transforms } from 'slate'
+import { Element } from './element'
+import MoveElement from './moveElement'
+import { Leaf } from './leaf'
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
+import { unified } from 'unified'
+import Toolbar from './toolbar'
+import { BlockButton, MarkButton, StyledButton } from './button/button'
 import {
   CodeSimple,
+  Image,
   ListBullets,
   ListNumbers,
   Quotes,
@@ -19,51 +20,54 @@ import {
   TextHOne,
   TextHThree,
   TextHTwo,
-  TextItalic
-} from "phosphor-react";
-import Box from "../designSystem/box";
-import { addEmptySpace } from "./lib/addEmptySpace";
-import { removeLastEmptySpace } from "./lib/removeLastEmptySpace";
+  TextItalic,
+} from 'phosphor-react'
+import Box from '../designSystem/box'
+import { addEmptySpace } from './lib/addEmptySpace'
+import { removeLastEmptySpace } from './lib/removeLastEmptySpace'
+import { ImageElement } from './images/imageElement'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
     .use(remarkParse)
     .use(remarkMdx)
     .use(remarkSlate)
-    .processSync(src);
+    .processSync(src)
 
-  return result as Descendant[];
-};
+  return result as Descendant[]
+}
 
-export const serialize = remarkSerialize;
+export const serialize = remarkSerialize
 
 const withEditableVoids = (editor: ReactEditor) => {
-  const { isVoid } = editor;
+  const { isVoid } = editor
 
   editor.isVoid = (element) => {
     // @ts-ignore
-    return element.type === "mdxJsxFlowElement" ? true : isVoid(element);
-  };
+    return element.type === 'mdxJsxFlowElement' || element.type === 'image'
+      ? true
+      : isVoid(element)
+  }
 
-  return editor;
-};
+  return editor
+}
 
 const Editor = ({
   value,
-  onChange
+  onChange,
 }: {
-  value: Descendant[];
-  onChange?: (value: Descendant[]) => void;
+  value: Descendant[]
+  onChange?: (value: Descendant[]) => void
 }) => {
   const renderElement = React.useCallback(
     (props) => (
       <Box
         css={{
-          display: "flex",
-          gap: "$2",
-          "& > div": {
-            flex: 1
-          }
+          display: 'flex',
+          gap: '$2',
+          '& > div': {
+            flex: 1,
+          },
         }}
       >
         <MoveElement {...props} />
@@ -71,11 +75,11 @@ const Editor = ({
       </Box>
     ),
     []
-  );
-  const renderLeaf = React.useCallback((props) => <Leaf {...props} />, []);
+  )
+  const renderLeaf = React.useCallback((props) => <Leaf {...props} />, [])
   const [editor] = React.useState(() =>
     withEditableVoids(withReact(createEditor()))
-  );
+  )
 
   return (
     <>
@@ -83,11 +87,12 @@ const Editor = ({
         editor={editor}
         value={value}
         onChange={(val) => {
+          console.log(val)
           // this will add an empty value at the end to make sure there's always space
           // addEmptySpace(editor);
 
           // but we want to remove it when it's sent back
-          onChange?.(removeLastEmptySpace(val));
+          onChange?.(removeLastEmptySpace(val))
         }}
       >
         <Toolbar>
@@ -100,21 +105,37 @@ const Editor = ({
           <BlockButton format="block_quote" icon={<Quotes size={16} />} />
           <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
           <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
+          <StyledButton
+            onMouseDown={(event) => {
+              event.preventDefault()
+              const text = { text: '' }
+              const image: ImageElement = {
+                type: 'image',
+                link: null,
+                title: '',
+                caption: '',
+                children: [text],
+              }
+              Transforms.insertNodes(editor, image)
+            }}
+          >
+            <Image size={16} />
+          </StyledButton>
         </Toolbar>
         <Box
           css={{
-            border: "1px solid $gray-200",
-            borderRadius: "$default",
-            "& > div": {
-              padding: "$2"
-            }
+            border: '1px solid $gray-200',
+            borderRadius: '$default',
+            '& > div': {
+              padding: '$2',
+            },
           }}
         >
           <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
         </Box>
       </Slate>
     </>
-  );
-};
+  )
+}
 
-export default Editor;
+export default Editor

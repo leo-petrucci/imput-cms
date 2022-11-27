@@ -1,14 +1,17 @@
-import * as LabelPrimitive from "@radix-ui/react-label";
-import { styled } from "stitches.config";
+import * as LabelPrimitive from '@radix-ui/react-label'
+import { styled } from 'stitches.config'
 
 const StyledLabel = styled(LabelPrimitive.Root, {
-  color: "$gray-800",
-  textTransform: "capitalize",
-  fontWeight: "$medium"
-});
+  color: '$gray-800',
+  textTransform: 'capitalize',
+  fontWeight: '$medium',
+  fontSize: '$sm',
+})
 
-const Label = (props: LabelPrimitive.LabelProps) => {
-  return <StyledLabel {...props} />;
-};
+export interface LabelProps extends LabelPrimitive.LabelProps {}
 
-export default Label;
+const Label = (props: LabelProps) => {
+  return <StyledLabel {...props} />
+}
+
+export default Label

@@ -1,17 +1,17 @@
-import React from "react";
-import { BaseEditor, Editor, Element as SlateElement, Transforms } from "slate";
-import { useSlate } from "slate-react";
-import { styled } from "stitches.config";
+import React from 'react'
+import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
+import { useSlate } from 'slate-react'
+import { styled } from 'stitches.config'
 
-const LIST_TYPES = ["ul_list", "ol_list"];
+const LIST_TYPES = ['ul_list', 'ol_list']
 
 const isBlockActive = (
   editor: BaseEditor,
   format: string,
-  blockType = "type"
+  blockType = 'type'
 ) => {
-  const { selection } = editor;
-  if (!selection) return false;
+  const { selection } = editor
+  if (!selection) return false
 
   const [match] = Array.from(
     Editor.nodes(editor, {
@@ -20,16 +20,16 @@ const isBlockActive = (
         !Editor.isEditor(n) &&
         SlateElement.isElement(n) &&
         // @ts-ignore
-        n[blockType] === format
+        n[blockType] === format,
     })
-  );
+  )
 
-  return !!match;
-};
+  return !!match
+}
 
 const toggleBlock = (editor: BaseEditor, format: string) => {
-  const isActive = isBlockActive(editor, format);
-  const isList = LIST_TYPES.includes(format);
+  const isActive = isBlockActive(editor, format)
+  const isList = LIST_TYPES.includes(format)
 
   Transforms.unwrapNodes(editor, {
     match: (n: any) =>
@@ -37,103 +37,103 @@ const toggleBlock = (editor: BaseEditor, format: string) => {
       SlateElement.isElement(n) &&
       // @ts-ignore
       LIST_TYPES.includes(n.type),
-    split: true
-  });
-  let newProperties: Partial<SlateElement>;
+    split: true,
+  })
+  let newProperties: Partial<SlateElement>
   newProperties = {
     // @ts-ignore
-    type: isActive ? "paragraph" : isList ? "list_item" : format
-  };
-  Transforms.setNodes<SlateElement>(editor, newProperties);
+    type: isActive ? 'paragraph' : isList ? 'list_item' : format,
+  }
+  Transforms.setNodes<SlateElement>(editor, newProperties)
 
   if (!isActive && isList) {
-    const block = { type: format, children: [] };
-    Transforms.wrapNodes(editor, block);
+    const block = { type: format, children: [] }
+    Transforms.wrapNodes(editor, block)
   }
-};
+}
 
 const isMarkActive = (editor: BaseEditor, format: string) => {
-  const marks = Editor.marks(editor);
+  const marks = Editor.marks(editor)
   // @ts-ignore
-  return marks ? marks[format] === true : false;
-};
+  return marks ? marks[format] === true : false
+}
 
-const StyledButton = styled("button", {
-  display: "flex",
-  justifyContent: "center",
-  alignContent: "center",
-  background: "transparent",
-  border: "0px solid transparent",
-  padding: "$2",
-  aspectRatio: "1/1",
-  cursor: "pointer",
-  borderRadius: "$sm",
-  "& > div": {
-    display: "flex"
+export const StyledButton = styled('button', {
+  display: 'flex',
+  justifyContent: 'center',
+  alignContent: 'center',
+  background: 'transparent',
+  border: '0px solid transparent',
+  padding: '$2',
+  aspectRatio: '1/1',
+  cursor: 'pointer',
+  borderRadius: '$sm',
+  '& > div': {
+    display: 'flex',
   },
-  "&:hover": {
-    background: "$gray-100"
+  '&:hover': {
+    background: '$gray-100',
   },
   variants: {
     active: {
       true: {
-        color: "$gray-900"
+        color: '$gray-900',
       },
       false: {
-        color: "$gray-500"
-      }
-    }
-  }
-});
+        color: '$gray-500',
+      },
+    },
+  },
+})
 
 export const BlockButton = ({
   format,
-  icon
+  icon,
 }: {
-  format: string;
-  icon: React.ReactNode;
+  format: string
+  icon: React.ReactNode
 }) => {
-  const editor = useSlate();
+  const editor = useSlate()
   return (
     <StyledButton
       active={isBlockActive(editor, format)}
       onMouseDown={(event) => {
-        event.preventDefault();
-        toggleBlock(editor, format);
+        event.preventDefault()
+        toggleBlock(editor, format)
       }}
     >
       {icon}
     </StyledButton>
-  );
-};
+  )
+}
 
 const toggleMark = (editor: BaseEditor, format: string) => {
-  const isActive = isMarkActive(editor, format);
+  const isActive = isMarkActive(editor, format)
 
   if (isActive) {
-    Editor.removeMark(editor, format);
+    Editor.removeMark(editor, format)
   } else {
-    Editor.addMark(editor, format, true);
+    Editor.addMark(editor, format, true)
   }
-};
+}
 
 export const MarkButton = ({
   format,
-  icon
+  icon,
 }: {
-  format: string;
-  icon: React.ReactNode;
+  format: string
+  icon: React.ReactNode
 }) => {
-  const editor = useSlate();
+  const editor = useSlate()
   return (
     <StyledButton
       active={isMarkActive(editor, format)}
       onMouseDown={(event) => {
-        event.preventDefault();
-        toggleMark(editor, format);
+        event.preventDefault()
+        toggleMark(editor, format)
       }}
     >
       <div className="icon">{icon}</div>
     </StyledButton>
-  );
-};
+  )
+}

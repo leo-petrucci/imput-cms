@@ -1,5 +1,6 @@
 import React from 'react'
 import { RenderElementProps } from 'slate-react'
+import Image from './images/imageElement'
 import MdxElement from './mdxElement'
 
 export interface CustomRenderElementProps
@@ -22,6 +23,9 @@ export const Element = (props: CustomRenderElementProps) => {
   } as React.CSSProperties
 
   switch (element.type) {
+    case 'image':
+      // @ts-ignore
+      return <Image {...props} />
     case 'mdxJsxFlowElement':
       return <MdxElement {...props} />
     case 'block_quote':

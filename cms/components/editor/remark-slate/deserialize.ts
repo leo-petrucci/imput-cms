@@ -14,9 +14,9 @@ import {
   OptionType,
   ParagraphNode,
   TextNode,
-  ThematicBreakNode
-} from "./ast-types";
-import { v4 as uuidv4 } from "uuid";
+  ThematicBreakNode,
+} from './ast-types'
+import { v4 as uuidv4 } from 'uuid'
 
 /**
  * Markdown to Slate deserialization.
@@ -31,140 +31,155 @@ export default function deserialize<T extends InputNodeTypes>(
     ...opts?.nodeTypes,
     heading: {
       ...defaultNodeTypes.heading,
-      ...opts?.nodeTypes?.heading
-    }
-  };
+      ...opts?.nodeTypes?.heading,
+    },
+  }
 
-  const linkDestinationKey = opts?.linkDestinationKey ?? "link";
-  const imageSourceKey = opts?.imageSourceKey ?? "link";
-  const imageCaptionKey = opts?.imageCaptionKey ?? "caption";
+  const linkDestinationKey = opts?.linkDestinationKey ?? 'link'
+  const imageSourceKey = opts?.imageSourceKey ?? 'link'
+  const imageCaptionKey = opts?.imageCaptionKey ?? 'caption'
 
-  let children: Array<DeserializedNode<T>> = [{ text: "" }];
+  let children: Array<DeserializedNode<T>> = [{ text: '' }]
 
-  const nodeChildren = node.children;
+  /**
+   * Images are deserialised as children of paragraphs, so we want to make sure they're their own node rather than wrapped in a paragraph
+   */
+  if (
+    node.type === 'paragraph' &&
+    node.children?.length === 1 &&
+    node.children[0].type === 'image'
+  ) {
+    node = node.children[0]
+  }
+
+  const nodeChildren = node.children
+
   if (nodeChildren && Array.isArray(nodeChildren) && nodeChildren.length > 0) {
     // @ts-ignore
     children = nodeChildren.flatMap((c: MdastNode) =>
       deserialize(
         {
           ...c,
-          ordered: node.ordered || false
+          ordered: node.ordered || false,
         },
         opts
       )
-    );
+    )
   }
 
-  const id = uuidv4();
+  const id = uuidv4()
 
   switch (node.type) {
-    case "heading":
+    case 'heading':
       return {
         type: types.heading[node.depth || 1],
-        children
-      } as HeadingNode<T>;
-    case "list":
+        children,
+      } as HeadingNode<T>
+    case 'list':
       return {
         type: node.ordered ? types.ol_list : types.ul_list,
-        children
-      } as ListNode<T>;
-    case "listItem":
-      return { type: types.listItem, children } as ListItemNode<T>;
-    case "paragraph":
-      return { type: types.paragraph, children } as ParagraphNode<T>;
-    case "mdxJsxFlowElement":
+        children,
+      } as ListNode<T>
+    case 'listItem':
+      return { type: types.listItem, children } as ListItemNode<T>
+    case 'paragraph':
+      return { type: types.paragraph, children } as ParagraphNode<T>
+    case 'mdxJsxFlowElement':
       return {
         id,
         name: node.name,
         type: types.mdxJsxFlowElement,
         reactChildren: children,
-        children: [{ text: "" }],
-        attributes: node.attributes
-      };
-    case "link":
+        children: [{ text: '' }],
+        attributes: node.attributes,
+      }
+    case 'link':
       return {
         type: types.link,
         [linkDestinationKey]: node.url,
-        children
-      } as LinkNode<T>;
-    case "image":
+        children,
+      } as LinkNode<T>
+    case 'image':
+      console.log(node)
       return {
         type: types.image,
-        children: [{ text: "" }],
+        children: [{ text: '' }],
         [imageSourceKey]: node.url,
-        [imageCaptionKey]: node.alt
-      } as ImageNode<T>;
-    case "blockquote":
-      return { type: types.block_quote, children } as BlockQuoteNode<T>;
-    case "code":
+        [imageCaptionKey]: node.alt,
+        // @ts-ignore
+        title: node.title,
+      } as ImageNode<T>
+    case 'blockquote':
+      return { type: types.block_quote, children } as BlockQuoteNode<T>
+    case 'code':
       return {
         type: types.code_block,
         language: node.lang,
-        children: [{ text: node.value }]
-      } as CodeBlockNode<T>;
+        children: [{ text: node.value }],
+      } as CodeBlockNode<T>
 
-    case "html":
-      if (node.value?.includes("<br>")) {
+    case 'html':
+      if (node.value?.includes('<br>')) {
         return {
           break: true,
           type: types.paragraph,
-          children: [{ text: node.value?.replace(/<br>/g, "") || "" }]
-        } as ParagraphNode<T>;
+          children: [{ text: node.value?.replace(/<br>/g, '') || '' }],
+        } as ParagraphNode<T>
       }
-      return { type: "paragraph", children: [{ text: node.value || "" }] };
+      return { type: 'paragraph', children: [{ text: node.value || '' }] }
 
-    case "emphasis":
-      return ({
+    case 'emphasis':
+      return {
         [types.emphasis_mark as string]: true,
         ...forceLeafNode(children as Array<TextNode>),
-        ...persistLeafFormats(children as Array<MdastNode>)
-      } as unknown) as ItalicNode<T>;
-    case "strong":
+        ...persistLeafFormats(children as Array<MdastNode>),
+      } as unknown as ItalicNode<T>
+    case 'strong':
       return {
         [types.strong_mark as string]: true,
         ...forceLeafNode(children as Array<TextNode>),
-        ...persistLeafFormats(children as Array<MdastNode>)
-      };
-    case "delete":
+        ...persistLeafFormats(children as Array<MdastNode>),
+      }
+    case 'delete':
       return {
         [types.delete_mark as string]: true,
         ...forceLeafNode(children as Array<TextNode>),
-        ...persistLeafFormats(children as Array<MdastNode>)
-      };
-    case "inlineCode":
+        ...persistLeafFormats(children as Array<MdastNode>),
+      }
+    case 'inlineCode':
       return {
         [types.inline_code_mark as string]: true,
         text: node.value,
-        ...persistLeafFormats(children as Array<MdastNode>)
-      };
-    case "thematicBreak":
+        ...persistLeafFormats(children as Array<MdastNode>),
+      }
+    case 'thematicBreak':
       return {
         type: types.thematic_break,
-        children: [{ text: "" }]
-      } as ThematicBreakNode<T>;
-    case "text":
+        children: [{ text: '' }],
+      } as ThematicBreakNode<T>
+    case 'text':
     default:
-      return { text: node.value || "" };
+      return { text: node.value || '' }
   }
 }
 
 const forceLeafNode = (children: Array<TextNode>) => ({
-  text: children.map((k) => k?.text).join("")
-});
+  text: children.map((k) => k?.text).join(''),
+})
 
 // This function is will take any unknown keys, and bring them up a level
 // allowing leaf nodes to have many different formats at once
 // for example, bold and italic on the same node
 function persistLeafFormats(
   children: Array<MdastNode>
-): Omit<MdastNode, "children" | "type" | "text"> {
+): Omit<MdastNode, 'children' | 'type' | 'text'> {
   return children.reduce((acc, node) => {
-    (Object.keys(node) as Array<keyof MdastNode>).forEach(function (key) {
-      if (key === "children" || key === "type" || key === "text") return;
+    ;(Object.keys(node) as Array<keyof MdastNode>).forEach(function (key) {
+      if (key === 'children' || key === 'type' || key === 'text') return
 
-      acc[key] = node[key];
-    });
+      acc[key] = node[key]
+    })
 
-    return acc;
-  }, {});
+    return acc
+  }, {})
 }

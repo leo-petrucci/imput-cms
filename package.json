@@ -22,6 +22,7 @@
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-label": "^2.0.0",
+    "@radix-ui/react-popover": "^1.0.2",
     "@stitches/react": "^1.2.8",
     "axios": "^0.27.2",
     "escape-html": "^1.0.3",

@@ -11,6 +11,7 @@ import { DepthProvider } from 'cms/components/editor/depthContext'
 import Editor, { deserialize, serialize } from 'cms/components/editor'
 import React from 'react'
 import matter from 'gray-matter'
+import { useImages } from 'cms/contexts/imageContext/useImageContext'
 
 const ContentPage = () => {
   const router = useRouter()
@@ -60,6 +61,7 @@ const ContentPage = () => {
 }
 
 const CreateEditor = ({ mdx }: { mdx: string }) => {
+  const { loadImages } = useImages()
   const { content } = matter(mdx)
   const [markdown, setMarkdown] = React.useState(content)
   const handleChange = React.useCallback((nextValue: any[]) => {
@@ -68,6 +70,10 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
   }, [])
 
   const value = React.useMemo(() => deserialize(content), [])
+
+  React.useEffect(() => {
+    loadImages(mdx)
+  }, [mdx])
 
   return (
     <Flex direction="row" align="stretch" gap="4">

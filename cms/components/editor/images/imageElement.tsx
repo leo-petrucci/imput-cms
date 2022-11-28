@@ -5,12 +5,7 @@ import Popover from 'cms/components/designSystem/popover'
 import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { ImageSquare } from 'phosphor-react'
 import { Element, Transforms } from 'slate'
-import {
-  ReactEditor,
-  useFocused,
-  useSelected,
-  useSlateStatic,
-} from 'slate-react'
+import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
 import { styled } from 'stitches.config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 
@@ -33,6 +28,15 @@ const StyledImageButton = styled('button', {
   padding: 0,
   overflow: 'hidden',
   position: 'relative',
+
+  variants: {
+    selected: {
+      true: {
+        outline: '2px solid var(--colors-gray-600)',
+        outlineOffset: '4px',
+      },
+    },
+  },
 })
 
 export interface ImageElement extends Element {
@@ -51,12 +55,11 @@ const Image = ({
   children: any
   element: ImageElement
 }) => {
-  const { images, imageTree, addImage } = useImages()
+  const { images, addImage } = useImages()
   const editor = useSlateStatic() as ReactEditor
   const path = ReactEditor.findPath(editor, element)
 
   const selected = useSelected()
-  const focused = useFocused()
 
   return (
     <div {...attributes}>
@@ -64,7 +67,6 @@ const Image = ({
       <Popover
         content={
           <Box
-            contentEditable={false}
             css={{
               position: 'relative',
               marginBottom: '$2',
@@ -130,7 +132,7 @@ const Image = ({
           </Box>
         }
       >
-        <StyledImageButton>
+        <StyledImageButton selected={selected} contentEditable={false}>
           <PopoverPrimitive.Anchor
             style={{
               position: 'absolute',

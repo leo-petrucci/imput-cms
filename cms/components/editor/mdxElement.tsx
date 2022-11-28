@@ -1,5 +1,5 @@
 import { Descendant } from 'slate'
-import { RenderElementProps, useSlate } from 'slate-react'
+import { RenderElementProps, useSelected, useSlate } from 'slate-react'
 import { CustomRenderElementProps } from './element'
 import ComponentEditor from './componentEditor'
 import Panel from '../designSystem/panel'
@@ -20,6 +20,15 @@ const StyledMdxButton = styled('button', {
   padding: 0,
   overflow: 'hidden',
   position: 'relative',
+
+  variants: {
+    selected: {
+      true: {
+        outline: '2px solid var(--colors-gray-600)',
+        outlineOffset: '4px',
+      },
+    },
+  },
 })
 
 /**
@@ -67,8 +76,11 @@ const MdxElement = (props: CustomRenderElementProps) => {
 
   const thisDepth = getDepth(mdxElement.id)
 
+  const selected = useSelected()
+
   return (
-    <div contentEditable={false} {...attributes}>
+    <div {...attributes}>
+      {children}
       <Panel
         id="component"
         index={thisDepth}
@@ -88,7 +100,7 @@ const MdxElement = (props: CustomRenderElementProps) => {
         title={'Edit component'}
         description={<ComponentEditor {...props} />}
       >
-        <StyledMdxButton>
+        <StyledMdxButton selected={selected} contentEditable={false}>
           <Box
             css={{
               padding: '$4',
@@ -107,7 +119,6 @@ const MdxElement = (props: CustomRenderElementProps) => {
               </Box>
             </Flex>
           </Box>
-          <div>{children}</div>
         </StyledMdxButton>
       </Panel>
     </div>

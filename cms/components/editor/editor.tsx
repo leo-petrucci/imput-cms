@@ -23,7 +23,6 @@ import {
   TextItalic,
 } from 'phosphor-react'
 import Box from '../designSystem/box'
-import { addEmptySpace } from './lib/addEmptySpace'
 import { removeLastEmptySpace } from './lib/removeLastEmptySpace'
 import { ImageElement } from './images/imageElement'
 

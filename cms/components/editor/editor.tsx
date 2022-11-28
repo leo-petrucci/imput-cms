@@ -86,7 +86,6 @@ const Editor = ({
         editor={editor}
         value={value}
         onChange={(val) => {
-          console.log(val)
           // this will add an empty value at the end to make sure there's always space
           // addEmptySpace(editor);
 
@@ -124,8 +123,6 @@ const Editor = ({
         </Toolbar>
         <Box
           css={{
-            // border: '1px solid $gray-200',
-            // borderRadius: '$default',
             '& > div': {
               padding: '$2',
             },

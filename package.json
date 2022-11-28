@@ -20,6 +20,7 @@
     "@milkdown/theme-nord": "^6.4.1",
     "@octokit/types": "^7.5.0",
     "@radix-ui/colors": "^0.1.8",
+    "@radix-ui/react-alert-dialog": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.2",
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-popover": "^1.0.2",

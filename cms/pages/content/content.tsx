@@ -80,6 +80,7 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
       <Box
         css={{
           flex: '1 0 0%',
+          padding: '$4',
         }}
       >
         <DepthProvider>

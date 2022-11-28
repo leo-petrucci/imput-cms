@@ -5,6 +5,21 @@ import ComponentEditor from './componentEditor'
 import Panel from '../designSystem/panel'
 import Box from '../designSystem/box'
 import { useEditorDepth } from './depthContext'
+import { styled } from 'stitches.config'
+import Flex from '../designSystem/flex'
+import { BracketsSquare, ImageSquare } from 'phosphor-react'
+
+const StyledMdxButton = styled('button', {
+  width: '100%',
+  background: 'white',
+  border: '1px solid var(--colors-gray-200)',
+  borderRadius: '$md',
+  marginBottom: '$2',
+  cursor: 'pointer',
+  padding: 0,
+  overflow: 'hidden',
+  position: 'relative',
+})
 
 /**
  * Interface for custom MDX element
@@ -52,62 +67,49 @@ const MdxElement = (props: CustomRenderElementProps) => {
   const thisDepth = getDepth(mdxElement.id)
 
   return (
-    <Panel
-      id="component"
-      index={thisDepth}
-      depth={thisDepth}
-      depthOfType={thisDepth}
-      length={depthArray.length}
-      lengthOfType={depthArray.length}
-      rootProps={{
-        onOpenChange: (open) => {
-          if (open) {
-            addElement(mdxElement.id)
-          } else {
-            removeElement(mdxElement.id)
-          }
-        },
-      }}
-      title={'Edit component'}
-      description={<ComponentEditor {...props} />}
-    >
-      <div contentEditable={false} {...attributes}>
-        <Box
-          css={{
-            cursor: 'pointer',
-            border: '1px solid $gray-400',
-            borderRadius: '$md',
-            padding: '$4',
-            position: 'relative',
-            marginBottom: '$2',
-          }}
-        >
+    <div contentEditable={false} {...attributes}>
+      <Panel
+        id="component"
+        index={thisDepth}
+        depth={thisDepth}
+        depthOfType={thisDepth}
+        length={depthArray.length}
+        lengthOfType={depthArray.length}
+        rootProps={{
+          onOpenChange: (open) => {
+            if (open) {
+              addElement(mdxElement.id)
+            } else {
+              removeElement(mdxElement.id)
+            }
+          },
+        }}
+        title={'Edit component'}
+        description={<ComponentEditor {...props} />}
+      >
+        <StyledMdxButton>
           <Box
             css={{
-              position: 'absolute',
-              fontSize: '$xs',
-              right: 0,
-              top: 0,
-              color: '$gray-500',
-              textTransform: 'uppercase',
-              fontWeight: '$medium',
-              letterSpacing: '$tracking-wider',
-              padding: '$1',
+              padding: '$4',
             }}
           >
-            MDX Component
-          </Box>
-          <Box
-            css={{
-              color: '$gray-800',
-            }}
-          >
-            {mdxElement.name}
+            <Flex direction="row" gap="2" align="center">
+              <BracketsSquare size={16} weight="bold" />
+              <Box
+                css={{
+                  color: '$gray-800',
+                  fontWeight: '500',
+                  fontSize: '$sm',
+                }}
+              >
+                {mdxElement.name} Block
+              </Box>
+            </Flex>
           </Box>
           <div>{children}</div>
-        </Box>
-      </div>
-    </Panel>
+        </StyledMdxButton>
+      </Panel>
+    </div>
   )
 }
 

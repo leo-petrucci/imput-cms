@@ -12,9 +12,10 @@ import {
   useSlateStatic,
 } from 'slate-react'
 import { styled } from 'stitches.config'
+import * as PopoverPrimitive from '@radix-ui/react-popover'
 
 const StyledImage = styled('div', {
-  display: 'blog',
+  display: 'block',
   maxWidth: '100%',
   minHeight: '20em',
   backgroundSize: 'cover',
@@ -30,6 +31,7 @@ const StyledImageButton = styled('button', {
   cursor: 'pointer',
   padding: 0,
   overflow: 'hidden',
+  position: 'relative',
 })
 
 export interface ImageElement extends Element {
@@ -128,6 +130,18 @@ const Image = ({
         }
       >
         <StyledImageButton>
+          <PopoverPrimitive.Anchor
+            style={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              height: !element.link ? '2em' : '6em',
+              width: !element.link ? '2em' : '6em',
+              background: 'transparent',
+              zIndex: 1000,
+              transform: 'translate(-50%, -50%)',
+            }}
+          />
           {element.link ? (
             <StyledImage
               style={{
@@ -139,7 +153,7 @@ const Image = ({
           ) : (
             <Box
               css={{
-                padding: '$4 $2',
+                padding: '$4',
               }}
             >
               <Flex direction="row" gap="2" align="center">
@@ -147,6 +161,8 @@ const Image = ({
                 <Box
                   css={{
                     color: '$gray-800',
+                    fontWeight: '500',
+                    fontSize: '$sm',
                   }}
                 >
                   Add an image

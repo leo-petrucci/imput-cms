@@ -1,30 +1,30 @@
-import { BlockType, defaultNodeTypes, LeafType, NodeTypes } from "./ast-types";
-import escapeHtml from "escape-html";
-import { MdxElementShape } from "../mdxElement";
-import { isObject } from "lodash";
+import { BlockType, defaultNodeTypes, LeafType, NodeTypes } from './ast-types'
+import escapeHtml from 'escape-html'
+import { MdxElementShape } from '../mdxElement'
+import { isObject } from 'lodash'
 
 interface Options {
-  nodeTypes: NodeTypes;
-  listDepth?: number;
-  ignoreParagraphNewline?: boolean;
+  nodeTypes: NodeTypes
+  listDepth?: number
+  ignoreParagraphNewline?: boolean
 }
 
 /**
  * Quickly check if type is `mdxJsxFlowElement`
  */
-const isMdxElement = (type: BlockType["type"]) => {
-  return type === "mdxJsxFlowElement";
-};
+const isMdxElement = (type: BlockType['type']) => {
+  return type === 'mdxJsxFlowElement'
+}
 
 const isLeafNode = (node: BlockType | LeafType): node is LeafType => {
-  return typeof (node as LeafType).text === "string";
-};
+  return typeof (node as LeafType).text === 'string'
+}
 
-const VOID_ELEMENTS: Array<keyof NodeTypes> = ["thematic_break", "image"];
+const VOID_ELEMENTS: Array<keyof NodeTypes> = ['thematic_break', 'image']
 
-const BREAK_TAG = "\n";
+const BREAK_TAG = '\n'
 
-let olNumber = 0;
+let olNumber = 0
 
 /**
  * Slate to Markdown serialization.
@@ -37,24 +37,24 @@ export default function serialize(
   const {
     nodeTypes: userNodeTypes = defaultNodeTypes,
     ignoreParagraphNewline = false,
-    listDepth = 0
-  } = opts;
+    listDepth = 0,
+  } = opts
 
-  let text = (chunk as LeafType).text || "";
-  let type = (chunk as BlockType).type || "";
+  let text = (chunk as LeafType).text || ''
+  let type = (chunk as BlockType).type || ''
 
   const nodeTypes: NodeTypes = {
     ...defaultNodeTypes,
     ...userNodeTypes,
     heading: {
       ...defaultNodeTypes.heading,
-      ...userNodeTypes.heading
-    }
-  };
+      ...userNodeTypes.heading,
+    },
+  }
 
-  const LIST_TYPES = [nodeTypes.ul_list, nodeTypes.ol_list];
+  const LIST_TYPES = [nodeTypes.ul_list, nodeTypes.ol_list]
 
-  let children = text;
+  let children = text
 
   if (!isLeafNode(chunk) && !isMdxElement(type)) {
     // console.log({ type, text, isLeafNode: isLeafNode(chunk) });
@@ -62,10 +62,10 @@ export default function serialize(
     children = chunk.children
       .map((c: BlockType | LeafType) => {
         const isList = !isLeafNode(c)
-          ? (LIST_TYPES as string[]).includes(c.type || "")
-          : false;
+          ? (LIST_TYPES as string[]).includes(c.type || '')
+          : false
 
-        const selfIsList = (LIST_TYPES as string[]).includes(chunk.type || "");
+        const selfIsList = (LIST_TYPES as string[]).includes(chunk.type || '')
 
         // Links can have the following shape
         // In which case we don't want to surround
@@ -78,12 +78,12 @@ export default function serialize(
         //    { text: '' }
         //  ]
         // }
-        let childrenHasLink = false;
+        let childrenHasLink = false
 
         if (!isLeafNode(chunk) && Array.isArray(chunk.children)) {
           childrenHasLink = chunk.children.some(
             (f) => !isLeafNode(f) && f.type === nodeTypes.link
-          );
+          )
         }
 
         return serialize(
@@ -107,32 +107,32 @@ export default function serialize(
 
             // track depth of nested lists so we can add proper spacing
             listDepth: (LIST_TYPES as string[]).includes(
-              (c as BlockType).type || ""
+              (c as BlockType).type || ''
             )
               ? listDepth + 1
-              : listDepth
+              : listDepth,
           }
-        );
+        )
       })
-      .join("");
+      .join('')
   }
 
   // This is pretty fragile code, check the long comment where we iterate over children
   if (
     !ignoreParagraphNewline &&
-    (text === "" || text === "\n") &&
+    (text === '' || text === '\n') &&
     chunk.parentType === nodeTypes.paragraph
   ) {
-    type = nodeTypes.paragraph;
-    children = BREAK_TAG;
+    type = nodeTypes.paragraph
+    children = BREAK_TAG
   }
 
   if (
-    children === "" &&
+    children === '' &&
     !VOID_ELEMENTS.find((k) => nodeTypes[k] === type) &&
     !isMdxElement(type)
   )
-    return;
+    return
 
   // Never allow decorating break tags with rich text formatting,
   // this can malform generated markdown
@@ -143,24 +143,24 @@ export default function serialize(
   // which is invalid markup and can mess everything up
   if (children !== BREAK_TAG && isLeafNode(chunk)) {
     if (chunk.strikeThrough && chunk.bold && chunk.italic) {
-      children = retainWhitespaceAndFormat(children, "~~***");
+      children = retainWhitespaceAndFormat(children, '~~***')
     } else if (chunk.bold && chunk.italic) {
-      children = retainWhitespaceAndFormat(children, "***");
+      children = retainWhitespaceAndFormat(children, '***')
     } else {
       if (chunk.bold) {
-        children = retainWhitespaceAndFormat(children, "**");
+        children = retainWhitespaceAndFormat(children, '**')
       }
 
       if (chunk.italic) {
-        children = retainWhitespaceAndFormat(children, "_");
+        children = retainWhitespaceAndFormat(children, '_')
       }
 
       if (chunk.strikeThrough) {
-        children = retainWhitespaceAndFormat(children, "~~");
+        children = retainWhitespaceAndFormat(children, '~~')
       }
 
       if (chunk.code) {
-        children = retainWhitespaceAndFormat(children, "`");
+        children = retainWhitespaceAndFormat(children, '`')
       }
     }
   }
@@ -170,38 +170,38 @@ export default function serialize(
      * Mess of duplicated code, but it works so fuck it
      */
     case nodeTypes.mdxJsxFlowElement:
-      const mdxElement = chunk as MdxElementShape;
-      let props: string | undefined;
+      const mdxElement = chunk as MdxElementShape
+      let props: string | undefined
 
       if (mdxElement.attributes.length > 0) {
         props = mdxElement.attributes
           .map((prop) => {
             if (!isObject(prop.value)) {
-              return `${prop.name}="${prop.value}"`;
+              return `${prop.name}="${prop.value}"`
             }
             if (isObject(prop.value)) {
-              return `${prop.name}={${prop.value.value}}`;
+              return `${prop.name}={${prop.value.value}}`
             }
           })
-          .join(" ");
+          .join(' ')
       }
 
       // Components with no children usually have a {text: ''} array
       const hasChildren = mdxElement.reactChildren.some(
         // @ts-ignore
         (e) => e.type !== undefined
-      );
+      )
 
       if (hasChildren) {
         children = mdxElement.reactChildren
           .map((c: any) => {
             const isList = !isLeafNode(c)
-              ? (LIST_TYPES as string[]).includes(c.type || "")
-              : false;
+              ? (LIST_TYPES as string[]).includes(c.type || '')
+              : false
 
             const selfIsList = (LIST_TYPES as string[]).includes(
-              mdxElement.type || ""
-            );
+              mdxElement.type || ''
+            )
 
             // Links can have the following shape
             // In which case we don't want to surround
@@ -214,12 +214,12 @@ export default function serialize(
             //    { text: '' }
             //  ]
             // }
-            let childrenHasLink = false;
+            let childrenHasLink = false
 
             if (!isLeafNode(chunk) && Array.isArray(chunk.children)) {
               childrenHasLink = chunk.children.some(
                 (f) => !isLeafNode(f) && f.type === nodeTypes.link
-              );
+              )
             }
 
             return serialize(
@@ -243,87 +243,87 @@ export default function serialize(
 
                 // track depth of nested lists so we can add proper spacing
                 listDepth: (LIST_TYPES as string[]).includes(
-                  (c as BlockType).type || ""
+                  (c as BlockType).type || ''
                 )
                   ? listDepth + 1
-                  : listDepth
+                  : listDepth,
               }
-            );
+            )
           })
-          .join("");
+          .join('')
       }
 
-      return `<${mdxElement.name}${props ? ` ${props} ` : ""}${
-        hasChildren ? "" : "/"
-      }>\n${BREAK_TAG}${hasChildren ? `${children}` : ""}${
-        hasChildren ? `</${mdxElement.name}>\n${BREAK_TAG}` : ""
-      }`;
+      return `<${mdxElement.name}${props ? ` ${props} ` : ''}${
+        hasChildren ? '' : '/'
+      }>\n${BREAK_TAG}${hasChildren ? `${children}` : ''}${
+        hasChildren ? `</${mdxElement.name}>\n${BREAK_TAG}` : ''
+      }`
     case nodeTypes.heading[1]:
-      return `# ${children}\n${BREAK_TAG}`;
+      return `# ${children}\n${BREAK_TAG}`
     case nodeTypes.heading[2]:
-      return `## ${children}\n${BREAK_TAG}`;
+      return `## ${children}\n${BREAK_TAG}`
     case nodeTypes.heading[3]:
-      return `### ${children}\n${BREAK_TAG}`;
+      return `### ${children}\n${BREAK_TAG}`
     case nodeTypes.heading[4]:
-      return `#### ${children}\n${BREAK_TAG}`;
+      return `#### ${children}\n${BREAK_TAG}`
     case nodeTypes.heading[5]:
-      return `##### ${children}\n${BREAK_TAG}`;
+      return `##### ${children}\n${BREAK_TAG}`
     case nodeTypes.heading[6]:
-      return `###### ${children}\n${BREAK_TAG}`;
+      return `###### ${children}\n${BREAK_TAG}`
 
     case nodeTypes.block_quote:
       // For some reason, marked is parsing blockquotes w/ one new line
       // as contiued blockquotes, so adding two new lines ensures that doesn't
       // happen
-      return `> ${children}\n\n${BREAK_TAG}`;
+      return `> ${children}\n\n${BREAK_TAG}`
 
     case nodeTypes.code_block:
       return `\`\`\`${
-        (chunk as BlockType).language || ""
-      }\n${children}\n\`\`\`\n${BREAK_TAG}`;
+        (chunk as BlockType).language || ''
+      }\n${children}\n\`\`\`\n${BREAK_TAG}`
 
     case nodeTypes.link:
-      return `[${children}](${(chunk as BlockType).link || ""})`;
+      return `[${children}](${(chunk as BlockType).link || ''})`
     case nodeTypes.image:
       return `![${(chunk as BlockType).caption}](${
-        (chunk as BlockType).link || ""
-      })`;
+        (chunk as BlockType).link || ''
+      } "${(chunk as BlockType).title || ''}")\n${BREAK_TAG}`
 
     case nodeTypes.ul_list:
-      return `${children}${BREAK_TAG}`;
+      return `${children}${BREAK_TAG}`
     case nodeTypes.ol_list:
-      olNumber = 0;
-      return `${children}${BREAK_TAG}`;
+      olNumber = 0
+      return `${children}${BREAK_TAG}`
 
     case nodeTypes.listItem:
       // whether it's an ordered or unordered list
-      const isOL = chunk && chunk.parentType === nodeTypes.ol_list;
+      const isOL = chunk && chunk.parentType === nodeTypes.ol_list
       const treatAsLeaf =
         (chunk as BlockType).children.length === 1 &&
-        isLeafNode((chunk as BlockType).children[0]);
+        isLeafNode((chunk as BlockType).children[0])
 
-      let spacer = "";
+      let spacer = ''
       for (let k = 0; listDepth > k; k++) {
         if (isOL) {
           // https://github.com/remarkjs/remark-react/issues/65
-          spacer += "   ";
+          spacer += '   '
         } else {
-          spacer += "  ";
+          spacer += '  '
         }
       }
-      olNumber += 1;
-      return `${spacer}${isOL ? `${olNumber}.` : "-"} ${children}${
-        treatAsLeaf ? "\n" : ""
-      }`;
+      olNumber += 1
+      return `${spacer}${isOL ? `${olNumber}.` : '-'} ${children}${
+        treatAsLeaf ? '\n' : ''
+      }`
 
     case nodeTypes.paragraph:
-      return `${children !== "\n" ? `${children}\n` : ""}${BREAK_TAG}`;
+      return `${children !== '\n' ? `${children}\n` : ''}${BREAK_TAG}`
 
     case nodeTypes.thematic_break:
-      return `---\n${BREAK_TAG}`;
+      return `---\n${BREAK_TAG}`
 
     default:
-      return escapeHtml(children);
+      return escapeHtml(children)
   }
 }
 
@@ -333,28 +333,28 @@ export default function serialize(
 // bring the whitespace back. So our returned string looks like this: "   **foo**   "
 function retainWhitespaceAndFormat(string: string, format: string) {
   // we keep this for a comparison later
-  const frozenString = string.trim();
+  const frozenString = string.trim()
 
   // children will be mutated
-  let children = frozenString;
+  let children = frozenString
 
   // We reverse the right side formatting, to properly handle bold/italic and strikeThrough
   // formats, so we can create ~~***FooBar***~~
-  const fullFormat = `${format}${children}${reverseStr(format)}`;
+  const fullFormat = `${format}${children}${reverseStr(format)}`
 
   // This conditions accounts for no whitespace in our string
   // if we don't have any, we can return early.
   if (children.length === string.length) {
-    return fullFormat;
+    return fullFormat
   }
 
   // if we do have whitespace, let's add our formatting around our trimmed string
   // We reverse the right side formatting, to properly handle bold/italic and strikeThrough
   // formats, so we can create ~~***FooBar***~~
-  const formattedString = format + children + reverseStr(format);
+  const formattedString = format + children + reverseStr(format)
 
   // and replace the non-whitespace content of the string
-  return string.replace(frozenString, formattedString);
+  return string.replace(frozenString, formattedString)
 }
 
-const reverseStr = (string: string) => string.split("").reverse().join("");
+const reverseStr = (string: string) => string.split('').reverse().join('')

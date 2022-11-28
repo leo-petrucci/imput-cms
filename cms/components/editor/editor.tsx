@@ -106,6 +106,7 @@ const Editor = ({
           <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
           <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
           <StyledButton
+            active={false}
             onMouseDown={(event) => {
               event.preventDefault()
               const text = { text: '' }
@@ -119,13 +120,13 @@ const Editor = ({
               Transforms.insertNodes(editor, image)
             }}
           >
-            <Image size={16} />
+            <Image size={16} alt="image-icon" />
           </StyledButton>
         </Toolbar>
         <Box
           css={{
-            border: '1px solid $gray-200',
-            borderRadius: '$default',
+            // border: '1px solid $gray-200',
+            // borderRadius: '$default',
             '& > div': {
               padding: '$2',
             },

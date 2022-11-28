@@ -27,7 +27,7 @@ const MoveElement = (props: CustomRenderElementProps) => {
     <Box
       css={{
         display: 'flex',
-        alignSelf: 'flex-start',
+        alignSelf: 'center',
         flexDirection: 'column',
         flex: '0!important',
         justifyContent: 'space-between',

@@ -15,12 +15,9 @@ import { useImages } from 'cms/contexts/imageContext/useImageContext'
 
 const ContentPage = () => {
   const router = useRouter()
-  const { collections } = useCMS()
-  const [collection, file] = router.query.nextcms as string[]
-  const thisCollection =
-    collections.find((c) => c.name === collection) || collections[0]
+  const { currentCollection, currentFile } = useCMS()
 
-  const query = useGetGithubCollection(thisCollection!.folder)
+  const query = useGetGithubCollection(currentCollection!.folder)
 
   const contentCache = [
     {
@@ -40,7 +37,7 @@ const ContentPage = () => {
 
   const sha = query.isSuccess
     ? query.data.data.tree.find(
-        (f) => f.path === `${file}.${thisCollection.extension}`
+        (f) => f.path === `${currentFile}.${currentCollection.extension}`
       )!.sha
     : undefined
 

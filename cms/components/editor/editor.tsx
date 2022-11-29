@@ -11,6 +11,7 @@ import { unified } from 'unified'
 import Toolbar from './toolbar'
 import { BlockButton, MarkButton, StyledButton } from './button/button'
 import {
+  BracketsSquare,
   CodeSimple,
   Image,
   ListBullets,
@@ -25,6 +26,7 @@ import {
 import Box from '../designSystem/box'
 import { removeLastEmptySpace } from './lib/removeLastEmptySpace'
 import { ImageElement } from './images/imageElement'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -80,6 +82,8 @@ const Editor = ({
     withEditableVoids(withReact(createEditor()))
   )
 
+  const { createComponent } = useCMS()
+
   return (
     <>
       <Slate
@@ -90,7 +94,8 @@ const Editor = ({
           // addEmptySpace(editor);
 
           // but we want to remove it when it's sent back
-          onChange?.(removeLastEmptySpace(val))
+          // onChange?.(removeLastEmptySpace(val))
+          onChange?.(val)
         }}
       >
         <Toolbar>
@@ -119,6 +124,18 @@ const Editor = ({
             }}
           >
             <Image size={16} alt="image-icon" />
+          </StyledButton>
+          <StyledButton
+            active={false}
+            onMouseDown={(event) => {
+              event.preventDefault()
+
+              const component = createComponent('ReactComponent')
+
+              if (component) Transforms.insertNodes(editor, component)
+            }}
+          >
+            <BracketsSquare size={16} />
           </StyledButton>
         </Toolbar>
         <Box

@@ -68,7 +68,7 @@ export interface NextCMSContext {
     /**
      * The shape of the contents of your website.
      * Each collection object is a different type of content:
-     * - blobposts
+     * - blogposts
      * - authors
      * - categories
      */

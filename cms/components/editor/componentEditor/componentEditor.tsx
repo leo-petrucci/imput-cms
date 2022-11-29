@@ -1,22 +1,26 @@
-import { isString } from "lodash";
-import { useSlate } from "slate-react";
-import CodeBlockEditor from "../codeblockEditor";
-import Editor from "../editor";
-import { CustomRenderElementProps } from "../element";
-import { editAttributes } from "../lib/editAttributes";
-import { editReactChildren } from "../lib/editReactChildren";
-import { MdxElementShape } from "../mdxElement";
-import Label from "../../designSystem/label";
-import Flex from "../../designSystem/flex";
+import { isString } from 'lodash'
+import { ReactEditor, useSlate } from 'slate-react'
+import CodeBlockEditor from '../codeblockEditor'
+import Editor from '../editor'
+import { CustomRenderElementProps } from '../element'
+import { editAttributes } from '../lib/editAttributes'
+import { editReactChildren } from '../lib/editReactChildren'
+import { MdxElementShape } from '../mdxElement'
+import Label from '../../designSystem/label'
+import Flex from '../../designSystem/flex'
+import { Node } from 'slate'
 
 /**
  *
  */
 const ComponentEditor = (props: CustomRenderElementProps) => {
-  const { attributes, children, element } = props;
-  const editor = useSlate();
-  const mdxElement = element as MdxElementShape;
-  const { id } = mdxElement;
+  const { element } = props
+  const editor = useSlate() as ReactEditor
+  const mdxElement = element as MdxElementShape
+  const { id } = mdxElement
+
+  const path = ReactEditor.findPath(editor, element as unknown as Node)
+
   return (
     <>
       {mdxElement.attributes.map((a) => {
@@ -25,23 +29,30 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
          */
         if (isString(a.value)) {
           return (
-            <Flex direction="column">
+            <Flex direction="column" key={a.name}>
               <Label htmlFor={`string-prop-${a.name}`}>{a.name}</Label>
               <input
                 type="text"
                 id={`string-prop-${a.name}`}
                 defaultValue={a.value}
                 onChange={(e) => {
-                  editAttributes(id, mdxElement, a, editor, e.target.value);
+                  editAttributes(path, mdxElement, a, editor, e.target.value)
                 }}
               />
             </Flex>
-          );
+          )
           /**
            * If it's not a string we'll have to figure out what it is exactly
            */
         } else {
-          return <CodeBlockEditor {...props} value={a} editor={editor} />;
+          return (
+            <CodeBlockEditor
+              {...props}
+              key={a.name}
+              value={a}
+              editor={editor}
+            />
+          )
         }
       })}
       <Flex direction="column">
@@ -52,7 +63,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
         />
       </Flex>
     </>
-  );
-};
+  )
+}
 
-export default ComponentEditor;
+export default ComponentEditor

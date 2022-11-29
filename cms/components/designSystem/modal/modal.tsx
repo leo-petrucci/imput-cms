@@ -35,9 +35,9 @@ const StyledTitle = styled(DialogPrimitive.Title, {
 })
 
 const StyledDescription = styled(DialogPrimitive.Description, {
-  color: blackA.blackA11,
-  fontSize: 15,
-  lineHeight: 1.5,
+  // color: blackA.blackA11,
+  // fontSize: 15,
+  // lineHeight: 1.5,
 })
 
 const IconButton = styled('button', {

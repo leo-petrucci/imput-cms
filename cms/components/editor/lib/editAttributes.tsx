@@ -1,6 +1,6 @@
-import { isObject } from "lodash";
-import { BaseEditor, Transforms } from "slate";
-import { MdxElementShape } from "../mdxElement";
+import { isObject } from 'lodash'
+import { BaseEditor, Path, Transforms } from 'slate'
+import { MdxElementShape } from '../mdxElement'
 
 /**
  * Edits any string prop on an MDX slate element
@@ -9,7 +9,7 @@ export const editAttributes = (
   /**
    * Id of the node we want to edit
    */
-  id: string,
+  path: Path,
   /**
    * The entire deserialized MDX element
    */
@@ -17,7 +17,7 @@ export const editAttributes = (
   /**
    * The specific prop we're editing
    */
-  attribute: MdxElementShape["attributes"][0],
+  attribute: MdxElementShape['attributes'][0],
   /**
    * The slate editor instance
    */
@@ -28,12 +28,10 @@ export const editAttributes = (
   value: any
 ) => {
   // find the index of the attribute
-  const index = mdxElement.attributes
-    .map((m) => m.name)
-    .indexOf(attribute.name);
+  const index = mdxElement.attributes.map((m) => m.name).indexOf(attribute.name)
 
   // copy the attributes array
-  const newAttributes = [...mdxElement.attributes];
+  const newAttributes = [...mdxElement.attributes]
 
   // change just this value
   newAttributes[index] = {
@@ -41,21 +39,18 @@ export const editAttributes = (
     value: isObject(attribute.value)
       ? {
           ...attribute.value,
-          value
+          value,
         }
-      : value
-  };
+      : value,
+  }
 
   Transforms.setNodes<MdxElementShape>(
     editor,
     {
-      attributes: newAttributes
+      attributes: newAttributes,
     },
     {
-      match: (node) => {
-        // @ts-ignore
-        return node.id === id;
-      }
+      at: path,
     }
-  );
-};
+  )
+}

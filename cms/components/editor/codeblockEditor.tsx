@@ -1,6 +1,6 @@
 import Prism from 'prismjs'
 import React, { useCallback, useMemo } from 'react'
-import { Slate, Editable, withReact } from 'slate-react'
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { Text, createEditor, Descendant, Node, BaseEditor } from 'slate'
 import { withHistory } from 'slate-history'
 import { CustomRenderElementProps } from './element'
@@ -16,7 +16,7 @@ const CodeBlockEditor = ({
   ...props
 }: {
   value: MdxElementShape['attributes'][0]
-  editor: BaseEditor
+  editor: ReactEditor
 } & CustomRenderElementProps) => {
   const { element } = props
   const mdxElement = element as MdxElementShape
@@ -24,6 +24,8 @@ const CodeBlockEditor = ({
 
   const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
   const codeEditor = useMemo(() => withHistory(withReact(createEditor())), [])
+
+  const path = ReactEditor.findPath(editor, element as unknown as Node)
 
   // decorate function depends on the language selected
   const decorate = useCallback(([node, path]) => {
@@ -87,10 +89,10 @@ const CodeBlockEditor = ({
           const code = nodes.map((n) => Node.string(n)).join('\n')
           try {
             // reformat our text into JSON
-            const json = JSON.stringify(JSON.parse(code))
+            // const json = JSON.stringify(JSON.parse(code))
 
             // set the value to the editor
-            editAttributes(id, mdxElement, value, editor, json)
+            editAttributes(path, mdxElement, value, editor, code)
           } catch (e) {}
         }}
       >

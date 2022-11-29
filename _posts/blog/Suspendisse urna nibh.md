@@ -6,7 +6,7 @@ T﻿esting
 
 ![alt text](Isolated.png "Title")
 
-<Component>
+<Component prop1="string" prop2={8}>
   
 Test
 

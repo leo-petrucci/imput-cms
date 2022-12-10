@@ -1,3 +1,4 @@
+import { blackA } from '@radix-ui/colors'
 import Box from 'cms/components/designSystem/box'
 import { Modal } from 'cms/components/designSystem/modal'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
@@ -143,6 +144,19 @@ export const MarkButton = ({
   )
 }
 
+const ComponentSelectorButton = styled('button', {
+  borderRadius: '.25em',
+  display: 'inline-flex',
+  padding: '$4',
+  alignItems: 'flex-start',
+  color: blackA.blackA11,
+  cursor: 'pointer',
+  background: 'none',
+  border: `1px solid ${blackA.blackA7}`,
+
+  '&:hover': { backgroundColor: blackA.blackA2 },
+})
+
 export const ComponentButton = () => {
   const editor = useSlate()
   const { components, createComponent } = useCMS()
@@ -150,6 +164,7 @@ export const ComponentButton = () => {
   return (
     <>
       <Modal
+        title={'Select a block to add'}
         css={{
           minWidth: '100vw',
           minHeight: '100vh',
@@ -167,7 +182,7 @@ export const ComponentButton = () => {
             }}
           >
             {components?.map((c) => (
-              <button
+              <ComponentSelectorButton
                 key={c.name}
                 onClick={() => {
                   const component = createComponent(c.name)
@@ -177,8 +192,8 @@ export const ComponentButton = () => {
                   }
                 }}
               >
-                {c.name}
-              </button>
+                {c.label}
+              </ComponentSelectorButton>
             ))}
           </Box>
         )}

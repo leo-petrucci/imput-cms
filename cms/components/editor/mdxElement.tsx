@@ -98,7 +98,7 @@ const MdxElement = (props: CustomRenderElementProps) => {
           },
         }}
         title={'Edit component'}
-        description={<ComponentEditor {...props} />}
+        description={() => <ComponentEditor {...props} />}
       >
         <StyledMdxButton selected={selected} contentEditable={false}>
           <Box

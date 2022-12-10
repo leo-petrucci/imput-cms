@@ -9,7 +9,12 @@ import { Leaf } from './leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
 import Toolbar from './toolbar'
-import { BlockButton, MarkButton, StyledButton } from './button/button'
+import {
+  BlockButton,
+  ComponentButton,
+  MarkButton,
+  StyledButton,
+} from './button/button'
 import {
   BracketsSquare,
   CodeSimple,
@@ -125,18 +130,7 @@ const Editor = ({
           >
             <Image size={16} alt="image-icon" />
           </StyledButton>
-          <StyledButton
-            active={false}
-            onMouseDown={(event) => {
-              event.preventDefault()
-
-              const component = createComponent('ReactComponent')
-
-              if (component) Transforms.insertNodes(editor, component)
-            }}
-          >
-            <BracketsSquare size={16} />
-          </StyledButton>
+          <ComponentButton />
         </Toolbar>
         <Box
           css={{

@@ -1,12 +1,14 @@
 import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-alert-dialog'
-import { blackA, mauve } from '@radix-ui/colors'
-import { styled } from '@stitches/react'
+import { blackA, grayA, mauve, whiteA } from '@radix-ui/colors'
+import { CSS, styled } from '@stitches/react'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
+import { inlineCss } from 'stitches.config'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
-  backgroundColor: blackA.blackA9,
+  backgroundColor: grayA.grayA6,
+  // backdropFilter: 'blur(1px)',
   position: 'fixed',
   inset: 0,
 })
@@ -43,7 +45,7 @@ const StyledDescription = styled(DialogPrimitive.Description, {
 const IconButton = styled('button', {
   all: 'unset',
   fontFamily: 'inherit',
-  borderRadius: '100%',
+  borderRadius: '.25em',
   display: 'inline-flex',
   padding: 4,
   alignItems: 'center',
@@ -72,31 +74,37 @@ export interface ModalProps extends ExtendedDialogContents {
   closeProps?: DialogPrimitive.DialogCloseProps
   descriptionProps?: DialogPrimitive.DialogDescriptionProps
   title?: string
-  description?: React.ReactNode
+  css?: CSS
+  description?: (
+    open: boolean,
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  ) => React.ReactNode
 }
 
 type ExtendedModalProps = Omit<SpuntareProps, 'open'> & ModalProps
 
-const Modal = ({
+export const Modal = ({
   children,
   title,
   description,
+  css,
   rootProps,
   overlayProps,
   closeProps,
   descriptionProps,
-  id,
-  length,
-  depth,
-  depthOfType,
-  index,
-  lengthOfType,
   ...rest
-}: ExtendedModalProps) => {
+}: ModalProps) => {
   const [open, setOpen] = React.useState(false)
 
   return (
-    <DialogPrimitive.Root {...rootProps} open={open}>
+    <DialogPrimitive.Root
+      {...rootProps}
+      open={open}
+      onOpenChange={(open) => {
+        setOpen(open)
+        rootProps?.onOpenChange?.(open)
+      }}
+    >
       {children !== undefined && (
         <DialogPrimitive.Trigger
           onClick={() => {
@@ -112,7 +120,7 @@ const Modal = ({
           <DialogPrimitive.Portal forceMount>
             <MotionStyledOverlay
               initial={{ opacity: 0 }}
-              animate={{ opacity: depth === 0 ? 1 : 0 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               {...overlayProps}
             />
@@ -120,7 +128,6 @@ const Modal = ({
               {/* @ts-ignore */}
               <motion.div
                 style={{
-                  transformOrigin: depth > 0 ? 'top' : 'center',
                   willChange: 'transform',
                 }}
                 initial={{
@@ -129,40 +136,38 @@ const Modal = ({
                 }}
                 animate={{
                   opacity: 1,
-                  transform: `translate(-50%, -50%) scale(${
-                    1 - depthOfType * (0.2 / lengthOfType)
-                  }) translateY(-${
-                    depthOfType * (50 / lengthOfType)
-                  }px) translateZ(0.0000px)`,
-                  filter: depth > 0 ? 'blur(2px)' : 'blur(0px)',
+                  transform: `translate(-50%, -50%) scale(1) translateY(0) translateZ(0px)`,
                 }}
                 exit={{
                   opacity: 0,
                   transform: `translate(-50%, -50%) scale(0.9) translateY(0) translateY(0) translateZ(0.0001px)`,
                 }}
+                className={css ? inlineCss(css) : ''}
                 {...rest}
               >
                 {title !== undefined && <StyledTitle>{title}</StyledTitle>}
                 <StyledDescription {...descriptionProps} asChild>
-                  <div>{description}</div>
+                  <div>{description?.(open, setOpen)}</div>
                 </StyledDescription>
-                <IconButton
-                  onClick={() => {
-                    setOpen(false)
-                  }}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
+                <DialogPrimitive.Cancel asChild>
+                  <IconButton
+                    onClick={() => {
+                      setOpen(false)
+                    }}
                   >
-                    <path
-                      fillRule="evenodd"
-                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </IconButton>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </IconButton>
+                </DialogPrimitive.Cancel>
               </motion.div>
             </StyledContent>
           </DialogPrimitive.Portal>
@@ -172,4 +177,35 @@ const Modal = ({
   )
 }
 
-export default Modal
+const ExtendedModal = (props: ExtendedModalProps) => {
+  return (
+    <Modal
+      initial={{
+        opacity: 0,
+        transform: `scale(1) translateX(-25%) translateX(0px)`,
+      }}
+      animate={{
+        opacity: 1,
+        transform: `translate(-50%, -50%) scale(${
+          1 - props.depthOfType * (0.2 / props.lengthOfType)
+        }) translateY(-${
+          props.depthOfType * (50 / props.lengthOfType)
+        }px) translateZ(0.0000px)`,
+        filter: props.depth > 0 ? 'blur(2px)' : 'blur(0px)',
+      }}
+      exit={{
+        opacity: 0,
+        transform: `scale(1)  translateX(-25%) translateX(0)`,
+      }}
+      style={{
+        transformOrigin: props.depth > 0 ? 'top' : 'center',
+      }}
+      overlayProps={{
+        animate: { opacity: props.depth === 0 ? 1 : 0 },
+      }}
+      {...props}
+    />
+  )
+}
+
+export default ExtendedModal

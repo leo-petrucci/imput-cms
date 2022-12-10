@@ -34,6 +34,7 @@ export const useEditorDepth = () => {
 
 export const DepthProvider = ({ children }: { children: React.ReactNode }) => {
   const [depth, setDepth] = useState<DepthState>([])
+
   return (
     <DepthContext.Provider value={[depth, setDepth]}>
       {children}

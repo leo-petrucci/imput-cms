@@ -1,3 +1,8 @@
+import Box from 'cms/components/designSystem/box'
+import { Modal } from 'cms/components/designSystem/modal'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { stubFalse } from 'lodash'
+import { BracketsSquare } from 'phosphor-react'
 import React from 'react'
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
 import { useSlate } from 'slate-react'
@@ -135,5 +140,58 @@ export const MarkButton = ({
     >
       <div className="icon">{icon}</div>
     </StyledButton>
+  )
+}
+
+export const ComponentButton = () => {
+  const editor = useSlate()
+  const { components, createComponent } = useCMS()
+
+  return (
+    <>
+      <Modal
+        css={{
+          minWidth: '100vw',
+          minHeight: '100vh',
+          '@md': {
+            minWidth: 968,
+            minHeight: 524,
+          },
+        }}
+        description={(_open, setOpen) => (
+          <Box
+            css={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              media: {},
+            }}
+          >
+            {components?.map((c) => (
+              <button
+                key={c.name}
+                onClick={() => {
+                  const component = createComponent(c.name)
+                  if (component) {
+                    Transforms.insertNodes(editor, component)
+                    setOpen(false)
+                  }
+                }}
+              >
+                {c.name}
+              </button>
+            ))}
+          </Box>
+        )}
+      >
+        <StyledButton
+          active={false}
+          onMouseDown={(event) => {
+            event.preventDefault()
+          }}
+        >
+          <BracketsSquare size={16} />
+        </StyledButton>
+      </Modal>
+    </>
   )
 }

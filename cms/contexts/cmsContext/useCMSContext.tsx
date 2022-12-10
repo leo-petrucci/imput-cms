@@ -17,18 +17,13 @@ export const useCMS = () => {
   /**
    * Return all the components for the current collection
    */
-  const getComponents = () => {
-    if (!collection) return []
-
-    return currentCollection.blocks
-  }
+  const components = !collection ? [] : currentCollection.blocks
 
   /**
    * Returns the data structure for a component to be added to the editor
    * @param componentName - The component we want to create
    */
   const createComponent = (componentName: string) => {
-    const components = getComponents()
     const component = components?.find((c) => (c.name = componentName))
 
     if (!component) return undefined
@@ -76,7 +71,7 @@ export const useCMS = () => {
 
   return {
     ...settings,
-    getComponents,
+    components,
     currentCollection,
     currentFile,
     createComponent,

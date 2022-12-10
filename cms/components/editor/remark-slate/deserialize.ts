@@ -100,7 +100,6 @@ export default function deserialize<T extends InputNodeTypes>(
         children,
       } as LinkNode<T>
     case 'image':
-      console.log(node)
       return {
         type: types.image,
         children: [{ text: '' }],

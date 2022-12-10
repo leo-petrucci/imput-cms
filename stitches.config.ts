@@ -1,6 +1,6 @@
 import { createStitches, CSS } from '@stitches/react'
 
-export const { styled, css } = createStitches({
+const stitchesConfig = {
   media: {
     sm: '(min-width: 640px)',
     md: '(min-width: 768px)',
@@ -120,7 +120,11 @@ export const { styled, css } = createStitches({
     },
     transitions: {},
   },
-})
+}
+
+export type CustomCSS = CSS<typeof stitchesConfig>
+
+export const { styled, css } = createStitches(stitchesConfig)
 
 const _inlineCss = css({})
-export const inlineCss = (css: CSS) => _inlineCss({ css })
+export const inlineCss = (css: CustomCSS) => _inlineCss({ css })

@@ -8,6 +8,7 @@ import { Element, Transforms } from 'slate'
 import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
 import { styled } from 'stitches.config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
+import Label from 'cms/components/designSystem/label'
 
 const StyledImage = styled('div', {
   display: 'block',
@@ -73,61 +74,67 @@ const Image = ({
             }}
           >
             <Flex direction="column" gap="2">
-              <Input
-                name="image-title"
-                label="Image title"
-                defaultValue={element.title}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const value = e.target.value
-                  Transforms.setNodes<any>(
-                    editor,
-                    {
-                      title: value,
-                    },
-                    {
-                      at: path,
-                    }
-                  )
-                }}
-              />
-              <Input
-                name="image-alt"
-                label="Image alt text"
-                defaultValue={element.caption}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  const value = e.target.value
-                  Transforms.setNodes<any>(
-                    editor,
-                    {
-                      caption: value,
-                    },
-                    {
-                      at: path,
-                    }
-                  )
-                }}
-              />
-              <Input
-                type="file"
-                name="image-file"
-                label="Upload image"
-                onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
-                  if (e.target.files && e.target.files?.length > 0) {
-                    const file = e.target.files[0]
-                    const image = await addImage(file)
-                    console.log({ image })
+              <Flex direction="column" gap="1">
+                <Label htmlFor={`image-title`}>Image title</Label>
+                <Input
+                  name="image-title"
+                  defaultValue={element.title}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = e.target.value
                     Transforms.setNodes<any>(
                       editor,
                       {
-                        link: image.filename,
+                        title: value,
                       },
                       {
                         at: path,
                       }
                     )
-                  }
-                }}
-              />
+                  }}
+                />
+              </Flex>
+              <Flex direction="column" gap="1">
+                <Label htmlFor={`image-alt`}>Image alt text</Label>
+                <Input
+                  name="image-alt"
+                  defaultValue={element.caption}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = e.target.value
+                    Transforms.setNodes<any>(
+                      editor,
+                      {
+                        caption: value,
+                      },
+                      {
+                        at: path,
+                      }
+                    )
+                  }}
+                />
+              </Flex>
+              <Flex direction="column" gap="1">
+                <Label htmlFor={`image-file`}>Upload image</Label>
+                <Input
+                  type="file"
+                  name="image-file"
+                  onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.files && e.target.files?.length > 0) {
+                      const file = e.target.files[0]
+                      const image = await addImage(file)
+                      console.log({ image })
+                      Transforms.setNodes<any>(
+                        editor,
+                        {
+                          link: image.filename,
+                        },
+                        {
+                          at: path,
+                        }
+                      )
+                    }
+                  }}
+                />
+              </Flex>
             </Flex>
           </Box>
         }

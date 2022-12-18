@@ -142,7 +142,7 @@ export const Modal = ({
                 }}
                 exit={{
                   opacity: 0,
-                  transform: `translate(-50%, -50%) scale(0.9) translateY(0) translateY(0) translateZ(0.0001px)`,
+                  transform: `translate(-50%, -50%) scale(0.9) translateY(0) translateZ(0.0001px)`,
                 }}
                 className={css ? inlineCss(css) : ''}
                 {...rest}

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
-import ctxt, { NextCMSContext } from './context'
+import ctxt, { BlockType, NextCMSContext } from './context'
 
 /**
  * Returns the CMS settings object
@@ -24,7 +24,9 @@ export const useCMS = () => {
    * @param componentName - The component we want to create
    */
   const createComponent = (componentName: string) => {
-    const component = components?.find((c) => (c.name = componentName))
+    const component = components?.find(
+      (c: BlockType) => (c.name = componentName)
+    )
 
     if (!component) return undefined
 
@@ -42,6 +44,7 @@ export const useCMS = () => {
             value: f.type.default || '',
           })
           break
+        case 'select':
         case 'boolean':
         case 'json':
           attributes.push({
@@ -55,7 +58,7 @@ export const useCMS = () => {
       }
     })
 
-    return {
+    const c = {
       type: 'mdxJsxFlowElement',
       attributes,
       reactChildren: [
@@ -67,6 +70,22 @@ export const useCMS = () => {
       children: [{ text: '' }],
       name: component.name,
     }
+
+    return c
+  }
+
+  /**
+   * Returns the prop schema for the specified component
+   * @param componentName - The component we want to get the schema for
+   */
+  const getSchema = (componentName: string) => {
+    const component = components?.find(
+      (c: BlockType) => (c.name = componentName)
+    )
+
+    if (!component) return undefined
+
+    return component.fields
   }
 
   return {
@@ -75,6 +94,7 @@ export const useCMS = () => {
     currentCollection,
     currentFile,
     createComponent,
+    getSchema,
   }
 }
 

@@ -177,8 +177,10 @@ export const ComponentButton = () => {
           <Box
             css={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-              media: {},
+              gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
+              '@md': {
+                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              },
             }}
           >
             {components?.map((c) => (

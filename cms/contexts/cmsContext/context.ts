@@ -6,6 +6,11 @@ type Widgets =
       default?: true | false
     }
   | {
+      widget: 'select'
+      options: (string | number)[]
+      default?: string | number
+    }
+  | {
       widget: 'date'
       default?: string
     }
@@ -32,7 +37,7 @@ type Widgets =
     }
   | { widget: 'markdown'; default?: string }
 
-type BlockType = {
+export type BlockType = {
   /**
    * The component's name as it would appear in-code (e.g. MyCustomButton)
    */

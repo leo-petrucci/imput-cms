@@ -37,10 +37,47 @@ const CMS = () => (
                 label: 'My first block',
                 fields: [
                   {
+                    name: 'name',
+                    label: 'Name',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                  {
+                    name: 'date',
+                    label: 'Date',
+                    type: {
+                      widget: 'date',
+                    },
+                  },
+                  {
+                    name: 'datetime',
+                    label: 'DateTime',
+                    type: {
+                      widget: 'datetime',
+                    },
+                  },
+                  {
+                    name: 'boolean',
+                    label: 'Boolean',
+                    type: {
+                      widget: 'boolean',
+                    },
+                  },
+                  {
                     name: 'variant',
                     label: 'Variant',
                     type: {
-                      widget: 'string',
+                      widget: 'select',
+                      options: ['option1', 'option2'],
+                    },
+                  },
+                  {
+                    name: 'padding',
+                    label: 'Padding',
+                    type: {
+                      widget: 'select',
+                      options: [4, 8, 12],
                     },
                   },
                   {

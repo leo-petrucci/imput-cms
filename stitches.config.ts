@@ -122,9 +122,9 @@ const stitchesConfig = {
   },
 }
 
-export type CustomCSS = CSS<typeof stitchesConfig>
+export const { styled, css, config } = createStitches(stitchesConfig)
 
-export const { styled, css } = createStitches(stitchesConfig)
+export type CustomCSS = CSS<typeof config>
 
 const _inlineCss = css({})
 export const inlineCss = (css: CustomCSS) => _inlineCss({ css })

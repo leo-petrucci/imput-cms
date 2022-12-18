@@ -1,7 +1,8 @@
 import { BlockType, defaultNodeTypes, LeafType, NodeTypes } from './ast-types'
+// @ts-ignore
 import escapeHtml from 'escape-html'
 import { MdxElementShape } from '../mdxElement'
-import { isObject } from 'lodash'
+import { isObject, isString } from 'lodash'
 
 interface Options {
   nodeTypes: NodeTypes
@@ -180,7 +181,12 @@ export default function serialize(
               return `${prop.name}="${prop.value}"`
             }
             if (isObject(prop.value)) {
-              return `${prop.name}={${prop.value.value}}`
+              let v = prop.value.value
+              // sometimes even if it is an object, the prop is a string.
+              if (isString(v)) {
+                // return `${prop.name}=${JSON.stringify(v)}`
+              }
+              return `${prop.name}={${v}}`
             }
           })
           .join(' ')

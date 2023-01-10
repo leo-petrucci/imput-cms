@@ -12,6 +12,7 @@ import { useCMS } from '../../../contexts/cmsContext/useCMSContext'
 import Select from '../../designSystem/select'
 import Switch from '../../designSystem/switch'
 import Input from '../../designSystem/input'
+import { MDXNode } from 'cms/types/mdxNode'
 
 /**
  *
@@ -36,7 +37,9 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           return
         }
 
-        const prop = mdxElement.attributes.find((a) => a.name === c.name)
+        const prop = mdxElement.attributes.find(
+          (a) => a.name === c.name
+        ) as MDXNode
 
         if (prop === undefined) {
           return <>There was an error with your schema.</>
@@ -47,7 +50,10 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
         if (isString(prop.value)) {
           value = prop.value
         } else {
-          value = prop.value.value
+          switch (prop.value.data.estree.body[0].expression.type) {
+            case 'Literal':
+              value = prop.value.data.estree.body[0].expression.value
+          }
         }
 
         switch (c.type.widget) {
@@ -104,11 +110,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             }))
             const selectVal = options.find((o) => o.value === value)
 
-            console.log({
-              options,
-              value,
-              selectVal,
-            })
             return (
               <Flex direction="column" gap="1" key={c.name}>
                 <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>

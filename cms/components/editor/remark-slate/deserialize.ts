@@ -17,6 +17,7 @@ import {
   ThematicBreakNode,
 } from './ast-types'
 import { v4 as uuidv4 } from 'uuid'
+import { MDXNode } from '../../../types/mdxNode'
 
 /**
  * Markdown to Slate deserialization.
@@ -85,13 +86,14 @@ export default function deserialize<T extends InputNodeTypes>(
     case 'paragraph':
       return { type: types.paragraph, children } as ParagraphNode<T>
     case 'mdxJsxFlowElement':
+      const mdxNodes = node.attributes as unknown as MDXNode[]
       return {
         id,
         name: node.name,
         type: types.mdxJsxFlowElement,
         reactChildren: children,
         children: [{ text: '' }],
-        attributes: node.attributes,
+        attributes: mdxNodes,
       }
     case 'link':
       return {

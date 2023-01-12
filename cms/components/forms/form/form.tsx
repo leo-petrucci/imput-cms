@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import get from "lodash/get";
+import React, { useContext, useEffect } from 'react'
+import get from 'lodash/get'
 import {
   FieldValues,
   FormProvider,
@@ -8,15 +8,15 @@ import {
   useForm,
   useFormContext,
   UseFormReturn,
-} from "react-hook-form";
-import Box from "cms/components/designSystem/box";
-import ctxt from "./context";
+} from 'react-hook-form'
+import Box from 'cms/components/designSystem/box'
+import ctxt from './context'
 
-export interface FormProps {
-  form?: UseFormReturn<FieldValues, any>;
-  onSubmit: SubmitHandler<FieldValues>;
-  children: React.ReactNode;
-  debug?: boolean;
+export interface FormProps<T extends FieldValues> {
+  form?: UseFormReturn<T, any>
+  onSubmit: SubmitHandler<T>
+  children: React.ReactNode
+  debug?: boolean
 }
 
 /**
@@ -26,29 +26,36 @@ export interface FormProps {
  * @param children - components to render within the form
  * @returns
  */
-const Form = ({ form, onSubmit, children, debug }: FormProps) => {
-  const methods = useForm();
+function Form<T extends FieldValues>({
+  form,
+  onSubmit,
+  children,
+  debug,
+}: FormProps<T>) {
+  const methods = useForm<T>()
 
-  const values = form ? form.watch() : methods.watch();
+  const values = form ? form.watch() : methods.watch()
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (debug) {
-      console.log(values);
+      console.log(values)
     }
-  }, [values, debug]);
+  }, [values, debug])
+
+  const context = { ...(form || methods) }
 
   return (
-    <FormProvider {...{ ...(form || methods) }}>
-      <form onSubmit={methods.handleSubmit(onSubmit)}>{children}</form>
+    <FormProvider {...context}>
+      <form onSubmit={context.handleSubmit(onSubmit)}>{children}</form>
     </FormProvider>
-  );
-};
+  )
+}
 
 Form.defaultProps = {
   debug: false,
-};
+}
 
-const FormItemContextProvider = ctxt.Provider;
+const FormItemContextProvider = ctxt.Provider
 
 /**
  * Contains information about the form item
@@ -58,58 +65,58 @@ export const FormItemProvider = ({
   rules,
   name,
 }: {
-  children: React.ReactNode;
-  rules: RegisterOptions;
-  name: string;
+  children: React.ReactNode
+  rules: RegisterOptions
+  name: string
 }): JSX.Element => {
   return (
     <FormItemContextProvider value={{ rules, name }}>
       {children}
     </FormItemContextProvider>
-  );
-};
+  )
+}
 
 /**
  * Returns the form item config
  */
-export const useFormItem = () => useContext(ctxt);
+export const useFormItem = () => useContext(ctxt)
 
 interface FormItemProps {
-  children: React.ReactNode;
+  children: React.ReactNode
   /**
    * Label text, can either be a string or a custom component.
    */
-  label: React.ReactNode | string;
+  label: React.ReactNode | string
   /**
    * Name of the input associated with this item
    */
-  name: string;
+  name: string
   /**
    * (Optional) Description of the input required
    */
-  description?: string;
+  description?: string
   /**
    * Validation rules for the Form item's children
    */
-  rules?: RegisterOptions;
+  rules?: RegisterOptions
 }
 
 /**
  * Used to wrap inputs, will render a label and errors associated with `name` passed to it.
  */
 const Item = ({ name, children, label, rules = {} }: FormItemProps) => {
-  const methods = useFormContext();
+  const methods = useFormContext()
 
   return (
     <FormItemProvider rules={rules} name={name}>
       <Box
         css={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "$1",
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '$1',
         }}
       >
-        {typeof label === "string" ? (
+        {typeof label === 'string' ? (
           <label htmlFor={name}>{label}</label>
         ) : (
           label
@@ -118,9 +125,9 @@ const Item = ({ name, children, label, rules = {} }: FormItemProps) => {
         <div>{get(methods.formState.errors, `${name}.message`)}</div>
       </Box>
     </FormItemProvider>
-  );
-};
+  )
+}
 
-Form.Item = Item;
+Form.Item = Item
 
-export default Form;
+export default Form

@@ -31,7 +31,7 @@
     "prismjs": "^1.29.0",
     "react": "17.x",
     "react-dom": "17.x",
-    "react-hook-form": "^7.37.0",
+    "react-hook-form": "^7.41.5",
     "react-query": "^3.39.2",
     "react-select": "^5.7.0",
     "rehype-stringify": "^9.0.3",

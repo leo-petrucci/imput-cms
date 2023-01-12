@@ -9,9 +9,12 @@ import Flex from 'cms/components/designSystem/flex'
 import Box from 'cms/components/designSystem/box'
 import { DepthProvider } from 'cms/components/editor/depthContext'
 import Editor, { deserialize, serialize } from 'cms/components/editor'
-import React from 'react'
+import React, { useEffect } from 'react'
 import matter from 'gray-matter'
 import { useImages } from 'cms/contexts/imageContext/useImageContext'
+import { useController, useForm, useFormContext } from 'react-hook-form'
+import { useFormItem } from 'cms/components/forms/form/form'
+import Input from 'cms/components/designSystem/input'
 
 const ContentPage = () => {
   const router = useRouter()
@@ -43,10 +46,36 @@ const ContentPage = () => {
 
   const { data, isSuccess } = useGetGithubDecodedFile(sha)
 
+  const form = useForm({
+    defaultValues: {
+      grayMatter: '',
+      body: '',
+    },
+  })
+
+  useEffect(() => {
+    if (isSuccess) {
+      const { content: body, data: grayMatterObj } = matter(data)
+      form.reset({
+        grayMatter: matter.stringify('', grayMatterObj),
+        body,
+      })
+    }
+  }, [data, form, isSuccess])
+
   if (isSuccess) {
     return (
-      <Form onSubmit={(d) => console.log(d)}>
+      <Form<{
+        grayMatter: string
+        body: string
+      }>
+        form={form}
+        onSubmit={(d) => console.log(d)}
+      >
         <button type="submit">Save</button>
+        <Form.Item name="grayMatter" label="Gray matter">
+          <Input.Controlled name="grayMatter" />
+        </Form.Item>
         <Form.Item name="body" label="Body">
           <CreateEditor mdx={data} />
         </Form.Item>
@@ -58,18 +87,33 @@ const ContentPage = () => {
 }
 
 const CreateEditor = ({ mdx }: { mdx: string }) => {
+  const { name, rules } = useFormItem()
+  const { control } = useFormContext()
+
+  const { field } = useController({
+    name,
+    control,
+    rules,
+  })
+
   const { loadImages } = useImages()
   const { content } = matter(mdx)
   const [markdown, setMarkdown] = React.useState(content)
-  const handleChange = React.useCallback((nextValue: any[]) => {
-    // serialize slate state to a markdown string
-    setMarkdown(nextValue.map((v) => serialize(v)).join(''))
-  }, [])
+  const handleChange = React.useCallback(
+    (nextValue: any[]) => {
+      // serialize slate state to a markdown string
+      const serialized = nextValue.map((v) => serialize(v)).join('')
+      setMarkdown(serialized)
+      field.onChange(serialized)
+    },
+    [field]
+  )
 
-  const value = React.useMemo(() => deserialize(content), [])
+  const value = React.useMemo(() => deserialize(content), [content])
 
   React.useEffect(() => {
     loadImages(mdx)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mdx])
 
   return (

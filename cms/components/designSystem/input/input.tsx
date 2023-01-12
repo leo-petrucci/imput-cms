@@ -1,3 +1,6 @@
+import { useFormItem } from 'cms/components/forms/form/form'
+import React from 'react'
+import { useController, useFormContext } from 'react-hook-form'
 import { styled } from 'stitches.config'
 import Flex from '../flex'
 import Label from '../label'
@@ -20,8 +23,32 @@ export interface InputProps
   name: string
 }
 
-const Input = ({ name, ...rest }: InputProps) => (
-  <StyledInput id={name} name={name} {...rest} />
-)
+// eslint-disable-next-line react/display-name
+const Input = React.forwardRef<
+  HTMLInputElement & {
+    Controlled: JSX.Element
+  },
+  InputProps
+>(({ name, ...rest }: InputProps, ref: any) => (
+  <StyledInput id={name} name={name} {...rest} ref={ref} />
+))
 
-export default Input
+export interface ControlledInputProps extends InputProps {}
+
+const Controlled = ({ ...rest }: ControlledInputProps) => {
+  const form = useFormContext()
+  const { name, rules } = useFormItem()
+
+  const { field } = useController({
+    name: name,
+    control: form.control,
+    rules,
+    defaultValue: rest.defaultValue,
+  })
+
+  return <Input {...rest} {...field} />
+}
+
+const InputNamespace = Object.assign(Input, { Controlled })
+
+export default InputNamespace

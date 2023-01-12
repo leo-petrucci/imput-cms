@@ -1,32 +1,69 @@
-import React from "react";
+import React from 'react'
 
 type Widgets =
   | {
-      widget: "boolean";
-      default?: true | false;
+      widget: 'boolean'
+      default?: true | false
     }
   | {
-      widget: "date";
-      default?: string;
+      widget: 'select'
+      options: (string | number)[]
+      default?: string | number
     }
   | {
-      widget: "datetime";
-      default?: string;
+      widget: 'date'
+      default?: string
     }
   | {
-      widget: "date";
-      default?: string;
+      widget: 'datetime'
+      default?: string
     }
   | {
-      widget: "image";
-      default?: string;
-      allow_multiple?: boolean;
+      widget: 'date'
+      default?: string
     }
   | {
-      widget: "string";
-      default?: string;
+      widget: 'image'
+      default?: string
+      allow_multiple?: boolean
     }
-  | { widget: "markdown"; default?: string };
+  | {
+      widget: 'json'
+      default?: any
+    }
+  | {
+      widget: 'string'
+      default?: string
+    }
+  | { widget: 'markdown'; default?: string }
+
+export type BlockType = {
+  /**
+   * The component's name as it would appear in-code (e.g. MyCustomButton)
+   */
+  name: string
+  /**
+   * A user-friendly name that will be displayed when selecting components
+   */
+  label: string
+  /**
+   * Prop input fields that will be displayed when editing the component
+   */
+  fields?: {
+    /**
+     * The prop's name
+     */
+    name: string
+    /**
+     * The descriptive label for the prop
+     */
+    label: string
+    /**
+     * What kind of input should be used for the prop
+     */
+    type: Widgets
+  }[]
+}
 
 export interface NextCMSContext {
   settings: {
@@ -39,36 +76,36 @@ export interface NextCMSContext {
       /**
        * Your git provider
        */
-      name: "github";
+      name: 'github'
       /**
        * Your repo e.g. myname/reponame
        */
-      repo: string;
+      repo: string
       /**
        * The main branch of your repo. Usually main or master.
        */
-      branch: string;
+      branch: string
       /**
        * The base url of your production site.
        */
-      base_url: string;
+      base_url: string
       /**
        * The location of your login API route.
        */
-      auth_endpoint: string;
-    };
+      auth_endpoint: string
+    }
     /**
      * Git directory where images are stored
      */
-    media_folder: string;
+    media_folder: string
     /**
      * Public web directory where files are stored
      */
-    public_folder: string;
+    public_folder: string
     /**
      * The shape of the contents of your website.
      * Each collection object is a different type of content:
-     * - blobposts
+     * - blogposts
      * - authors
      * - categories
      */
@@ -76,27 +113,27 @@ export interface NextCMSContext {
       /**
        * Used for routes, e.g. /admin/collections/blog
        */
-      name: string;
+      name: string
       /**
        * Used for the UI
        */
-      label: string;
+      label: string
       /**
        * Where the files are going to be created or loaded from
        */
-      folder: string;
+      folder: string
       /**
        * Are users allowed to add new documents to this section
        */
-      create: boolean;
+      create: boolean
       /**
        * A slug-ified string which will become the filename of the resource created
        */
-      slug: string;
+      slug: string
       /**
        * File that will be created when adding new content to this collection
        */
-      extension: "md" | "mdx";
+      extension: 'md' | 'mdx'
       /**
        * This will dictate the
        * inputs displayed when editing or creating content.
@@ -105,16 +142,20 @@ export interface NextCMSContext {
         /**
          * The name of each input
          */
-        name: string;
+        name: string
         /**
          * What will the input be labeled as in the Ui
          */
-        label: string;
-      } & Widgets)[];
-    }[];
-  };
+        label: string
+      } & Widgets)[]
+      /**
+       * Components that will be made available to this type of content
+       */
+      blocks?: BlockType[]
+    }[]
+  }
 }
 
-const ctxt = React.createContext({} as NextCMSContext);
+const ctxt = React.createContext({} as NextCMSContext)
 
-export default ctxt;
+export default ctxt

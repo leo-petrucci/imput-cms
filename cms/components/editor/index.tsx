@@ -1,1 +1,1 @@
-export { default } from "./editor";
+export { default, deserialize, serialize } from "./editor";

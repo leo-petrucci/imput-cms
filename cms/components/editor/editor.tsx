@@ -1,74 +1,149 @@
-import matter from "gray-matter";
-import React from "react";
-import { Editor, rootCtx, defaultValueCtx } from "@milkdown/core";
-import { history } from "@milkdown/plugin-history";
-import { listener, listenerCtx } from "@milkdown/plugin-listener";
-import { ReactEditor, useEditor, useNodeCtx } from "@milkdown/react";
-import { menu } from "./menu/index";
-import { commonmark, image } from "@milkdown/preset-commonmark";
-import { useImages } from "../../contexts/imageContext/useImageContext";
-import CustomImage from "./image/customImage";
-import Head from "next/head";
-import { EditorProvider } from "cms/contexts/editorContext/useEditor";
-import { useController, useFormContext } from "react-hook-form";
-import { useFormItem } from "../forms/form/form";
+import React from 'react'
+import remarkMdx from 'remark-mdx'
+import remarkParse from 'remark-parse'
+import remarkSlate, { serialize as remarkSerialize } from './remark-slate'
+import { createEditor, Descendant, Transforms } from 'slate'
+import { Element } from './element'
+import MoveElement from './moveElement'
+import { Leaf } from './leaf'
+import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
+import { unified } from 'unified'
+import Toolbar from './toolbar'
+import {
+  BlockButton,
+  ComponentButton,
+  MarkButton,
+  StyledButton,
+} from './button/button'
+import {
+  BracketsSquare,
+  CodeSimple,
+  Image,
+  ListBullets,
+  ListNumbers,
+  Quotes,
+  TextBolder,
+  TextHOne,
+  TextHThree,
+  TextHTwo,
+  TextItalic,
+} from 'phosphor-react'
+import Box from '../designSystem/box'
+import { removeLastEmptySpace } from './lib/removeLastEmptySpace'
+import { ImageElement } from './images/imageElement'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 
-export interface EditorProps {
-  frontMatter: string;
+export const deserialize = (src: string): Descendant[] => {
+  const { result } = unified()
+    .use(remarkParse)
+    .use(remarkMdx)
+    .use(remarkSlate)
+    .processSync(src)
+
+  return result as Descendant[]
 }
 
-const EditorComponent = ({ frontMatter }: EditorProps) => {
-  /**
-   * Editor will be a complex form item, it'll save its markdown whenever it's updated to `react-hook-form`
-   */
-  const { control } = useFormContext();
-  const { name, rules } = useFormItem();
-  const c = useController({
-    name,
-    rules,
-    control,
-    // make sure the default value is set to the initial markdown
-    defaultValue: matter(frontMatter).content,
-  });
+export const serialize = remarkSerialize
 
-  const { loadImages } = useImages();
+const withEditableVoids = (editor: ReactEditor) => {
+  const { isVoid } = editor
 
-  React.useEffect(() => {
-    loadImages(frontMatter);
-  }, [frontMatter]);
+  editor.isVoid = (element) => {
+    // @ts-ignore
+    return element.type === 'mdxJsxFlowElement' || element.type === 'image'
+      ? true
+      : isVoid(element)
+  }
 
-  const { editor } = useEditor((root, renderReact) => {
-    const nodes = commonmark.configure(image, {
-      view: renderReact(CustomImage),
-    });
-    return Editor.make()
-      .config((ctx) => {
-        ctx.get(listenerCtx).markdownUpdated((_ctx, m, _prevMarkdown) => {
-          // set the markdown value to form state on every edit
-          c.field.onChange(m);
-        });
-        ctx.set(rootCtx, root);
-        const { content } = matter(frontMatter);
-        ctx.set(defaultValueCtx, content);
-      })
-      .use(history)
-      .use(listener)
-      .use(menu)
-      .use(nodes);
-  });
+  return editor
+}
+
+const Editor = ({
+  value,
+  onChange,
+}: {
+  value: Descendant[]
+  onChange?: (value: Descendant[]) => void
+}) => {
+  const renderElement = React.useCallback(
+    (props) => (
+      <Box
+        css={{
+          display: 'flex',
+          gap: '$2',
+          '& > div': {
+            flex: 1,
+          },
+        }}
+      >
+        <MoveElement {...props} />
+        <Element {...props} />
+      </Box>
+    ),
+    []
+  )
+  const renderLeaf = React.useCallback((props) => <Leaf {...props} />, [])
+  const [editor] = React.useState(() =>
+    withEditableVoids(withReact(createEditor()))
+  )
+
+  const { createComponent } = useCMS()
 
   return (
     <>
-      <Head>
-        <script src="https://unpkg.com/phosphor-icons"></script>
-      </Head>
-      <EditorProvider editor={editor}>
-        <div style={{ maxWidth: "50vw" }}>
-          <ReactEditor editor={editor} />
-        </div>
-      </EditorProvider>
-    </>
-  );
-};
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={(val) => {
+          // this will add an empty value at the end to make sure there's always space
+          // addEmptySpace(editor);
 
-export default EditorComponent;
+          // but we want to remove it when it's sent back
+          // onChange?.(removeLastEmptySpace(val))
+          onChange?.(val)
+        }}
+      >
+        <Toolbar>
+          <MarkButton format="bold" icon={<TextBolder size={16} />} />
+          <MarkButton format="italic" icon={<TextItalic size={16} />} />
+          <MarkButton format="code" icon={<CodeSimple size={16} />} />
+          <BlockButton format="heading_one" icon={<TextHOne size={16} />} />
+          <BlockButton format="heading_two" icon={<TextHTwo size={16} />} />
+          <BlockButton format="heading_three" icon={<TextHThree size={16} />} />
+          <BlockButton format="block_quote" icon={<Quotes size={16} />} />
+          <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
+          <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
+          <StyledButton
+            active={false}
+            onMouseDown={(event) => {
+              event.preventDefault()
+              const text = { text: '' }
+              const image: ImageElement = {
+                type: 'image',
+                link: null,
+                title: '',
+                caption: '',
+                children: [text],
+              }
+              Transforms.insertNodes(editor, image)
+            }}
+          >
+            <Image size={16} alt="image-icon" />
+          </StyledButton>
+          <ComponentButton />
+        </Toolbar>
+        <Box
+          css={{
+            '& > div': {
+              padding: '$2',
+            },
+          }}
+        >
+          <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+        </Box>
+      </Slate>
+    </>
+  )
+}
+
+export default Editor

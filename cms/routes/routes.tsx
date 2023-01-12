@@ -8,9 +8,12 @@ import HomePage from "../pages/home";
 import CollectionPage from "../pages/collection";
 import ContentPage from "../pages/content";
 import { ImagesProvider } from "../contexts/imageContext/useImageContext";
+import Box from "cms/components/designSystem/box";
+import React from "react";
 
 import "node_modules/modern-normalize/modern-normalize.css";
-import Box from "cms/components/designSystem/box";
+import { Octokit } from "octokit";
+import { getToken } from "cms/queries/auth";
 
 /**
  * Central routing point for all of our private CMS pages
@@ -37,12 +40,28 @@ const NextCMSPrivateRoutes: NextPage = () => {
   return <>Cms fallback</>;
 };
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false,
+    },
+  },
+});
 
 /**
  * NextCMS wrapper. Checks for login status, sets up contexts, etc.
  */
 const NextCMSRoutes = (props: { settings: NextCMSContext["settings"] }) => {
+  React.useEffect(() => {
+    const get = async () => {
+      const octokit = new Octokit({
+        auth: getToken(),
+      });
+      console.log(await octokit.request("GET /rate_limit"));
+    };
+    get();
+  }, []);
   return (
     <QueryClientProvider client={queryClient}>
       {/* CMS settings and such */}

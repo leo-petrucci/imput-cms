@@ -27,7 +27,7 @@ const CollectionPage = () => {
   return (
     <Flex direction="column" gap="2">
       {isSuccess &&
-        data.data.tree
+        data!.data.tree
           .filter((content) =>
             content.path!.includes(thisCollection!.extension)
           )

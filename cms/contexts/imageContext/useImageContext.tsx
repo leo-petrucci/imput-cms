@@ -1,12 +1,8 @@
 import React, { useContext } from 'react'
-import matter from 'gray-matter'
 import { getGithubFileBase64, useGetGithubImages } from '../../queries/github'
 import ctxt, { ImageState, LoadedImages } from './context'
 import { useCMS } from '../cmsContext/useCMSContext'
 import { base64ToBlob } from '../../utils/base64ToBlob'
-import type { Ctx, ThemeImageType } from '@milkdown/core'
-import { commandsCtx } from '@milkdown/core'
-import { InsertImage, ModifyImage } from '@milkdown/preset-commonmark'
 
 const fileToBlob = async (file: File) =>
   new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })

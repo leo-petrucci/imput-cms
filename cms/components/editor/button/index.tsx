@@ -1,1 +1,1 @@
-export { default } from "./button";
+export { ComponentButton, MarkButton, BlockButton } from './button'

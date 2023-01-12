@@ -31,6 +31,17 @@ const stitchesConfig = {
       'primary-700': '#2c4b5c',
       'primary-800': '#203342',
       'primary-900': '#14202c',
+
+      'red-50': '#fef2f2',
+      'red-100': '#fee2e2',
+      'red-200': '#fecaca',
+      'red-300': '#fca5a5',
+      'red-400': '#f87171',
+      'red-500': '#ef4444',
+      'red-600': '#dc2626',
+      'red-700': '#b91c1c',
+      'red-800': '#991b1b',
+      'red-900': '#7f1d1d',
     },
     space: {
       px: '1px',

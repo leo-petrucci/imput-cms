@@ -1,3 +1,4 @@
+import { MDXNode } from 'cms/types/mdxNode'
 import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
 import ctxt, { BlockType, NextCMSContext } from './context'
@@ -46,14 +47,61 @@ export const useCMS = () => {
           break
         case 'select':
         case 'boolean':
-        case 'json':
-          attributes.push({
-            name: f.name,
+          const literalNode: MDXNode = {
             type: 'mdxJsxAttribute',
+            name: f.name,
             value: {
-              value: f.type.default || undefined,
+              type: 'mdxJsxAttributeValueExpression',
+              value: '',
+              data: {
+                estree: {
+                  type: 'program',
+                  start: 0,
+                  end: 1,
+                  sourcetype: 'module',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'Literal',
+                        raw: `${f.type.default}`,
+                        value: f.type.default || undefined,
+                      },
+                    },
+                  ],
+                },
+              },
             },
-          })
+          }
+          attributes.push(literalNode)
+          break
+        case 'json':
+          const jsonNode: MDXNode = {
+            type: 'mdxJsxAttribute',
+            name: f.name,
+            value: {
+              type: 'mdxJsxAttributeValueExpression',
+              value: '',
+              data: {
+                estree: {
+                  type: 'program',
+                  start: 0,
+                  end: 1,
+                  sourcetype: 'module',
+                  body: [
+                    {
+                      type: 'ExpressionStatement',
+                      expression: {
+                        type: 'ObjectExpression',
+                        properties: [],
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          }
+          attributes.push(jsonNode)
           break
       }
     })

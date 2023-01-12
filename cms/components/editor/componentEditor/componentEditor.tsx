@@ -13,6 +13,8 @@ import Select from '../../designSystem/select'
 import Switch from '../../designSystem/switch'
 import Input from '../../designSystem/input'
 import { MDXNode } from 'cms/types/mdxNode'
+import CodeBlockEditor from '../codeblockEditor'
+import Box from 'cms/components/designSystem/box'
 
 /**
  *
@@ -37,12 +39,28 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           return
         }
 
+        // match prop to schema from settings
         const prop = mdxElement.attributes.find(
           (a) => a.name === c.name
         ) as MDXNode
 
+        // if prop is undefined it means the schema does not match the prop and we stop the component here
         if (prop === undefined) {
-          return <>There was an error with your schema.</>
+          return (
+            <Box
+              key={c.name}
+              css={{
+                background: '$red-100',
+                borderRadius: '$md',
+                padding: '$2',
+                color: '$red-700',
+                fontSize: '$sm',
+              }}
+            >
+              There was an error with your schema and a control for {c.name}{' '}
+              could not be rendered.
+            </Box>
+          )
         }
 
         let value: any
@@ -50,9 +68,20 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
         if (isString(prop.value)) {
           value = prop.value
         } else {
-          switch (prop.value.data.estree.body[0].expression.type) {
-            case 'Literal':
-              value = prop.value.data.estree.body[0].expression.value
+          if (prop.value.value) {
+            console.log(prop)
+            // different types require different handling
+            switch (prop.value.data.estree.body[0].expression.type) {
+              // For bools and numbers we want to get the raw (unstringified) value
+              case 'Literal':
+                value = prop.value.data.estree.body[0].expression.value
+                break
+              // For arrays and objectssw e'll just pull a string and render it in a special editor
+              case 'ArrayExpression':
+              case 'ObjectExpression':
+                value = prop.value.value
+                break
+            }
           }
         }
 
@@ -129,40 +158,23 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                 />
               </Flex>
             )
+          case 'json':
+            return (
+              <Flex direction="column" gap="1" key={c.name}>
+                <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
+                <CodeBlockEditor
+                  {...props}
+                  key={c.name}
+                  value={prop}
+                  editor={editor}
+                  name={prop.name}
+                  json={value as string}
+                />
+              </Flex>
+            )
         }
       })}
-      {mdxElement.attributes.map((a) => {
-        /**
-         * If the prop is a string it's easy
-         */
-        // if (isString(a.value)) {
-        //   return (
-        //     <Flex direction="column" key={a.name}>
-        //       <Label htmlFor={`string-prop-${a.name}`}>{a.name}</Label>
-        //       <input
-        //         type="text"
-        //         id={`string-prop-${a.name}`}
-        //         defaultValue={a.value}
-        //         onChange={(e) => {
-        //           editAttributes(path, mdxElement, a, editor, e.target.value)
-        //         }}
-        //       />
-        //     </Flex>
-        //   )
-        //   /**
-        //    * If it's not a string we'll have to figure out what it is exactly
-        //    */
-        // } else {
-        //   return (
-        //     <CodeBlockEditor
-        //       {...props}
-        //       key={a.name}
-        //       value={a}
-        //       editor={editor}
-        //     />
-        //   )
-        // }
-      })}
+
       <Flex direction="column" gap="1">
         <Label htmlFor={`component-children`}>Children</Label>
         <Editor

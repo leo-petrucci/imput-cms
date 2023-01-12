@@ -4,7 +4,7 @@
 export interface MdxLiteral {
   type: 'Literal'
   raw: string
-  value: number | boolean | string
+  value: number | boolean | string | undefined
 }
 
 /**

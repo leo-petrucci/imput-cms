@@ -6,17 +6,18 @@ import { withHistory } from 'slate-history'
 import { CustomRenderElementProps } from './element'
 import { MdxElementShape } from './mdxElement'
 import { editAttributes } from './lib/editAttributes'
-import Flex from '../designSystem/flex'
-import Label from '../designSystem/label'
 import { styled } from '@stitches/react'
+import { MDXNode } from 'cms/types/mdxNode'
 
 const CodeBlockEditor = ({
   value,
   editor,
   ...props
 }: {
-  value: MdxElementShape['attributes'][0]
+  value: MDXNode
   editor: ReactEditor
+  name: string
+  json: string | undefined
 } & CustomRenderElementProps) => {
   const { element } = props
   const mdxElement = element as MdxElementShape
@@ -67,42 +68,39 @@ const CodeBlockEditor = ({
   }, [])
 
   return (
-    <Flex direction="column">
-      <Label htmlFor={`complex-prop-${value.name}`}>{value.name}</Label>
-      <Slate
-        editor={codeEditor}
-        value={
-          [
-            {
-              // @ts-ignore
-              type: 'paragraph',
-              children: [
-                {
-                  // @ts-ignore
-                  text: value.value.value,
-                },
-              ],
-            },
-          ] as Descendant[]
-        }
-        onChange={(nodes) => {
-          const code = nodes.map((n) => Node.string(n)).join('\n')
-          try {
-            // reformat our text into JSON
-            // const json = JSON.stringify(JSON.parse(code))
+    <Slate
+      editor={codeEditor}
+      value={
+        [
+          {
+            // @ts-ignore
+            type: 'paragraph',
+            children: [
+              {
+                // @ts-ignore
+                text: value.value.value || '',
+              },
+            ],
+          },
+        ] as Descendant[]
+      }
+      onChange={(nodes) => {
+        const code = nodes.map((n) => Node.string(n)).join('\n')
+        try {
+          // reformat our text into JSON
+          // const json = JSON.stringify(JSON.parse(code))
 
-            // set the value to the editor
-            editAttributes(path, mdxElement, value, editor, code)
-          } catch (e) {}
-        }}
-      >
-        <Editable
-          decorate={decorate}
-          renderLeaf={renderLeaf}
-          placeholder="Write some code..."
-        />
-      </Slate>
-    </Flex>
+          // set the value to the editor
+          editAttributes(path, mdxElement, value, editor, code)
+        } catch (e) {}
+      }}
+    >
+      <Editable
+        decorate={decorate}
+        renderLeaf={renderLeaf}
+        placeholder="Write some code..."
+      />
+    </Slate>
   )
 }
 
@@ -203,7 +201,6 @@ const Leaf = ({
   children: React.ReactNode
   leaf: LeafNode
 }) => {
-  console.log(leaf)
   return (
     <StyledLeaf {...attributes} type={leaf.type}>
       {children}

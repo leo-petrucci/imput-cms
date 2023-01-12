@@ -81,6 +81,20 @@ const CMS = () => (
                     },
                   },
                   {
+                    name: 'object',
+                    label: 'Object',
+                    type: {
+                      widget: 'json',
+                    },
+                  },
+                  {
+                    name: 'array',
+                    label: 'Array',
+                    type: {
+                      widget: 'json',
+                    },
+                  },
+                  {
                     name: 'children',
                     label: 'Content',
                     type: {

@@ -62,6 +62,8 @@ const Image = ({
 
   const selected = useSelected()
 
+  console.log({ images })
+
   return (
     <div {...attributes}>
       {children}
@@ -121,7 +123,6 @@ const Image = ({
                     if (e.target.files && e.target.files?.length > 0) {
                       const file = e.target.files[0]
                       const image = await addImage(file)
-                      console.log({ image })
                       Transforms.setNodes<any>(
                         editor,
                         {
@@ -156,7 +157,10 @@ const Image = ({
             <StyledImage
               style={{
                 backgroundImage: `url(${
-                  images.find((i) => i.filename === element.link)?.blobUrl
+                  element.link
+                    ? images.find((i) => i.filename.includes(element.link!))
+                        ?.blobUrl
+                    : ''
                 })`,
               }}
             />

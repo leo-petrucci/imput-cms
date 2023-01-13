@@ -95,32 +95,55 @@ export const useImages = () => {
       markdown: encodedFileName,
       // this is to identify which images need to be uploaded once the page has been saved
       state: ImageState.New,
-      filename: `/${public_folder}/${encodedFileName}`,
+      filename: `${encodedFileName}`,
       blobUrl: URL.createObjectURL(blob),
       blob,
     }
     setImages([...images, image])
 
     return image
-
-    // this will insert the image in the editor
-    // const commandManager = ctx.get(commandsCtx)
-    // commandManager.call(InsertImage, image.filename)
   }
 
   /**
    * Remove image from images state. NOTE: Deleting an image does not remove it from the repo.
    * That should be done separately.
-   * @param src - the public url of the picture e.g. /images/my-pic.png
+   * @param filename - the public url of the picture e.g. /images/my-pic.png
    */
-  // const removeImage = (src: string) => {
-  //   console.log("remove image");
-  //   console.log(images);
-  //   const newImages = images.filter((image) => image.filename !== src);
-  //   setImages(newImages);
-  // };
+  const removeImage = (filename: string) => {
+    const newImages = images.filter((image) =>
+      image.filename.includes(filename)
+    )
+    setImages(newImages)
+  }
 
-  return { imageTree, images, loadImages, addImage }
+  /**
+   * Duplicated code for removing and then adding an image
+   * @param filename - the public url of the picture e.g. /images/my-pic.png
+   * @param file - the file to add to the state
+   * @returns
+   */
+  const updateImage = async (filename: string, file: File) => {
+    const newImages = images.filter((image) =>
+      image.filename.includes(filename)
+    )
+
+    const blob = await fileToBlob(file)
+    // this has to be encoded or markdown serialises the image weird
+    const encodedFileName = encodeURIComponent(file.name)
+    const image: LoadedImages = {
+      markdown: encodedFileName,
+      // this is to identify which images need to be uploaded once the page has been saved
+      state: ImageState.New,
+      filename: `${encodedFileName}`,
+      blobUrl: URL.createObjectURL(blob),
+      blob,
+    }
+    setImages([...newImages, image])
+
+    return image
+  }
+
+  return { imageTree, images, loadImages, addImage, removeImage, updateImage }
 }
 
 const ImagesContextProvider = ctxt.Provider

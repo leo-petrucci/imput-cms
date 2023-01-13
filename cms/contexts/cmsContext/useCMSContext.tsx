@@ -10,7 +10,10 @@ export const useCMS = () => {
   const { settings } = useContext(ctxt)
   const router = useRouter()
 
-  const [collection, currentFile] = router.query.nextcms as string[]
+  const [collection, currentFile] = (router.query.nextcms as
+    | string[]
+    | undefined) || [settings.collections[0], undefined]
+
   const currentCollection =
     settings.collections.find((c) => c.name === collection) ||
     settings.collections[0]

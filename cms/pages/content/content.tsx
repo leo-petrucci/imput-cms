@@ -3,6 +3,7 @@ import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import {
   useGetGithubCollection,
   useGetGithubDecodedFile,
+  useSaveMarkdown,
 } from '../../queries/github'
 import Form from 'cms/components/forms/form'
 import Flex from 'cms/components/designSystem/flex'
@@ -19,8 +20,10 @@ import Input from 'cms/components/designSystem/input'
 const ContentPage = () => {
   const router = useRouter()
   const { currentCollection, currentFile } = useCMS()
+  const { images } = useImages()
 
   const query = useGetGithubCollection(currentCollection!.folder)
+  const { mutate } = useSaveMarkdown(currentCollection!.folder)
 
   const contentCache = [
     {
@@ -70,7 +73,15 @@ const ContentPage = () => {
         body: string
       }>
         form={form}
-        onSubmit={(d) => console.log(d)}
+        onSubmit={({ grayMatter, body }) =>
+          mutate({
+            markdown: {
+              content: `${grayMatter}${body}`,
+              path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+            },
+            images,
+          })
+        }
       >
         <button type="submit">Save</button>
         <Form.Item name="grayMatter" label="Gray matter">

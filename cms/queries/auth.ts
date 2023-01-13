@@ -1,49 +1,52 @@
-import { Octokit } from "octokit";
-import { useQuery } from "react-query";
-import { queryKeys } from "./keys";
+import { Octokit } from 'octokit'
+import { useQuery } from '@tanstack/react-query'
+import { queryKeys } from './keys'
 
 function getCookie(cname: string) {
-  let name = cname + "=";
-  let decodedCookie = decodeURIComponent(document.cookie);
-  let ca = decodedCookie.split(";");
+  let name = cname + '='
+  let decodedCookie = decodeURIComponent(document.cookie)
+  let ca = decodedCookie.split(';')
   for (let i = 0; i < ca.length; i++) {
-    let c = ca[i];
-    while (c.charAt(0) == " ") {
-      c = c.substring(1);
+    let c = ca[i]
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1)
     }
     if (c.indexOf(name) == 0) {
-      return c.substring(name.length, c.length);
+      return c.substring(name.length, c.length)
     }
   }
-  return undefined;
+  return undefined
 }
 
 export const getToken = () => {
-  return getCookie("token");
-};
+  return getCookie('token') || null
+}
 
-export const useGithubUser = (token: string | undefined) => {
-  return useQuery(
-    queryKeys.auth.user(token!),
-    async () => {
+export const useGithubUser = (token: string | null) => {
+  return useQuery({
+    ...queryKeys.auth.user(token!),
+    queryFn: async () => {
       const octokit = new Octokit({
         auth: getToken(),
-      });
-      const user = await octokit.request("GET /user");
+      })
+      const user = await octokit.request('GET /user')
       return {
         avatar_url: user.data.avatar_url,
         url: user.data.html_url,
         username: user.data.login,
-      };
+        name: user.data.name,
+        email: user.data.email,
+      }
     },
-    {
-      enabled: token !== undefined,
-    }
-  );
-};
+    enabled: token !== undefined,
+  })
+}
 
 export const useGithubToken = () => {
-  return useQuery(queryKeys.auth.token, async () => {
-    return getToken();
-  });
-};
+  return useQuery({
+    ...queryKeys.auth.token,
+    queryFn: async () => {
+      return getToken()
+    },
+  })
+}

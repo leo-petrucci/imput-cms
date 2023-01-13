@@ -35,6 +35,7 @@ const MoveElement = (props: CustomRenderElementProps) => {
       }}
     >
       <StyledButton
+        type="button"
         onClick={() => {
           if (path > 0) {
             Transforms.moveNodes(editor, {
@@ -47,6 +48,7 @@ const MoveElement = (props: CustomRenderElementProps) => {
         <CaretUp size={12} />
       </StyledButton>
       <StyledButton
+        type="button"
         onClick={() => {
           if (path < editor.children.length - 1) {
             Transforms.moveNodes(editor, {

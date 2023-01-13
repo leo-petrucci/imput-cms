@@ -32,6 +32,7 @@ import Box from '../designSystem/box'
 import { removeLastEmptySpace } from './lib/removeLastEmptySpace'
 import { ImageElement } from './images/imageElement'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { addEmptySpace } from './lib/addEmptySpace'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -65,8 +66,8 @@ const Editor = ({
   value: Descendant[]
   onChange?: (value: Descendant[]) => void
 }) => {
-  const renderElement = React.useCallback(
-    (props) => (
+  const renderElement = React.useCallback((props) => {
+    return (
       <Box
         css={{
           display: 'flex',
@@ -76,12 +77,11 @@ const Editor = ({
           },
         }}
       >
-        <MoveElement {...props} />
+        {props.element.type !== 'list_item' && <MoveElement {...props} />}
         <Element {...props} />
       </Box>
-    ),
-    []
-  )
+    )
+  }, [])
   const renderLeaf = React.useCallback((props) => <Leaf {...props} />, [])
   const [editor] = React.useState(() =>
     withEditableVoids(withReact(createEditor()))
@@ -96,10 +96,10 @@ const Editor = ({
         value={value}
         onChange={(val) => {
           // this will add an empty value at the end to make sure there's always space
-          // addEmptySpace(editor);
+          addEmptySpace(editor)
 
           // but we want to remove it when it's sent back
-          // onChange?.(removeLastEmptySpace(val))
+          onChange?.(removeLastEmptySpace(val))
           onChange?.(val)
         }}
       >

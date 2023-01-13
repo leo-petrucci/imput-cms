@@ -100,7 +100,7 @@ const Editor = ({
 
           // but we want to remove it when it's sent back
           onChange?.(removeLastEmptySpace(val))
-          onChange?.(val)
+          // onChange?.(val)
         }}
       >
         <Toolbar>

@@ -91,7 +91,7 @@ export const Element = (props: CustomRenderElementProps) => {
       )
     default:
       return (
-        <p style={style} {...attributes}>
+        <p style={{ ...style, width: '100%' }} {...attributes}>
           {children}
         </p>
       )

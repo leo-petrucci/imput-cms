@@ -20,14 +20,16 @@ const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
   const { images } = useImages()
 
+  // this should never be undefined as the route above prevents rendering before the query is finished
   const query = useGetGithubCollection(currentCollection!.folder)
   const { mutate } = useSaveMarkdown(currentCollection!.folder)
 
-  // this should never be undefined as the route above prevents rendering before the query is finished
+  // find the currently opened file from the collection of all files
   const sha = query.data!.data.tree.find(
     (f) => f.path === `${currentFile}.${currentCollection.extension}`
   )!.sha
 
+  // decode it with github
   const { data, isSuccess } = useGetGithubDecodedFile(sha)
 
   const form = useForm({

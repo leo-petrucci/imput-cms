@@ -1,44 +1,33 @@
 import { NextPage } from 'next'
-import { useRouter } from 'next/router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { NextCMSContext } from '../contexts/cmsContext/context'
-import { CMSProvider } from '../contexts/cmsContext/useCMSContext'
-import { UserProvider } from '../contexts/userContext/userContext'
-import HomePage from '../pages/home'
-import CollectionPage from '../pages/collection'
-import ContentPage from '../pages/content'
-import { ImagesProvider } from '../contexts/imageContext/useImageContext'
+import { NextCMSContext } from 'cms/contexts/cmsContext/context'
+import { CMSProvider } from 'cms/contexts/cmsContext/useCMSContext'
+import { UserProvider } from 'cms/contexts/userContext/userContext'
+import HomePage from 'cms/pages/home'
+import CollectionPage from 'cms/pages/collection'
+import { ImagesProvider } from 'cms/contexts/imageContext/useImageContext'
 import Box from 'cms/components/designSystem/box'
 import React from 'react'
-
-import 'node_modules/modern-normalize/modern-normalize.css'
 import { Octokit } from 'octokit'
 import { getToken } from 'cms/queries/auth'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import 'node_modules/modern-normalize/modern-normalize.css'
 
 /**
  * Central routing point for all of our private CMS pages
  */
 const NextCMSPrivateRoutes: NextPage = () => {
-  const { query } = useRouter()
-
-  /**
-   * If query does not exist then we're on the index page, if it does we're on one of the other routes.
-   */
-  const queryLength = query.nextcms !== undefined ? query.nextcms.length : 0
-  switch (queryLength) {
-    // index
-    case 0:
-      return <HomePage />
-    // viewing a single category
-    case 1:
-      return <CollectionPage />
-    // viewing a file in a category
-    case 2:
-      return <ContentPage />
-  }
-
-  return <>Cms fallback</>
+  return (
+    <Switch>
+      <Route path="/cms/:collection">
+        <CollectionPage />
+      </Route>
+      <Route path="/cms">
+        <HomePage />
+      </Route>
+    </Switch>
+  )
 }
 
 const queryClient = new QueryClient({
@@ -64,25 +53,27 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
     get()
   }, [])
   return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      {/* CMS settings and such */}
-      <CMSProvider settings={props.settings}>
-        {/* Github user info */}
-        <UserProvider>
-          {/* All images to be used in the CMS */}
-          <ImagesProvider>
-            <Box
-              css={{
-                fontSize: 16,
-              }}
-            >
-              <NextCMSPrivateRoutes />
-            </Box>
-          </ImagesProvider>
-        </UserProvider>
-      </CMSProvider>
-    </QueryClientProvider>
+    <Router>
+      <QueryClientProvider client={queryClient}>
+        <ReactQueryDevtools initialIsOpen={false} />
+        {/* CMS settings and such */}
+        <CMSProvider settings={props.settings}>
+          {/* Github user info */}
+          <UserProvider>
+            {/* All images to be used in the CMS */}
+            <ImagesProvider>
+              <Box
+                css={{
+                  fontSize: 16,
+                }}
+              >
+                <NextCMSPrivateRoutes />
+              </Box>
+            </ImagesProvider>
+          </UserProvider>
+        </CMSProvider>
+      </QueryClientProvider>
+    </Router>
   )
 }
 

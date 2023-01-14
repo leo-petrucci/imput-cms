@@ -1,10 +1,9 @@
-import { useRouter } from 'next/router'
-import { useCMS } from '../../contexts/cmsContext/useCMSContext'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import {
   useGetGithubCollection,
   useGetGithubDecodedFile,
   useSaveMarkdown,
-} from '../../queries/github'
+} from 'cms/queries/github'
 import Form from 'cms/components/forms/form'
 import Flex from 'cms/components/designSystem/flex'
 import Box from 'cms/components/designSystem/box'
@@ -18,34 +17,16 @@ import { useFormItem } from 'cms/components/forms/form/form'
 import Input from 'cms/components/designSystem/input'
 
 const ContentPage = () => {
-  const router = useRouter()
   const { currentCollection, currentFile } = useCMS()
   const { images } = useImages()
 
   const query = useGetGithubCollection(currentCollection!.folder)
   const { mutate } = useSaveMarkdown(currentCollection!.folder)
 
-  const contentCache = [
-    {
-      mode: '100644',
-
-      path: 'test.md',
-
-      sha: '0fb8d413ef659d2776446ae08ad0ec8d4208deb8',
-
-      size: 163,
-
-      type: 'blob',
-
-      url: 'https://api.github.com/repos/creativiii/meow-cms/git/blobs/0fb8d413ef659d2776446ae08ad0ec8d4208deb8',
-    },
-  ]
-
-  const sha = query.isSuccess
-    ? query.data.data.tree.find(
-        (f) => f.path === `${currentFile}.${currentCollection.extension}`
-      )!.sha
-    : undefined
+  // this should never be undefined as the route above prevents rendering before the query is finished
+  const sha = query.data!.data.tree.find(
+    (f) => f.path === `${currentFile}.${currentCollection.extension}`
+  )!.sha
 
   const { data, isSuccess } = useGetGithubDecodedFile(sha)
 

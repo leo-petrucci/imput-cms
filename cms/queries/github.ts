@@ -83,7 +83,7 @@ export const useGetGithubDecodedFile = (sha: string | undefined) => {
       const buf = Buffer.from(base64, 'base64')
       return buf.toString('utf-8')
     },
-    enabled: sha !== undefined,
+    // enabled: sha !== undefined,
   })
 }
 
@@ -96,13 +96,13 @@ const blobToBase64 = (blob: Blob): Promise<string> =>
   })
 
 /**
- *
+ * Save the currently opened file.
  */
 export const useSaveMarkdown = (
   /**
-   * Folder the updated file will be saved in
+   * File being edited, used for nice commit messages
    */
-  folder: string
+  filename: string
 ) => {
   const {
     media_folder,
@@ -209,7 +209,7 @@ export const useSaveMarkdown = (
         {
           owner,
           repo,
-          message: 'Updated by Meow',
+          message: `Updated "${filename}" from MeowCMS`,
           tree: tree.data.sha,
           parents: [currentBranch.data.commit.sha],
         }
@@ -223,23 +223,4 @@ export const useSaveMarkdown = (
       })
     },
   })
-  // return useMutation({
-  //   onSuccess: () => {},
-  //   mutationFn: async (
-  //     /**
-  //      * Folder the updated file will be saved in
-  //      */
-  //     folder: string,
-  //     /**
-  //      * The markdown text content of the file that will be updated
-  //      */
-  //     markdown: string,
-  //     /**
-  //      * Images array containing new images that need updated
-  //      */
-  //     images: LoadedImages[]
-  //   ) => {
-  //     return axios.post('/todos', newTodo)
-  //   },
-  // })
 }

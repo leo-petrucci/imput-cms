@@ -56,7 +56,7 @@ const Image = ({
   children: any
   element: ImageElement
 }) => {
-  const { images, addImage } = useImages()
+  const { images, addImage, updateImage } = useImages()
   const editor = useSlateStatic() as ReactEditor
   const path = ReactEditor.findPath(editor, element)
 
@@ -121,17 +121,32 @@ const Image = ({
                   name="image-file"
                   onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
                     if (e.target.files && e.target.files?.length > 0) {
-                      const file = e.target.files[0]
-                      const image = await addImage(file)
-                      Transforms.setNodes<any>(
-                        editor,
-                        {
-                          link: image.filename,
-                        },
-                        {
-                          at: path,
-                        }
-                      )
+                      // if an image already exist we remove it before adding a new one
+                      if (element.link) {
+                        const file = e.target.files[0]
+                        const image = await updateImage(element.link, file)
+                        Transforms.setNodes<any>(
+                          editor,
+                          {
+                            link: image.filename,
+                          },
+                          {
+                            at: path,
+                          }
+                        )
+                      } else {
+                        const file = e.target.files[0]
+                        const image = await addImage(file)
+                        Transforms.setNodes<any>(
+                          editor,
+                          {
+                            link: image.filename,
+                          },
+                          {
+                            at: path,
+                          }
+                        )
+                      }
                     }
                   }}
                 />

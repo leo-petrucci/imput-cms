@@ -1,51 +1,55 @@
-import { useRouter } from 'next/router'
-import { useCMS } from '../../contexts/cmsContext/useCMSContext'
-import { useGetGithubCollection } from '../../queries/github'
-import Link from 'next/link'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { useGetGithubCollection } from 'cms/queries/github'
 import Flex from 'cms/components/designSystem/flex'
+import { Link, Route, Switch, useParams, useRouteMatch } from 'react-router-dom'
+import ContentPage from 'cms/pages/content'
 
 const CollectionPage = () => {
-  const router = useRouter()
+  const { collection } = useParams<{
+    collection: string
+  }>()
+  const match = useRouteMatch()
   const { collections } = useCMS()
-  const [collection] = router.query.nextcms as string[]
   const thisCollection = collections.find((c) => c.name === collection)
   const { isSuccess, data } = useGetGithubCollection(
     thisCollection!.folder || collections[0].folder
   )
 
-  const cachedPostsTree = [
-    {
-      path: 'test.md',
-      mode: '100644',
-      type: 'blob',
-      sha: '0fb8d413ef659d2776446ae08ad0ec8d4208deb8',
-      size: 163,
-      url: 'https://api.github.com/repos/creativiii/meow-cms/git/blobs/0fb8d413ef659d2776446ae08ad0ec8d4208deb8',
-    },
-  ]
-
   return (
-    <Flex direction="column" gap="2">
-      {isSuccess &&
-        data!.data.tree
-          .filter((content) =>
-            content.path!.includes(thisCollection!.extension)
-          )
-          .map((content) => {
-            const pathWithoutExtension = content.path!.replace(
-              `.${thisCollection!.extension}`,
-              ''
-            )
-            return (
-              <Link
-                key={content.path}
-                href={`${router.asPath}/${pathWithoutExtension}`}
-              >
-                {pathWithoutExtension}
-              </Link>
-            )
-          })}
-    </Flex>
+    <>
+      {isSuccess ? (
+        <Switch>
+          <Route path={`${match.path}/:file`}>
+            <ContentPage />
+          </Route>
+          <Route path="/">
+            <Flex direction="column" gap="2">
+              {isSuccess &&
+                data!.data.tree
+                  .filter((content) =>
+                    content.path!.includes(thisCollection!.extension)
+                  )
+                  .map((content) => {
+                    const pathWithoutExtension = content.path!.replace(
+                      `.${thisCollection!.extension}`,
+                      ''
+                    )
+                    return (
+                      <Link
+                        key={content.path}
+                        to={`${match.url}/${pathWithoutExtension}`}
+                      >
+                        {pathWithoutExtension}
+                      </Link>
+                    )
+                  })}
+            </Flex>
+          </Route>
+        </Switch>
+      ) : (
+        <>Loading...</>
+      )}
+    </>
   )
 }
 

@@ -101,6 +101,7 @@ export const BlockButton = ({
   const editor = useSlate()
   return (
     <StyledButton
+      type="button"
       active={isBlockActive(editor, format)}
       onMouseDown={(event) => {
         event.preventDefault()
@@ -132,6 +133,7 @@ export const MarkButton = ({
   const editor = useSlate()
   return (
     <StyledButton
+      type="button"
       active={isMarkActive(editor, format)}
       onMouseDown={(event) => {
         event.preventDefault()
@@ -200,6 +202,7 @@ export const ComponentButton = () => {
         )}
       >
         <StyledButton
+          type="button"
           active={false}
           onMouseDown={(event) => {
             event.preventDefault()

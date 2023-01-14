@@ -6,7 +6,7 @@ const CMS = () => (
       settings: {
         backend: {
           name: 'github',
-          repo: 'creativiii/sqlite-experiment',
+          repo: 'creativiii/meow-cms',
           branch: 'main',
           base_url: 'https://sqlite-experiment.vercel.app/',
           auth_endpoint: 'api/auth',

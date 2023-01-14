@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router'
-import { useCMS } from '../../contexts/cmsContext/useCMSContext'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import {
   useGetGithubCollection,
   useGetGithubDecodedFile,
-} from '../../queries/github'
+  useSaveMarkdown,
+} from 'cms/queries/github'
 import Form from 'cms/components/forms/form'
 import Flex from 'cms/components/designSystem/flex'
 import Box from 'cms/components/designSystem/box'
@@ -15,35 +15,22 @@ import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { useController, useForm, useFormContext } from 'react-hook-form'
 import { useFormItem } from 'cms/components/forms/form/form'
 import Input from 'cms/components/designSystem/input'
+import toast from 'react-hot-toast'
 
 const ContentPage = () => {
-  const router = useRouter()
   const { currentCollection, currentFile } = useCMS()
+  const { images } = useImages()
 
+  // this should never be undefined as the route above prevents rendering before the query is finished
   const query = useGetGithubCollection(currentCollection!.folder)
+  const { mutate, isLoading } = useSaveMarkdown(currentCollection!.folder)
 
-  const contentCache = [
-    {
-      mode: '100644',
+  // find the currently opened file from the collection of all files
+  const sha = query.data!.data.tree.find(
+    (f) => f.path === `${currentFile}.${currentCollection.extension}`
+  )!.sha
 
-      path: 'test.md',
-
-      sha: '0fb8d413ef659d2776446ae08ad0ec8d4208deb8',
-
-      size: 163,
-
-      type: 'blob',
-
-      url: 'https://api.github.com/repos/creativiii/meow-cms/git/blobs/0fb8d413ef659d2776446ae08ad0ec8d4208deb8',
-    },
-  ]
-
-  const sha = query.isSuccess
-    ? query.data.data.tree.find(
-        (f) => f.path === `${currentFile}.${currentCollection.extension}`
-      )!.sha
-    : undefined
-
+  // decode it with github
   const { data, isSuccess } = useGetGithubDecodedFile(sha)
 
   const form = useForm({
@@ -70,9 +57,29 @@ const ContentPage = () => {
         body: string
       }>
         form={form}
-        onSubmit={(d) => console.log(d)}
+        onSubmit={({ grayMatter, body }) => {
+          const id = toast.loading('Saving content...')
+          mutate(
+            {
+              markdown: {
+                content: `${grayMatter}${body}`,
+                path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+              },
+              images,
+            },
+            {
+              onSuccess: () => {
+                toast.success('Content saved!', {
+                  id,
+                })
+              },
+            }
+          )
+        }}
       >
-        <button type="submit">Save</button>
+        <button type="submit" disabled={isLoading}>
+          Save
+        </button>
         <Form.Item name="grayMatter" label="Gray matter">
           <Input.Controlled name="grayMatter" />
         </Form.Item>

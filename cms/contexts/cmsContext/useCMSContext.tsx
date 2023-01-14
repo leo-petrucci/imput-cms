@@ -1,6 +1,6 @@
 import { MDXNode } from 'cms/types/mdxNode'
-import { useRouter } from 'next/router'
 import React, { useContext } from 'react'
+import { useParams } from 'react-router-dom'
 import ctxt, { BlockType, NextCMSContext } from './context'
 
 /**
@@ -8,17 +8,23 @@ import ctxt, { BlockType, NextCMSContext } from './context'
  */
 export const useCMS = () => {
   const { settings } = useContext(ctxt)
-  const router = useRouter()
 
-  const [collection, currentFile] = router.query.nextcms as string[]
-  const currentCollection =
-    settings.collections.find((c) => c.name === collection) ||
-    settings.collections[0]
+  const params = useParams<{
+    collection: string | undefined
+    file: string | undefined
+  }>()
+
+  const currentCollection = params.collection
+    ? settings.collections.find((c) => c.name === params.collection) ||
+      settings.collections[0]
+    : settings.collections[0]
+
+  const currentFile = params.file ? params.file : ''
 
   /**
    * Return all the components for the current collection
    */
-  const components = !collection ? [] : currentCollection.blocks
+  const components = !params.collection ? [] : currentCollection.blocks
 
   /**
    * Returns the data structure for a component to be added to the editor

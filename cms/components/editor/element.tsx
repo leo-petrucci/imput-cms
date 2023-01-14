@@ -25,6 +25,7 @@ export const Element = (props: CustomRenderElementProps) => {
   switch (element.type) {
     case 'image':
       // @ts-ignore
+      // eslint-disable-next-line jsx-a11y/alt-text
       return <Image {...props} />
     case 'mdxJsxFlowElement':
       return <MdxElement {...props} />
@@ -91,7 +92,7 @@ export const Element = (props: CustomRenderElementProps) => {
       )
     default:
       return (
-        <p style={style} {...attributes}>
+        <p style={{ ...style, width: '100%' }} {...attributes}>
           {children}
         </p>
       )

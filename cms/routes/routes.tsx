@@ -11,7 +11,8 @@ import React from 'react'
 import { Octokit } from 'octokit'
 import { getToken } from 'cms/queries/auth'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 import 'node_modules/modern-normalize/modern-normalize.css'
 
 /**
@@ -67,6 +68,7 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
                   fontSize: 16,
                 }}
               >
+                <Toaster />
                 <NextCMSPrivateRoutes />
               </Box>
             </ImagesProvider>

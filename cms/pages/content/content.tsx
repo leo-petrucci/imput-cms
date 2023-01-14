@@ -15,6 +15,7 @@ import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { useController, useForm, useFormContext } from 'react-hook-form'
 import { useFormItem } from 'cms/components/forms/form/form'
 import Input from 'cms/components/designSystem/input'
+import toast from 'react-hot-toast'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
@@ -22,7 +23,7 @@ const ContentPage = () => {
 
   // this should never be undefined as the route above prevents rendering before the query is finished
   const query = useGetGithubCollection(currentCollection!.folder)
-  const { mutate } = useSaveMarkdown(currentCollection!.folder)
+  const { mutate, isLoading } = useSaveMarkdown(currentCollection!.folder)
 
   // find the currently opened file from the collection of all files
   const sha = query.data!.data.tree.find(
@@ -56,17 +57,29 @@ const ContentPage = () => {
         body: string
       }>
         form={form}
-        onSubmit={({ grayMatter, body }) =>
-          mutate({
-            markdown: {
-              content: `${grayMatter}${body}`,
-              path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+        onSubmit={({ grayMatter, body }) => {
+          const id = toast.loading('Saving content...')
+          mutate(
+            {
+              markdown: {
+                content: `${grayMatter}${body}`,
+                path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+              },
+              images,
             },
-            images,
-          })
-        }
+            {
+              onSuccess: () => {
+                toast.success('Content saved!', {
+                  id,
+                })
+              },
+            }
+          )
+        }}
       >
-        <button type="submit">Save</button>
+        <button type="submit" disabled={isLoading}>
+          Save
+        </button>
         <Form.Item name="grayMatter" label="Gray matter">
           <Input.Controlled name="grayMatter" />
         </Form.Item>

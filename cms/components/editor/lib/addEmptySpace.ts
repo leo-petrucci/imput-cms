@@ -1,25 +1,22 @@
-import { BaseEditor, Transforms } from "slate";
+import { BaseEditor, Location, Transforms } from 'slate'
 
 /**
- * Add an empty space at the end of the editor
+ * Add an empty paragraph at specified location
  */
 export const addEmptySpace = (
   /**
    * The slate editor instance
    */
-  editor: BaseEditor
+  editor: BaseEditor,
+  /**
+   * Where the new paragraph should be added
+   */
+  where: Location
 ) => {
-  const editorLength = editor.children.length;
-  if (
-    editorLength > 0 &&
+  Transforms.insertNodes(
+    editor,
     // @ts-ignore
-    editor.children[editorLength - 1].type !== "paragraph"
-  ) {
-    Transforms.insertNodes(
-      editor,
-      // @ts-ignore
-      { children: [{ text: "" }], type: "paragraph" },
-      { at: [editor.children.length] }
-    );
-  }
-};
+    { children: [{ text: '' }], type: 'paragraph' },
+    { at: where }
+  )
+}

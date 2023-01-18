@@ -20,3 +20,21 @@ export const addEmptySpace = (
     { at: where }
   )
 }
+
+/**
+ * Remove an element at specified location
+ * @param editor the slate editor instance
+ * @param where where the element should be removed
+ */
+export const removeElement = (
+  /**
+   * The slate editor instance
+   */
+  editor: BaseEditor,
+  /**
+   * Where the element should be removed
+   */
+  where: Location
+) => {
+  Transforms.removeNodes(editor, { at: where })
+}

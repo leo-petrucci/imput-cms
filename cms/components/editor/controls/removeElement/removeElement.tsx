@@ -1,6 +1,6 @@
 import { Trash } from 'phosphor-react'
 import { ReactEditor, useSlate } from 'slate-react'
-import { addEmptySpace } from 'cms/components/editor/lib/addEmptySpace'
+import { removeElement } from 'cms/components/editor/lib/editorControls'
 import { Element } from 'slate'
 import { StyledButton } from '../controls'
 
@@ -15,7 +15,7 @@ const RemoveElement = ({ element }: { element: Element }) => {
     <StyledButton
       type="button"
       onClick={() => {
-        addEmptySpace(editor, [path[0] + 1])
+        removeElement(editor, [path[0]])
       }}
     >
       <Trash size={16} />

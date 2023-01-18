@@ -24,7 +24,7 @@ const Controls = ({ element }: { element: Element }) => {
     <Box
       css={{
         marginTop: '-$6',
-        zIndex: 5,
+        zIndex: 0,
         position: 'relative',
       }}
     >

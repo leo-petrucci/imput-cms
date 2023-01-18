@@ -1,6 +1,6 @@
 import { Plus } from 'phosphor-react'
 import { ReactEditor, useSlate } from 'slate-react'
-import { addEmptySpace } from 'cms/components/editor/lib/addEmptySpace'
+import { addEmptySpace } from 'cms/components/editor/lib/editorControls'
 import { Element } from 'slate'
 import { StyledButton } from '../controls'
 

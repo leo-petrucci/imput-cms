@@ -62,8 +62,6 @@ const Image = ({
 
   const selected = useSelected()
 
-  console.log({ images })
-
   return (
     <div {...attributes}>
       {children}

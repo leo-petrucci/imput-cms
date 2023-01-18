@@ -37,48 +37,51 @@ export const useImages = () => {
 
     const parsed = await Promise.all(
       match.map(async (m) => {
-        /**
-         * We find the images in this markdown file within the repo's image tree.
-         * `imageTree` contains all the base64 files, so we just need to match filename to filename
-         * then load the base64's to state.
-         */
-        const foundImage = imageTree.find((i) => m[0].includes(i.path))
-        const blob =
-          /**
-           * TODO: handle remote images
-           */
-          foundImage
-            ? await base64ToBlob(
-                await getGithubFileBase64(owner, repo, foundImage.sha!)
-              )
-            : undefined
-        return {
-          // the full markdown string before we separate it
-          markdown: m[0] as string,
-          // all these images were previously uploaded
-          state: ImageState.Uploaded,
-          // the file's url
-          filename: m['groups']['filename'] as string,
-          // the image's seo title
-          title: m['groups']['title'] as string | undefined,
-          // alt text associated with the image
-          alttext: m['groups']['alttext'] as string,
-          // the blob url
-          blobUrl: blob ? URL.createObjectURL(blob) : undefined,
-          blob,
-        }
+        return await loadImage(m['groups']['filename'])
       })
     )
-
-    /**
-     * Reset all currently loaded images, in case user changed content
-     */
-    // resetLoadedImages();
 
     /**
      * Set new images to state
      */
     setImages(parsed)
+  }
+
+  /**
+   * Move image from sha fileTree to the CMS' local state
+   * @param filename
+   */
+  const loadImage = async (filename: string) => {
+    /**
+     * We find this image within the repo's image tree.
+     * `imageTree` contains all the base64 files, so we just need to match filename to filename
+     * then load the base64's to state.
+     */
+    const foundImage = imageTree.find((i) => filename.includes(i.path!))
+    const blob =
+      /**
+       * TODO: handle remote images
+       */
+      foundImage
+        ? await base64ToBlob(
+            await getGithubFileBase64(owner, repo, foundImage.sha!)
+          )
+        : undefined
+    return {
+      // the full markdown string before we separate it
+      markdown: '' as string,
+      // all these images were previously uploaded
+      state: ImageState.Uploaded,
+      // the file's url
+      filename,
+      // the image's seo title
+      title: '' as string,
+      // alt text associated with the image
+      alttext: '' as string,
+      // the blob url
+      blobUrl: blob ? URL.createObjectURL(blob) : undefined,
+      blob,
+    }
   }
 
   const { public_folder } = useCMS()

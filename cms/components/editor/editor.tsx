@@ -1,22 +1,23 @@
 import React from 'react'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
-import remarkSlate, { serialize as remarkSerialize } from './remark-slate'
+import remarkSlate, {
+  serialize as remarkSerialize,
+} from 'cms/components/editor/remark-slate'
 import { createEditor, Descendant, Transforms } from 'slate'
-import { Element } from './element'
-import MoveElement from './moveElement'
-import { Leaf } from './leaf'
+import { Element } from 'cms/components/editor/element'
+import MoveElement from 'cms/components/editor/moveElement'
+import { Leaf } from 'cms/components/editor/leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
-import Toolbar from './toolbar'
+import Toolbar from 'cms/components/editor/toolbar'
 import {
   BlockButton,
   ComponentButton,
   MarkButton,
   StyledButton,
-} from './button/button'
+} from 'cms/components/editor/button/button'
 import {
-  BracketsSquare,
   CodeSimple,
   Image,
   ListBullets,
@@ -28,11 +29,10 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
-import Box from '../designSystem/box'
-import { removeLastEmptySpace } from './lib/removeLastEmptySpace'
-import { ImageElement } from './images/imageElement'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { addEmptySpace } from './lib/addEmptySpace'
+import Box from 'cms/components/designSystem/box'
+import { ImageElement } from 'cms/components/editor/images/imageElement'
+import Controls from './controls'
+import Flex from 'cms/components/designSystem/flex'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -71,14 +71,26 @@ const Editor = ({
       <Box
         css={{
           display: 'flex',
+          flexDirection: 'column',
           gap: '$2',
           '& > div': {
             flex: 1,
           },
         }}
       >
-        {props.element.type !== 'list_item' && <MoveElement {...props} />}
-        <Element {...props} />
+        <Box
+          css={{
+            display: 'flex',
+            gap: '$2',
+            '& > div': {
+              flex: 1,
+            },
+          }}
+        >
+          {props.element.type !== 'list_item' && <MoveElement {...props} />}
+          <Element {...props} />
+        </Box>
+        {props.element.type !== 'list_item' && <Controls {...props} />}
       </Box>
     )
   }, [])
@@ -87,8 +99,6 @@ const Editor = ({
     withEditableVoids(withReact(createEditor()))
   )
 
-  const { createComponent } = useCMS()
-
   return (
     <>
       <Slate
@@ -96,11 +106,11 @@ const Editor = ({
         value={value}
         onChange={(val) => {
           // this will add an empty value at the end to make sure there's always space
-          addEmptySpace(editor)
+          // addEmptySpace(editor)
 
           // but we want to remove it when it's sent back
-          onChange?.(removeLastEmptySpace(val))
-          // onChange?.(val)
+          // onChange?.(removeLastEmptySpace(val))
+          onChange?.(val)
         }}
       >
         <Toolbar>

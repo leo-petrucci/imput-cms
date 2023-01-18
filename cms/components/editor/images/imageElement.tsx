@@ -9,7 +9,6 @@ import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
 import { styled } from 'stitches.config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import Label from 'cms/components/designSystem/label'
-import AddSpace from 'cms/components/editor/controls/addSpace'
 
 const StyledImage = styled('div', {
   display: 'block',
@@ -62,8 +61,6 @@ const Image = ({
   const path = ReactEditor.findPath(editor, element)
 
   const selected = useSelected()
-
-  console.log({ images })
 
   return (
     <div {...attributes}>

@@ -5,8 +5,6 @@ import { useCMS } from '../contexts/cmsContext/useCMSContext'
 import { getToken } from './auth'
 import { queryKeys } from './keys'
 import { ImageState, LoadedImages } from 'cms/contexts/imageContext/context'
-import { StringDiff } from 'slate-react/dist/utils/diff-text'
-import { useUser } from 'cms/contexts/userContext/userContext'
 
 export const useGetGithubCollection = (type: string) => {
   const { backend } = useCMS()

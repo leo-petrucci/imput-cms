@@ -19,7 +19,6 @@ import toast from 'react-hot-toast'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
-  const { images } = useImages()
 
   // this should never be undefined as the route above prevents rendering before the query is finished
   const query = useGetGithubCollection(currentCollection!.folder)
@@ -65,7 +64,6 @@ const ContentPage = () => {
                 content: `${grayMatter}${body}`,
                 path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
               },
-              images,
             },
             {
               onSuccess: () => {

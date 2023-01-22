@@ -9,6 +9,8 @@ import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
 import { styled } from 'stitches.config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import Label from 'cms/components/designSystem/label'
+import ImageSelector from '../imageSelector'
+import { Modal } from 'cms/components/designSystem/modal'
 
 const StyledImage = styled('div', {
   display: 'block',
@@ -114,7 +116,37 @@ const Image = ({
               </Flex>
               <Flex direction="column" gap="1">
                 <Label htmlFor={`image-file`}>Upload image</Label>
-                <Input
+                <Modal
+                  title={'Select a block to add'}
+                  css={{
+                    zIndex: 9999,
+                    minWidth: '100vw',
+                    minHeight: '100vh',
+                    '@md': {
+                      minWidth: 968,
+                      minHeight: 524,
+                    },
+                  }}
+                  description={(_open, setOpen) => (
+                    <ImageSelector
+                      onImageSelect={(filename) => {
+                        setOpen(false)
+                        Transforms.setNodes<any>(
+                          editor,
+                          {
+                            link: filename,
+                          },
+                          {
+                            at: path,
+                          }
+                        )
+                      }}
+                    />
+                  )}
+                >
+                  <button type="button">Select image</button>
+                </Modal>
+                {/* <Input
                   type="file"
                   name="image-file"
                   onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -147,7 +179,7 @@ const Image = ({
                       }
                     }
                   }}
-                />
+                /> */}
               </Flex>
             </Flex>
           </Box>

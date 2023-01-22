@@ -149,7 +149,13 @@ export const Modal = ({
               >
                 {title !== undefined && <StyledTitle>{title}</StyledTitle>}
                 <StyledDescription {...descriptionProps} asChild>
-                  <div>{description?.(open, setOpen)}</div>
+                  <div
+                    style={{
+                      position: 'relative',
+                    }}
+                  >
+                    {description?.(open, setOpen)}
+                  </div>
                 </StyledDescription>
                 <DialogPrimitive.Cancel asChild>
                   <IconButton

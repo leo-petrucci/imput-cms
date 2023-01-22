@@ -20,8 +20,6 @@ export const useImages = () => {
   const { backend } = useCMS()
   const [owner, repo] = backend.repo.split('/')
 
-  // const resetLoadedImages = () => setImages([]);
-
   /**
    * Extracts all image urls from markdown and converts them to useful objects containing blob urls, then sets them to state.
    *
@@ -51,7 +49,7 @@ export const useImages = () => {
    * Move image from sha fileTree to the CMS' local state
    * @param filename
    */
-  const loadImage = async (filename: string) => {
+  const loadImage = async (filename: string): Promise<LoadedImages> => {
     /**
      * We find this image within the repo's image tree.
      * `imageTree` contains all the base64 files, so we just need to match filename to filename
@@ -146,7 +144,16 @@ export const useImages = () => {
     return image
   }
 
-  return { imageTree, images, loadImages, addImage, removeImage, updateImage }
+  return {
+    imageTree,
+    images,
+    loadImage,
+    setImages,
+    loadImages,
+    addImage,
+    removeImage,
+    updateImage,
+  }
 }
 
 const ImagesContextProvider = ctxt.Provider

@@ -103,7 +103,6 @@ export const useSaveMarkdown = (
   filename: string
 ) => {
   const {
-    media_folder,
     backend,
     backend: { branch },
   } = useCMS()
@@ -111,7 +110,6 @@ export const useSaveMarkdown = (
   return useMutation({
     mutationFn: async ({
       markdown,
-      images,
     }: {
       /**
        * The markdown text content and path of the file that will be updated
@@ -120,10 +118,6 @@ export const useSaveMarkdown = (
         path: string
         content: string
       }
-      /**
-       * Images array containing new images that need updated
-       */
-      images: LoadedImages[]
     }) => {
       const octokit = new Octokit({
         auth: getToken(),
@@ -136,25 +130,6 @@ export const useSaveMarkdown = (
         sha?: string
         encoding: 'base64' | 'utf-8'
       }[] = []
-
-      // loop through new images
-      for (const i of images.filter(
-        (image) => image.state === ImageState.New
-      )) {
-        if (i.blob) {
-          try {
-            const content = await blobToBase64(i.blob)
-            blobsToUpload.push({
-              type: 'file',
-              content: content.split(',')[1],
-              path: `${media_folder}/${i.filename}`,
-              encoding: 'base64',
-            })
-          } catch (err) {
-            console.log(err)
-          }
-        }
-      }
 
       blobsToUpload.push({
         type: 'markdown',

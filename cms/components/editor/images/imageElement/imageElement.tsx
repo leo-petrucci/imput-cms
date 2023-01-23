@@ -117,7 +117,7 @@ const Image = ({
               <Flex direction="column" gap="1">
                 <Label htmlFor={`image-file`}>Upload image</Label>
                 <Modal
-                  title={'Select a block to add'}
+                  title={'Select media'}
                   css={{
                     zIndex: 9999,
                     minWidth: '100vw',

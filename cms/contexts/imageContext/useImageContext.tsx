@@ -39,9 +39,7 @@ export const useImages = () => {
       })
     )
 
-    /**
-     * Set new images to state
-     */
+    // Set new images to state
     setImages(parsed)
   }
 

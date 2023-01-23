@@ -93,8 +93,79 @@ const blobToBase64 = (blob: Blob): Promise<string> =>
     reader.onerror = (error) => reject(error)
   })
 
+type BlobToSave = {
+  type: 'file' | 'markdown'
+  content: string
+  path: string
+  sha?: string
+  encoding: 'base64' | 'utf-8'
+}
+
 /**
- * Save the currently opened file.
+ * Save a file to github
+ */
+const saveToGithub = async (
+  { owner, repo, branch }: { owner: string; repo: string; branch: string },
+  filename: string,
+  blob: BlobToSave
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+
+  const sha = await octokit.request('POST /repos/{owner}/{repo}/git/blobs', {
+    owner,
+    repo,
+    content: blob.content,
+    encoding: blob.encoding,
+  })
+  blob.sha = sha.data.sha
+
+  // info about the current branch e.g. last commit sha, last tree sha, etc
+  const currentBranch = await octokit.request(
+    'GET /repos/{owner}/{repo}/branches/{branch}',
+    {
+      owner,
+      repo,
+      branch,
+    }
+  )
+
+  const tree = await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
+    owner,
+    repo,
+    tree: [
+      {
+        path: blob.path,
+        mode: '100644',
+        type: 'blob',
+        sha: blob.sha,
+      },
+    ],
+    base_tree: currentBranch.data.commit.commit.tree.sha,
+  })
+
+  const commit = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/commits',
+    {
+      owner,
+      repo,
+      message: `Updated "${filename}" from MeowCMS`,
+      tree: tree.data.sha,
+      parents: [currentBranch.data.commit.sha],
+    }
+  )
+
+  return octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
+    owner,
+    repo,
+    ref: `heads/${branch}`,
+    sha: commit.data.sha,
+  })
+}
+
+/**
+ * Save the currently opened markdown document.
  */
 export const useSaveMarkdown = (
   /**
@@ -119,81 +190,67 @@ export const useSaveMarkdown = (
         content: string
       }
     }) => {
-      const octokit = new Octokit({
-        auth: getToken(),
-      })
-
-      const blobsToUpload: {
-        type: 'file' | 'markdown'
-        content: string
-        path: string
-        sha?: string
-        encoding: 'base64' | 'utf-8'
-      }[] = []
-
-      blobsToUpload.push({
-        type: 'markdown',
-        content: markdown.content,
-        path: markdown.path,
-        encoding: 'utf-8',
-      })
-
-      for (let blob of blobsToUpload) {
-        const sha = await octokit.request(
-          'POST /repos/{owner}/{repo}/git/blobs',
-          {
-            owner,
-            repo,
-            content: blob.content,
-            encoding: blob.encoding,
-          }
-        )
-        blob.sha = sha.data.sha
-      }
-
-      // info about the current branch e.g. last commit sha, last tree sha, etc
-      const currentBranch = await octokit.request(
-        'GET /repos/{owner}/{repo}/branches/{branch}',
+      return await saveToGithub(
         {
           owner,
           repo,
           branch,
+        },
+        filename,
+        {
+          type: 'markdown',
+          content: markdown.content,
+          path: markdown.path,
+          encoding: 'utf-8',
         }
       )
+    },
+  })
+}
 
-      const tree = await octokit.request(
-        'POST /repos/{owner}/{repo}/git/trees',
+const fileToBlob = async (file: File) =>
+  new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })
+
+/**
+ * Upload a `File` to Github
+ */
+export const useUploadFile = () => {
+  const {
+    backend,
+    backend: { branch },
+    media_folder,
+  } = useCMS()
+  const [owner, repo] = backend.repo.split('/')
+  return useMutation({
+    mutationFn: async ({
+      filename,
+      file,
+    }: {
+      /**
+       * The name of the file to upload, if duplicate we'll handle it here.
+       */
+      filename: string
+      /**
+       * The file which will be uploaded
+       */
+      file: File
+    }) => {
+      const blob = await fileToBlob(file)
+      const content = await blobToBase64(blob)
+      return await saveToGithub(
         {
           owner,
           repo,
-          // @ts-ignore
-          tree: blobsToUpload.map((b) => ({
-            path: b.path,
-            mode: '100644',
-            type: 'blob',
-            sha: b.sha,
-          })),
-          base_tree: currentBranch.data.commit.commit.tree.sha,
-        }
-      )
-
-      const commit = await octokit.request(
-        'POST /repos/{owner}/{repo}/git/commits',
+          branch,
+        },
+        filename,
         {
-          owner,
-          repo,
-          message: `Updated "${filename}" from MeowCMS`,
-          tree: tree.data.sha,
-          parents: [currentBranch.data.commit.sha],
+          type: 'file',
+          content: content.split(',')[1],
+          path: `${media_folder}/${filename}`,
+          encoding: 'base64',
         }
       )
-
-      return octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
-        owner,
-        repo,
-        ref: `heads/${branch}`,
-        sha: commit.data.sha,
-      })
     },
   })
 }

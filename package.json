@@ -48,6 +48,7 @@
     "slate": "^0.86.0",
     "slate-history": "^0.86.0",
     "slate-react": "^0.86.0",
+    "slugify": "^1.6.5",
     "unified": "^10.1.2",
     "uuid": "^9.0.0"
   },

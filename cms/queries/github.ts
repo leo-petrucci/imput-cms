@@ -1,10 +1,11 @@
 import { Octokit } from 'octokit'
 import { Buffer } from 'buffer'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useCMS } from '../contexts/cmsContext/useCMSContext'
-import { getToken } from './auth'
-import { queryKeys } from './keys'
-import { ImageState, LoadedImages } from 'cms/contexts/imageContext/context'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { getToken } from 'cms/queries/auth'
+import { queryKeys } from 'cms/queries/keys'
+import { Imagetree } from 'cms/contexts/imageContext/context'
+import { slugify } from 'cms/utils/slugify'
 
 export const useGetGithubCollection = (type: string) => {
   const { backend } = useCMS()
@@ -156,12 +157,16 @@ const saveToGithub = async (
     }
   )
 
-  return octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
+  await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
     owner,
     repo,
     ref: `heads/${branch}`,
     sha: commit.data.sha,
   })
+
+  return {
+    sha: sha.data.sha,
+  }
 }
 
 /**
@@ -235,9 +240,10 @@ export const useUploadFile = () => {
        */
       file: File
     }) => {
+      const slugifiedFilename = slugify(filename)
       const blob = await fileToBlob(file)
       const content = await blobToBase64(blob)
-      return await saveToGithub(
+      const res = await saveToGithub(
         {
           owner,
           repo,
@@ -247,10 +253,15 @@ export const useUploadFile = () => {
         {
           type: 'file',
           content: content.split(',')[1],
-          path: `${media_folder}/${filename}`,
+          path: `${media_folder}/${slugifiedFilename}`,
           encoding: 'base64',
         }
       )
+
+      return {
+        path: slugifiedFilename,
+        sha: res.sha,
+      }
     },
   })
 }

@@ -5,6 +5,8 @@ import { CSS, styled } from '@stitches/react'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
 import { inlineCss } from 'stitches.config'
+import Box from 'cms/components/designSystem/box'
+import useMeasure from 'cms/utils/useMeasure'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backgroundColor: grayA.grayA6,
@@ -14,6 +16,7 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
 })
 
 const StyledContent = styled(DialogPrimitive.Content, {
+  display: 'flex',
   backgroundColor: 'white',
   borderRadius: 6,
   boxShadow:
@@ -26,6 +29,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   maxHeight: '85vh',
   transformOrigin: 'center',
   padding: 25,
+  overflow: 'hidden',
   '&:focus': { outline: 'none' },
 })
 
@@ -81,6 +85,7 @@ export interface ModalProps extends ExtendedDialogContents {
     open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
   ) => React.ReactNode
+  headingContent?: React.ReactNode
 }
 
 type ExtendedModalProps = Omit<SpuntareProps, 'open'> & ModalProps
@@ -94,9 +99,12 @@ export const Modal = ({
   overlayProps,
   closeProps,
   descriptionProps,
+  headingContent,
   ...rest
 }: ModalProps) => {
   const [open, setOpen] = React.useState(false)
+
+  const [headingRef, { height: headingHeight }] = useMeasure()
 
   return (
     <DialogPrimitive.Root
@@ -147,35 +155,54 @@ export const Modal = ({
                 className={css ? inlineCss(css) : ''}
                 {...rest}
               >
-                {title !== undefined && <StyledTitle>{title}</StyledTitle>}
                 <StyledDescription {...descriptionProps} asChild>
                   <div
                     style={{
+                      paddingTop: `${headingHeight}px`,
+                      flex: '1 1 0%',
                       position: 'relative',
+                      // maxHeight: `calc(${0}px - 50px)`,
+                      overflowY: 'scroll',
                     }}
                   >
                     {description?.(open, setOpen)}
                   </div>
                 </StyledDescription>
-                <DialogPrimitive.Cancel asChild>
-                  <IconButton
-                    onClick={() => {
-                      setOpen(false)
-                    }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
+
+                <Box
+                  // @ts-ignore
+                  ref={headingRef}
+                  css={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    padding: '$4 $4 0 $4',
+                    background: 'white',
+                  }}
+                >
+                  {title !== undefined && <StyledTitle>{title}</StyledTitle>}
+                  <DialogPrimitive.Cancel asChild>
+                    <IconButton
+                      onClick={() => {
+                        setOpen(false)
+                      }}
                     >
-                      <path
-                        fillRule="evenodd"
-                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                        clipRule="evenodd"
-                      />
-                    </svg>
-                  </IconButton>
-                </DialogPrimitive.Cancel>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </IconButton>
+                  </DialogPrimitive.Cancel>
+                  {headingContent}
+                </Box>
               </motion.div>
             </StyledContent>
           </DialogPrimitive.Portal>

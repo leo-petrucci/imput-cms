@@ -35,7 +35,7 @@ export const useImages = () => {
 
     const parsed = await Promise.all(
       match.map(async (m) => {
-        return await loadImage(m['groups']['filename'])
+        return await loadImage(m['groups']!['filename'])
       })
     )
 
@@ -79,8 +79,6 @@ export const useImages = () => {
       blob,
     }
   }
-
-  const { public_folder } = useCMS()
 
   /**
    * Add a new image to to the images state
@@ -168,21 +166,6 @@ export const ImagesProvider = ({
   const imagesRef = React.useRef<LoadedImages[]>([])
   const { isLoading, data } = useGetGithubImages()
 
-  const imageTreeCache = [
-    {
-      mode: '100644',
-
-      path: 'img_20220326_175845.jpg',
-
-      sha: '7a2558cba4693c2de10e5b815db8b2f46628d997',
-
-      size: 2696381,
-
-      type: 'blob',
-
-      url: 'https://api.github.com/repos/creativiii/meow-cms/git/blobs/7a2558cba4693c2de10e5b815db8b2f46628d997',
-    },
-  ]
   if (isLoading) {
     return <>Loading...</>
   }
@@ -191,7 +174,6 @@ export const ImagesProvider = ({
     <ImagesContextProvider
       value={{
         imageTree: data!.data.tree,
-        // imageTreeCache,
         images,
         imagesRef,
       }}

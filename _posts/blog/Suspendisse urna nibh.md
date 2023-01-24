@@ -5,7 +5,8 @@ title: Test
 
 T﻿esting
 
-![alt text](Screenshot 2023-01-24 at 14.24.01.png "Title")
+
+![]( "")
 
 <Component prop1="string" prop2={8} prop3={"string"} >
 

@@ -16,6 +16,8 @@ import { useController, useForm, useFormContext } from 'react-hook-form'
 import { useFormItem } from 'cms/components/forms/form/form'
 import Input from 'cms/components/designSystem/input'
 import toast from 'react-hot-toast'
+import Button from 'cms/components/designSystem/button'
+import useMeasure from 'cms/utils/useMeasure'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
@@ -49,42 +51,88 @@ const ContentPage = () => {
     }
   }, [data, form, isSuccess])
 
+  const [ref, { height }] = useMeasure()
+
   if (isSuccess) {
     return (
-      <Form<{
-        grayMatter: string
-        body: string
-      }>
-        form={form}
-        onSubmit={({ grayMatter, body }) => {
-          const id = toast.loading('Saving content...')
-          mutate(
-            {
-              markdown: {
-                content: `${grayMatter}${body}`,
-                path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
-              },
-            },
-            {
-              onSuccess: () => {
-                toast.success('Content saved!', {
-                  id,
-                })
-              },
-            }
-          )
-        }}
-      >
-        <button type="submit" disabled={isLoading}>
-          Save
-        </button>
-        <Form.Item name="grayMatter" label="Gray matter">
-          <Input.Controlled name="grayMatter" />
-        </Form.Item>
-        <Form.Item name="body" label="Body">
-          <CreateEditor mdx={data} />
-        </Form.Item>
-      </Form>
+      <>
+        <Box
+          // @ts-expect-error
+          ref={ref}
+          css={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            padding: '$4',
+            background: 'white',
+            borderBottom: '1px solid $gray-200',
+            zIndex: 1,
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <Button
+            type="submit"
+            form="content-form"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            Save
+          </Button>
+        </Box>
+        <Box
+          css={{
+            paddingTop: `calc(${height}px + $4)`,
+            paddingLeft: '$4',
+            paddingRight: '$4',
+            paddingBottom: '$4',
+          }}
+        >
+          <Form<{
+            grayMatter: string
+            body: string
+          }>
+            formProps={{ id: 'content-form' }}
+            form={form}
+            onSubmit={({ grayMatter, body }) => {
+              const id = toast.loading('Saving content...')
+              mutate(
+                {
+                  markdown: {
+                    content: `${grayMatter}${body}`,
+                    path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+                  },
+                },
+                {
+                  onSuccess: () => {
+                    toast.success('Content saved!', {
+                      id,
+                    })
+                  },
+                }
+              )
+            }}
+          >
+            <div style={{ display: 'none' }}>
+              <Form.Item name="grayMatter" label="Gray matter">
+                <Input.Controlled name="grayMatter" />
+              </Form.Item>
+            </div>
+            <Form.Item
+              name="body"
+              label="Body"
+              css={{
+                '& label': {
+                  display: 'none',
+                },
+              }}
+            >
+              <CreateEditor mdx={data} />
+            </Form.Item>
+          </Form>
+        </Box>
+      </>
     )
   }
 
@@ -126,7 +174,6 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
       <Box
         css={{
           flex: '1 0 0%',
-          padding: '$4',
         }}
       >
         <DepthProvider>

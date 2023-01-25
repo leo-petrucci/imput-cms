@@ -13,6 +13,7 @@ import ImageSelector from '../imageSelector'
 import { Modal } from 'cms/components/designSystem/modal'
 import ImageUploadButton from 'cms/components/editor/images/uploadButton'
 import Button from 'cms/components/designSystem/button'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 
 const StyledImage = styled('div', {
   display: 'block',
@@ -61,6 +62,7 @@ const Image = ({
   element: ImageElement
 }) => {
   const { images } = useImages()
+  const { public_folder } = useCMS()
   const editor = useSlateStatic() as ReactEditor
   const path = ReactEditor.findPath(editor, element)
 
@@ -188,8 +190,13 @@ const Image = ({
               style={{
                 backgroundImage: `url(${
                   element.link
-                    ? images.find((i) => i.filename.includes(element.link!))
-                        ?.blobUrl
+                    ? // needs to match the url as it is in markdown
+                      // e.g. images/filename.png
+                      images.find((i) =>
+                        `${public_folder}/${i.filename}`.includes(
+                          `${element.link!}`
+                        )
+                      )?.blobUrl
                     : ''
                 })`,
               }}

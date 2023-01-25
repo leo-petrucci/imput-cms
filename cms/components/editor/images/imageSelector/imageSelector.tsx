@@ -1,4 +1,5 @@
 import Box from 'cms/components/designSystem/box'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from 'cms/contexts/imageContext/context'
 import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { useOnScreen } from 'cms/utils/useOnScreen'
@@ -61,6 +62,7 @@ const ImageCard = ({
   image: Imagetree
   onImageSelect: ImageSelectorProps['onImageSelect']
 }) => {
+  const { public_folder } = useCMS()
   const { images, loadImage, setImages } = useImages()
   const imageBlobUrl = images.find((i) =>
     i.filename.includes(image.path!)
@@ -86,7 +88,8 @@ const ImageCard = ({
       layout
       ref={ref}
       onClick={() => {
-        onImageSelect?.(image.path!)
+        // return the full path to the public image
+        onImageSelect?.(`${public_folder}/${image.path!}`)
       }}
     >
       <Box

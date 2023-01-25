@@ -2,6 +2,7 @@ import Box from 'cms/components/designSystem/box'
 import { Imagetree } from 'cms/contexts/imageContext/context'
 import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { useOnScreen } from 'cms/utils/useOnScreen'
+import { LayoutGroup, motion } from 'framer-motion'
 import React from 'react'
 import { styled } from 'stitches.config'
 
@@ -29,9 +30,11 @@ const ImageSelector = ({ onImageSelect }: ImageSelectorProps) => {
           overflowY: 'scroll',
         }}
       >
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}
+        <LayoutGroup>
+          {imageTree.map((i) => (
+            <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+          ))}
+        </LayoutGroup>
       </Box>
     </>
   )
@@ -59,7 +62,6 @@ const ImageCard = ({
   onImageSelect: ImageSelectorProps['onImageSelect']
 }) => {
   const { images, loadImage, setImages } = useImages()
-  console.log(images, image)
   const imageBlobUrl = images.find((i) =>
     i.filename.includes(image.path!)
   )?.blobUrl
@@ -80,7 +82,8 @@ const ImageCard = ({
   }, [imageBlobUrl, onScreen])
 
   return (
-    <ImageSelectorButton
+    <MotionImageSelectorButton
+      layout
       ref={ref}
       onClick={() => {
         onImageSelect?.(image.path!)
@@ -105,8 +108,10 @@ const ImageCard = ({
       >
         <h2>{image.path}</h2>
       </Box>
-    </ImageSelectorButton>
+    </MotionImageSelectorButton>
   )
 }
+
+const MotionImageSelectorButton = motion(ImageSelectorButton)
 
 export default ImageSelector

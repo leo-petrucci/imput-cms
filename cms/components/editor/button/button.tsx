@@ -83,6 +83,7 @@ export const StyledButton = styled('button', {
     active: {
       true: {
         color: '$gray-900',
+        background: '$gray-100',
       },
       false: {
         color: '$gray-500',

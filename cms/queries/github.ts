@@ -4,8 +4,8 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { getToken } from 'cms/queries/auth'
 import { queryKeys } from 'cms/queries/keys'
-import { Imagetree } from 'cms/contexts/imageContext/context'
 import { slugify } from 'cms/utils/slugify'
+import { Endpoints } from '@octokit/types'
 
 export const useGetGithubCollection = (type: string) => {
   const { backend } = useCMS()
@@ -16,11 +16,56 @@ export const useGetGithubCollection = (type: string) => {
       const octokit = new Octokit({
         auth: getToken(),
       })
-      return octokit.request('GET /repos/{owner}/{repo}/git/trees/{tree_sha}', {
-        owner,
-        repo,
-        tree_sha: `${backend.branch}:${type}`,
-      })
+      const files = await octokit.request(
+        'GET /repos/{owner}/{repo}/git/trees/{tree_sha}',
+        {
+          owner,
+          repo,
+          tree_sha: `${backend.branch}:${type}`,
+        }
+      )
+
+      // need to get commit info for each file to get when they were last updated
+      for await (const file of files.data.tree) {
+        const commit = await octokit.request(
+          'GET /repos/{owner}/{repo}/commits',
+          {
+            owner,
+            repo,
+            path: `${type}/${file.path}`,
+            page: 1,
+            per_page: 1,
+          }
+        )
+
+        // @ts-ignore
+        // assign the date to the original object
+        file.date = commit.data[0].commit.author?.date
+      }
+
+      // this tells typescript that we've added a `date` to the object
+      const filesWithDate =
+        files as unknown as Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
+          data: {
+            tree: {
+              date: string
+            }[] &
+              Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree']
+          }
+        }
+
+      // order the files in descending order with newest first
+      const orderedFiles = {
+        ...filesWithDate,
+        data: {
+          ...filesWithDate.data,
+          tree: filesWithDate.data.tree.sort((a, b) => {
+            return +new Date(b.date) - +new Date(a.date)
+          }),
+        },
+      }
+
+      return orderedFiles
     },
   })
 }
@@ -34,7 +79,7 @@ export const useGetGithubImages = () => {
       const octokit = new Octokit({
         auth: getToken(),
       })
-      return await octokit.request(
+      const files = await octokit.request(
         'GET /repos/{owner}/{repo}/git/trees/{tree_sha}',
         {
           owner,
@@ -42,6 +87,48 @@ export const useGetGithubImages = () => {
           tree_sha: `${backend.branch}:${media_folder}`,
         }
       )
+
+      // need to get commit info for each file to get when they were last updated
+      for await (const file of files.data.tree) {
+        const commit = await octokit.request(
+          'GET /repos/{owner}/{repo}/commits',
+          {
+            owner,
+            repo,
+            path: `${media_folder}/${file.path}`,
+            page: 1,
+            per_page: 1,
+          }
+        )
+
+        // @ts-ignore
+        // assign the date to the original object
+        file.date = commit.data[0].commit.author?.date
+      }
+
+      // this tells typescript that we've added a `date` to the object
+      const filesWithDate =
+        files as unknown as Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
+          data: {
+            tree: {
+              date: string
+            }[] &
+              Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree']
+          }
+        }
+
+      // order the files in descending order with newest first
+      const orderedFiles = {
+        ...filesWithDate,
+        data: {
+          ...filesWithDate.data,
+          tree: filesWithDate.data.tree.sort((a, b) => {
+            return +new Date(b.date) - +new Date(a.date)
+          }),
+        },
+      }
+
+      return orderedFiles
     },
   })
 }

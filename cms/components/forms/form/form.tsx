@@ -17,6 +17,7 @@ export interface FormProps<T extends FieldValues> {
   onSubmit: SubmitHandler<T>
   children: React.ReactNode
   debug?: boolean
+  formProps?: React.HTMLAttributes<HTMLFormElement>
 }
 
 /**
@@ -31,6 +32,7 @@ function Form<T extends FieldValues>({
   onSubmit,
   children,
   debug,
+  formProps,
 }: FormProps<T>) {
   const methods = useForm<T>()
 
@@ -46,7 +48,9 @@ function Form<T extends FieldValues>({
 
   return (
     <FormProvider {...context}>
-      <form onSubmit={context.handleSubmit(onSubmit)}>{children}</form>
+      <form onSubmit={context.handleSubmit(onSubmit)} {...formProps}>
+        {children}
+      </form>
     </FormProvider>
   )
 }
@@ -81,7 +85,7 @@ export const FormItemProvider = ({
  */
 export const useFormItem = () => useContext(ctxt)
 
-interface FormItemProps {
+interface FormItemProps extends Partial<React.ComponentProps<typeof Box>> {
   children: React.ReactNode
   /**
    * Label text, can either be a string or a custom component.
@@ -104,16 +108,25 @@ interface FormItemProps {
 /**
  * Used to wrap inputs, will render a label and errors associated with `name` passed to it.
  */
-const Item = ({ name, children, label, rules = {} }: FormItemProps) => {
+const Item = ({
+  name,
+  children,
+  label,
+  rules = {},
+  css,
+  ...rest
+}: FormItemProps) => {
   const methods = useFormContext()
 
   return (
     <FormItemProvider rules={rules} name={name}>
       <Box
+        {...rest}
         css={{
           display: 'flex',
           flexDirection: 'column',
           gap: '$1',
+          ...css,
         }}
       >
         {typeof label === 'string' ? (

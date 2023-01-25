@@ -9,6 +9,12 @@ import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
 import { styled } from 'stitches.config'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import Label from 'cms/components/designSystem/label'
+import ImageSelector from '../imageSelector'
+import { Modal } from 'cms/components/designSystem/modal'
+import ImageUploadButton from 'cms/components/editor/images/uploadButton'
+import Button from 'cms/components/designSystem/button'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { toast } from 'react-hot-toast'
 
 const StyledImage = styled('div', {
   display: 'block',
@@ -56,11 +62,14 @@ const Image = ({
   children: any
   element: ImageElement
 }) => {
-  const { images, addImage, updateImage } = useImages()
+  const { images } = useImages()
+  const { public_folder } = useCMS()
   const editor = useSlateStatic() as ReactEditor
   const path = ReactEditor.findPath(editor, element)
 
   const selected = useSelected()
+
+  console.log(images, element.link)
 
   return (
     <div {...attributes}>
@@ -114,40 +123,51 @@ const Image = ({
               </Flex>
               <Flex direction="column" gap="1">
                 <Label htmlFor={`image-file`}>Upload image</Label>
-                <Input
-                  type="file"
-                  name="image-file"
-                  onChange={async (e: React.ChangeEvent<HTMLInputElement>) => {
-                    if (e.target.files && e.target.files?.length > 0) {
-                      // if an image already exist we remove it before adding a new one
-                      if (element.link) {
-                        const file = e.target.files[0]
-                        const image = await updateImage(element.link, file)
-                        Transforms.setNodes<any>(
-                          editor,
-                          {
-                            link: image.filename,
-                          },
-                          {
-                            at: path,
-                          }
-                        )
-                      } else {
-                        const file = e.target.files[0]
-                        const image = await addImage(file)
-                        Transforms.setNodes<any>(
-                          editor,
-                          {
-                            link: image.filename,
-                          },
-                          {
-                            at: path,
-                          }
-                        )
-                      }
-                    }
+                <Modal
+                  title={'Select media'}
+                  css={{
+                    zIndex: 9999,
+                    minWidth: '100vw',
+                    minHeight: '100vh',
+                    '@md': {
+                      minWidth: 968,
+                      minHeight: 524,
+                    },
                   }}
-                />
+                  headingContent={
+                    <Box
+                      css={{
+                        position: 'relative',
+                        flex: 1,
+                        display: 'flex',
+                        justifyContent: 'end',
+                        padding: '0 0 $2 0',
+                        margin: '0 0 $2 0',
+                        borderBottom: '1px solid $gray-200',
+                      }}
+                    >
+                      <ImageUploadButton />
+                    </Box>
+                  }
+                  description={(_open, setOpen) => (
+                    <ImageSelector
+                      onImageSelect={(filename) => {
+                        setOpen(false)
+                        Transforms.setNodes<any>(
+                          editor,
+                          {
+                            link: filename,
+                          },
+                          {
+                            at: path,
+                          }
+                        )
+                      }}
+                    />
+                  )}
+                >
+                  <Button type="button">Select image</Button>
+                </Modal>
               </Flex>
             </Flex>
           </Box>
@@ -171,8 +191,13 @@ const Image = ({
               style={{
                 backgroundImage: `url(${
                   element.link
-                    ? images.find((i) => i.filename.includes(element.link!))
-                        ?.blobUrl
+                    ? // needs to match the url as it is in markdown
+                      // e.g. images/filename.png
+                      images.find((i) =>
+                        `${public_folder}/${i.filename}`.includes(
+                          `${element.link!}`
+                        )
+                      )?.blobUrl
                     : ''
                 })`,
               }}

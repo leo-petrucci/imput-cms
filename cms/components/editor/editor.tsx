@@ -124,6 +124,7 @@ const Editor = ({
           <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
           <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
           <StyledButton
+            type="button"
             active={false}
             onMouseDown={(event) => {
               event.preventDefault()

@@ -2,9 +2,6 @@ import { useFormItem } from 'cms/components/forms/form/form'
 import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 import { styled } from 'stitches.config'
-import Flex from '../flex'
-import Label from '../label'
-import { LabelProps } from '../label/label'
 
 const StyledInput = styled('input', {
   borderRadius: '$default',

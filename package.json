@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@ironeko/spuntare": "^1.0.6",
+    "@juggle/resize-observer": "^3.4.0",
     "@lukemorales/query-key-factory": "^1.1.0",
     "@octokit/types": "^7.5.0",
     "@radix-ui/colors": "^0.1.8",
@@ -37,6 +38,7 @@
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "5.x",
     "react-select": "^5.7.0",
+    "react-use-measure": "^2.1.1",
     "rehype-stringify": "^9.0.3",
     "remark": "^14.0.2",
     "remark-mdx": "^2.1.5",
@@ -46,6 +48,7 @@
     "slate": "^0.86.0",
     "slate-history": "^0.86.0",
     "slate-react": "^0.86.0",
+    "slugify": "^1.6.5",
     "unified": "^10.1.2",
     "uuid": "^9.0.0"
   },

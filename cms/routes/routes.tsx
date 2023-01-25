@@ -68,7 +68,11 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
                   fontSize: 16,
                 }}
               >
-                <Toaster />
+                <Toaster
+                  containerStyle={{
+                    zIndex: 99999,
+                  }}
+                />
                 <NextCMSPrivateRoutes />
               </Box>
             </ImagesProvider>

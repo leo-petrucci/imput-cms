@@ -20,8 +20,6 @@ export const useImages = () => {
   const { backend } = useCMS()
   const [owner, repo] = backend.repo.split('/')
 
-  // const resetLoadedImages = () => setImages([]);
-
   /**
    * Extracts all image urls from markdown and converts them to useful objects containing blob urls, then sets them to state.
    *
@@ -37,13 +35,11 @@ export const useImages = () => {
 
     const parsed = await Promise.all(
       match.map(async (m) => {
-        return await loadImage(m['groups']['filename'])
+        return await loadImage(m['groups']!['filename'])
       })
     )
 
-    /**
-     * Set new images to state
-     */
+    // Set new images to state
     setImages(parsed)
   }
 
@@ -51,7 +47,7 @@ export const useImages = () => {
    * Move image from sha fileTree to the CMS' local state
    * @param filename
    */
-  const loadImage = async (filename: string) => {
+  const loadImage = async (filename: string): Promise<LoadedImages> => {
     /**
      * We find this image within the repo's image tree.
      * `imageTree` contains all the base64 files, so we just need to match filename to filename
@@ -83,8 +79,6 @@ export const useImages = () => {
       blob,
     }
   }
-
-  const { public_folder } = useCMS()
 
   /**
    * Add a new image to to the images state
@@ -146,7 +140,16 @@ export const useImages = () => {
     return image
   }
 
-  return { imageTree, images, loadImages, addImage, removeImage, updateImage }
+  return {
+    imageTree,
+    images,
+    loadImage,
+    setImages,
+    loadImages,
+    addImage,
+    removeImage,
+    updateImage,
+  }
 }
 
 const ImagesContextProvider = ctxt.Provider
@@ -163,21 +166,6 @@ export const ImagesProvider = ({
   const imagesRef = React.useRef<LoadedImages[]>([])
   const { isLoading, data } = useGetGithubImages()
 
-  const imageTreeCache = [
-    {
-      mode: '100644',
-
-      path: 'img_20220326_175845.jpg',
-
-      sha: '7a2558cba4693c2de10e5b815db8b2f46628d997',
-
-      size: 2696381,
-
-      type: 'blob',
-
-      url: 'https://api.github.com/repos/creativiii/meow-cms/git/blobs/7a2558cba4693c2de10e5b815db8b2f46628d997',
-    },
-  ]
   if (isLoading) {
     return <>Loading...</>
   }
@@ -186,7 +174,6 @@ export const ImagesProvider = ({
     <ImagesContextProvider
       value={{
         imageTree: data!.data.tree,
-        // imageTreeCache,
         images,
         imagesRef,
       }}

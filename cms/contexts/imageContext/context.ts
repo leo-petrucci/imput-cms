@@ -1,5 +1,5 @@
-import { Endpoints } from "@octokit/types";
-import React from "react";
+import { Endpoints } from '@octokit/types'
+import React from 'react'
 
 export enum ImageState {
   Uploaded,
@@ -7,24 +7,24 @@ export enum ImageState {
 }
 
 export interface LoadedImages {
-  markdown: string;
-  filename: string;
-  state: ImageState.Uploaded | ImageState.New;
-  alttext?: string;
-  title?: string;
-  blobUrl?: string;
-  blob?: Blob;
+  markdown: string
+  filename: string
+  state: ImageState.Uploaded | ImageState.New
+  alttext?: string
+  title?: string
+  blobUrl?: string
+  blob?: Blob
 }
+
+export type Imagetree =
+  Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree'][0]
 
 export interface GithubImagesTreeContext {
-  imageTree: Endpoints["GET /repos/{owner}/{repo}/git/trees/{tree_sha}"]["response"]["data"]["tree"];
-  images: [
-    LoadedImages[],
-    React.Dispatch<React.SetStateAction<LoadedImages[]>>
-  ];
-  imagesRef: React.MutableRefObject<LoadedImages[]>;
+  imageTree: Imagetree[]
+  images: [LoadedImages[], React.Dispatch<React.SetStateAction<LoadedImages[]>>]
+  imagesRef: React.MutableRefObject<LoadedImages[]>
 }
 
-const ctxt = React.createContext({} as GithubImagesTreeContext);
+const ctxt = React.createContext({} as GithubImagesTreeContext)
 
-export default ctxt;
+export default ctxt

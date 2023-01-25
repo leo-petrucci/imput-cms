@@ -7,6 +7,15 @@ import { queryKeys } from 'cms/queries/keys'
 import { slugify } from 'cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
 
+type FilesWithDate =
+  Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
+    data: {
+      tree: ({
+        date: string
+      } & Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree'][0])[]
+    }
+  }
+
 export const useGetGithubCollection = (type: string) => {
   const { backend } = useCMS()
   const [owner, repo] = backend.repo.split('/')
@@ -44,15 +53,7 @@ export const useGetGithubCollection = (type: string) => {
       }
 
       // this tells typescript that we've added a `date` to the object
-      const filesWithDate =
-        files as unknown as Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
-          data: {
-            tree: {
-              date: string
-            }[] &
-              Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree']
-          }
-        }
+      const filesWithDate = files as unknown as FilesWithDate
 
       // order the files in descending order with newest first
       const orderedFiles = {
@@ -107,15 +108,7 @@ export const useGetGithubImages = () => {
       }
 
       // this tells typescript that we've added a `date` to the object
-      const filesWithDate =
-        files as unknown as Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
-          data: {
-            tree: {
-              date: string
-            }[] &
-              Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree']
-          }
-        }
+      const filesWithDate = files as unknown as FilesWithDate
 
       // order the files in descending order with newest first
       const orderedFiles = {

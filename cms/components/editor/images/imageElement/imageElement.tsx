@@ -14,6 +14,7 @@ import { Modal } from 'cms/components/designSystem/modal'
 import ImageUploadButton from 'cms/components/editor/images/uploadButton'
 import Button from 'cms/components/designSystem/button'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { toast } from 'react-hot-toast'
 
 const StyledImage = styled('div', {
   display: 'block',

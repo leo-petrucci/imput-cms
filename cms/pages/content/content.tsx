@@ -67,7 +67,7 @@ const ContentPage = () => {
             padding: '$4',
             background: 'white',
             borderBottom: '1px solid $gray-200',
-            zIndex: 1,
+            zIndex: 0,
             display: 'flex',
             justifyContent: 'flex-end',
           }}

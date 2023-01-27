@@ -1,8 +1,4 @@
----
-layout: blog
-title: Test
----
-
+undefined
 
 
 Showing off `meow-cms`!

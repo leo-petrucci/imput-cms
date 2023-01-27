@@ -1,5 +1,7 @@
 import * as SwitchPrimitive from '@radix-ui/react-switch'
+import { useFormItem } from 'cms/components/forms/form/form'
 import { omit } from 'lodash'
+import { useController, useFormContext } from 'react-hook-form'
 import { styled } from 'stitches.config'
 
 const StyledSwitch = styled(SwitchPrimitive.Root, {
@@ -33,5 +35,43 @@ const Switch = (props: SwitchProps) => (
     <StyledThumb />
   </StyledSwitch>
 )
+
+export interface ControlledSwitchProps extends SwitchProps {}
+
+/**
+ * An on/off switch to be used in forms
+ */
+const Controlled = (props: ControlledSwitchProps) => {
+  const form = useFormContext()
+  const { rules, name } = useFormItem()
+
+  const {
+    field: { onChange: formOnchange, value, ...rest },
+  } = useController({
+    name: name,
+    control: form.control,
+    rules,
+    defaultValue: false,
+  })
+
+  return (
+    <>
+      <Switch
+        {...props}
+        {...rest}
+        onCheckedChange={formOnchange}
+        checked={value}
+      />
+      <span id="errors" role="alert" aria-atomic="true" className="text-sm">
+        {form &&
+          props.name &&
+          form.formState.errors[props.name] &&
+          form.formState.errors[props.name]?.message}
+      </span>
+    </>
+  )
+}
+
+Switch.Controlled = Controlled
 
 export default Switch

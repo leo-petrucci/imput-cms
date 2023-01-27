@@ -22,7 +22,12 @@ const CMS = () => (
             slug: '{{slug}}',
             extension: 'md',
             fields: [
-              { label: 'Title', name: 'title', widget: 'string' },
+              {
+                label: 'Title',
+                name: 'title',
+                widget: 'string',
+                required: true,
+              },
               {
                 label: 'Featured Image',
                 name: 'thumbnail',

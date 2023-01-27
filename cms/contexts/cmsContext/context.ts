@@ -147,6 +147,10 @@ export interface NextCMSContext {
          * What will the input be labeled as in the Ui
          */
         label: string
+        /**
+         * Whether the input needs to exist for the user to save
+         */
+        required?: boolean
       } & Widgets)[]
       /**
        * Components that will be made available to this type of content

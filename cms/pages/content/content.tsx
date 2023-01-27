@@ -11,20 +11,21 @@ import { DepthProvider } from 'cms/components/editor/depthContext'
 import Editor, { deserialize, serialize } from 'cms/components/editor'
 import React, { useEffect } from 'react'
 import matter from 'gray-matter'
-import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { useController, useForm, useFormContext } from 'react-hook-form'
 import { useFormItem } from 'cms/components/forms/form/form'
 import Input from 'cms/components/designSystem/input'
 import toast from 'react-hot-toast'
 import Button from 'cms/components/designSystem/button'
 import useMeasure from 'cms/utils/useMeasure'
+import ImagePicker from 'cms/components/designSystem/imagePicker/imagePicker'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
 
   // this should never be undefined as the route above prevents rendering before the query is finished
   const query = useGetGithubCollection(currentCollection!.folder)
-  const { mutate, isLoading } = useSaveMarkdown(currentCollection!.folder)
+
+  const { mutate, isLoading } = useSaveMarkdown(currentFile)
 
   // find the currently opened file from the collection of all files
   const sha = query.data!.data.tree.find(
@@ -34,22 +35,36 @@ const ContentPage = () => {
   // decode it with github
   const { data, isSuccess } = useGetGithubDecodedFile(sha)
 
+  // we need to initialize our empty values from config
   const form = useForm({
     defaultValues: {
-      grayMatter: '',
       body: '',
+      ...Object.fromEntries(currentCollection.fields.map((f) => [f.name, ''])),
     },
   })
 
+  // initialize default values to the form
   useEffect(() => {
     if (isSuccess) {
+      setMarkdown(data)
       const { content: body, data: grayMatterObj } = matter(data)
       form.reset({
-        grayMatter: matter.stringify('', grayMatterObj),
+        ...grayMatterObj,
         body,
       })
     }
   }, [data, form, isSuccess])
+
+  const formValues = form.watch()
+
+  const [markdown, setMarkdown] = React.useState(data)
+
+  // we parse form values into a graymatter string so we can display it
+  React.useEffect(() => {
+    const { body, ...rest } = formValues
+    const content = matter.stringify(body, rest)
+    setMarkdown(content)
+  }, [formValues])
 
   const [ref, { height }] = useMeasure()
 
@@ -81,57 +96,85 @@ const ContentPage = () => {
             Save
           </Button>
         </Box>
-        <Box
-          css={{
-            paddingTop: `calc(${height}px + $4)`,
-            paddingLeft: '$4',
-            paddingRight: '$4',
-            paddingBottom: '$4',
-          }}
-        >
-          <Form<{
-            grayMatter: string
-            body: string
-          }>
-            formProps={{ id: 'content-form' }}
-            form={form}
-            onSubmit={({ grayMatter, body }) => {
-              const id = toast.loading('Saving content...')
-              mutate(
-                {
-                  markdown: {
-                    content: `${grayMatter}${body}`,
-                    path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
-                  },
-                },
-                {
-                  onSuccess: () => {
-                    toast.success('Content saved!', {
-                      id,
-                    })
-                  },
-                }
-              )
+
+        <Flex direction="row" align="stretch" gap="4">
+          <Box
+            css={{
+              paddingTop: `calc(${height}px + $4)`,
+              paddingLeft: '$4',
+              paddingRight: '$4',
+              paddingBottom: '$4',
+              flex: '1 0 0%',
             }}
           >
-            <div style={{ display: 'none' }}>
-              <Form.Item name="grayMatter" label="Gray matter">
-                <Input.Controlled name="grayMatter" />
-              </Form.Item>
-            </div>
-            <Form.Item
-              name="body"
-              label="Body"
-              css={{
-                '& label': {
-                  display: 'none',
-                },
+            <Form<{
+              [k: string]: string
+              body: string
+            }>
+              formProps={{ id: 'content-form' }}
+              form={form}
+              onSubmit={({ body, ...rest }) => {
+                const id = toast.loading('Saving content...')
+                const content = matter.stringify(body, rest)
+                mutate(
+                  {
+                    markdown: {
+                      content,
+                      path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+                    },
+                  },
+                  {
+                    onSuccess: () => {
+                      toast.success('Content saved!', {
+                        id,
+                      })
+                    },
+                  }
+                )
               }}
             >
-              <CreateEditor mdx={data} />
-            </Form.Item>
-          </Form>
-        </Box>
+              <Flex direction="column" gap="2">
+                {currentCollection.fields.map((f) => {
+                  const renderControl = () => {
+                    switch (f.widget) {
+                      case 'string':
+                        return <Input.Controlled />
+                      case 'markdown':
+                        return <CreateEditor mdx={data} />
+                      case 'image':
+                        return <ImagePicker.Controlled />
+                    }
+                  }
+
+                  return (
+                    <Form.Item
+                      key={f.name}
+                      name={f.name}
+                      label={f.label}
+                      rules={{
+                        required: {
+                          value: f.required || false,
+                          message: `${f.label} is required.`,
+                        },
+                      }}
+                    >
+                      {renderControl()}
+                    </Form.Item>
+                  )
+                })}
+              </Flex>
+            </Form>
+          </Box>
+          <Box
+            css={{
+              paddingTop: `calc(${height}px + $4)`,
+              whiteSpace: 'pre-wrap',
+              flex: '1 0 0%',
+            }}
+          >
+            {markdown}
+          </Box>
+        </Flex>
       </>
     )
   }
@@ -149,14 +192,12 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
     rules,
   })
 
-  const { loadImages } = useImages()
   const { content } = matter(mdx)
-  const [markdown, setMarkdown] = React.useState(content)
+
   const handleChange = React.useCallback(
     (nextValue: any[]) => {
       // serialize slate state to a markdown string
       const serialized = nextValue.map((v) => serialize(v)).join('')
-      setMarkdown(serialized)
       field.onChange(serialized)
     },
     [field]
@@ -164,31 +205,10 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
 
   const value = React.useMemo(() => deserialize(content), [content])
 
-  React.useEffect(() => {
-    loadImages(mdx)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mdx])
-
   return (
-    <Flex direction="row" align="stretch" gap="4">
-      <Box
-        css={{
-          flex: '1 0 0%',
-        }}
-      >
-        <DepthProvider>
-          <Editor value={value} onChange={(value) => handleChange(value)} />
-        </DepthProvider>
-      </Box>
-      <Box
-        css={{
-          whiteSpace: 'pre-wrap',
-          flex: '1 0 0%',
-        }}
-      >
-        {markdown}
-      </Box>
-    </Flex>
+    <DepthProvider>
+      <Editor value={value} onChange={(value) => handleChange(value)} />
+    </DepthProvider>
   )
 }
 

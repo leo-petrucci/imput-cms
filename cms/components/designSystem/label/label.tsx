@@ -4,7 +4,7 @@ import { styled } from 'stitches.config'
 const StyledLabel = styled(LabelPrimitive.Root, {
   color: '$gray-800',
   textTransform: 'capitalize',
-  fontWeight: '$medium',
+  fontWeight: '$semibold',
   fontSize: '$sm',
 })
 

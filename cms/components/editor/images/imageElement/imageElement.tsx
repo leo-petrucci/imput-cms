@@ -15,6 +15,7 @@ import ImageUploadButton from 'cms/components/editor/images/uploadButton'
 import Button from 'cms/components/designSystem/button'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { toast } from 'react-hot-toast'
+import ImagePicker from 'cms/components/designSystem/imagePicker'
 
 const StyledImage = styled('div', {
   display: 'block',
@@ -69,161 +70,52 @@ const Image = ({
 
   const selected = useSelected()
 
-  console.log(images, element.link)
-
   return (
     <div {...attributes}>
       {children}
-      <Popover
-        content={
-          <Box
-            css={{
-              position: 'relative',
-              marginBottom: '$2',
-            }}
-          >
-            <Flex direction="column" gap="2">
-              <Flex direction="column" gap="1">
-                <Label htmlFor={`image-title`}>Image title</Label>
-                <Input
-                  name="image-title"
-                  defaultValue={element.title}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const value = e.target.value
-                    Transforms.setNodes<any>(
-                      editor,
-                      {
-                        title: value,
-                      },
-                      {
-                        at: path,
-                      }
-                    )
-                  }}
-                />
-              </Flex>
-              <Flex direction="column" gap="1">
-                <Label htmlFor={`image-alt`}>Image alt text</Label>
-                <Input
-                  name="image-alt"
-                  defaultValue={element.caption}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    const value = e.target.value
-                    Transforms.setNodes<any>(
-                      editor,
-                      {
-                        caption: value,
-                      },
-                      {
-                        at: path,
-                      }
-                    )
-                  }}
-                />
-              </Flex>
-              <Flex direction="column" gap="1">
-                <Label htmlFor={`image-file`}>Upload image</Label>
-                <Modal
-                  title={'Select media'}
-                  css={{
-                    zIndex: 9999,
-                    minWidth: '100vw',
-                    minHeight: '100vh',
-                    '@md': {
-                      minWidth: 968,
-                      minHeight: 524,
-                    },
-                  }}
-                  headingContent={
-                    <Box
-                      css={{
-                        position: 'relative',
-                        flex: 1,
-                        display: 'flex',
-                        justifyContent: 'end',
-                        padding: '0 0 $2 0',
-                        margin: '0 0 $2 0',
-                        borderBottom: '1px solid $gray-200',
-                      }}
-                    >
-                      <ImageUploadButton />
-                    </Box>
-                  }
-                  description={(_open, setOpen) => (
-                    <ImageSelector
-                      onImageSelect={(filename) => {
-                        setOpen(false)
-                        Transforms.setNodes<any>(
-                          editor,
-                          {
-                            link: filename,
-                          },
-                          {
-                            at: path,
-                          }
-                        )
-                      }}
-                    />
-                  )}
-                >
-                  <Button type="button">Select image</Button>
-                </Modal>
-              </Flex>
-            </Flex>
-          </Box>
-        }
-      >
-        <StyledImageButton selected={selected} contentEditable={false}>
-          <PopoverPrimitive.Anchor
-            style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              height: !element.link ? '2em' : '6em',
-              width: !element.link ? '2em' : '6em',
-              background: 'transparent',
-              zIndex: 1000,
-              transform: 'translate(-50%, -50%)',
-            }}
-          />
-          {element.link ? (
-            <StyledImage
-              style={{
-                backgroundImage: `url(${
-                  element.link
-                    ? // needs to match the url as it is in markdown
-                      // e.g. images/filename.png
-                      images.find((i) =>
-                        `${public_folder}/${i.filename}`.includes(
-                          `${element.link!}`
-                        )
-                      )?.blobUrl
-                    : ''
-                })`,
-              }}
-            />
-          ) : (
-            <Box
-              css={{
-                padding: '$4',
-              }}
-            >
-              <Flex direction="row" gap="2" align="center">
-                <ImageSquare size={16} weight="bold" />
-                <Box
-                  css={{
-                    color: '$gray-800',
-                    fontWeight: '500',
-                    fontSize: '$sm',
-                  }}
-                >
-                  Add an image
-                </Box>
-              </Flex>
-            </Box>
-          )}
-        </StyledImageButton>
-      </Popover>
+      <ImagePicker
+        image={element.link}
+        selected={selected}
+        imageTitle={{
+          defaultValue: element.title,
+          onImageTitleChange: (value) => {
+            Transforms.setNodes<any>(
+              editor,
+              {
+                title: value,
+              },
+              {
+                at: path,
+              }
+            )
+          },
+        }}
+        imageAltText={{
+          defaultValue: element.caption,
+          onImageAltTextChange: (value) => {
+            Transforms.setNodes<any>(
+              editor,
+              {
+                caption: value,
+              },
+              {
+                at: path,
+              }
+            )
+          },
+        }}
+        onImageChange={(filename) => {
+          Transforms.setNodes<any>(
+            editor,
+            {
+              link: filename,
+            },
+            {
+              at: path,
+            }
+          )
+        }}
+      />
     </div>
   )
 }

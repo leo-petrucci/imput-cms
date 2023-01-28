@@ -65,6 +65,10 @@ export type BlockType = {
   }[]
 }
 
+type PickByType<T, Value> = {
+  [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
+}
+
 export interface NextCMSContext {
   settings: {
     /**
@@ -151,7 +155,19 @@ export interface NextCMSContext {
          * Whether the input needs to exist for the user to save
          */
         required?: boolean
-      } & Widgets)[]
+      } & Extract<
+        Widgets,
+        {
+          widget:
+            | 'string'
+            | 'date'
+            | 'datetime'
+            | 'select'
+            | 'image'
+            | 'boolean'
+            | 'markdown'
+        }
+      >)[]
       /**
        * Components that will be made available to this type of content
        */

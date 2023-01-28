@@ -8,6 +8,11 @@ author: Leonardo Petrucci
 ---
 Showing off `meow-cms`!
 
+<ReactComponent name="" date="" datetime="" boolean={undefined} variant={"option1"} padding={4} object={undefined} array={undefined} >
+
+
+</ReactComponent>
+
 Some text here 👀
 
 ![Me and my son](images/y0j2l3.jpg "Me and my son")

@@ -11,7 +11,7 @@ function Select<
 }
 
 interface ControlledSelectProps {
-  name: string
+  name?: string
 }
 
 function Controlled<
@@ -28,7 +28,16 @@ function Controlled<
     rules,
     defaultValue: props.defaultValue,
   })
-  return <ReactSelect {...props} {...field} />
+  return (
+    <ReactSelect
+      {...props}
+      {...field}
+      onChange={(v) => {
+        // @ts-expect-error
+        field.onChange(v.value)
+      }}
+    />
+  )
 }
 
 Select.Controlled = Controlled

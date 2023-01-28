@@ -1,6 +1,6 @@
 import React from 'react'
 
-type Widgets =
+export type Widgets =
   | {
       widget: 'boolean'
       default?: true | false

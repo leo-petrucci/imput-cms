@@ -14,7 +14,6 @@ export const useImages = () => {
   const {
     imageTree,
     images: [images, setImages],
-    imagesRef,
   } = useContext(ctxt)
 
   const { backend } = useCMS()
@@ -25,7 +24,6 @@ export const useImages = () => {
    * @param filename
    */
   const loadImage = async (filename: string): Promise<LoadedImages> => {
-    console.log(imageTree)
     /**
      * We find this image within the repo's image tree.
      * `imageTree` contains all the base64 files, so we just need to match filename to filename

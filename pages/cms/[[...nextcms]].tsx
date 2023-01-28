@@ -29,6 +29,31 @@ const CMS = () => (
                 required: true,
               },
               {
+                label: 'Published',
+                name: 'published',
+                widget: 'boolean',
+                required: true,
+              },
+              {
+                label: 'Date',
+                name: 'date',
+                widget: 'date',
+                required: true,
+              },
+              {
+                label: 'Datetime',
+                name: 'datetime',
+                widget: 'datetime',
+                required: true,
+              },
+              {
+                label: 'Author',
+                name: 'author',
+                widget: 'select',
+                required: true,
+                options: ['Leonardo Petrucci', 'Evie Dillon-Riley'],
+              },
+              {
                 label: 'Featured Image',
                 name: 'thumbnail',
                 widget: 'image',

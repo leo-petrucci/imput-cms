@@ -17,7 +17,10 @@ import Input from 'cms/components/designSystem/input'
 import toast from 'react-hot-toast'
 import Button from 'cms/components/designSystem/button'
 import useMeasure from 'cms/utils/useMeasure'
-import ImagePicker from 'cms/components/designSystem/imagePicker/imagePicker'
+import ImagePicker from 'cms/components/designSystem/imagePicker'
+import Switch from 'cms/components/designSystem/switch'
+import Select from 'cms/components/designSystem/select/select'
+import { Widgets } from 'cms/contexts/cmsContext/context'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
@@ -35,11 +38,25 @@ const ContentPage = () => {
   // decode it with github
   const { data, isSuccess } = useGetGithubDecodedFile(sha)
 
+  const returnDefaultValue = (widgetType: Widgets['widget']) => {
+    switch (widgetType) {
+      default:
+        return ''
+      case 'boolean':
+        return false
+    }
+  }
+
   // we need to initialize our empty values from config
   const form = useForm({
     defaultValues: {
       body: '',
-      ...Object.fromEntries(currentCollection.fields.map((f) => [f.name, ''])),
+      ...Object.fromEntries(
+        currentCollection.fields.map((f) => [
+          f.name,
+          f.default || returnDefaultValue(f.widget),
+        ])
+      ),
     },
   })
 
@@ -139,10 +156,25 @@ const ContentPage = () => {
                     switch (f.widget) {
                       case 'string':
                         return <Input.Controlled />
+                      case 'date':
+                        return <Input.Controlled type="date" />
+                      case 'datetime':
+                        return <Input.Controlled type="datetime-local" />
                       case 'markdown':
                         return <CreateEditor mdx={data} />
                       case 'image':
                         return <ImagePicker.Controlled />
+                      case 'boolean':
+                        return <Switch.Controlled />
+                      case 'select':
+                        return (
+                          <Select.Controlled
+                            options={f.options.map((o) => ({
+                              value: o,
+                              label: o,
+                            }))}
+                          />
+                        )
                     }
                   }
 

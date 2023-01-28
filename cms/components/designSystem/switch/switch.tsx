@@ -46,12 +46,12 @@ const Controlled = (props: ControlledSwitchProps) => {
   const { rules, name } = useFormItem()
 
   const {
-    field: { onChange: formOnchange, value, ...rest },
+    field: { onChange: formOnchange, value, ref: _ref, ...rest },
   } = useController({
     name: name,
     control: form.control,
     rules,
-    defaultValue: false,
+    defaultValue: props.defaultValue || false,
   })
 
   return (

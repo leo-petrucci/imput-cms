@@ -45,10 +45,6 @@ export interface MdxIdentifier {
 export interface MDXNode {
   type: 'mdxJsxAttribute'
   name: string
-  /**
-   * Where the actual value is stored on this mdx node type
-   */
-  accessor: string
   value: {
     type: 'mdxJsxAttributeValueExpression'
     value: string

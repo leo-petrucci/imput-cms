@@ -83,7 +83,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                   prop,
                   mdxAccessors[prop.value.data.estree.body[0].expression.type]
                 )
-                // value = prop.value.data.estree.body[0].expression.value
                 break
               // For arrays and objects we'll just pull a string and render it in a special editor
               case 'ArrayExpression':
@@ -92,7 +91,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                   prop,
                   mdxAccessors[prop.value.data.estree.body[0].expression.type]
                 )
-                // value = prop.value.value
                 break
             }
           }
@@ -177,20 +175,20 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                   />
                 </Flex>
               )
-            case 'json':
-              return (
-                <Flex direction="column" gap="1" key={c.name}>
-                  <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
-                  <CodeBlockEditor
-                    {...props}
-                    key={c.name}
-                    value={prop}
-                    editor={editor}
-                    name={prop.name}
-                    json={value as string}
-                  />
-                </Flex>
-              )
+            // case 'json':
+            //   return (
+            //     <Flex direction="column" gap="1" key={c.name}>
+            //       <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
+            //       <CodeBlockEditor
+            //         {...props}
+            //         key={c.name}
+            //         value={prop}
+            //         editor={editor}
+            //         name={prop.name}
+            //         json={value as string}
+            //       />
+            //     </Flex>
+            //   )
           }
         })}
 

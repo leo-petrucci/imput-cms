@@ -2,7 +2,10 @@ import { BlockType, defaultNodeTypes, LeafType, NodeTypes } from './ast-types'
 // @ts-ignore
 import escapeHtml from 'escape-html'
 import { MdxElementShape } from '../mdxElement'
-import { isObject, isString } from 'lodash'
+import isObject from 'lodash/isObject'
+import isString from 'lodash/isString'
+import get from 'lodash/get'
+import { mdxAccessors } from '../lib/mdx'
 
 interface Options {
   nodeTypes: NodeTypes
@@ -181,10 +184,12 @@ export default function serialize(
               return `${prop.name}="${prop.value}"`
             }
             if (isObject(prop.value)) {
-              let v = prop.value.value
-              // sometimes even if it is an object, the prop is a string.
+              let v = get(
+                prop,
+                mdxAccessors[prop.value.data.estree.body[0].expression.type]
+              )
               if (isString(v)) {
-                // return `${prop.name}=${JSON.stringify(v)}`
+                return `${prop.name}={"${v}"}`
               }
               return `${prop.name}={${v}}`
             }

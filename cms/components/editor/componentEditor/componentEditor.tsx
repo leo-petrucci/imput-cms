@@ -1,4 +1,7 @@
-import { isString } from 'lodash'
+import isString from 'lodash/isString'
+import set from 'lodash/set'
+import get from 'lodash/get'
+import cloneDeep from 'lodash/cloneDeep'
 import { ReactEditor, useSlate } from 'slate-react'
 import Editor from 'cms/components/editor'
 import { CustomRenderElementProps } from 'cms/components/editor/element'
@@ -15,6 +18,7 @@ import Input from 'cms/components/designSystem/input'
 import { MDXNode } from 'cms/types/mdxNode'
 import CodeBlockEditor from 'cms/components/editor/codeblockEditor'
 import Box from 'cms/components/designSystem/box'
+import { mdxAccessors } from '../lib/mdx'
 
 /**
  *
@@ -41,9 +45,11 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           }
 
           // match prop to schema from settings
-          const prop = mdxElement.attributes.find(
-            (a) => a.name === c.name
-          ) as MDXNode
+          let prop = {
+            ...(mdxElement.attributes.find(
+              (a) => a.name === c.name
+            ) as MDXNode),
+          }
 
           // if prop is undefined it means the schema does not match the prop and we stop the component here
           if (prop === undefined) {
@@ -69,20 +75,25 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           if (isString(prop.value)) {
             value = prop.value
           } else {
-            if (prop.value.value) {
-              console.log(prop)
-              // different types require different handling
-              switch (prop.value.data.estree.body[0].expression.type) {
-                // For bools and numbers we want to get the raw (unstringified) value
-                case 'Literal':
-                  value = prop.value.data.estree.body[0].expression.value
-                  break
-                // For arrays and objectssw e'll just pull a string and render it in a special editor
-                case 'ArrayExpression':
-                case 'ObjectExpression':
-                  value = prop.value.value
-                  break
-              }
+            // different types require different handling
+            switch (prop.value.data.estree.body[0].expression.type) {
+              // For bools and numbers we want to get the raw (unstringified) value
+              case 'Literal':
+                value = get(
+                  prop,
+                  mdxAccessors[prop.value.data.estree.body[0].expression.type]
+                )
+                // value = prop.value.data.estree.body[0].expression.value
+                break
+              // For arrays and objects we'll just pull a string and render it in a special editor
+              case 'ArrayExpression':
+              case 'ObjectExpression':
+                value = get(
+                  prop,
+                  mdxAccessors[prop.value.data.estree.body[0].expression.type]
+                )
+                // value = prop.value.value
+                break
             }
           }
 
@@ -109,13 +120,9 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                     name={`string-prop-${c.name}`}
                     defaultValue={value}
                     onChange={(e) => {
-                      editAttributes(
-                        path,
-                        mdxElement,
-                        prop,
-                        editor,
-                        e.target.value
-                      )
+                      var newObj = cloneDeep(prop)
+                      set(newObj, 'value', e.target.value)
+                      editAttributes(path, mdxElement, newObj, editor)
                     }}
                   />
                 </Flex>
@@ -128,7 +135,15 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                     name={`boolean-prop-${c.name}`}
                     checked={value as boolean}
                     onCheckedChange={(val) => {
-                      editAttributes(path, mdxElement, prop, editor, val)
+                      var newObj = cloneDeep(prop)
+                      set(
+                        newObj,
+                        mdxAccessors[
+                          prop.value.data.estree.body[0].expression.type
+                        ],
+                        val
+                      )
+                      editAttributes(path, mdxElement, newObj, editor)
                     }}
                   />
                 </Flex>
@@ -146,14 +161,17 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                   <Select
                     defaultValue={selectVal}
                     onChange={(option) => {
-                      if (option)
-                        editAttributes(
-                          path,
-                          mdxElement,
-                          prop,
-                          editor,
+                      if (option) {
+                        var newObj = cloneDeep(prop)
+                        set(
+                          newObj,
+                          mdxAccessors[
+                            prop.value.data.estree.body[0].expression.type
+                          ],
                           option.value
                         )
+                        editAttributes(path, mdxElement, newObj, editor)
+                      }
                     }}
                     options={options}
                   />
@@ -180,7 +198,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           <Label htmlFor={`component-children`}>Children</Label>
           <Editor
             value={mdxElement.reactChildren}
-            onChange={(val) => editReactChildren(id, mdxElement, editor, val)}
+            onChange={(val) => editReactChildren(path, mdxElement, editor, val)}
           />
         </Flex>
       </Flex>

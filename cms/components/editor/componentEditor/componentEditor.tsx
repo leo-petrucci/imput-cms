@@ -10,7 +10,7 @@ import { editReactChildren } from 'cms/components/editor/lib/editReactChildren'
 import { MdxElementShape } from 'cms/components/editor/mdxElement'
 import Label from 'cms/components/designSystem/label'
 import Flex from 'cms/components/designSystem/flex'
-import { Node } from 'slate'
+import { Descendant, Node, Transforms } from 'slate'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import Select from 'cms/components/designSystem/select'
 import Switch from 'cms/components/designSystem/switch'
@@ -19,14 +19,7 @@ import { MDXNode } from 'cms/types/mdxNode'
 import Box from 'cms/components/designSystem/box'
 import { mdxAccessors } from '../lib/mdx'
 import Codeblock from 'cms/components/designSystem/codeblock'
-import React from 'react'
-
-import CodeEditor from 'react-simple-code-editor'
-// @ts-ignore
-import { highlight, languages } from 'prismjs/components/prism-core'
-import 'prismjs/components/prism-clike'
-import 'prismjs/components/prism-javascript'
-import 'prismjs/themes/prism.css' //Example style, you can use another
+import React, { useEffect } from 'react'
 
 /**
  *
@@ -42,6 +35,43 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
   const { getSchema } = useCMS()
 
   const componentSchema = getSchema(mdxElement.name)
+
+  const hasChildren = Boolean(
+    componentSchema?.find((c) => c.name === 'children')
+  )
+
+  // we need to consider situations in which a component is set up to have children
+  // but was saved without having any
+  //
+  // slate is weird, and if we don't initialise the value that we want to change it'll
+  // break as soon as we try to edit children
+  //
+  // this returns an empty paragraph only if the object accepts children but its children don't exist
+  //
+  // could be flaky, needs testing 🤷‍♂️
+  const reactChildren = React.useMemo(() => {
+    // if component has children in schema
+    if (hasChildren) {
+      const node = Node.get(editor, path) as MdxElementShape
+      // but has no children in the editor
+      const hasSlateChildren = node.reactChildren.some(
+        // @ts-ignore
+        (c) => c.type !== undefined
+      )
+
+      if (!hasSlateChildren) {
+        return [
+          {
+            // @ts-ignore
+            type: 'paragraph',
+            children: [{ text: '' }],
+          },
+        ] as Descendant[]
+      }
+
+      return mdxElement.reactChildren as Descendant[]
+    }
+  }, [hasChildren])
 
   return (
     <>
@@ -208,13 +238,15 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           }
         })}
 
-        <Flex direction="column" gap="1">
-          <Label htmlFor={`component-children`}>Children</Label>
-          <Editor
-            value={mdxElement.reactChildren}
-            onChange={(val) => editReactChildren(path, mdxElement, editor, val)}
-          />
-        </Flex>
+        {hasChildren && (
+          <Flex direction="column" gap="1">
+            <Label htmlFor={`component-children`}>Children</Label>
+            <Editor
+              value={reactChildren!}
+              onChange={(val) => editReactChildren(id, mdxElement, editor, val)}
+            />
+          </Flex>
+        )}
       </Flex>
     </>
   )

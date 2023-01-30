@@ -16,9 +16,17 @@ import Select from 'cms/components/designSystem/select'
 import Switch from 'cms/components/designSystem/switch'
 import Input from 'cms/components/designSystem/input'
 import { MDXNode } from 'cms/types/mdxNode'
-import CodeBlockEditor from 'cms/components/editor/codeblockEditor'
 import Box from 'cms/components/designSystem/box'
 import { mdxAccessors } from '../lib/mdx'
+import Codeblock from 'cms/components/designSystem/codeblock'
+import React from 'react'
+
+import CodeEditor from 'react-simple-code-editor'
+// @ts-ignore
+import { highlight, languages } from 'prismjs/components/prism-core'
+import 'prismjs/components/prism-clike'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/themes/prism.css' //Example style, you can use another
 
 /**
  *
@@ -175,20 +183,28 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                   />
                 </Flex>
               )
-            // case 'json':
-            //   return (
-            //     <Flex direction="column" gap="1" key={c.name}>
-            //       <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
-            //       <CodeBlockEditor
-            //         {...props}
-            //         key={c.name}
-            //         value={prop}
-            //         editor={editor}
-            //         name={prop.name}
-            //         json={value as string}
-            //       />
-            //     </Flex>
-            //   )
+            case 'json':
+              return (
+                <Flex direction="column" gap="1" key={c.name}>
+                  <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
+                  <Codeblock
+                    defaultValue={value}
+                    hideLanguageSelect
+                    language="json"
+                    onValueChange={(code) => {
+                      var newObj = cloneDeep(prop)
+                      set(
+                        newObj,
+                        mdxAccessors[
+                          prop.value.data.estree.body[0].expression.type
+                        ],
+                        code
+                      )
+                      editAttributes(path, mdxElement, newObj, editor)
+                    }}
+                  />
+                </Flex>
+              )
           }
         })}
 

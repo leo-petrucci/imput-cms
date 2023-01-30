@@ -1,5 +1,40 @@
 import { createStitches, CSS } from '@stitches/react'
 
+const colors = {
+  'gray-50': 'rgb(249 250 251)',
+  'gray-100': 'rgb(243 244 246)',
+  'gray-200': 'rgb(229 231 235)',
+  'gray-300': 'rgb(209 213 219)',
+  'gray-400': 'rgb(156 163 175)',
+  'gray-500': 'rgb(107 114 128)',
+  'gray-600': 'rgb(75 85 99)',
+  'gray-700': 'rgb(55 65 81)',
+  'gray-800': 'rgb(31 41 55)',
+  'gray-900': 'rgb(17 24 39)',
+
+  'primary-50': '#f4f7f7',
+  'primary-100': '#e1eff5',
+  'primary-200': '#bfdfea',
+  'primary-300': '#8ec0d0',
+  'primary-400': '#569db1',
+  'primary-500': '#407d92',
+  'primary-600': '#356377',
+  'primary-700': '#2c4b5c',
+  'primary-800': '#203342',
+  'primary-900': '#14202c',
+
+  'red-50': '#fef2f2',
+  'red-100': '#fee2e2',
+  'red-200': '#fecaca',
+  'red-300': '#fca5a5',
+  'red-400': '#f87171',
+  'red-500': '#ef4444',
+  'red-600': '#dc2626',
+  'red-700': '#b91c1c',
+  'red-800': '#991b1b',
+  'red-900': '#7f1d1d',
+}
+
 const stitchesConfig = {
   media: {
     sm: '(min-width: 640px)',
@@ -9,40 +44,7 @@ const stitchesConfig = {
     '2xl': '(min-width: 1536px)',
   },
   theme: {
-    colors: {
-      'gray-50': 'rgb(249 250 251)',
-      'gray-100': 'rgb(243 244 246)',
-      'gray-200': 'rgb(229 231 235)',
-      'gray-300': 'rgb(209 213 219)',
-      'gray-400': 'rgb(156 163 175)',
-      'gray-500': 'rgb(107 114 128)',
-      'gray-600': 'rgb(75 85 99)',
-      'gray-700': 'rgb(55 65 81)',
-      'gray-800': 'rgb(31 41 55)',
-      'gray-900': 'rgb(17 24 39)',
-
-      'primary-50': '#f4f7f7',
-      'primary-100': '#e1eff5',
-      'primary-200': '#bfdfea',
-      'primary-300': '#8ec0d0',
-      'primary-400': '#569db1',
-      'primary-500': '#407d92',
-      'primary-600': '#356377',
-      'primary-700': '#2c4b5c',
-      'primary-800': '#203342',
-      'primary-900': '#14202c',
-
-      'red-50': '#fef2f2',
-      'red-100': '#fee2e2',
-      'red-200': '#fecaca',
-      'red-300': '#fca5a5',
-      'red-400': '#f87171',
-      'red-500': '#ef4444',
-      'red-600': '#dc2626',
-      'red-700': '#b91c1c',
-      'red-800': '#991b1b',
-      'red-900': '#7f1d1d',
-    },
+    colors,
     space: {
       px: '1px',
       0: '0',
@@ -119,6 +121,7 @@ const stitchesConfig = {
       '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)',
       inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)',
       none: '0 0 #0000',
+      ...colors,
     },
     zIndices: {
       0: 0,

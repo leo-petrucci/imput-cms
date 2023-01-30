@@ -78,7 +78,8 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
       <Flex direction="column" gap="2">
         {componentSchema?.map((c) => {
           // children are handled differently
-          if (c.name === 'children') {
+          // markdown can only be used for children
+          if (c.name === 'children' || c.type.widget === 'markdown') {
             return
           }
 

@@ -244,7 +244,9 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
               value={reactChildren!}
-              onChange={(val) => editReactChildren(id, mdxElement, editor, val)}
+              onChange={(val) =>
+                editReactChildren(path, mdxElement, editor, val)
+              }
             />
           </Flex>
         )}

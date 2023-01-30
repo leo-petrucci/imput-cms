@@ -1,5 +1,5 @@
 import { isObject } from 'lodash'
-import { BaseEditor, Descendant, Transforms } from 'slate'
+import { BaseEditor, Descendant, Path, Transforms } from 'slate'
 import { MdxElementShape } from '../mdxElement'
 
 /**
@@ -9,7 +9,7 @@ export const editReactChildren = (
   /**
    * Id of the node we want to edit
    */
-  id: string,
+  path: Path,
   /**
    * The entire deserialized MDX element
    */
@@ -30,10 +30,7 @@ export const editReactChildren = (
       reactChildren: value,
     },
     {
-      match: (node) => {
-        // @ts-ignore
-        return node.id === id
-      },
+      at: path,
     }
   )
 }

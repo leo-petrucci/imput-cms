@@ -2,15 +2,18 @@ import isString from 'lodash/isString'
 import set from 'lodash/set'
 import get from 'lodash/get'
 import cloneDeep from 'lodash/cloneDeep'
-import { ReactEditor, useSlate } from 'slate-react'
+import { ReactEditor, useSlateStatic } from 'slate-react'
 import Editor from 'cms/components/editor'
 import { CustomRenderElementProps } from 'cms/components/editor/element'
 import { editAttributes } from 'cms/components/editor/lib/editAttributes'
-import { editReactChildren } from 'cms/components/editor/lib/editReactChildren'
+import {
+  editReactChildren,
+  editReactChildrenById,
+} from 'cms/components/editor/lib/editReactChildren'
 import { MdxElementShape } from 'cms/components/editor/mdxElement'
 import Label from 'cms/components/designSystem/label'
 import Flex from 'cms/components/designSystem/flex'
-import { Descendant, Node, Transforms } from 'slate'
+import { Descendant, Node } from 'slate'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import Select from 'cms/components/designSystem/select'
 import Switch from 'cms/components/designSystem/switch'
@@ -19,14 +22,14 @@ import { MDXNode } from 'cms/types/mdxNode'
 import Box from 'cms/components/designSystem/box'
 import { mdxAccessors } from '../lib/mdx'
 import Codeblock from 'cms/components/designSystem/codeblock'
-import React, { useEffect } from 'react'
+import React from 'react'
 
 /**
  *
  */
 const ComponentEditor = (props: CustomRenderElementProps) => {
   const { element } = props
-  const editor = useSlate() as ReactEditor
+  const editor = useSlateStatic() as ReactEditor
   const mdxElement = element as MdxElementShape
   const { id } = mdxElement
 
@@ -244,8 +247,9 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
               value={reactChildren!}
-              onChange={(val) =>
-                editReactChildren(path, mdxElement, editor, val)
+              onChange={
+                (val) => editReactChildren(path, mdxElement, editor, val)
+                // editReactChildrenById(id, mdxElement, editor, val)
               }
             />
           </Flex>

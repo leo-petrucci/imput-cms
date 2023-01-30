@@ -1,6 +1,7 @@
 import { MDXNode } from 'cms/types/mdxNode'
 import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 import ctxt, { BlockType, NextCMSContext } from './context'
 
 /**
@@ -113,6 +114,7 @@ export const useCMS = () => {
     })
 
     const c = {
+      id: uuidv4(),
       type: 'mdxJsxFlowElement',
       attributes,
       reactChildren: [

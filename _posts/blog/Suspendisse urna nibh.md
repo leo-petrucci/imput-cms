@@ -8,10 +8,9 @@ author: Leonardo Petrucci
 ---
 Showing off `meow-cms`!
 
-<ReactComponent name="qrwer" date="2023-01-28" datetime="2023-01-28T21:30" boolean={true} variant={"option1"} padding={4} object={""} array={""} >
-
-
-</ReactComponent>
+<ReactComponent name="qrwer" date="2023-01-28" datetime="2023-01-28T21:30" boolean={true} variant={"option1"} padding={4} object={"{
+  "test": true,
+}"} array={"["test", "something"]"} />
 
 Some text here 👀
 

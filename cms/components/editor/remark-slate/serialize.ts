@@ -61,8 +61,6 @@ export default function serialize(
   let children = text
 
   if (!isLeafNode(chunk) && !isMdxElement(type)) {
-    // console.log({ type, text, isLeafNode: isLeafNode(chunk) });
-
     children = chunk.children
       .map((c: BlockType | LeafType) => {
         const isList = !isLeafNode(c)
@@ -91,7 +89,7 @@ export default function serialize(
         }
 
         return serialize(
-          { ...c, parentType: type },
+          { ...c, parentType: type, language: chunk.language },
           {
             nodeTypes,
             // WOAH.
@@ -295,6 +293,7 @@ export default function serialize(
     case nodeTypes.code_block:
       return `\`\`\`${
         (chunk as BlockType).language || ''
+        // @ts-ignore
       }\n${children}\n\`\`\`\n${BREAK_TAG}`
 
     case nodeTypes.link:

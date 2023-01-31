@@ -117,6 +117,7 @@ export default function deserialize<T extends InputNodeTypes>(
         type: types.code_block,
         language: node.lang,
         children: [{ text: node.value }],
+        code: [{ text: node.value }],
       } as CodeBlockNode<T>
 
     case 'html':

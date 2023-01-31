@@ -179,9 +179,11 @@ interface CodeblockProps
   defaultValue?: string
   language?: string
   hideLanguageSelect?: boolean
+  onLanguageChange?: (language: string) => void
 }
 
 const Codeblock = ({
+  onLanguageChange,
   onValueChange,
   defaultValue,
   language,
@@ -205,6 +207,7 @@ const Codeblock = ({
           name="languages"
           id="language-select"
           onChange={(e) => {
+            onLanguageChange?.(e.target.value)
             setLang(e.target.value)
           }}
         >

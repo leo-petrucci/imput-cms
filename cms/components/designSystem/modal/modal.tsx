@@ -163,6 +163,8 @@ export const Modal = ({
                       position: 'relative',
                       // maxHeight: `calc(${0}px - 50px)`,
                       overflowY: 'scroll',
+                      paddingLeft: 3,
+                      paddingRight: 3,
                     }}
                   >
                     {description?.(open, setOpen)}

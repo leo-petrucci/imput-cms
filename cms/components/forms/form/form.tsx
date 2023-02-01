@@ -11,6 +11,7 @@ import {
 } from 'react-hook-form'
 import Box from 'cms/components/designSystem/box'
 import ctxt from './context'
+import Label from 'cms/components/designSystem/label'
 
 export interface FormProps<T extends FieldValues> {
   form?: UseFormReturn<T, any>
@@ -130,12 +131,18 @@ const Item = ({
         }}
       >
         {typeof label === 'string' ? (
-          <label htmlFor={name}>{label}</label>
+          <Label htmlFor={name}>{label}</Label>
         ) : (
           label
         )}
         <div>{children}</div>
-        <div>{get(methods.formState.errors, `${name}.message`)}</div>
+        <Box
+          css={{
+            color: '$red-600',
+          }}
+        >
+          {get(methods.formState.errors, `${name}.message`)}
+        </Box>
       </Box>
     </FormItemProvider>
   )

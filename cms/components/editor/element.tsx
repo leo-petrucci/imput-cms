@@ -1,5 +1,6 @@
 import React from 'react'
 import { RenderElementProps } from 'slate-react'
+import CodeblockElement from './codeblockElement/codeblockElement'
 import Image from './images/imageElement'
 import MdxElement from './mdxElement'
 
@@ -29,6 +30,8 @@ export const Element = (props: CustomRenderElementProps) => {
       return <Image {...props} />
     case 'mdxJsxFlowElement':
       return <MdxElement {...props} />
+    case 'code_block':
+      return <CodeblockElement {...props} />
     case 'block_quote':
       return (
         <blockquote style={style} {...attributes}>

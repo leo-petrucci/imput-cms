@@ -10,6 +10,7 @@ import MoveElement from 'cms/components/editor/moveElement'
 import { Leaf } from 'cms/components/editor/leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
+import debounce from 'lodash/debounce'
 import Toolbar from 'cms/components/editor/toolbar'
 import {
   BlockButton,
@@ -19,6 +20,7 @@ import {
 } from 'cms/components/editor/button/button'
 import {
   CodeSimple,
+  Code,
   Image,
   ListBullets,
   ListNumbers,
@@ -32,7 +34,6 @@ import {
 import Box from 'cms/components/designSystem/box'
 import { ImageElement } from 'cms/components/editor/images/imageElement'
 import Controls from './controls'
-import Flex from 'cms/components/designSystem/flex'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -51,8 +52,12 @@ const withEditableVoids = (editor: ReactEditor) => {
 
   editor.isVoid = (element) => {
     // @ts-ignore
-    return element.type === 'mdxJsxFlowElement' || element.type === 'image'
-      ? true
+    return element.type === 'mdxJsxFlowElement' ||
+      // @ts-ignore
+      element.type === 'image'
+      ? // @ts-ignore
+        //  || element.type === 'code_block'
+        true
       : isVoid(element)
   }
 
@@ -99,24 +104,20 @@ const Editor = ({
     withEditableVoids(withReact(createEditor()))
   )
 
+  const onEditorChange = (val: Descendant[]) => {
+    onChange?.(val)
+  }
+
+  const debouncedOnChange = debounce(onEditorChange, 100)
+
   return (
     <>
-      <Slate
-        editor={editor}
-        value={value}
-        onChange={(val) => {
-          // this will add an empty value at the end to make sure there's always space
-          // addEmptySpace(editor)
-
-          // but we want to remove it when it's sent back
-          // onChange?.(removeLastEmptySpace(val))
-          onChange?.(val)
-        }}
-      >
+      <Slate editor={editor} value={value} onChange={debouncedOnChange}>
         <Toolbar>
           <MarkButton format="bold" icon={<TextBolder size={16} />} />
           <MarkButton format="italic" icon={<TextItalic size={16} />} />
           <MarkButton format="code" icon={<CodeSimple size={16} />} />
+          <BlockButton format="code_block" icon={<Code size={16} />} />
           <BlockButton format="heading_one" icon={<TextHOne size={16} />} />
           <BlockButton format="heading_two" icon={<TextHTwo size={16} />} />
           <BlockButton format="heading_three" icon={<TextHThree size={16} />} />

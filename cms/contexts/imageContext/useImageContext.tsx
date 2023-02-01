@@ -14,34 +14,10 @@ export const useImages = () => {
   const {
     imageTree,
     images: [images, setImages],
-    imagesRef,
   } = useContext(ctxt)
 
   const { backend } = useCMS()
   const [owner, repo] = backend.repo.split('/')
-
-  /**
-   * Extracts all image urls from markdown and converts them to useful objects containing blob urls, then sets them to state.
-   *
-   * Only use this on first load.
-   */
-  const loadImages = async (markdown: string) => {
-    const exp = new RegExp(
-      /!\[(?<alttext>.*?)]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g
-    )
-    // Contains all of the images from markdown
-    // @ts-ignore
-    const match = [...markdown.matchAll(exp)]
-
-    const parsed = await Promise.all(
-      match.map(async (m) => {
-        return await loadImage(m['groups']!['filename'])
-      })
-    )
-
-    // Set new images to state
-    setImages(parsed)
-  }
 
   /**
    * Move image from sha fileTree to the CMS' local state
@@ -145,7 +121,6 @@ export const useImages = () => {
     images,
     loadImage,
     setImages,
-    loadImages,
     addImage,
     removeImage,
     updateImage,

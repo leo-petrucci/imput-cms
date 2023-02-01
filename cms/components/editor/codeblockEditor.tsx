@@ -91,7 +91,7 @@ const CodeBlockEditor = ({
           // const json = JSON.stringify(JSON.parse(code))
 
           // set the value to the editor
-          editAttributes(path, mdxElement, value, editor, code)
+          editAttributes(path, mdxElement, value, editor)
         } catch (e) {}
       }}
     >

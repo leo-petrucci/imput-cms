@@ -1,5 +1,5 @@
 import { BaseElement, Descendant } from 'slate'
-import { RenderElementProps, useSelected, useSlate } from 'slate-react'
+import { RenderElementProps, useSelected } from 'slate-react'
 import { CustomRenderElementProps } from './element'
 import ComponentEditor from './componentEditor'
 import Panel from 'cms/components/designSystem/panel'
@@ -8,7 +8,7 @@ import { useEditorDepth } from './depthContext'
 import { styled } from 'stitches.config'
 import Flex from 'cms/components/designSystem/flex'
 import { BracketsSquare, ImageSquare } from 'phosphor-react'
-import AddSpace from './controls/addSpace'
+import { MDXNode } from 'cms/types/mdxNode'
 
 const StyledMdxButton = styled('button', {
   width: '100%',
@@ -53,17 +53,7 @@ export interface MdxElementShape extends Pick<RenderElementProps, 'element'> {
   /**
    * Component props
    */
-  attributes: {
-    type: 'mdxJsxAttribute'
-    name: string
-    value: // strings are easy
-    | string
-      // numbers are a bit more complicated
-      | {
-          type: string
-          value: string
-        }
-  }[]
+  attributes: MDXNode[]
   /**
    * Component children
    */

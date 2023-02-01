@@ -21,11 +21,7 @@ export const editAttributes = (
   /**
    * The slate editor instance
    */
-  editor: BaseEditor,
-  /**
-   * The value we'll change this prop to
-   */
-  value: any
+  editor: BaseEditor
 ) => {
   // find the index of the attribute
   const index = mdxElement.attributes.map((m) => m.name).indexOf(attribute.name)
@@ -36,12 +32,6 @@ export const editAttributes = (
   // change just this value
   newAttributes[index] = {
     ...attribute,
-    value: isObject(attribute.value)
-      ? {
-          ...attribute.value,
-          value,
-        }
-      : value,
   }
 
   Transforms.setNodes<MdxElementShape>(

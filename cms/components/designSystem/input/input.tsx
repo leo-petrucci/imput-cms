@@ -7,6 +7,7 @@ const StyledInput = styled('input', {
   borderRadius: '$default',
   padding: '$2',
   color: '$gray-800',
+  width: '100%',
   boxShadow: '0 0 0 1px var(--colors-gray-300)',
   border: '1px solid transparent',
   '&:focus': {
@@ -16,9 +17,7 @@ const StyledInput = styled('input', {
 })
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
-  name: string
-}
+  extends React.InputHTMLAttributes<HTMLInputElement> {}
 
 // eslint-disable-next-line react/display-name
 const Input = React.forwardRef<
@@ -26,9 +25,7 @@ const Input = React.forwardRef<
     Controlled: JSX.Element
   },
   InputProps
->(({ name, ...rest }: InputProps, ref: any) => (
-  <StyledInput id={name} name={name} {...rest} ref={ref} />
-))
+>((props: InputProps, ref: any) => <StyledInput {...props} ref={ref} />)
 
 export interface ControlledInputProps extends InputProps {}
 

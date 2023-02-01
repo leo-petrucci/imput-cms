@@ -21,10 +21,10 @@ import 'node_modules/modern-normalize/modern-normalize.css'
 const NextCMSPrivateRoutes: NextPage = () => {
   return (
     <Switch>
-      <Route path="/cms/:collection">
+      <Route path="/:cms/:collection">
         <CollectionPage />
       </Route>
-      <Route path="/cms">
+      <Route path="/:cms">
         <HomePage />
       </Route>
     </Switch>
@@ -53,6 +53,7 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
     }
     get()
   }, [])
+
   return (
     <Router>
       <QueryClientProvider client={queryClient}>

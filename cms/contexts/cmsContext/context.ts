@@ -1,6 +1,6 @@
 import React from 'react'
 
-type Widgets =
+export type Widgets =
   | {
       widget: 'boolean'
       default?: true | false
@@ -63,6 +63,10 @@ export type BlockType = {
      */
     type: Widgets
   }[]
+}
+
+type PickByType<T, Value> = {
+  [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
 }
 
 export interface NextCMSContext {
@@ -147,7 +151,23 @@ export interface NextCMSContext {
          * What will the input be labeled as in the Ui
          */
         label: string
-      } & Widgets)[]
+        /**
+         * Whether the input needs to exist for the user to save
+         */
+        required?: boolean
+      } & Extract<
+        Widgets,
+        {
+          widget:
+            | 'string'
+            | 'date'
+            | 'datetime'
+            | 'select'
+            | 'image'
+            | 'boolean'
+            | 'markdown'
+        }
+      >)[]
       /**
        * Components that will be made available to this type of content
        */

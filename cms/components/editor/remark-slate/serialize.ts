@@ -337,7 +337,7 @@ export default function serialize(
       return `---\n${BREAK_TAG}`
 
     default:
-      return escapeHtml(children)
+      return children
   }
 }
 

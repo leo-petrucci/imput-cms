@@ -13,6 +13,7 @@ const RemoveElement = ({ element }: { element: Element }) => {
 
   return (
     <StyledButton
+      disabled={editor.children.length === 1}
       type="button"
       onClick={() => {
         removeElement(editor, [path[0]])

@@ -27,8 +27,6 @@ const CodeblockElement = ({
 
   const selected = useSelected()
 
-  console.log(codeblockElement)
-
   return (
     <div {...attributes} contentEditable={false}>
       <div>
@@ -52,6 +50,7 @@ const CodeblockElement = ({
           }}
         />
       </div>
+      <div style={{ display: 'none' }}>{children}</div>
     </div>
   )
 }

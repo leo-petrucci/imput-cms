@@ -34,22 +34,24 @@ export const useGetGithubCollection = (type: string) => {
         }
       )
 
-      // need to get commit info for each file to get when they were last updated
-      for await (const file of files.data.tree) {
-        const commit = await octokit.request(
-          'GET /repos/{owner}/{repo}/commits',
-          {
+      // these will all get fetched at the same time, saving us a ton of time
+      const commits = await Promise.all(
+        files.data.tree.map((file) =>
+          octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
             path: `${type}/${file.path}`,
             page: 1,
             per_page: 1,
-          }
+          })
         )
+      )
 
+      // need to get commit info for each file to get when they were last updated
+      for (const [i, file] of files.data.tree.entries()) {
         // @ts-ignore
         // assign the date to the original object
-        file.date = commit.data[0].commit.author?.date
+        file.date = commits[i].data[0].commit.author?.date
       }
 
       // this tells typescript that we've added a `date` to the object
@@ -89,22 +91,24 @@ export const useGetGithubImages = () => {
         }
       )
 
-      // need to get commit info for each file to get when they were last updated
-      for await (const file of files.data.tree) {
-        const commit = await octokit.request(
-          'GET /repos/{owner}/{repo}/commits',
-          {
+      // these will all get fetched at the same time, saving us a ton of time
+      const commits = await Promise.all(
+        files.data.tree.map((file) =>
+          octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
             path: `${media_folder}/${file.path}`,
             page: 1,
             per_page: 1,
-          }
+          })
         )
+      )
 
+      // need to get commit info for each file to get when they were last updated
+      for (const [i, file] of files.data.tree.entries()) {
         // @ts-ignore
         // assign the date to the original object
-        file.date = commit.data[0].commit.author?.date
+        file.date = commits[i].data[0].commit.author?.date
       }
 
       // this tells typescript that we've added a `date` to the object

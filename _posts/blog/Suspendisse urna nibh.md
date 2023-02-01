@@ -7,10 +7,10 @@ datetime: '2023-01-28T15:13'
 author: Leonardo Petrucci
 ---
 ```jsx
-const App = () =&gt; {
-  return &lt;&gt;My react app!&lt;/&gt;
-}
+const App = () => (
+  <>React!</>
+)
 ```
 
-Woop woop!
+Heyooooo
 

@@ -8,7 +8,7 @@ import {
 } from 'slate-react'
 
 interface CodeblockElement extends Pick<RenderElementProps, 'element'> {
-  code: Descendant[]
+  children: Descendant[]
 }
 
 const CodeblockElement = ({
@@ -31,6 +31,7 @@ const CodeblockElement = ({
     <div {...attributes} contentEditable={false}>
       <div>
         <Codeblock
+          // @ts-ignore
           defaultValue={codeblockElement.children.map((c) => c.text).join('')}
           onLanguageChange={(language) => {
             Transforms.setNodes<any>(

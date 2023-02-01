@@ -1,5 +1,9 @@
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { useGetGithubCollection, useSaveMarkdown } from 'cms/queries/github'
+import {
+  useGetContent,
+  useGetGithubCollection,
+  useSaveMarkdown,
+} from 'cms/queries/github'
 import Form from 'cms/components/forms/form'
 import Flex from 'cms/components/designSystem/flex'
 import Box from 'cms/components/designSystem/box'
@@ -21,13 +25,13 @@ import { Widgets } from 'cms/contexts/cmsContext/context'
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
 
-  // this should never be undefined as the route above prevents rendering before the query is finished
-  const { data, isSuccess } = useGetGithubCollection(currentCollection!.folder)
-
   const { mutate, isLoading } = useSaveMarkdown(currentFile)
 
   // find the currently opened file from the collection of all files
-  const document = data!.find((f) => f.slug === `${currentFile}`)
+  const { data: document, isSuccess } = useGetContent(
+    currentCollection.folder,
+    currentFile
+  )
 
   // used to correctly initialize the form values
   const returnDefaultValue = (widgetType: Widgets['widget']) => {
@@ -62,7 +66,7 @@ const ContentPage = () => {
         body,
       })
     }
-  }, [data, form, isSuccess])
+  }, [document, form, isSuccess])
 
   const formValues = form.watch()
 

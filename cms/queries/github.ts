@@ -17,6 +17,10 @@ type FilesWithDate =
     }
   }
 
+/**
+ * Fetch an entire collection (a Github folder) and parses it to return usable objects
+ * @param type the name of the folder we want to load
+ */
 export const useGetGithubCollection = (type: string) => {
   const { backend, currentCollection } = useCMS()
   const [owner, repo] = backend.repo.split('/')
@@ -87,7 +91,10 @@ export const useGetGithubCollection = (type: string) => {
     },
   })
 }
-
+/**
+ * Fetch all image data from the connected repo.
+ * NOTE: doesn't download images, just their info.
+ */
 export const useGetGithubImages = () => {
   const { backend, media_folder } = useCMS()
   const [owner, repo] = backend.repo.split('/')
@@ -168,7 +175,27 @@ export const getGithubFileBase64 = async (
 }
 
 /**
+ * Return a single piece of content from the already loaded collection.
+ * @param type the folder our content is part of
+ * @param slug the specific content's unique slug
+ * @returns
+ */
+export const useGetContent = (type: string, slug: string) => {
+  const { data, isSuccess } = useGetGithubCollection(type)
+  return useQuery({
+    ...queryKeys.github.content(type, slug),
+    queryFn: async () => {
+      const content = data!.find((d) => d.slug === slug)
+
+      return content
+    },
+    enabled: isSuccess,
+  })
+}
+
+/**
  * Returns an utf-8 decoded file fetched from a bae64 encoded sha
+ * @deprecated
  */
 export const useGetGithubDecodedFile = (sha: string | undefined) => {
   const { backend } = useCMS()

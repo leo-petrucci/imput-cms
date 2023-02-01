@@ -6,6 +6,7 @@ import { getToken } from 'cms/queries/auth'
 import { queryKeys } from 'cms/queries/keys'
 import { slugify } from 'cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
+import matter from 'gray-matter'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -17,7 +18,7 @@ type FilesWithDate =
   }
 
 export const useGetGithubCollection = (type: string) => {
-  const { backend } = useCMS()
+  const { backend, currentCollection } = useCMS()
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.collection(type),
@@ -57,18 +58,32 @@ export const useGetGithubCollection = (type: string) => {
       // this tells typescript that we've added a `date` to the object
       const filesWithDate = files as unknown as FilesWithDate
 
-      // order the files in descending order with newest first
-      const orderedFiles = {
-        ...filesWithDate,
-        data: {
-          ...filesWithDate.data,
-          tree: filesWithDate.data.tree.sort((a, b) => {
-            return +new Date(b.date) - +new Date(a.date)
-          }),
-        },
-      }
+      const decodedFiles = await Promise.all(
+        filesWithDate.data.tree.map(async (file) => {
+          const blob = await octokit.request(
+            'GET /repos/{owner}/{repo}/git/blobs/{file_sha}',
+            {
+              owner,
+              repo,
+              file_sha: file.sha!,
+            }
+          )
+          const buf = Buffer.from(blob.data.content, 'base64')
+          const decoded = matter(buf.toString('utf-8'))
+          return {
+            ...decoded,
+            updatedAt: file.date,
+            slug: file.path?.split(`.${currentCollection.extension}`)[0],
+            markdown: buf.toString('utf-8'),
+          }
+        })
+      ).then((d) =>
+        d.sort((a, b) => {
+          return +new Date(b.updatedAt) - +new Date(a.updatedAt)
+        })
+      )
 
-      return orderedFiles
+      return decodedFiles
     },
   })
 }

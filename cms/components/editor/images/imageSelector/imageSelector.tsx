@@ -1,8 +1,8 @@
 import Box from 'cms/components/designSystem/box'
+import Image from 'cms/components/image'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from 'cms/contexts/imageContext/context'
 import { useImages } from 'cms/contexts/imageContext/useImageContext'
-import { useOnScreen } from 'cms/utils/useOnScreen'
 import { LayoutGroup, motion } from 'framer-motion'
 import React from 'react'
 import { styled } from 'stitches.config'
@@ -63,43 +63,16 @@ const ImageCard = ({
   onImageSelect: ImageSelectorProps['onImageSelect']
 }) => {
   const { public_folder } = useCMS()
-  const { images, loadImage, setImages } = useImages()
-  const imageBlobUrl = images.find((i) =>
-    i.filename.includes(image.path!)
-  )?.blobUrl
-
-  const ref: any = React.useRef<HTMLDivElement>()
-  const onScreen: boolean = useOnScreen<HTMLDivElement>(ref)
-
-  // if the image isn't currently loaded into state we wait until its shown on screen and then load it
-  React.useEffect(() => {
-    const doLoad = async () => {
-      const loadedImage = await loadImage(image.path!)
-      setImages((i) => [...i, loadedImage])
-    }
-    if (imageBlobUrl === undefined && onScreen) {
-      doLoad()
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [imageBlobUrl, onScreen])
 
   return (
     <MotionImageSelectorButton
       layout
-      ref={ref}
       onClick={() => {
         // return the full path to the public image
         onImageSelect?.(`${public_folder}/${image.path!}`)
       }}
     >
-      <Box
-        css={{
-          backgroundImage: `url(${imageBlobUrl})`,
-          height: '12rem',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
+      <Image path={image.path!} />
       <Box
         css={{
           padding: '$1 $2',

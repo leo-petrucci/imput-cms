@@ -1,8 +1,9 @@
 import Box from 'cms/components/designSystem/box'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { Link } from 'react-router-dom'
 import { styled } from 'stitches.config'
 
-const CollectionButton = styled('button', {
+const CollectionButton = styled(Link, {
   flex: '1 1 0%',
   textAlign: 'left',
   padding: '$3 $4',
@@ -15,13 +16,15 @@ const CollectionButton = styled('button', {
 
   color: '$primary-700',
 
+  transition: '200ms background',
+
   '&:hover': { backgroundColor: '$primary-50' },
 })
 
 /**
  * Renders a container that lists all the different collections available
  */
-const CollectionSelect = () => {
+const CollectionSelect = ({ baseUrl }: { baseUrl: string }) => {
   const { collections } = useCMS()
   return (
     <Box
@@ -50,7 +53,9 @@ const CollectionSelect = () => {
       >
         {collections.map((c) => (
           <>
-            <CollectionButton>{c.label}</CollectionButton>
+            <CollectionButton key={c.name} to={`${baseUrl}/${c.name}`}>
+              {c.label}
+            </CollectionButton>
           </>
         ))}
       </Box>

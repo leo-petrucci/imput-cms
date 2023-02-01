@@ -1,9 +1,5 @@
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import {
-  useGetGithubCollection,
-  useGetGithubDecodedFile,
-  useSaveMarkdown,
-} from 'cms/queries/github'
+import { useGetGithubCollection, useSaveMarkdown } from 'cms/queries/github'
 import Form from 'cms/components/forms/form'
 import Flex from 'cms/components/designSystem/flex'
 import Box from 'cms/components/designSystem/box'
@@ -26,18 +22,14 @@ const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
 
   // this should never be undefined as the route above prevents rendering before the query is finished
-  const query = useGetGithubCollection(currentCollection!.folder)
+  const { data, isSuccess } = useGetGithubCollection(currentCollection!.folder)
 
   const { mutate, isLoading } = useSaveMarkdown(currentFile)
 
   // find the currently opened file from the collection of all files
-  const sha = query.data!.data.tree.find(
-    (f) => f.path === `${currentFile}.${currentCollection.extension}`
-  )!.sha
+  const document = data!.find((f) => f.slug === `${currentFile}`)
 
-  // decode it with github
-  const { data, isSuccess } = useGetGithubDecodedFile(sha)
-
+  // used to correctly initialize the form values
   const returnDefaultValue = (widgetType: Widgets['widget']) => {
     switch (widgetType) {
       default:
@@ -62,9 +54,9 @@ const ContentPage = () => {
 
   // initialize default values to the form
   useEffect(() => {
-    if (isSuccess) {
-      setMarkdown(data)
-      const { content: body, data: grayMatterObj } = matter(data)
+    if (isSuccess && document) {
+      setMarkdown(document.markdown)
+      const { content: body, data: grayMatterObj } = matter(document.markdown)
       form.reset({
         ...grayMatterObj,
         body,
@@ -74,7 +66,7 @@ const ContentPage = () => {
 
   const formValues = form.watch()
 
-  const [markdown, setMarkdown] = React.useState(data)
+  const [markdown, setMarkdown] = React.useState<string | undefined>(undefined)
 
   // we parse form values into a graymatter string so we can display it
   React.useEffect(() => {
@@ -161,7 +153,7 @@ const ContentPage = () => {
                       case 'datetime':
                         return <Input.Controlled type="datetime-local" />
                       case 'markdown':
-                        return <CreateEditor mdx={data} />
+                        return <CreateEditor mdx={document!.markdown} />
                       case 'image':
                         return <ImagePicker.Controlled />
                       case 'boolean':

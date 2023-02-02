@@ -43,28 +43,32 @@ const ContentPage = () => {
     }
   }
 
+  const defaultValues = () => {
+    if (document) {
+      const { content: body, data: graymatter } = matter(document.markdown)
+      return {
+        body,
+        ...graymatter,
+      }
+    }
+    return {}
+  }
+
   // we need to initialize our empty values from config
   const form = useForm({
-    defaultValues: {
-      body: '',
-      ...Object.fromEntries(
-        currentCollection.fields.map((f) => [
-          f.name,
-          f.default || returnDefaultValue(f.widget),
-        ])
-      ),
-    },
+    // define body explicitly here even if it's going to be overwritten later for types
+    defaultValues: { body: '', ...defaultValues() },
   })
 
   // initialize default values to the form
   useEffect(() => {
     if (isSuccess && document) {
-      setMarkdown(document.markdown)
       const { content: body, data: grayMatterObj } = matter(document.markdown)
       form.reset({
         ...grayMatterObj,
         body,
       })
+      setMarkdown(document.markdown)
     }
   }, [document, form, isSuccess])
 
@@ -81,7 +85,7 @@ const ContentPage = () => {
 
   const [ref, { height }] = useMeasure()
 
-  if (isSuccess) {
+  if (isSuccess && markdown) {
     return (
       <>
         <Box
@@ -121,8 +125,8 @@ const ContentPage = () => {
             }}
           >
             <Form<{
-              [k: string]: string
               body: string
+              [k: string]: string
             }>
               formProps={{ id: 'content-form' }}
               form={form}
@@ -165,6 +169,7 @@ const ContentPage = () => {
                       case 'select':
                         return (
                           <Select.Controlled
+                            isMulti={f.multiple || false}
                             options={f.options.map((o) => ({
                               value: o,
                               label: o,

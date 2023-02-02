@@ -7,6 +7,7 @@ export type Widgets =
     }
   | {
       widget: 'select'
+      multiple?: boolean
       options: (string | number)[]
       default?: string | number
     }

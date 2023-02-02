@@ -52,11 +52,9 @@ const CollectionSelect = ({ baseUrl }: { baseUrl: string }) => {
         }}
       >
         {collections.map((c) => (
-          <>
-            <CollectionButton key={c.name} to={`${baseUrl}/${c.name}`}>
-              {c.label}
-            </CollectionButton>
-          </>
+          <CollectionButton key={c.name} to={`${baseUrl}/${c.name}`}>
+            {c.label}
+          </CollectionButton>
         ))}
       </Box>
     </Box>

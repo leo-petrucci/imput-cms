@@ -1,7 +1,6 @@
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { useGetGithubCollection } from 'cms/queries/github'
-import Flex from 'cms/components/designSystem/flex'
-import { Link, Route, Switch, useParams, useRouteMatch } from 'react-router-dom'
+import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom'
 import ContentPage from 'cms/pages/content'
 import Box from 'cms/components/designSystem/box'
 import CollectionSelect from 'cms/components/collections/collectionSelect/collectionSelect'
@@ -29,7 +28,7 @@ const CollectionPage = () => {
           <Route path={`${match.path}/:file`}>
             <ContentPage />
           </Route>
-          <Route path="/">
+          <Route path={match.path}>
             <Box
               // @ts-expect-error
               ref={ref}

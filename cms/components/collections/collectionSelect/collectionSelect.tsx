@@ -1,9 +1,9 @@
 import Box from 'cms/components/designSystem/box'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { styled } from 'stitches.config'
 
-const CollectionButton = styled(Link, {
+const CollectionButton = styled(NavLink, {
   flex: '1 1 0%',
   textAlign: 'left',
   padding: '$3 $4',
@@ -17,6 +17,8 @@ const CollectionButton = styled(Link, {
   color: '$primary-700',
 
   transition: '200ms background',
+
+  '&.active': { backgroundColor: '$primary-50' },
 
   '&:hover': { backgroundColor: '$primary-50' },
 })

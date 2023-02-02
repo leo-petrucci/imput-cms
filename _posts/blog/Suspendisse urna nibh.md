@@ -5,12 +5,11 @@ published: true
 date: '2023-01-28'
 datetime: '2023-01-28T15:13'
 author: Leonardo Petrucci
+category: Cat 1
 ---
-```jsx
-const App = () => (
-  <>React!</>
-)
-```
+<ReactComponent name="12434" date="2023-02-02" datetime="2023-02-02T17:20" boolean={true} variant={"option1"} padding={8} object={""} array={""} >
 
-Heyooooo
+Test
+
+</ReactComponent>
 

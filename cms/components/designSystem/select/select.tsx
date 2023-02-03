@@ -17,7 +17,7 @@ interface ControlledSelectProps {
 }
 
 function Controlled<
-  Option extends { value: string; label: string },
+  Option,
   IsMulti extends boolean = false,
   Group extends GroupBase<Option> = GroupBase<Option>
 >(props: Props<Option, IsMulti, Group> & ControlledSelectProps) {

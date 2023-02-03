@@ -36,6 +36,7 @@
     "prismjs": "^1.29.0",
     "react": "17.x",
     "react-dom": "17.x",
+    "react-error-boundary": "^3.1.4",
     "react-hook-form": "^7.41.5",
     "react-hot-toast": "^2.4.0",
     "react-router-dom": "5.x",

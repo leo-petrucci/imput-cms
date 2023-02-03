@@ -21,6 +21,8 @@ import ImagePicker from 'cms/components/designSystem/imagePicker'
 import Switch from 'cms/components/designSystem/switch'
 import Select from 'cms/components/designSystem/select/select'
 import { Widgets } from 'cms/contexts/cmsContext/context'
+import Relation from 'cms/components/designSystem/select/relation'
+import ErrorBoundary from 'cms/components/designSystem/errorBoundary/errorBoundary'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()
@@ -175,6 +177,17 @@ const ContentPage = () => {
                               label: o,
                             }))}
                           />
+                        )
+                      case 'relation':
+                        return (
+                          <ErrorBoundary>
+                            <Relation.Controlled
+                              collection={f.collection}
+                              value_field={f.value_field}
+                              display_fields={f.display_fields}
+                              isMulti={f.multiple || false}
+                            />
+                          </ErrorBoundary>
                         )
                     }
                   }

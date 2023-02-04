@@ -66,7 +66,6 @@ const RelationSelect = ({
   // as well as multi selects with multiple values
   // and multi selects with non-array values
   const valueMemo = React.useMemo(() => {
-    console.log(props.value)
     if (props.value && isSuccess) {
       if (isArray(props.value)) {
         return props.value.map((v: any) =>
@@ -79,8 +78,6 @@ const RelationSelect = ({
       return undefined
     }
   }, [props.value, isSuccess, optionsMemo])
-
-  console.log(valueMemo)
 
   if (!isSuccess) return <>Loading...</>
 

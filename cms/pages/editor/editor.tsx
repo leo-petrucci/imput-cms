@@ -20,15 +20,21 @@ import { Widgets } from 'cms/contexts/cmsContext/context'
 import Relation from 'cms/components/designSystem/select/relation'
 import ErrorBoundary from 'cms/components/designSystem/errorBoundary/errorBoundary'
 import merge from 'lodash/merge'
+// @ts-expect-error
+import * as Handlebars from 'handlebars/dist/handlebars'
+import { slugify } from 'cms/utils/slugify'
+import { v4 as uuidv4 } from 'uuid'
+import { useQueryClient } from '@tanstack/react-query'
+import { queryKeys } from 'cms/queries/keys'
+import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
+  slug?: string
 }
 
-const EditorPage = ({ document }: EditorPageProps) => {
+const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   const { currentCollection, currentFile } = useCMS()
-
-  const { mutate, isLoading } = useSaveMarkdown(currentFile)
 
   // used to correctly initialize the form values
   const returnDefaultValue = (widgetType: Widgets['widget']) => {
@@ -73,12 +79,52 @@ const EditorPage = ({ document }: EditorPageProps) => {
 
   const [markdown, setMarkdown] = React.useState<string | undefined>(undefined)
 
+  // at times, our gray matter might have some undefined values
+  // in those cases we need to merge our form values with a generated object of default values
+  // if any undefined properties are passed to gray-matter it will blow up 🤦‍♂️
+  const getCorrectedFormValues = () => {
+    return merge(defaultValues(), formValues)
+  }
+
+  const isNewFile = currentFile === ''
+
+  /**
+   * If the file already exists, filename will be the original filename
+   * if it doesn't, we'll instead generate it via handlebars
+   */
+  const filename = React.useMemo(() => {
+    if (isNewFile && slug) {
+      const date = new Date()
+      const template = Handlebars.compile(slug)
+      const { body, ...rest } = getCorrectedFormValues()
+
+      if (slug.includes('slug') && rest.title === undefined) {
+        console.warn(
+          `Your slug is ${slug}, which by default is a "slugified" version of the "title" field. However, this document does not have a title field. This will cause issues when saving.`
+        )
+      }
+
+      return template({
+        ...rest,
+        slug: slugify(String(rest.title)),
+        year: date.getFullYear(),
+        month: date.getMonth(),
+        day: date.getDate(),
+        hour: date.getHours(),
+        minute: date.getMinutes(),
+        seconds: date.getSeconds(),
+        uuid: uuidv4(),
+      })
+    } else {
+      return currentFile
+    }
+  }, [markdown])
+
+  const { mutate, isLoading } = useSaveMarkdown(filename)
+
   // we parse form values into a graymatter string so we can display it
   React.useEffect(() => {
-    // at times, our gray matter might have some undefined values
-    // in those cases we need to merge our form values with a generated object of default values
-    // if any undefined properties are passed to gray-matter it will blow up 🤦‍♂️
-    const mergedValues = merge(defaultValues(), formValues)
+    const mergedValues = getCorrectedFormValues()
     const { body, ...rest } = mergedValues
     const content = matter.stringify(body, {
       ...rest,
@@ -87,6 +133,10 @@ const EditorPage = ({ document }: EditorPageProps) => {
   }, [formValues])
 
   const [ref, { height }] = useMeasure()
+
+  const queryClient = useQueryClient()
+  const history = useHistory()
+  const { cms, collection } = useParams<{ cms: string; collection: string }>()
 
   if (markdown) {
     return (
@@ -113,7 +163,7 @@ const EditorPage = ({ document }: EditorPageProps) => {
             loading={isLoading}
             disabled={isLoading}
           >
-            Save
+            {isNewFile ? 'Publish' : 'Update'}
           </Button>
         </Box>
 
@@ -140,7 +190,7 @@ const EditorPage = ({ document }: EditorPageProps) => {
                   {
                     markdown: {
                       content,
-                      path: `${currentCollection.folder}/${currentFile}.${currentCollection.extension}`,
+                      path: `${currentCollection.folder}/${filename}.${currentCollection.extension}`,
                     },
                   },
                   {
@@ -148,6 +198,17 @@ const EditorPage = ({ document }: EditorPageProps) => {
                       toast.success('Content saved!', {
                         id,
                       })
+
+                      // We can get a big UX win here by upating the cache with the data we get back
+                      queryClient.removeQueries(
+                        queryKeys.github.collection(currentCollection.folder)
+                          .queryKey
+                      )
+
+                      // redirect to the file we've just created
+                      if (isNewFile) {
+                        history.replace(`/${cms}/${collection}/${filename}`)
+                      }
                     },
                   }
                 )

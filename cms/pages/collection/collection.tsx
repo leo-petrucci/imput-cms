@@ -14,7 +14,7 @@ import CollectionCard from 'cms/components/collections/collectionCard'
 import { CollectionType } from 'cms/types/collection'
 import useMeasure from 'cms/utils/useMeasure'
 import Button from 'cms/components/designSystem/button'
-import EditorPage from 'cms/pages/editor'
+import NewPage from 'cms/pages/new'
 
 const CollectionPage = () => {
   const { collection } = useParams<{
@@ -35,7 +35,7 @@ const CollectionPage = () => {
       {isSuccess ? (
         <Switch>
           <Route exact path={`${match.path}/new`}>
-            <EditorPage />
+            <NewPage />
           </Route>
           <Route path={`${match.path}/:file`}>
             <ContentPage />

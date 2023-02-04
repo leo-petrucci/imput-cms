@@ -19,7 +19,7 @@ const CMS = () => (
             label: 'Blog',
             folder: '_posts/blog',
             create: true,
-            slug: '{{slug}}',
+            slug: '{{uuid}}-{{slug}}-{{year}}-{{month}}-{{day}}-{{author}}',
             extension: 'md',
             fields: [
               {

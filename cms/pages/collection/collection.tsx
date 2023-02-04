@@ -1,18 +1,27 @@
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { useGetGithubCollection } from 'cms/queries/github'
-import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom'
+import {
+  Route,
+  Switch,
+  useHistory,
+  useParams,
+  useRouteMatch,
+} from 'react-router-dom'
 import ContentPage from 'cms/pages/content'
 import Box from 'cms/components/designSystem/box'
-import CollectionSelect from 'cms/components/collections/collectionSelect/collectionSelect'
-import CollectionCard from 'cms/components/collections/collectionCard/collectionCard'
+import CollectionSelect from 'cms/components/collections/collectionSelect'
+import CollectionCard from 'cms/components/collections/collectionCard'
 import { CollectionType } from 'cms/types/collection'
 import useMeasure from 'cms/utils/useMeasure'
+import Button from 'cms/components/designSystem/button'
+import EditorPage from 'cms/pages/editor'
 
 const CollectionPage = () => {
   const { collection } = useParams<{
     collection: string
   }>()
   const match = useRouteMatch<{ cms: string }>()
+  const history = useHistory()
   const { collections } = useCMS()
   const thisCollection = collections.find((c) => c.name === collection)
   const { isSuccess, data } = useGetGithubCollection(
@@ -25,6 +34,9 @@ const CollectionPage = () => {
     <>
       {isSuccess ? (
         <Switch>
+          <Route exact path={`${match.path}/new`}>
+            <EditorPage />
+          </Route>
           <Route path={`${match.path}/:file`}>
             <ContentPage />
           </Route>
@@ -75,6 +87,29 @@ const CollectionPage = () => {
                     gridColumn: 'span 4 / span 4',
                   }}
                 >
+                  <Box css={{}}>
+                    <Box
+                      css={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+
+                        '& > h1': {
+                          fontSize: '$3xl',
+                          fontWeight: '$semibold',
+                        },
+                      }}
+                    >
+                      <h1>{thisCollection?.label}</h1>
+                      <Button
+                        onClick={() => {
+                          history.push(`${match.url}/new`)
+                        }}
+                      >
+                        Add new
+                      </Button>
+                    </Box>
+                  </Box>
                   <Box
                     css={{
                       display: 'grid',

@@ -164,13 +164,7 @@ const EditorPage = ({ document }: EditorPageProps) => {
                       case 'datetime':
                         return <Input.Controlled type="datetime-local" />
                       case 'markdown':
-                        return (
-                          <CreateEditor
-                            mdx={
-                              document ? document.markdown : 'Your content here'
-                            }
-                          />
-                        )
+                        return <CreateEditor />
                       case 'image':
                         return <ImagePicker.Controlled />
                       case 'boolean':
@@ -235,7 +229,7 @@ const EditorPage = ({ document }: EditorPageProps) => {
   return <>Loading...</>
 }
 
-const CreateEditor = ({ mdx }: { mdx: string }) => {
+const CreateEditor = () => {
   const { name, rules } = useFormItem()
   const { control } = useFormContext()
 
@@ -245,7 +239,7 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
     rules,
   })
 
-  const { content } = matter(mdx)
+  const { content } = matter(field.value)
 
   const handleChange = React.useCallback(
     (nextValue: any[]) => {
@@ -256,9 +250,10 @@ const CreateEditor = ({ mdx }: { mdx: string }) => {
     [field]
   )
 
-  const value = React.useMemo(() => deserialize(content), [content])
-
-  console.log({ value })
+  const value = React.useMemo(
+    () => deserialize(content || 'My markdown content'),
+    [content]
+  )
 
   return (
     <DepthProvider>

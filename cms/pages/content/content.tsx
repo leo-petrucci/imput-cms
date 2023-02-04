@@ -46,14 +46,14 @@ const ContentPage = () => {
   }
 
   const defaultValues = () => {
-    if (document) {
-      const { content: body, data: graymatter } = matter(document.markdown)
-      return {
-        body,
-        ...graymatter,
-      }
+    const defaultValues = Object.fromEntries(
+      currentCollection.fields
+        .filter((f) => f.name !== 'body')
+        .map((f) => [f.name, f.default || returnDefaultValue(f.widget)])
+    )
+    return {
+      ...defaultValues,
     }
-    return {}
   }
 
   // we need to initialize our empty values from config
@@ -66,6 +66,7 @@ const ContentPage = () => {
   useEffect(() => {
     if (isSuccess && document) {
       const { content: body, data: grayMatterObj } = matter(document.markdown)
+      console.log({ grayMatterObj })
       form.reset({
         ...grayMatterObj,
         body,
@@ -81,7 +82,9 @@ const ContentPage = () => {
   // we parse form values into a graymatter string so we can display it
   React.useEffect(() => {
     const { body, ...rest } = formValues
-    const content = matter.stringify(body, rest)
+    const content = matter.stringify(body, {
+      ...rest,
+    })
     setMarkdown(content)
   }, [formValues])
 

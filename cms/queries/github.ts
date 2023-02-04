@@ -6,6 +6,7 @@ import { getToken } from 'cms/queries/auth'
 import { queryKeys } from 'cms/queries/keys'
 import { slugify } from 'cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
+import matter from 'gray-matter'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -16,8 +17,12 @@ type FilesWithDate =
     }
   }
 
+/**
+ * Fetch an entire collection (a Github folder) and parses it to return usable objects
+ * @param type the name of the folder we want to load
+ */
 export const useGetGithubCollection = (type: string) => {
-  const { backend } = useCMS()
+  const { backend, currentCollection } = useCMS()
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.collection(type),
@@ -34,43 +39,62 @@ export const useGetGithubCollection = (type: string) => {
         }
       )
 
-      // need to get commit info for each file to get when they were last updated
-      for await (const file of files.data.tree) {
-        const commit = await octokit.request(
-          'GET /repos/{owner}/{repo}/commits',
-          {
+      // these will all get fetched at the same time, saving us a ton of time
+      const commits = await Promise.all(
+        files.data.tree.map((file) =>
+          octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
             path: `${type}/${file.path}`,
             page: 1,
             per_page: 1,
-          }
+          })
         )
+      )
 
+      // need to get commit info for each file to get when they were last updated
+      for (const [i, file] of files.data.tree.entries()) {
         // @ts-ignore
         // assign the date to the original object
-        file.date = commit.data[0].commit.author?.date
+        file.date = commits[i].data[0].commit.author?.date
       }
 
       // this tells typescript that we've added a `date` to the object
       const filesWithDate = files as unknown as FilesWithDate
 
-      // order the files in descending order with newest first
-      const orderedFiles = {
-        ...filesWithDate,
-        data: {
-          ...filesWithDate.data,
-          tree: filesWithDate.data.tree.sort((a, b) => {
-            return +new Date(b.date) - +new Date(a.date)
-          }),
-        },
-      }
+      const decodedFiles = await Promise.all(
+        filesWithDate.data.tree.map(async (file) => {
+          const blob = await octokit.request(
+            'GET /repos/{owner}/{repo}/git/blobs/{file_sha}',
+            {
+              owner,
+              repo,
+              file_sha: file.sha!,
+            }
+          )
+          const buf = Buffer.from(blob.data.content, 'base64')
+          const decoded = matter(buf.toString('utf-8'))
+          return {
+            ...decoded,
+            updatedAt: file.date,
+            slug: file.path?.split(`.${currentCollection.extension}`)[0],
+            markdown: buf.toString('utf-8'),
+          }
+        })
+      ).then((d) =>
+        d.sort((a, b) => {
+          return +new Date(b.updatedAt) - +new Date(a.updatedAt)
+        })
+      )
 
-      return orderedFiles
+      return decodedFiles
     },
   })
 }
-
+/**
+ * Fetch all image data from the connected repo.
+ * NOTE: doesn't download images, just their info.
+ */
 export const useGetGithubImages = () => {
   const { backend, media_folder } = useCMS()
   const [owner, repo] = backend.repo.split('/')
@@ -89,22 +113,24 @@ export const useGetGithubImages = () => {
         }
       )
 
-      // need to get commit info for each file to get when they were last updated
-      for await (const file of files.data.tree) {
-        const commit = await octokit.request(
-          'GET /repos/{owner}/{repo}/commits',
-          {
+      // these will all get fetched at the same time, saving us a ton of time
+      const commits = await Promise.all(
+        files.data.tree.map((file) =>
+          octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
             path: `${media_folder}/${file.path}`,
             page: 1,
             per_page: 1,
-          }
+          })
         )
+      )
 
+      // need to get commit info for each file to get when they were last updated
+      for (const [i, file] of files.data.tree.entries()) {
         // @ts-ignore
         // assign the date to the original object
-        file.date = commit.data[0].commit.author?.date
+        file.date = commits[i].data[0].commit.author?.date
       }
 
       // this tells typescript that we've added a `date` to the object
@@ -149,7 +175,27 @@ export const getGithubFileBase64 = async (
 }
 
 /**
+ * Return a single piece of content from the already loaded collection.
+ * @param type the folder our content is part of
+ * @param slug the specific content's unique slug
+ * @returns
+ */
+export const useGetContent = (type: string, slug: string) => {
+  const { data, isSuccess } = useGetGithubCollection(type)
+  return useQuery({
+    ...queryKeys.github.content(type, slug),
+    queryFn: async () => {
+      const content = data!.find((d) => d.slug === slug)
+
+      return content
+    },
+    enabled: isSuccess,
+  })
+}
+
+/**
  * Returns an utf-8 decoded file fetched from a bae64 encoded sha
+ * @deprecated
  */
 export const useGetGithubDecodedFile = (sha: string | undefined) => {
   const { backend } = useCMS()

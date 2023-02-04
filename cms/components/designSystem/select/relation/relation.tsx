@@ -41,12 +41,9 @@ const RelationSelect = ({
   const valueKey = value_field
   const displayKey = display_fields || value_field
 
-  if (!isSuccess) return <>Loading...</>
-
-  return (
-    <Select
-      {...props}
-      options={data?.map((d) => {
+  const optionsMemo = React.useMemo(() => {
+    if (isSuccess) {
+      return data?.map((d) => {
         const value = d.data[valueKey]
         const label = d.data[displayKey]
         if (!value || !label) {
@@ -56,11 +53,39 @@ const RelationSelect = ({
         }
 
         return {
-          value: d.data[valueKey],
-          label: d.data[displayKey],
+          value,
+          label,
         }
-      })}
-    />
+      })
+    } else {
+      return []
+    }
+  }, [isSuccess])
+
+  // this should handle single selects
+  // as well as multi selects with multiple values
+  // and multi selects with non-array values
+  const valueMemo = React.useMemo(() => {
+    console.log(props.value)
+    if (props.value && isSuccess) {
+      if (isArray(props.value)) {
+        return props.value.map((v: any) =>
+          optionsMemo?.find((o) => o.value === v)
+        )
+      } else {
+        return optionsMemo?.find((o) => o.value === props.value)
+      }
+    } else {
+      return undefined
+    }
+  }, [props.value, isSuccess, optionsMemo])
+
+  console.log(valueMemo)
+
+  if (!isSuccess) return <>Loading...</>
+
+  return (
+    <Select {...props} value={valueMemo || undefined} options={optionsMemo} />
   )
 }
 
@@ -84,30 +109,11 @@ function Controlled<
     rules,
   })
 
-  // this should handle single selects
-  // as well as multi selects with multiple values
-  // and multi selects with non-array values
-  const valueMemo = React.useMemo(() => {
-    if (value) {
-      if (isArray(value)) {
-        return value.map((v: any) =>
-          // @ts-expect-error
-          props.options?.find((o) => o.value === v)
-        )
-      } else {
-        // @ts-expect-error
-        return props.options?.find((o) => o.value === value)
-      }
-    } else {
-      return undefined
-    }
-  }, [value])
-
   return (
     <RelationSelect
       {...props}
       {...fields}
-      value={valueMemo || undefined}
+      value={value}
       onChange={(v) => {
         if (props.isMulti) {
           // @ts-expect-error

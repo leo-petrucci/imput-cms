@@ -66,7 +66,6 @@ const ContentPage = () => {
   useEffect(() => {
     if (isSuccess && document) {
       const { content: body, data: grayMatterObj } = matter(document.markdown)
-      console.log({ grayMatterObj })
       form.reset({
         ...grayMatterObj,
         body,

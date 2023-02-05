@@ -1,6 +1,6 @@
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import React from 'react'
-import EditorPage from '../editor/editor'
+import EditorPage from 'cms/pages/editor'
 
 const NewPage = () => {
   const { currentCollection } = useCMS()

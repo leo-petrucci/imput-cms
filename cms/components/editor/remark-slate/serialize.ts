@@ -1,11 +1,14 @@
-import { BlockType, defaultNodeTypes, LeafType, NodeTypes } from './ast-types'
-// @ts-ignore
-import escapeHtml from 'escape-html'
-import { MdxElementShape } from '../mdxElement'
+import {
+  BlockType,
+  defaultNodeTypes,
+  LeafType,
+  NodeTypes,
+} from 'cms/components/editor/remark-slate/ast-types'
+import { MdxElementShape } from 'cms/components/editor/mdxElement'
 import isObject from 'lodash/isObject'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
-import { mdxAccessors } from '../lib/mdx'
+import { mdxAccessors } from 'cms/components/editor/lib/mdx'
 
 interface Options {
   nodeTypes: NodeTypes

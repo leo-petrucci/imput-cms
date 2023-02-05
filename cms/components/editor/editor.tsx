@@ -33,7 +33,7 @@ import {
 } from 'phosphor-react'
 import Box from 'cms/components/designSystem/box'
 import { ImageElement } from 'cms/components/editor/images/imageElement'
-import Controls from './controls'
+import Controls from 'cms/components/editor/controls'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()

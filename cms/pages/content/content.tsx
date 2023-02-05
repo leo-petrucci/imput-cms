@@ -1,8 +1,7 @@
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { useGetContent } from 'cms/queries/github'
 import React from 'react'
-
-import EditorPage from '../editor/editor'
+import EditorPage from 'cms/pages/editor'
 
 const ContentPage = () => {
   const { currentCollection, currentFile } = useCMS()

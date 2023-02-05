@@ -1,6 +1,5 @@
-import { isObject } from 'lodash'
 import { BaseEditor, Path, Transforms } from 'slate'
-import { MdxElementShape } from '../mdxElement'
+import { MdxElementShape } from 'cms/components/editor/mdxElement'
 
 /**
  * Edits any string prop on an MDX slate element

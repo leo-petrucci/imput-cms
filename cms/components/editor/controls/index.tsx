@@ -1,1 +1,1 @@
-export { default } from './controls'
+export { default, StyledButton } from './controls'

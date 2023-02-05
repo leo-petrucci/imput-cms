@@ -2,7 +2,7 @@ import { Trash } from 'phosphor-react'
 import { ReactEditor, useSlate } from 'slate-react'
 import { removeElement } from 'cms/components/editor/lib/editorControls'
 import { Element } from 'slate'
-import { StyledButton } from '../controls'
+import { StyledButton } from 'cms/components/editor/controls'
 
 /**
  * Renders a button that, when clicked, removes the element it is connected to.

@@ -1,8 +1,8 @@
 import React, { useContext } from 'react'
-import { getGithubFileBase64, useGetGithubImages } from '../../queries/github'
+import { getGithubFileBase64, useGetGithubImages } from 'cms/queries/github'
 import ctxt, { ImageState, LoadedImages } from './context'
-import { useCMS } from '../cmsContext/useCMSContext'
-import { base64ToBlob } from '../../utils/base64ToBlob'
+import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { base64ToBlob } from 'cms/utils/base64ToBlob'
 
 const fileToBlob = async (file: File) =>
   new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })

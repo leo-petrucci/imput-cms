@@ -15,9 +15,9 @@ import {
   ParagraphNode,
   TextNode,
   ThematicBreakNode,
-} from './ast-types'
+} from 'cms/components/editor/remark-slate/ast-types'
 import { v4 as uuidv4 } from 'uuid'
-import { MDXNode } from '../../../types/mdxNode'
+import { MDXNode } from 'cms/types/mdxNode'
 
 /**
  * Markdown to Slate deserialization.

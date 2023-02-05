@@ -20,7 +20,7 @@ import Switch from 'cms/components/designSystem/switch'
 import Input from 'cms/components/designSystem/input'
 import { MDXNode } from 'cms/types/mdxNode'
 import Box from 'cms/components/designSystem/box'
-import { mdxAccessors } from '../lib/mdx'
+import { mdxAccessors } from 'cms/components/editor/lib/mdx'
 import Codeblock from 'cms/components/designSystem/codeblock'
 import React from 'react'
 
@@ -225,7 +225,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                     defaultValue={value}
                     hideLanguageSelect
                     language="json"
-                    onValueChange={(code) => {
+                    onValueChange={(code: any) => {
                       var newObj = cloneDeep(prop)
                       set(
                         newObj,

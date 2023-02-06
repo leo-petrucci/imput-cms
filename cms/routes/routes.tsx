@@ -1,4 +1,3 @@
-import { NextPage } from 'next'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NextCMSContext } from 'cms/contexts/cmsContext/context'
 import { CMSProvider } from 'cms/contexts/cmsContext/useCMSContext'
@@ -11,23 +10,18 @@ import React from 'react'
 import { Octokit } from 'octokit'
 import { getToken } from 'cms/queries/auth'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
-import 'node_modules/modern-normalize/modern-normalize.css'
 
 /**
  * Central routing point for all of our private CMS pages
  */
-const NextCMSPrivateRoutes: NextPage = () => {
+const NextCMSPrivateRoutes = () => {
   return (
-    <Switch>
-      <Route path="/:cms/:collection">
-        <CollectionPage />
-      </Route>
-      <Route path="/:cms">
-        <HomePage />
-      </Route>
-    </Switch>
+    <Routes>
+      <Route path="/:cms/:collection/*" element={<CollectionPage />} />
+      <Route path="/:cms" element={<HomePage />} />
+    </Routes>
   )
 }
 

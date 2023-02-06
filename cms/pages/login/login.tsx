@@ -9,16 +9,17 @@ const Login = () => {
   const queryClient = useQueryClient()
 
   const receiveMessage = (event: any) => {
-    const { token, provider } = JSON.parse(event.data) as {
-      token: string
-      provider: 'github'
+    if (!event.data.includes('setImmediate')) {
+      const { token, provider } = JSON.parse(event.data) as {
+        token: string
+        provider: 'github'
+      }
+      document.cookie = `token=${token}; Max-Age=604800;`
+      document.cookie = `provider=${provider}; Max-Age=604800;`
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.auth.token.queryKey,
+      })
     }
-    document.cookie = `token=${token}; Max-Age=604800;`
-    document.cookie = `provider=${provider}; Max-Age=604800;`
-
-    queryClient.invalidateQueries({
-      queryKey: queryKeys.auth.token.queryKey,
-    })
   }
 
   const openWindow = () => {
@@ -58,7 +59,7 @@ const Login = () => {
 
   React.useEffect(() => {
     window.addEventListener('message', receiveMessage, false)
-    // return window.removeEventListener("message", receiveMessage);
+    // return window.removeEventListener('message', receiveMessage)
   }, [])
 
   return (

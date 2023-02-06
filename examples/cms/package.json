@@ -1,0 +1,21 @@
+{
+  "name": "meow-cms-dev",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@next/font": "13.1.6",
+    "@types/node": "18.11.19",
+    "@types/react": "18.x",
+    "@types/react-dom": "18.0.10",
+    "next": "13.1.6",
+    "react": "18.x",
+    "react-dom": "18.x",
+    "typescript": "4.9.5"
+  }
+}

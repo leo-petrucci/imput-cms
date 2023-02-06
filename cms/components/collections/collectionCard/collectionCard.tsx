@@ -6,7 +6,7 @@ import { CollectionType } from 'cms/types/collection'
 import matter from 'gray-matter'
 import { isString } from 'lodash'
 import { NonUndefined } from 'react-hook-form'
-import { Link, useRouteMatch } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export interface CollectionCardProps extends CollectionType {
   baseUrl: string

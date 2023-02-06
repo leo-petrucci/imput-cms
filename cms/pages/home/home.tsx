@@ -1,5 +1,5 @@
 import React from 'react'
-import { useHistory, useRouteMatch } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 
 /**
@@ -9,14 +9,16 @@ import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
  */
 const HomePage = () => {
   const { collections } = useCMS()
-  const history = useHistory()
-  const match = useRouteMatch()
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  console.log(location)
 
   React.useEffect(() => {
     if (collections.length) {
-      history.replace(`${match.path}/${collections[0].name}`)
+      navigate(`${location.pathname}/${collections[0].name}`, { replace: true })
     }
-  }, [collections, history, match.path])
+  }, [collections, history, location.pathname])
 
   return <>Loading...</>
 }

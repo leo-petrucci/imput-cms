@@ -26,7 +26,7 @@ import { slugify } from 'cms/utils/slugify'
 import { v4 as uuidv4 } from 'uuid'
 import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from 'cms/queries/keys'
-import { useHistory, useParams, useRouteMatch } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -135,7 +135,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   const [ref, { height }] = useMeasure()
 
   const queryClient = useQueryClient()
-  const history = useHistory()
+  const navigate = useNavigate()
   const { cms, collection } = useParams<{ cms: string; collection: string }>()
 
   if (markdown) {
@@ -207,7 +207,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
                       // redirect to the file we've just created
                       if (isNewFile) {
-                        history.replace(`/${cms}/${collection}/${filename}`)
+                        navigate(`/${cms}/${collection}/${filename}`, {
+                          replace: true,
+                        })
                       }
                     },
                   }

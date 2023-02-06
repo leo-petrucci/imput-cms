@@ -1,8 +1,3 @@
-import dynamic from "next/dynamic";
+import NextCMS from './routes'
 
-// This will ensure all pages are rendered client-side only
-const NextCMS = dynamic(() => import("./routes"), {
-  ssr: false,
-});
-
-export default NextCMS;
+export default NextCMS

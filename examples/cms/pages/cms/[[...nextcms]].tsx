@@ -1,4 +1,8 @@
-import NextCMS from '../../cms'
+import dynamic from 'next/dynamic'
+
+const NextCMS = dynamic(() => import('cms'), {
+  ssr: false,
+})
 
 const CMS = () => (
   <NextCMS

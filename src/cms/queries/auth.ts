@@ -1,5 +1,5 @@
 import { Octokit } from 'octokit'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, defaultContext } from '@tanstack/react-query'
 import { queryKeys } from 'cms/queries/keys'
 
 function getCookie(cname: string) {
@@ -25,6 +25,7 @@ export const getToken = () => {
 export const useGithubUser = (token: string | null) => {
   return useQuery({
     ...queryKeys.auth.user(token!),
+    context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({
         auth: getToken(),
@@ -45,6 +46,7 @@ export const useGithubUser = (token: string | null) => {
 export const useGithubToken = () => {
   return useQuery({
     ...queryKeys.auth.token,
+    context: defaultContext,
     queryFn: async () => {
       return getToken()
     },

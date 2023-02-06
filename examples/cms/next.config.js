@@ -12,7 +12,7 @@ const nextConfig = {
   ) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      cms: path.resolve(__dirname, '../../cms/'),
+      cms: path.resolve(__dirname, '../../src/cms/'),
       'stitches.config$': path.resolve(__dirname, '../../stitches.config.ts'),
       'node_modules/modern-normalize/modern-normalize.css$': path.resolve(
         __dirname,

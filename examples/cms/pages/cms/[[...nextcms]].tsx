@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const NextCMS = dynamic(() => import('cms'), {
+const NextCMS = dynamic(() => import('../../../../dist'), {
   ssr: false,
 })
 

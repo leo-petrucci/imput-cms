@@ -1,6 +1,6 @@
 import { Octokit } from 'octokit'
 import { Buffer } from 'buffer'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, defaultContext } from '@tanstack/react-query'
 import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
 import { getToken } from 'cms/queries/auth'
 import { queryKeys } from 'cms/queries/keys'
@@ -26,6 +26,7 @@ export const useGetGithubCollection = (type: string) => {
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.collection(type),
+    context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({
         auth: getToken(),
@@ -100,6 +101,7 @@ export const useGetGithubImages = () => {
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.collection(media_folder),
+    context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({
         auth: getToken(),
@@ -184,6 +186,7 @@ export const useGetContent = (type: string, slug: string) => {
   const { data, isSuccess } = useGetGithubCollection(type)
   return useQuery({
     ...queryKeys.github.content(type, slug),
+    context: defaultContext,
     queryFn: async () => {
       const content = data!.find((d) => d.slug === slug)
 
@@ -202,6 +205,7 @@ export const useGetGithubDecodedFile = (sha: string | undefined) => {
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.fileBlob(sha!),
+    context: defaultContext,
     queryFn: async () => {
       const base64 = await getGithubFileBase64(owner, repo, sha!)
 

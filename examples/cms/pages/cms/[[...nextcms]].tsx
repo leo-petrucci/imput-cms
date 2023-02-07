@@ -15,7 +15,7 @@ const CMS = () => (
           base_url: 'https://meow-cms-creativiii.vercel.app/',
           auth_endpoint: 'api/auth',
         },
-        media_folder: 'public/images',
+        media_folder: 'examples/cms/public/images',
         public_folder: 'images',
         collections: [
           {

@@ -1,0 +1,17 @@
+.codesandbox
+.github
+.next
+.vscode
+.yarn
+examples
+node_modules
+src
+.eslintrc.json
+.yarnrc.yml
+modern-normalise.ts
+next-env.d.ts
+ossjs.release.config.js
+prettier.config.js
+stitches.config.ts
+yarn.lock
+tsconfig.json

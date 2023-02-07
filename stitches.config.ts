@@ -1,4 +1,5 @@
-import { createStitches, CSS } from '@stitches/react'
+import { createStitches, CSS, globalCss } from '@stitches/react'
+import { modernNormalize } from './modern-normalise'
 
 const colors = {
   'gray-50': 'rgb(249 250 251)',
@@ -34,6 +35,12 @@ const colors = {
   'red-800': '#991b1b',
   'red-900': '#7f1d1d',
 }
+
+const globalStyles = globalCss({
+  ...modernNormalize,
+})
+
+globalStyles()
 
 const stitchesConfig = {
   media: {

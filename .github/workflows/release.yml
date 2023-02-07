@@ -33,6 +33,8 @@ jobs:
 
       - run: yarn install --frozen-lockfile
 
+      - run: yarn build
+
       - run: yarn run release
         env:
           # Set the "GITHUB_TOKEN" environmental variable

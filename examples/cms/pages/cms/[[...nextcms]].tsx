@@ -12,7 +12,7 @@ const CMS = () => (
           name: 'github',
           repo: 'creativiii/meow-cms',
           branch: 'main',
-          base_url: 'https://sqlite-experiment.vercel.app/',
+          base_url: 'https://meow-cms-creativiii.vercel.app/',
           auth_endpoint: 'api/auth',
         },
         media_folder: 'public/images',

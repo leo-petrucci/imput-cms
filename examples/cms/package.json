@@ -17,6 +17,7 @@
     "next": "13.1.6",
     "react": "18.x",
     "react-dom": "18.x",
+    "simple-oauth2": "^5.0.0",
     "typescript": "4.9.5"
   }
 }

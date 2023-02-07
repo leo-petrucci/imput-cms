@@ -3521,22 +3521,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/simple-oauth2@npm:^4.1.1":
-  version: 4.1.2
-  resolution: "@types/simple-oauth2@npm:4.1.2"
-  checksum: e2cc5575a0a92b52784715b4397f60f13d4e5e68d0bfafe6b21db2058c275b0e14a0d705667cb1d494ca6b6fa7182bbf6db73ec55192192712a62e4846acd597
-  languageName: node
-  linkType: hard
-
-"@types/sqlite3@npm:^3.1.8":
-  version: 3.1.8
-  resolution: "@types/sqlite3@npm:3.1.8"
-  dependencies:
-    "@types/node": "*"
-  checksum: 5f68d93a04e6d99fb0cd3275fc37392ed74ba2fe3cc3a147383a939ff6bc624a98fedecfee814b416358285f85c793ce61be0b1d5f924681232ad24c3a2c56f2
-  languageName: node
-  linkType: hard
-
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
@@ -8850,8 +8834,6 @@ __metadata:
     "@types/node": 17.0.12
     "@types/prismjs": ^1.26.0
     "@types/react": 18.x
-    "@types/simple-oauth2": ^4.1.1
-    "@types/sqlite3": ^3.1.8
     "@types/uuid": ^8.3.4
     axios: ^0.27.2
     dts-cli: ^1.6.3

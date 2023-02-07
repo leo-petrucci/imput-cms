@@ -1,7 +1,4 @@
 {
   "extends": "@tsconfig/create-react-app/tsconfig.json",
-  "include": ["src", "types"],
-  "compilerOptions": {
-    "baseUrl": "./src"
-  }
+  "include": ["src", "types"]
 }

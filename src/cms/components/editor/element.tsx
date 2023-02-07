@@ -1,8 +1,8 @@
 import React from 'react'
 import { RenderElementProps } from 'slate-react'
-import CodeblockElement from 'cms/components/editor/codeblockElement/codeblockElement'
-import Image from 'cms/components/editor/images/imageElement'
-import MdxElement from 'cms/components/editor/mdxElement'
+import CodeblockElement from '../../../cms/components/editor/codeblockElement/codeblockElement'
+import Image from '../../../cms/components/editor/images/imageElement'
+import MdxElement from '../../../cms/components/editor/mdxElement'
 
 export interface CustomRenderElementProps
   extends Omit<RenderElementProps, 'element'> {

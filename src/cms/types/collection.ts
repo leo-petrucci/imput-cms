@@ -1,4 +1,4 @@
-import { useGetGithubCollection } from 'cms/queries/github'
+import { useGetGithubCollection } from '../../cms/queries/github'
 import { NonUndefined } from 'react-hook-form'
 
 export type CollectionType = NonUndefined<

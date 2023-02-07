@@ -1,8 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { queryKeys } from 'cms/queries/keys'
-import Button from 'cms/components/designSystem/button'
+import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
+import { queryKeys } from '../../../cms/queries/keys'
+import Button from '../../../cms/components/designSystem/button'
 
 const Login = () => {
   const { backend } = useCMS()

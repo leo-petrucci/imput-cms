@@ -1,7 +1,7 @@
-import { useFormItem } from 'cms/components/forms/form/form'
+import { useFormItem } from '../../../../cms/components/forms/form/form'
 import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { styled } from 'stitches.config'
+import { styled } from '../../../../../stitches.config'
 
 const StyledInput = styled('input', {
   borderRadius: '$default',

@@ -1,8 +1,6 @@
-import { blackA } from '@radix-ui/colors'
 import { keyframes } from '@stitches/react'
-import { rest } from 'lodash'
 import React from 'react'
-import { styled } from 'stitches.config'
+import { styled } from '../../../../../stitches.config'
 
 const spin = keyframes({
   '0%': { transform: 'rotate(0deg)' },

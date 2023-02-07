@@ -1,11 +1,11 @@
-import Box from 'cms/components/designSystem/box'
-import Image from 'cms/components/image'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { Imagetree } from 'cms/contexts/imageContext/context'
-import { useImages } from 'cms/contexts/imageContext/useImageContext'
-import { LayoutGroup, motion } from 'framer-motion'
+import Box from '../../../../../cms/components/designSystem/box'
+import Image from '../../../../../cms/components/image'
 import React from 'react'
-import { styled } from 'stitches.config'
+import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
+import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
+import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
+import { LayoutGroup, motion } from 'framer-motion'
+import { styled } from '../../../../../../stitches.config'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void

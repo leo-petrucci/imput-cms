@@ -1,8 +1,8 @@
 import * as SwitchPrimitive from '@radix-ui/react-switch'
-import { useFormItem } from 'cms/components/forms/form/form'
-import { omit } from 'lodash'
+import { useFormItem } from '../../../../cms/components/forms/form/form'
 import { useController, useFormContext } from 'react-hook-form'
-import { styled } from 'stitches.config'
+import { styled } from '../../../../../stitches.config'
+import React from 'react'
 
 const StyledSwitch = styled(SwitchPrimitive.Root, {
   all: 'unset',
@@ -62,12 +62,6 @@ const Controlled = (props: ControlledSwitchProps) => {
         onCheckedChange={formOnchange}
         checked={value}
       />
-      <span id="errors" role="alert" aria-atomic="true" className="text-sm">
-        {form &&
-          props.name &&
-          form.formState.errors[props.name] &&
-          form.formState.errors[props.name]?.message}
-      </span>
     </>
   )
 }

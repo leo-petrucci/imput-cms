@@ -1,9 +1,10 @@
-import Box from 'cms/components/designSystem/box'
-import Flex from 'cms/components/designSystem/flex'
+import Box from '../../../../cms/components/designSystem/box'
+import Flex from '../../../../cms/components/designSystem/flex'
 import { Element } from 'slate'
-import { styled } from 'stitches.config'
-import AddSpace from 'cms/components/editor/controls/addSpace'
-import RemoveElement from 'cms/components/editor/controls/removeElement'
+import React from 'react'
+import { styled } from '../../../../../stitches.config'
+import AddSpace from '../../../../cms/components/editor/controls/addSpace'
+import RemoveElement from '../../../../cms/components/editor/controls/removeElement'
 
 export const StyledButton = styled('button', {
   padding: '$1',

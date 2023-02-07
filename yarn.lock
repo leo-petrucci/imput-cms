@@ -3027,7 +3027,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:4.24.4":
+"@tanstack/query-core@npm:4.24.4, @tanstack/query-core@npm:^4.24.4":
   version: 4.24.4
   resolution: "@tanstack/query-core@npm:4.24.4"
   checksum: b357e950a41e5769878a3bfe9dd56a66828ccebb2f9396e568e8835bed71eb37926770a461e3aa5bafb7e1121c5141cee86aedf3ced88a2eacf754d545b107cd
@@ -8810,6 +8810,7 @@ __metadata:
     "@radix-ui/react-popover": ^1.0.2
     "@radix-ui/react-switch": ^1.0.1
     "@stitches/react": ^1.2.8
+    "@tanstack/query-core": ^4.24.4
     "@tanstack/react-query": ^4.24.4
     "@tsconfig/create-react-app": ^1.0.3
     "@types/lodash": ^4.14.186

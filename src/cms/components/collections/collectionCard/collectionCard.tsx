@@ -1,12 +1,9 @@
-import Box from 'cms/components/designSystem/box'
-import Image from 'cms/components/image/image'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { useGetGithubCollection } from 'cms/queries/github'
-import { CollectionType } from 'cms/types/collection'
-import matter from 'gray-matter'
-import { isString } from 'lodash'
-import { NonUndefined } from 'react-hook-form'
+import Box from '../../../../cms/components/designSystem/box'
+import Image from '../../../../cms/components/image/image'
+import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
+import { CollectionType } from '../../../../cms/types/collection'
 import { Link } from 'react-router-dom'
+import React from 'react'
 
 export interface CollectionCardProps extends CollectionType {
   baseUrl: string

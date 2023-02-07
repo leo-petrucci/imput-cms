@@ -1,10 +1,10 @@
 import React from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useUploadFile } from 'cms/queries/github'
+import { useUploadFile } from '../../../../../cms/queries/github'
 import toast from 'react-hot-toast'
-import { queryKeys } from 'cms/queries/keys'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import Button from 'cms/components/designSystem/button'
+import { queryKeys } from '../../../../../cms/queries/keys'
+import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
+import Button from '../../../../../cms/components/designSystem/button'
 import { Endpoints } from '@octokit/types'
 
 /**

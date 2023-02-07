@@ -1,9 +1,7 @@
-import { useImages } from 'cms/contexts/imageContext/useImageContext'
 import { Element, Transforms } from 'slate'
 import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
-import { styled } from 'stitches.config'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import ImagePicker from 'cms/components/designSystem/imagePicker'
+import React from 'react'
+import ImagePicker from '../../../../../cms/components/designSystem/imagePicker'
 
 export interface ImageElement extends Element {
   type: 'image'

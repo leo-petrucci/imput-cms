@@ -4,8 +4,8 @@ import {
   ErrorBoundaryProps,
   FallbackProps,
 } from 'react-error-boundary'
-import Box from 'cms/components/designSystem/box'
-import { styled } from 'stitches.config'
+import Box from '../../../../cms/components/designSystem/box'
+import { styled } from '../../../../../stitches.config'
 
 const StyledPre = styled('pre', {})
 

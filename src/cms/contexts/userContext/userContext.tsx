@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
-import Login from 'cms/pages/login'
-import { useGithubToken, useGithubUser } from 'cms/queries/auth'
-import ctxt from 'cms/contexts/userContext/context'
+import Login from '../../../cms/pages/login'
+import { useGithubToken, useGithubUser } from '../../../cms/queries/auth'
+import ctxt from '../../../cms/contexts/userContext/context'
 
 export const useUser = () => {
   const user = useContext(ctxt)

@@ -1,14 +1,13 @@
 import React from 'react'
 import Editor from 'react-simple-code-editor'
 import { languages, highlight } from 'prismjs'
-import { styled } from 'stitches.config'
+import { styled } from '../../../../../stitches.config'
 import isFunction from 'lodash/isFunction'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-jsx'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-json'
-import { NonceProvider } from 'react-select'
 
 const StyledCodeContainer = styled('div', {
   '$$color-fg-default': '#adbac7',

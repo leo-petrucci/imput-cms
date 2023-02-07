@@ -3,11 +3,11 @@ import React, { useCallback, useMemo } from 'react'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { Text, createEditor, Descendant, Node } from 'slate'
 import { withHistory } from 'slate-history'
-import { CustomRenderElementProps } from 'cms/components/editor/element'
-import { MdxElementShape } from 'cms/components/editor/mdxElement'
-import { editAttributes } from 'cms/components/editor/lib/editAttributes'
+import { CustomRenderElementProps } from '../../../cms/components/editor/element'
+import { MdxElementShape } from '../../../cms/components/editor/mdxElement'
+import { editAttributes } from '../../../cms/components/editor/lib/editAttributes'
 import { styled } from '@stitches/react'
-import { MDXNode } from 'cms/types/mdxNode'
+import { MDXNode } from '../../../cms/types/mdxNode'
 
 const CodeBlockEditor = ({
   value,
@@ -23,13 +23,13 @@ const CodeBlockEditor = ({
   const mdxElement = element as MdxElementShape
   const { id } = mdxElement
 
-  const renderLeaf = useCallback((props) => <Leaf {...props} />, [])
+  const renderLeaf = useCallback((props: any) => <Leaf {...props} />, [])
   const codeEditor = useMemo(() => withHistory(withReact(createEditor())), [])
 
   const path = ReactEditor.findPath(editor, element as unknown as Node)
 
   // decorate function depends on the language selected
-  const decorate = useCallback(([node, path]) => {
+  const decorate = useCallback(([node, path]: any) => {
     const ranges: {
       type: LeafNode['type']
       anchor: {

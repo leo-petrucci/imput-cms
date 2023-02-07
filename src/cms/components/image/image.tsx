@@ -1,8 +1,8 @@
-import { useImages } from 'cms/contexts/imageContext/useImageContext'
-import { useOnScreen } from 'cms/utils/useOnScreen'
+import { useImages } from '../../../cms/contexts/imageContext/useImageContext'
+import { useOnScreen } from '../../../cms/utils/useOnScreen'
 import React from 'react'
-import Box from 'cms/components/designSystem/box'
-import { CustomCSS } from 'stitches.config'
+import Box from '../../../cms/components/designSystem/box'
+import { CustomCSS } from '../../../../stitches.config'
 
 /**
  * Displays an image from local state, if the image has not yet been loaded to state it loads it and displays it

@@ -1,9 +1,10 @@
-import Box from 'cms/components/designSystem/box'
+import Box from '../../../../cms/components/designSystem/box'
 import { CaretDown, CaretUp } from 'phosphor-react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { styled } from 'stitches.config'
-import { CustomRenderElementProps } from 'cms/components/editor/element'
+import { styled } from '../../../../../stitches.config'
+import React from 'react'
+import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
 
 const StyledButton = styled('button', {
   padding: '$1',

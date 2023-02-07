@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
+import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 
 /**
  * Will redirect user to the first collection in their settings.

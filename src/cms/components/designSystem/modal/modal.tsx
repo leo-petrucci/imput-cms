@@ -4,9 +4,9 @@ import { blackA, grayA, mauve, whiteA } from '@radix-ui/colors'
 import { CSS, styled } from '@stitches/react'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
-import { inlineCss } from 'stitches.config'
-import Box from 'cms/components/designSystem/box'
-import useMeasure from 'cms/utils/useMeasure'
+import { inlineCss } from '../../../../../stitches.config'
+import Box from '../../../../cms/components/designSystem/box'
+import useMeasure from '../../../../cms/utils/useMeasure'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backgroundColor: grayA.grayA6,

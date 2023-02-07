@@ -9,9 +9,9 @@ import {
   useFormContext,
   UseFormReturn,
 } from 'react-hook-form'
-import Box from 'cms/components/designSystem/box'
+import Box from '../../../../cms/components/designSystem/box'
 import ctxt from './context'
-import Label from 'cms/components/designSystem/label'
+import Label from '../../../../cms/components/designSystem/label'
 
 export interface FormProps<T extends FieldValues> {
   form?: UseFormReturn<T, any>
@@ -141,7 +141,7 @@ const Item = ({
             color: '$red-600',
           }}
         >
-          {get(methods.formState.errors, `${name}.message`)}
+          {get(methods.formState.errors, `${name}.message`) as string}
         </Box>
       </Box>
     </FormItemProvider>

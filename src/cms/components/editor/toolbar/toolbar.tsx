@@ -1,5 +1,5 @@
 import React from 'react'
-import Box from 'cms/components/designSystem/box'
+import Box from '../../../../cms/components/designSystem/box'
 
 interface BaseProps {
   className?: string

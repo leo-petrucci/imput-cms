@@ -1,4 +1,4 @@
-import Codeblock from 'cms/components/designSystem/codeblock'
+import Codeblock from '../../../../cms/components/designSystem/codeblock'
 import { Transforms, Node, Descendant } from 'slate'
 import {
   ReactEditor,
@@ -6,6 +6,7 @@ import {
   useSelected,
   useSlateStatic,
 } from 'slate-react'
+import React from 'react'
 
 interface CodeblockElement extends Pick<RenderElementProps, 'element'> {
   children: Descendant[]

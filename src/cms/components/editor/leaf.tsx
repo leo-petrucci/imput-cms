@@ -1,4 +1,5 @@
-import { styled } from 'stitches.config'
+import { styled } from '../../../../stitches.config'
+import React from 'react'
 
 export const Leaf = ({ attributes, children, leaf }: any) => {
   if (leaf.bold) {

@@ -3,21 +3,21 @@ import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkSlate, {
   serialize as remarkSerialize,
-} from 'cms/components/editor/remark-slate'
+} from '../../../cms/components/editor/remark-slate'
 import { createEditor, Descendant, Transforms } from 'slate'
-import { Element } from 'cms/components/editor/element'
-import MoveElement from 'cms/components/editor/moveElement'
-import { Leaf } from 'cms/components/editor/leaf'
+import { Element } from '../../../cms/components/editor/element'
+import MoveElement from '../../../cms/components/editor/moveElement'
+import { Leaf } from '../../../cms/components/editor/leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
 import debounce from 'lodash/debounce'
-import Toolbar from 'cms/components/editor/toolbar'
+import Toolbar from '../../../cms/components/editor/toolbar'
 import {
   BlockButton,
   ComponentButton,
   MarkButton,
   StyledButton,
-} from 'cms/components/editor/button/button'
+} from '../../../cms/components/editor/button/button'
 import {
   CodeSimple,
   Code,
@@ -31,9 +31,9 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
-import Box from 'cms/components/designSystem/box'
-import { ImageElement } from 'cms/components/editor/images/imageElement'
-import Controls from 'cms/components/editor/controls'
+import Box from '../../../cms/components/designSystem/box'
+import { ImageElement } from '../../../cms/components/editor/images/imageElement'
+import Controls from '../../../cms/components/editor/controls'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -71,7 +71,7 @@ const Editor = ({
   value: Descendant[]
   onChange?: (value: Descendant[]) => void
 }) => {
-  const renderElement = React.useCallback((props) => {
+  const renderElement = React.useCallback((props: any) => {
     return (
       <Box
         css={{
@@ -99,7 +99,7 @@ const Editor = ({
       </Box>
     )
   }, [])
-  const renderLeaf = React.useCallback((props) => <Leaf {...props} />, [])
+  const renderLeaf = React.useCallback((props: any) => <Leaf {...props} />, [])
   const [editor] = React.useState(() =>
     withEditableVoids(withReact(createEditor()))
   )

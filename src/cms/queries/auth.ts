@@ -1,6 +1,6 @@
 import { Octokit } from 'octokit'
 import { useQuery, defaultContext } from '@tanstack/react-query'
-import { queryKeys } from 'cms/queries/keys'
+import { queryKeys } from '../../cms/queries/keys'
 
 function getCookie(cname: string) {
   let name = cname + '='

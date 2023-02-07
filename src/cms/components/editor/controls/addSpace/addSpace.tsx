@@ -1,8 +1,9 @@
 import { Plus } from 'phosphor-react'
 import { ReactEditor, useSlate } from 'slate-react'
-import { addEmptySpace } from 'cms/components/editor/lib/editorControls'
+import { addEmptySpace } from '../../../../../cms/components/editor/lib/editorControls'
 import { Element } from 'slate'
-import { StyledButton } from 'cms/components/editor/controls'
+import React from 'react'
+import { StyledButton } from '../../../../../cms/components/editor/controls'
 
 /**
  * Renders a button that, when clicked, adds an empty paragraph after the specified `element`

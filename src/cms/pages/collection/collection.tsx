@@ -1,6 +1,6 @@
 import React from 'react'
-import { useCMS } from 'cms/contexts/cmsContext/useCMSContext'
-import { useGetGithubCollection } from 'cms/queries/github'
+import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
+import { useGetGithubCollection } from '../../../cms/queries/github'
 import {
   Route,
   Routes,
@@ -8,14 +8,14 @@ import {
   useParams,
   useLocation,
 } from 'react-router-dom'
-import ContentPage from 'cms/pages/content'
-import Box from 'cms/components/designSystem/box'
-import CollectionSelect from 'cms/components/collections/collectionSelect'
-import CollectionCard from 'cms/components/collections/collectionCard'
-import { CollectionType } from 'cms/types/collection'
-import useMeasure from 'cms/utils/useMeasure'
-import Button from 'cms/components/designSystem/button'
-import NewPage from 'cms/pages/new'
+import ContentPage from '../../../cms/pages/content'
+import Box from '../../../cms/components/designSystem/box'
+import CollectionSelect from '../../../cms/components/collections/collectionSelect'
+import CollectionCard from '../../../cms/components/collections/collectionCard'
+import { CollectionType } from '../../../cms/types/collection'
+import useMeasure from '../../../cms/utils/useMeasure'
+import Button from '../../../cms/components/designSystem/button'
+import NewPage from '../../../cms/pages/new'
 
 const CollectionPage = () => {
   const { collection } = useParams<{

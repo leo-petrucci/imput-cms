@@ -1,14 +1,15 @@
 import { Descendant } from 'slate'
 import { RenderElementProps, useSelected } from 'slate-react'
-import { CustomRenderElementProps } from 'cms/components/editor/element'
-import ComponentEditor from 'cms/components/editor/componentEditor'
-import Panel from 'cms/components/designSystem/panel'
-import Box from 'cms/components/designSystem/box'
-import { useEditorDepth } from 'cms/components/editor/depthContext'
-import { styled } from 'stitches.config'
-import Flex from 'cms/components/designSystem/flex'
+import { CustomRenderElementProps } from '../../../cms/components/editor/element'
+import ComponentEditor from '../../../cms/components/editor/componentEditor'
+import Panel from '../../../cms/components/designSystem/panel'
+import Box from '../../../cms/components/designSystem/box'
+import { useEditorDepth } from '../../../cms/components/editor/depthContext'
+import { styled } from '../../../../stitches.config'
+import Flex from '../../../cms/components/designSystem/flex'
 import { BracketsSquare } from 'phosphor-react'
-import { MDXNode } from 'cms/types/mdxNode'
+import { MDXNode } from '../../../cms/types/mdxNode'
+import React from 'react'
 
 const StyledMdxButton = styled('button', {
   width: '100%',

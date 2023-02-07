@@ -3616,6 +3616,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/simple-oauth2@npm:^5.0.1":
+  version: 5.0.1
+  resolution: "@types/simple-oauth2@npm:5.0.1"
+  checksum: 7ae0f1a41753b13fc5a013a306a0699b415fa4b8dbe28cab8d58030b572bdc01a3fcbc1e668f16d71d55f07d12e7bccdb59c29026382b64104ae782a7210576c
+  languageName: node
+  linkType: hard
+
 "@types/stack-utils@npm:^2.0.0":
   version: 2.0.1
   resolution: "@types/stack-utils@npm:2.0.1"
@@ -8822,6 +8829,7 @@ __metadata:
     "@types/node": 18.11.19
     "@types/react": 18.x
     "@types/react-dom": 18.0.10
+    "@types/simple-oauth2": ^5.0.1
     meow-cms: latest
     next: 13.1.6
     react: 18.x

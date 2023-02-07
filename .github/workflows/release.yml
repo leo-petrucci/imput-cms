@@ -37,12 +37,5 @@ jobs:
 
       - run: yarn run release
         env:
-          # Set the "GITHUB_TOKEN" environmental variable
-          # required by "@ossjs/release" to communicate with GitHub.
           GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
-
-          # Set the "NODE_AUTH_TOKEN" environmental variable
-          # that "actions/setup-node" uses as the "_authToken"
-          # in the generated ".npmrc" file to authenticate
-          # publishing to NPM registry.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

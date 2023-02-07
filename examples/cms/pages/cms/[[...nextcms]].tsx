@@ -21,7 +21,7 @@ const CMS = () => (
           {
             name: 'blog',
             label: 'Blog',
-            folder: '_posts/blog',
+            folder: 'examples/cms/_posts/blog',
             create: true,
             slug: '{{uuid}}-{{slug}}-{{year}}-{{month}}-{{day}}-{{author}}',
             extension: 'md',
@@ -152,7 +152,7 @@ const CMS = () => (
           {
             name: 'authors',
             label: 'Authors',
-            folder: '_posts/authors',
+            folder: 'examples/cms/_posts/authors',
             create: true,
             slug: '{{slug}}',
             extension: 'mdx',
@@ -175,7 +175,7 @@ const CMS = () => (
           {
             name: 'categories',
             label: 'Categories',
-            folder: '_posts/categories',
+            folder: 'examples/cms/_posts/categories',
             create: true,
             slug: '{{name}}',
             extension: 'mdx',

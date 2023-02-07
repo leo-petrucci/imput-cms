@@ -9,7 +9,6 @@ import Box from 'cms/components/designSystem/box'
 import React from 'react'
 import { Octokit } from 'octokit'
 import { getToken } from 'cms/queries/auth'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
@@ -51,7 +50,6 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
   return (
     <Router>
       <QueryClientProvider client={queryClient}>
-        <ReactQueryDevtools initialIsOpen={false} />
         {/* CMS settings and such */}
         <CMSProvider settings={props.settings}>
           {/* Github user info */}

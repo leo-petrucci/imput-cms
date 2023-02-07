@@ -12,8 +12,6 @@ const HomePage = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  console.log(location)
-
   React.useEffect(() => {
     if (collections.length) {
       navigate(`${location.pathname}/${collections[0].name}`, { replace: true })

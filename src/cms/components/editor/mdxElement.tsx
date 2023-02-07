@@ -10,6 +10,7 @@ import Flex from '../../../cms/components/designSystem/flex'
 import { BracketsSquare } from 'phosphor-react'
 import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
+import ErrorBoundary from '../../../cms/components/designSystem/errorBoundary'
 
 const StyledMdxButton = styled('button', {
   width: '100%',
@@ -90,7 +91,11 @@ const MdxElement = (props: CustomRenderElementProps) => {
           },
         }}
         title={'Edit component'}
-        description={() => <ComponentEditor {...props} />}
+        description={() => (
+          <ErrorBoundary>
+            <ComponentEditor {...props} />
+          </ErrorBoundary>
+        )}
       >
         <StyledMdxButton selected={selected} contentEditable={false}>
           <Box

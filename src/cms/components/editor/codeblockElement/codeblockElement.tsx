@@ -10,6 +10,7 @@ import React from 'react'
 
 interface CodeblockElement extends Pick<RenderElementProps, 'element'> {
   children: Descendant[]
+  language: string
 }
 
 const CodeblockElement = ({
@@ -28,10 +29,13 @@ const CodeblockElement = ({
 
   const selected = useSelected()
 
+  console.log(codeblockElement)
+
   return (
     <div {...attributes} contentEditable={false}>
       <div>
         <Codeblock
+          language={codeblockElement.language}
           // @ts-ignore
           defaultValue={codeblockElement.children.map((c) => c.text).join('')}
           onLanguageChange={(language) => {

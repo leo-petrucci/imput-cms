@@ -118,6 +118,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     } else {
       return currentFile
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown])
 
   const { mutate, isLoading } = useSaveMarkdown(filename)
@@ -130,6 +131,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
       ...rest,
     })
     setMarkdown(content)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues])
 
   const [ref, { height }] = useMeasure()

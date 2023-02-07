@@ -71,6 +71,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
       return mdxElement.reactChildren as Descendant[]
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasChildren])
 
   return (

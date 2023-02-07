@@ -16,6 +16,7 @@ const HomePage = () => {
     if (collections.length) {
       navigate(`${location.pathname}/${collections[0].name}`, { replace: true })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collections, history, location.pathname])
 
   return <>Loading...</>

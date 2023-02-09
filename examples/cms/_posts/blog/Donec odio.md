@@ -1,13 +1,13 @@
 ---
-layout: blog
+published: true
 title: Test
+categories: ''
+author: ''
+date: ''
+thumbnail: ''
+layout: blog
 ---
-T﻿esting
+- List
+- here 
+- test
 
-<Component>
-  
-Test
-
-</Component>
-
-More

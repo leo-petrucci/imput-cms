@@ -7,11 +7,12 @@ date: ''
 thumbnail: ''
 layout: blog
 ---
-1. One
-1. Two
-1. Tree 
-  a. Nested item
-    b. Even more nested
+1. Dog
+    1. German Shepherd
+    2. Belgian Shepherd
+        1. Malinois
+        2. Groenendael
+        3. Tervuren
     
 - List item
   - Nested item

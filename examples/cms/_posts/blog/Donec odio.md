@@ -17,7 +17,3 @@ layout: blog
 - List item
   - Nested item
     - Even more nested
-
-- One
-- Two
-- Three

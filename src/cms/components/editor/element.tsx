@@ -1,8 +1,10 @@
 import React from 'react'
 import { RenderElementProps } from 'slate-react'
+import { styled } from '../../../../stitches.config'
 import CodeblockElement from '../../../cms/components/editor/codeblockElement/codeblockElement'
 import Image from '../../../cms/components/editor/images/imageElement'
 import MdxElement from '../../../cms/components/editor/mdxElement'
+import { defaultNodeTypes } from './remark-slate'
 
 export interface CustomRenderElementProps
   extends Omit<RenderElementProps, 'element'> {
@@ -24,74 +26,74 @@ export const Element = (props: CustomRenderElementProps) => {
   } as React.CSSProperties
 
   switch (element.type) {
-    case 'image':
+    case defaultNodeTypes.image:
       // @ts-ignore
       // eslint-disable-next-line jsx-a11y/alt-text
       return <Image {...props} />
-    case 'mdxJsxFlowElement':
+    case defaultNodeTypes.mdxJsxFlowElement:
       return <MdxElement {...props} />
-    case 'code_block':
+    case defaultNodeTypes.code_block:
       return <CodeblockElement {...props} />
-    case 'block_quote':
+    case defaultNodeTypes.block_quote:
       return (
         <blockquote style={style} {...attributes}>
           {children}
         </blockquote>
       )
-    case 'ul_list':
+    case defaultNodeTypes.ul_list:
       return (
-        <ul style={style} {...attributes}>
+        <StyledUnorderedList style={style} {...attributes}>
           {children}
-        </ul>
+        </StyledUnorderedList>
       )
-    case 'heading_one':
+    case defaultNodeTypes.heading[1]:
       return (
         <h1 style={style} {...attributes}>
           {children}
         </h1>
       )
-    case 'heading_two':
+    case defaultNodeTypes.heading[2]:
       return (
         <h2 style={style} {...attributes}>
           {children}
         </h2>
       )
-    case 'heading_three':
+    case defaultNodeTypes.heading[3]:
       return (
         <h3 style={style} {...attributes}>
           {children}
         </h3>
       )
-    case 'heading_four':
+    case defaultNodeTypes.heading[4]:
       return (
         <h4 style={style} {...attributes}>
           {children}
         </h4>
       )
-    case 'heading_five':
+    case defaultNodeTypes.heading[5]:
       return (
         <h5 style={style} {...attributes}>
           {children}
         </h5>
       )
-    case 'heading_six':
+    case defaultNodeTypes.heading[6]:
       return (
         <h6 style={style} {...attributes}>
           {children}
         </h6>
       )
 
-    case 'list_item':
+    case defaultNodeTypes.listItem:
       return (
         <li style={style} {...attributes}>
           {children}
         </li>
       )
-    case 'ol_list':
+    case defaultNodeTypes.ol_list:
       return (
-        <ol style={style} {...attributes}>
+        <StyledOrderedList style={{ ...style }} {...attributes}>
           {children}
-        </ol>
+        </StyledOrderedList>
       )
     default:
       return (
@@ -101,3 +103,13 @@ export const Element = (props: CustomRenderElementProps) => {
       )
   }
 }
+
+const StyledOrderedList = styled('ol', {
+  marginLeft: '$4',
+  flex: '1 1 0%',
+})
+
+const StyledUnorderedList = styled('ul', {
+  marginLeft: '$4',
+  flex: '1 1 0%',
+})

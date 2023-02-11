@@ -159,8 +159,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             }>
               formProps={{ id: 'content-form' }}
               form={form}
-              onSubmit={({ body, ...rest }) => {
+              onSubmit={() => {
                 const id = toast.loading('Saving content...')
+                const { body, ...rest } = getCorrectedFormValues()
                 const content = matter.stringify(body, rest)
                 mutate(
                   {

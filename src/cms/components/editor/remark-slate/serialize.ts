@@ -31,8 +31,6 @@ const VOID_ELEMENTS: Array<keyof NodeTypes> = ['thematic_break', 'image']
 
 const BREAK_TAG = '\n'
 
-let olNumber = 0
-
 /**
  * Slate to Markdown serialization.
  * From https://github.com/hanford/remark-slate
@@ -91,8 +89,16 @@ export default function serialize(
           )
         }
 
+        // Lists now have an extra node, so to ensure they get information
+        // about what type of list the items are part of
+        // we pass down the type of their previous parent
+        let parentType = type
+        if (type === 'list_item') {
+          parentType = chunk.parentType || type
+        }
+
         return serialize(
-          { ...c, parentType: type, language: chunk.language },
+          { ...c, parentType, language: chunk.language },
           {
             nodeTypes,
             // WOAH.
@@ -306,13 +312,14 @@ export default function serialize(
         (chunk as BlockType).link || ''
       } "${(chunk as BlockType).title || ''}")\n${BREAK_TAG}`
 
-    case nodeTypes.ul_list:
-      return `${children}${BREAK_TAG}`
     case nodeTypes.ol_list:
-      olNumber = 0
-      return `${children}${BREAK_TAG}`
+    case nodeTypes.ul_list:
+      // if the list is a child of a list, we only want one newline at the end
+      // weird code because sometimes lists are children of mdx elements
+      const isNested = ['ol_list', 'ul_list'].includes(chunk.parentType || '')
+      return `${children}${isNested ? '' : BREAK_TAG}`
 
-    case nodeTypes.listItem:
+    case nodeTypes.listItemText:
       // whether it's an ordered or unordered list
       const isOL = chunk && chunk.parentType === nodeTypes.ol_list
       const treatAsLeaf =
@@ -328,8 +335,7 @@ export default function serialize(
           spacer += '  '
         }
       }
-      olNumber += 1
-      return `${spacer}${isOL ? `${olNumber}.` : '-'} ${children}${
+      return `${spacer}${isOL ? `1.` : '-'} ${children}${
         treatAsLeaf ? '\n' : ''
       }`
 

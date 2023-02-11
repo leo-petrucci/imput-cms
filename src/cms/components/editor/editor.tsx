@@ -4,9 +4,10 @@ import remarkParse from 'remark-parse'
 import remarkSlate, {
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
-import { createEditor, Descendant, Transforms } from 'slate'
+import { createEditor, Descendant, Path, Transforms } from 'slate'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
+import Controls from '../../../cms/components/editor/controls'
 import { Leaf } from '../../../cms/components/editor/leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
@@ -33,7 +34,12 @@ import {
 } from 'phosphor-react'
 import Box from '../../../cms/components/designSystem/box'
 import { ImageElement } from '../../../cms/components/editor/images/imageElement'
-import Controls from '../../../cms/components/editor/controls'
+import { withListsPlugin } from './lists'
+import {
+  ListsEditor,
+  onKeyDown,
+  withListsReact,
+} from '../../../cms/components/editor/slate-lists'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -72,6 +78,11 @@ const Editor = ({
   onChange?: (value: Descendant[]) => void
 }) => {
   const renderElement = React.useCallback((props: any) => {
+    const path = ReactEditor.findPath(editor, props.element)
+
+    // a level of 2 means it's a root element
+    const displayControls = Path.levels(path).length === 2
+
     return (
       <Box
         css={{
@@ -92,19 +103,25 @@ const Editor = ({
             },
           }}
         >
-          {props.element.type !== 'list_item' && <MoveElement {...props} />}
+          {displayControls && <MoveElement {...props} />}
           <Element {...props} />
         </Box>
-        {props.element.type !== 'list_item' && <Controls {...props} />}
+        {displayControls && <Controls {...props} />}
       </Box>
     )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   const renderLeaf = React.useCallback((props: any) => <Leaf {...props} />, [])
-  const [editor] = React.useState(() =>
-    withEditableVoids(withReact(createEditor()))
+
+  const [editor] = React.useState(
+    () =>
+      withEditableVoids(
+        withListsReact(withListsPlugin(withReact(createEditor())))
+      ) as ReactEditor & ListsEditor
   )
 
   const onEditorChange = (val: Descendant[]) => {
+    console.log(val)
     onChange?.(val)
   }
 
@@ -151,7 +168,11 @@ const Editor = ({
             },
           }}
         >
-          <Editable renderElement={renderElement} renderLeaf={renderLeaf} />
+          <Editable
+            renderElement={renderElement}
+            renderLeaf={renderLeaf}
+            onKeyDown={(event: any) => onKeyDown(editor, event)}
+          />
         </Box>
       </Slate>
     </>

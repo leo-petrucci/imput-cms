@@ -6,6 +6,7 @@ export interface NodeTypes {
   ul_list: 'ul_list'
   ol_list: 'ol_list'
   listItem: 'list_item'
+  listItemText: 'list_item_text'
   heading: {
     1: 'heading_one'
     2: 'heading_two'
@@ -39,6 +40,7 @@ export type MdastNodeType =
   | 'inlineCode'
   | 'thematicBreak'
   | 'mdxJsxFlowElement'
+  | 'list_item_text'
   | 'text'
 
 export const defaultNodeTypes: NodeTypes = {
@@ -49,6 +51,7 @@ export const defaultNodeTypes: NodeTypes = {
   ul_list: 'ul_list',
   ol_list: 'ol_list',
   listItem: 'list_item',
+  listItemText: 'list_item_text',
   heading: {
     1: 'heading_one',
     2: 'heading_two',

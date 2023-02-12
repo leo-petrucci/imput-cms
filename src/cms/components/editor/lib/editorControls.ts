@@ -1,4 +1,4 @@
-import { BaseEditor, Location, Transforms } from 'slate'
+import { BaseEditor, Location, Path, Transforms } from 'slate'
 
 /**
  * Add an empty paragraph at specified location
@@ -11,13 +11,13 @@ export const addEmptySpace = (
   /**
    * Where the new paragraph should be added
    */
-  where: Location
+  where: Path
 ) => {
   Transforms.insertNodes(
     editor,
     // @ts-ignore
     { children: [{ text: '' }], type: 'paragraph' },
-    { at: where }
+    { at: where, select: true }
   )
 }
 

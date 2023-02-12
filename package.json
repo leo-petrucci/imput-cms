@@ -10,7 +10,7 @@
     "prepare": "dts build",
     "start": "dts watch",
     "test": "dts test --passWithNoTests",
-    "release": "release publish --dry-run"
+    "release": "release publish"
   },
   "publishConfig": {
     "access": "public"

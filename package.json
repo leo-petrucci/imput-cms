@@ -27,6 +27,7 @@
     "@juggle/resize-observer": "^3.4.0",
     "@lukemorales/query-key-factory": "^1.1.0",
     "@octokit/types": "^7.5.0",
+    "@prezly/slate-lists": "^0.78.0",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-alert-dialog": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.2",

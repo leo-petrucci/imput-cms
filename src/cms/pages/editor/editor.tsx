@@ -118,6 +118,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     } else {
       return currentFile
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown])
 
   const { mutate, isLoading } = useSaveMarkdown(filename)
@@ -130,6 +131,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
       ...rest,
     })
     setMarkdown(content)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues])
 
   const [ref, { height }] = useMeasure()
@@ -141,32 +143,6 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   if (markdown) {
     return (
       <>
-        <Box
-          // @ts-expect-error
-          ref={ref}
-          css={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            padding: '$4',
-            background: 'white',
-            borderBottom: '1px solid $gray-200',
-            zIndex: 0,
-            display: 'flex',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
-            type="submit"
-            form="content-form"
-            loading={isLoading}
-            disabled={isLoading}
-          >
-            {isNewFile ? 'Publish' : 'Update'}
-          </Button>
-        </Box>
-
         <Flex direction="row" align="stretch" gap="4">
           <Box
             css={{
@@ -183,8 +159,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             }>
               formProps={{ id: 'content-form' }}
               form={form}
-              onSubmit={({ body, ...rest }) => {
+              onSubmit={() => {
                 const id = toast.loading('Saving content...')
+                const { body, ...rest } = getCorrectedFormValues()
                 const content = matter.stringify(body, rest)
                 mutate(
                   {
@@ -285,6 +262,31 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             {markdown}
           </Box>
         </Flex>
+        <Box
+          // @ts-expect-error
+          ref={ref}
+          css={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            padding: '$4',
+            background: 'white',
+            borderBottom: '1px solid $gray-200',
+            zIndex: 0,
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+        >
+          <Button
+            type="submit"
+            form="content-form"
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            {isNewFile ? 'Publish' : 'Update'}
+          </Button>
+        </Box>
       </>
     )
   }

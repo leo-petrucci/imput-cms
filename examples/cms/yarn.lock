@@ -3349,7 +3349,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/is-hotkey@npm:^0.1.1":
+"@types/is-hotkey@npm:^0.1.1, @types/is-hotkey@npm:^0.1.7":
   version: 0.1.7
   resolution: "@types/is-hotkey@npm:0.1.7"
   checksum: bce7c8874b30f346f20cf6cfcf4a10372962924f0e1b1a925a279004faeb276242ebfbfee47bd48df57e1021f2e3078c34e25837e226960c418d5f78f83dacea
@@ -7260,6 +7260,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-hotkey@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "is-hotkey@npm:0.2.0"
+  checksum: 97d295cfd8c3eb2c9b218daee5bff0ddaf47210930e3eb1eff36d2e6ad74854028203c640f35ea2d183d0cba94ac4c4bcd291925bc3a343d8a4c7d2c5ab3e2a6
+  languageName: node
+  linkType: hard
+
 "is-interactive@npm:^1.0.0":
   version: 1.0.0
   resolution: "is-interactive@npm:1.0.0"
@@ -8793,10 +8800,12 @@ __metadata:
   resolution: "meow-cms-dev@workspace:."
   dependencies:
     "@next/font": 13.1.6
+    "@types/is-hotkey": ^0.1.7
     "@types/node": 18.11.19
     "@types/react": 18.x
     "@types/react-dom": 18.0.10
     "@types/simple-oauth2": ^5.0.1
+    is-hotkey: ^0.2.0
     meow-cms: latest
     next: 13.1.6
     react: 18.x

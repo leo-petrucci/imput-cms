@@ -12,8 +12,14 @@ export interface CollectionCardProps extends CollectionType {
 const CollectionCard = (props: CollectionCardProps) => {
   const { currentCollection } = useCMS()
 
-  // We assume the first field in fields is what we want displayed as a title
-  const title = props.data[currentCollection.fields[0].name] || props.slug
+  // find the first string field in config
+  const firstStringField = currentCollection.fields.find(
+    (f) => f.widget === 'string'
+  )
+
+  const title = firstStringField
+    ? props.data[firstStringField.name]
+    : props.slug
 
   // find the first image field in config, then use its name to find the image in the props
   const firstImageField = currentCollection.fields.find(
@@ -35,6 +41,7 @@ const CollectionCard = (props: CollectionCardProps) => {
           },
         }}
       >
+        {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <Image path={image} />
         <Box
           css={{

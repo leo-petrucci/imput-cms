@@ -27,16 +27,25 @@ const CMS = () => (
             extension: 'md',
             fields: [
               {
+                label: 'Published',
+                name: 'published',
+                widget: 'boolean',
+                required: true,
+              },
+              {
                 label: 'Title',
                 name: 'title',
                 widget: 'string',
                 required: true,
               },
               {
-                label: 'Published',
-                name: 'published',
-                widget: 'boolean',
-                required: true,
+                label: 'Categories',
+                name: 'categories',
+                widget: 'relation',
+                collection: 'categories',
+                multiple: true,
+                display_fields: 'name',
+                value_field: 'name',
               },
               {
                 label: 'Post Author',
@@ -47,25 +56,9 @@ const CMS = () => (
                 display_fields: 'name',
               },
               {
-                label: 'Date',
+                label: 'Publish Date',
                 name: 'date',
-                widget: 'date',
-                required: true,
-              },
-              {
-                label: 'Datetime',
-                name: 'datetime',
                 widget: 'datetime',
-                required: true,
-              },
-              {
-                label: 'Categories',
-                name: 'category',
-                widget: 'relation',
-                collection: 'categories',
-                multiple: true,
-                display_fields: 'name',
-                value_field: 'name',
               },
               {
                 label: 'Featured Image',
@@ -77,70 +70,46 @@ const CMS = () => (
             ],
             blocks: [
               {
-                name: 'ReactComponent',
-                label: 'My first block',
+                name: 'Notice',
+                label: 'Notice Block',
                 fields: [
                   {
-                    name: 'name',
-                    label: 'Name',
+                    name: 'children',
+                    label: 'Children',
+                    type: {
+                      widget: 'markdown',
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Tweet',
+                label: 'Tweet Block',
+                fields: [
+                  {
+                    name: 'id',
+                    label: 'Tweet Id',
                     type: {
                       widget: 'string',
                     },
                   },
+                ],
+              },
+              {
+                name: 'List',
+                label: 'Pros and Cons',
+                fields: [
                   {
-                    name: 'date',
-                    label: 'Date',
-                    type: {
-                      widget: 'date',
-                    },
-                  },
-                  {
-                    name: 'datetime',
-                    label: 'DateTime',
-                    type: {
-                      widget: 'datetime',
-                    },
-                  },
-                  {
-                    name: 'boolean',
-                    label: 'Boolean',
-                    type: {
-                      widget: 'boolean',
-                    },
-                  },
-                  {
-                    name: 'variant',
-                    label: 'Variant',
+                    name: 'type',
+                    label: 'Type',
                     type: {
                       widget: 'select',
-                      options: ['option1', 'option2'],
-                    },
-                  },
-                  {
-                    name: 'padding',
-                    label: 'Padding',
-                    type: {
-                      widget: 'select',
-                      options: [4, 8, 12],
-                    },
-                  },
-                  {
-                    name: 'object',
-                    label: 'Object',
-                    type: {
-                      widget: 'json',
-                    },
-                  },
-                  {
-                    name: 'array',
-                    label: 'Array',
-                    type: {
-                      widget: 'json',
+                      options: ['tick', 'cross'],
                     },
                   },
                   {
                     name: 'children',
-                    label: 'Content',
+                    label: 'Children',
                     type: {
                       widget: 'markdown',
                     },

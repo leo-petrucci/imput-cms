@@ -2516,6 +2516,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@prezly/slate-lists@npm:^0.78.0":
+  version: 0.78.0
+  resolution: "@prezly/slate-lists@npm:0.78.0"
+  dependencies:
+    is-hotkey: ^0.2.0
+    uuid: ^8.3.0
+  peerDependencies:
+    react: ^16.9.0 || ^17.0.0 || ^18.0.0
+    slate: ^0.82.1
+    slate-react: ^0.82.1
+  checksum: 70c2bc3fbc823aae761a541fdffeb35cd09bc78a3349bc17d9b469596775d57f66da7ef0ad2732aef1856f840482b45a3b1daa0134abcb03966c24c76d177cc5
+  languageName: node
+  linkType: hard
+
 "@radix-ui/colors@npm:^0.1.8":
   version: 0.1.8
   resolution: "@radix-ui/colors@npm:0.1.8"
@@ -7281,6 +7295,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-hotkey@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "is-hotkey@npm:0.2.0"
+  checksum: 97d295cfd8c3eb2c9b218daee5bff0ddaf47210930e3eb1eff36d2e6ad74854028203c640f35ea2d183d0cba94ac4c4bcd291925bc3a343d8a4c7d2c5ab3e2a6
+  languageName: node
+  linkType: hard
+
 "is-interactive@npm:^1.0.0":
   version: 1.0.0
   resolution: "is-interactive@npm:1.0.0"
@@ -8819,6 +8840,7 @@ __metadata:
     "@lukemorales/query-key-factory": ^1.1.0
     "@octokit/types": ^7.5.0
     "@ossjs/release": ^0.4.0
+    "@prezly/slate-lists": ^0.78.0
     "@radix-ui/colors": ^0.1.8
     "@radix-ui/react-alert-dialog": ^1.0.2
     "@radix-ui/react-dialog": ^1.0.2
@@ -12584,7 +12606,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^8.3.2":
+"uuid@npm:^8.3.0, uuid@npm:^8.3.2":
   version: 8.3.2
   resolution: "uuid@npm:8.3.2"
   bin:

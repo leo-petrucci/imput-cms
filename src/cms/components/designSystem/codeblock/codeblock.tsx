@@ -6,6 +6,7 @@ import isFunction from 'lodash/isFunction'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'
 import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-tsx'
 import 'prismjs/components/prism-markup'
 import 'prismjs/components/prism-json'
 
@@ -205,6 +206,7 @@ const Codeblock = ({
         <StyledSelect
           name="languages"
           id="language-select"
+          defaultValue={language}
           onChange={(e) => {
             onLanguageChange?.(e.target.value)
             setLang(e.target.value)
@@ -226,8 +228,18 @@ const Codeblock = ({
         {...props}
         preClassName="language-jsx"
         highlight={(code) => {
-          const highlighted = highlight(code, languages[lang], lang)
-          return highlighted
+          // if language doesn't exist, default to plaintext
+          try {
+            const highlighted = highlight(code, languages[lang], lang)
+            return highlighted
+          } catch {
+            const highlighted = highlight(
+              code,
+              languages['plaintext'],
+              'plaintext'
+            )
+            return highlighted
+          }
         }}
         padding={10}
         style={{

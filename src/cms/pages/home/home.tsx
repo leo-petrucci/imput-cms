@@ -12,12 +12,11 @@ const HomePage = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  console.log(location)
-
   React.useEffect(() => {
     if (collections.length) {
       navigate(`${location.pathname}/${collections[0].name}`, { replace: true })
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collections, history, location.pathname])
 
   return <>Loading...</>

@@ -18,6 +18,7 @@ import {
 } from '../../../../cms/components/editor/remark-slate/ast-types'
 import { v4 as uuidv4 } from 'uuid'
 import { MDXNode } from '../../../../cms/types/mdxNode'
+import { cloneDeep } from 'lodash'
 
 /**
  * Markdown to Slate deserialization.
@@ -53,6 +54,20 @@ export default function deserialize<T extends InputNodeTypes>(
     node = node.children[0]
   }
 
+  /**
+   * This adds support for custom lists which are handled by @prezly/slate-lists
+   */
+  if (node.type === 'listItem') {
+    node.children = node.children?.map((c) => {
+      if (c.type === 'paragraph' && c.children && c.children?.length > 0) {
+        const newChild = cloneDeep(c)
+        newChild.type = 'list_item_text'
+        return newChild
+      }
+      return c
+    })
+  }
+
   const nodeChildren = node.children
 
   if (nodeChildren && Array.isArray(nodeChildren) && nodeChildren.length > 0) {
@@ -82,7 +97,10 @@ export default function deserialize<T extends InputNodeTypes>(
         children,
       } as ListNode<T>
     case 'listItem':
-      return { type: types.listItem, children } as ListItemNode<T>
+      return {
+        type: types.listItem,
+        children,
+      } as ListItemNode<T>
     case 'paragraph':
       return { type: types.paragraph, children } as ParagraphNode<T>
     case 'mdxJsxFlowElement':
@@ -159,6 +177,11 @@ export default function deserialize<T extends InputNodeTypes>(
         type: types.thematic_break,
         children: [{ text: '' }],
       } as ThematicBreakNode<T>
+    case 'list_item_text':
+      return {
+        type: 'list_item_text',
+        children,
+      }
     case 'text':
     default:
       return { text: node.value || '' }

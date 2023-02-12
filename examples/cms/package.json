@@ -14,11 +14,15 @@
     "@types/react": "18.x",
     "@types/react-dom": "18.0.10",
     "@types/simple-oauth2": "^5.0.1",
+    "is-hotkey": "^0.2.0",
     "meow-cms": "latest",
     "next": "13.1.6",
     "react": "18.x",
     "react-dom": "18.x",
     "simple-oauth2": "^5.0.0",
     "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "@types/is-hotkey": "^0.1.7"
   }
 }

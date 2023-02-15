@@ -326,6 +326,8 @@ export default function serialize(
         (chunk as BlockType).children.length === 1 &&
         isLeafNode((chunk as BlockType).children[0])
 
+      console.log(chunk, treatAsLeaf)
+
       let spacer = ''
       for (let k = 0; listDepth > k; k++) {
         if (isOL) {
@@ -335,9 +337,7 @@ export default function serialize(
           spacer += '  '
         }
       }
-      return `${spacer}${isOL ? `1.` : '-'} ${children}${
-        treatAsLeaf ? '\n' : ''
-      }`
+      return `${spacer}${isOL ? `1.` : '-'} ${children}${'\n'}`
 
     case nodeTypes.paragraph:
       return `${children !== '\n' ? `${children}\n` : ''}${BREAK_TAG}`

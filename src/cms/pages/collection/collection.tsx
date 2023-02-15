@@ -53,7 +53,7 @@ const CollectionPage = () => {
                     padding: '$4',
                     background: 'white',
                     borderBottom: '1px solid $gray-200',
-                    zIndex: 0,
+                    zIndex: '$10',
                     display: 'flex',
                     justifyContent: 'flex-end',
                   }}

@@ -27,6 +27,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '../../../cms/queries/keys'
 import { useNavigate, useParams } from 'react-router-dom'
+import { EditorProps } from '../../components/editor/editor'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -145,6 +146,31 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
       <>
         <Flex direction="row" align="stretch" gap="4">
           <Box
+            // @ts-expect-error
+            ref={ref}
+            css={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              padding: '$4',
+              background: 'white',
+              borderBottom: '1px solid $gray-200',
+              zIndex: '$10',
+              display: 'flex',
+              justifyContent: 'flex-end',
+            }}
+          >
+            <Button
+              type="submit"
+              form="content-form"
+              loading={isLoading}
+              disabled={isLoading}
+            >
+              {isNewFile ? 'Publish' : 'Update'}
+            </Button>
+          </Box>
+          <Box
             css={{
               paddingTop: `calc(${height}px + $4)`,
               paddingLeft: '$4',
@@ -204,7 +230,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                       case 'datetime':
                         return <Input.Controlled type="datetime-local" />
                       case 'markdown':
-                        return <CreateEditor />
+                        return <CreateEditor toolbarStickyTop={height} />
                       case 'image':
                         return <ImagePicker.Controlled />
                       case 'boolean':
@@ -262,31 +288,6 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             {markdown}
           </Box>
         </Flex>
-        <Box
-          // @ts-expect-error
-          ref={ref}
-          css={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            padding: '$4',
-            background: 'white',
-            borderBottom: '1px solid $gray-200',
-            zIndex: 0,
-            display: 'flex',
-            justifyContent: 'flex-end',
-          }}
-        >
-          <Button
-            type="submit"
-            form="content-form"
-            loading={isLoading}
-            disabled={isLoading}
-          >
-            {isNewFile ? 'Publish' : 'Update'}
-          </Button>
-        </Box>
       </>
     )
   }
@@ -294,7 +295,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   return <>Loading...</>
 }
 
-const CreateEditor = () => {
+const CreateEditor = ({
+  toolbarStickyTop,
+}: Pick<EditorProps, 'toolbarStickyTop'>) => {
   const { name, rules } = useFormItem()
   const { control } = useFormContext()
 
@@ -322,7 +325,11 @@ const CreateEditor = () => {
 
   return (
     <DepthProvider>
-      <Editor value={value} onChange={(value) => handleChange(value)} />
+      <Editor
+        value={value}
+        onChange={(value) => handleChange(value)}
+        toolbarStickyTop={toolbarStickyTop}
+      />
     </DepthProvider>
   )
 }

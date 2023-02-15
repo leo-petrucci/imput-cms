@@ -29,8 +29,6 @@ const CodeblockElement = ({
 
   const selected = useSelected()
 
-  console.log(codeblockElement)
-
   return (
     <div {...attributes} contentEditable={false}>
       <div>

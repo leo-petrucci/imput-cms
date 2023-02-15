@@ -98,7 +98,7 @@ const ImagePicker = ({
       const loadedImage = await loadImage(image!)
       setImages((i) => [...i, loadedImage])
     }
-    if (imageBlobUrl === undefined && image !== undefined) {
+    if (imageBlobUrl === undefined && image) {
       doLoad()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

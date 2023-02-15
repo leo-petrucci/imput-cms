@@ -76,10 +76,9 @@ const withEditableVoids = (editor: ReactEditor) => {
 export interface EditorProps {
   value: Descendant[]
   onChange?: (value: Descendant[]) => void
-  toolbarStickyTop?: number | string
 }
 
-const Editor = ({ value, onChange, toolbarStickyTop = 0 }: EditorProps) => {
+const Editor = ({ value, onChange }: EditorProps) => {
   const renderElement = React.useCallback((props: any) => {
     const path = ReactEditor.findPath(editor, props.element)
 
@@ -139,11 +138,7 @@ const Editor = ({ value, onChange, toolbarStickyTop = 0 }: EditorProps) => {
   return (
     <>
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
-        <Toolbar
-          style={{
-            top: toolbarStickyTop,
-          }}
-        >
+        <Toolbar>
           <MarkButton format="bold" icon={<TextBolder size={16} />} />
           <MarkButton format="italic" icon={<TextItalic size={16} />} />
           <MarkButton format="code" icon={<CodeSimple size={16} />} />

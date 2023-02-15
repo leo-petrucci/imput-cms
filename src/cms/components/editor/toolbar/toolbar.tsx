@@ -13,6 +13,7 @@ const Toolbar = ({
   <Box
     {...props}
     css={{
+      top: '-$4',
       position: 'sticky',
       background: 'white',
       zIndex: '$10',

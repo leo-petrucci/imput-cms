@@ -34,6 +34,17 @@ const colors = {
   'red-700': '#b91c1c',
   'red-800': '#991b1b',
   'red-900': '#7f1d1d',
+
+  'blue-50': 'rgb(239 246 255)',
+  'blue-100': 'rgb(219 234 254)',
+  'blue-200': 'rgb(191 219 254)',
+  'blue-300': 'rgb(147 197 253)',
+  'blue-400': 'rgb(96 165 250)',
+  'blue-500': 'rgb(59 130 246)',
+  'blue-600': 'rgb(37 99 235)',
+  'blue-700': 'rgb(29 78 216)',
+  'blue-800': 'rgb(30 64 175)',
+  'blue-900': 'rgb(30 58 138)',
 }
 
 const globalStyles = globalCss({

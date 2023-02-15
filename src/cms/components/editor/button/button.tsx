@@ -2,11 +2,12 @@ import { blackA } from '@radix-ui/colors'
 import Box from '../../../../cms/components/designSystem/box'
 import { Modal } from '../../../../cms/components/designSystem/modal'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import { BracketsSquare } from 'phosphor-react'
+import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
 import React from 'react'
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
 import { useSlate } from 'slate-react'
 import { styled } from '../../../../../stitches.config'
+import { insertLink, isLinkActive, unwrapLink } from './link'
 
 const LIST_TYPES = ['ul_list', 'ol_list']
 
@@ -159,6 +160,38 @@ const ComponentSelectorButton = styled('button', {
   '&:hover': { backgroundColor: blackA.blackA2 },
 })
 
+/**
+ * A button that wraps selected text into a link. If a link is selected, the link will be removed.
+ */
+export const LinkButton = () => {
+  const editor = useSlate()
+  return (
+    <StyledButton
+      type="button"
+      active={isLinkActive(editor)}
+      onMouseDown={(event) => {
+        event.preventDefault()
+        if (isLinkActive(editor)) {
+          unwrapLink(editor)
+        } else {
+          const url = window.prompt('Enter the URL of the link:')
+          if (!url) return
+          insertLink(editor, url)
+        }
+      }}
+    >
+      {isLinkActive(editor) ? (
+        <LinkBreak size={16} weight="bold" />
+      ) : (
+        <Link size={16} weight="bold" />
+      )}
+    </StyledButton>
+  )
+}
+
+/**
+ * Opens a component selection modal.
+ */
 export const ComponentButton = () => {
   const editor = useSlate()
   const { components, createComponent } = useCMS()

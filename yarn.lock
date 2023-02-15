@@ -3287,6 +3287,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/is-url@npm:^1.2.30":
+  version: 1.2.30
+  resolution: "@types/is-url@npm:1.2.30"
+  checksum: 81f337a7442f56d160ec0f63b2847cff368c5701f46a32c3c4fff5a1424b6afb4ad3eb7206febd26760a869680d61b7626e41f0ad652003f5783bcfda5b41d9e
+  languageName: node
+  linkType: hard
+
 "@types/issue-parser@npm:^3.0.1":
   version: 3.0.1
   resolution: "@types/issue-parser@npm:3.0.1"
@@ -7505,6 +7512,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-url@npm:^1.2.4":
+  version: 1.2.4
+  resolution: "is-url@npm:1.2.4"
+  checksum: 100e74b3b1feab87a43ef7653736e88d997eb7bd32e71fd3ebc413e58c1cbe56269699c776aaea84244b0567f2a7d68dfaa512a062293ed2f9fdecb394148432
+  languageName: node
+  linkType: hard
+
 "is-weakmap@npm:^2.0.1":
   version: 2.0.1
   resolution: "is-weakmap@npm:2.0.1"
@@ -8851,6 +8865,7 @@ __metadata:
     "@tanstack/query-core": ^4.24.4
     "@tanstack/react-query": ^4.24.4
     "@tsconfig/create-react-app": ^1.0.3
+    "@types/is-url": ^1.2.30
     "@types/lodash": ^4.14.186
     "@types/mime": ^3.0.1
     "@types/node": 17.0.12
@@ -8865,6 +8880,7 @@ __metadata:
     framer-motion: 6.5.1
     gray-matter: ^4.0.3
     handlebars: ^4.7.7
+    is-url: ^1.2.4
     lodash: ^4.17.21
     mime: ^3.0.0
     modern-normalize: ^1.1.0

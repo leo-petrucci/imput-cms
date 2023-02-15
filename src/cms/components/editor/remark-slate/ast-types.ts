@@ -81,6 +81,7 @@ export interface LeafType {
 export interface BlockType {
   type: string
   parentType?: string
+  url?: string
   link?: string
   title?: string
   caption?: string

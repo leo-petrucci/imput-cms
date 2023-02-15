@@ -4,6 +4,8 @@ import { styled } from '../../../../stitches.config'
 import CodeblockElement from '../../../cms/components/editor/codeblockElement/codeblockElement'
 import Image from '../../../cms/components/editor/images/imageElement'
 import MdxElement from '../../../cms/components/editor/mdxElement'
+import { CustomElement } from '../../types/slate'
+import LinkElement from './linkElement/linkElement'
 import { defaultNodeTypes } from './remark-slate'
 
 export interface CustomRenderElementProps
@@ -11,21 +13,13 @@ export interface CustomRenderElementProps
   element: CustomElement
 }
 
-/**
- * Interface with custom element values
- */
-interface CustomElement extends Pick<RenderElementProps, 'element'> {
-  align: string
-  type: string
-}
-
 export const Element = (props: CustomRenderElementProps) => {
   const { attributes, children, element } = props
-  const style = {
-    textAlign: element.align,
-  } as React.CSSProperties
+  const style = {} as React.CSSProperties
 
   switch (element.type) {
+    case defaultNodeTypes.link:
+      return <LinkElement {...props} />
     case defaultNodeTypes.image:
       // @ts-ignore
       // eslint-disable-next-line jsx-a11y/alt-text
@@ -96,6 +90,9 @@ export const Element = (props: CustomRenderElementProps) => {
         </StyledOrderedList>
       )
     default:
+      if (element.type === 'link') {
+        return children
+      }
       return (
         <p style={{ ...style, width: '100%' }} {...attributes}>
           {children}

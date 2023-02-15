@@ -1,5 +1,5 @@
 {
-  "version": "0.0.5",
+  "version": "0.1.0",
   "name": "meow-cms",
   "main": "dist/index.js",
   "module": "dist/meow.esm.js",

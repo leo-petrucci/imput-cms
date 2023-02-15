@@ -11,6 +11,7 @@ import { BracketsSquare } from 'phosphor-react'
 import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
 import ErrorBoundary from '../../../cms/components/designSystem/errorBoundary'
+import { CustomElement } from '../../types/slate'
 
 const StyledMdxButton = styled('button', {
   width: '100%',
@@ -37,7 +38,7 @@ const StyledMdxButton = styled('button', {
 /**
  * Interface for custom MDX element
  */
-export interface MdxElementShape extends Pick<RenderElementProps, 'element'> {
+export interface MdxElementShape extends CustomElement {
   type: string
   align: string
   /**

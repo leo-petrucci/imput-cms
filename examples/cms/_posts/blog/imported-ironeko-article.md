@@ -1,20 +1,22 @@
 ---
-layout: blog
+published: true
 title: The do's and dont's of Skeleton Loading in React
-category:
-  - UI
-  - React
+categories: ''
 author: Leonardo Petrucci
 date: 2022-10-13T15:07:02.026Z
 thumbnail: /images/frame-142.png
-description: Skeleton components in React are an extremely common pattern,
-  however there seem to be very few tips on how to implement them in a real
-  world scenario.
+layout: blog
+category:
+  - UI
+  - React
+description: >-
+  Skeleton components in React are an extremely common pattern, however there
+  seem to be very few tips on how to implement them in a real world scenario.
 yoast_keyword: Skeleton Loading in React
 ---
 Skeleton Loading is the practice of displaying a mockup of a a part of your interface while data that is supposed to fill that interface is loaded. In theory this is no different than showing the user a spinning icon or telling them that you're loading something, but there is research that suggests **skeleton loading tricks users into thinking your app loads faster than it does**.
 
-![Hero image with the text "The Do's and Don'ts of skeleton loading in react"](/images/frame-142.png)
+![Hero image with the text "The Do's and Don'ts of skeleton loading in react"](/images/frame-142.png "")
 
 Beyond that, it's an excellent way to avoid parts of your interface shifting as data loads in and overall makes an interface look and feel more polished.
 
@@ -24,40 +26,24 @@ If you're looking to implement Skeleton Loading in React, I'd recommend using an
 
 That said, there are two specific packages I recommend if you need to develop a Skeleton Loading functionality:
 
-* **[Skeleton React](https://skeletonreact.com)**, which uses an interesting approach which consists of re-creating your skeleton with SVGs.
-* **[React Loading Skeleton](https://www.npmjs.com/package/react-loading-skeleton)**, which simply displays a skeleton of X and Y size as a DOM element.
+- [Skeleton Loading](https://skeletonreact.com), which uses an interesting approach which consists of re-creating your skeleton with SVGs.
+- [React Loading Skeleton](https://www.npmjs.com/package/react-loading-skeleton), which simply displays a skeleton of X and Y size as a DOM element.
 
 The way I like to use Skeletons is to have a Skeleton version of each component I'm planning to display once the data has been loaded. So for example, if I have a page that allows me to search for articles I would most likely have:
 
-* A skeleton for article cards
-* A skeleton for the search bar
-* A skeleton for all the different categories the user can filter between
+- A skeleton for article cards
+- A skeleton for the search bar
+- A skeleton for all the different categories the user can filter between
 
 These would be replaced by both their non-skeleton components the first time my data loads. You could also have a single skeleton for all the components above, but in my personal experience breaking each down to its most basic components allows for more reusability and less work.
 
 <Notice>
 
-
-
-
-
-
-
 If you had to load more articles on another page formatted differently from this search page, you'd be able to reuse the skeleton component for just the articles rather than having to re-create a skeleton specifically for that page!
-
-
-
-
-
-
 
 </Notice>
 
-<iframe src="https://codesandbox.io/embed/with-react-loading-skeleton-forked-3nmph4?codemirror=1&fontsize=14&hidenavigation=1&theme=dark&view=preview"
-     title="with react loading skeleton (forked)"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
-   ></iframe>
+<iframe src="https://codesandbox.io/embed/with-react-loading-skeleton-forked-3nmph4?codemirror=1&fontsize=14&hidenavigation=1&theme=dark&view=preview" title="with react loading skeleton (forked)" allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking" sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts" />
 
 The example above uses the same components I use for this blog and allows you to trigger between the two different packages I mentioned above.
 
@@ -71,30 +57,18 @@ This is probably my favourite out of the two, mostly due to its **ease of implem
 
 Aside from that, it's also quite easy to change its styles so you'll most likely be able to make it look any way you want without much hassle.
 
-<List type="tick">
+<List type="tick" >
 
-
-
-
-* Quick and easy to create skeletons
-* Easy to style and customise
-* Responsive by design
-
-
-
+  - Quick and easy to create skeletons
+  - Easy to style and customise
+  - Responsive by design
 
 </List>
 
-<List type="cross">
+<List type="cross" >
 
-
-
-
-* Probably not great for accessibility since it will be interpreted as a DOM element
-* Lots of code duplication to match the component's styles
-
-
-
+  - Probably not great for accessibility since it will be interpreted as a DOM element
+  - Lots of code duplication to match the component's styles
 
 </List>
 
@@ -104,13 +78,13 @@ React Content Loader is definitely a bit more complicated to use than its DOM co
 
 My preferred way around that is to take a screenshot of whatever I want to transform into a skeleton, open it in Figma and replace the elements I want to make into skeletons:
 
-![](/images/screenshot-2022-10-07-at-15.54.05.png)
+![](/images/screenshot-2022-10-07-at-15.54.05.png "")
 
 Each red element is an SVG rectangle. You can then:
 
 1. Select the frame containing your rectangles
-2. Go to "Export" in the right sidebar
-3. Select "SVG" and then export
+1. Go to "Export" in the right sidebar
+1. Select "SVG" and then export
 
 This will download an SVG file which once dragged into any code editor will reveal the SVG you need for your skeleton component! For example, the above ended up being:
 
@@ -159,26 +133,16 @@ We can then clean it up a bit (remove fills, borders, add some corner radius) an
 
 It's likely you'll have to change your height/width depending on the situation, but that's pretty much all you need.
 
-<List type="tick">
+<List type="tick" >
 
-
-
-
-* Essentially just displays an image, which is great for accessibility
-* Code is clean and short
-
-
-
+  - Essentially just displays an image, which is great for accessibility
+  - Code is clean and short
 
 </List>
 
-<List type="cross">
+<List type="cross" >
 
-
-
-* Difficult to write without visual aid
-
-
+  - Difficult to write without visual aid
 
 </List>
 
@@ -239,3 +203,4 @@ For example, the skeleton from the example above is missing the author's photo w
 Let's be honest, the main reason you're wanting to implement skeleton loading in React is to make your app look more professional or make it seem faster. So the best tip I can give is to just **keep trying** until it looks good!
 
 Both `react-spring` and `framer-motion` are great options to animate the transition between your skeleton and your actual component to give it that extra polished touch.
+

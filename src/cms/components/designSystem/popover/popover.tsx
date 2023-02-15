@@ -20,7 +20,7 @@ const StyledPopoverContainer = styled('div', {
 })
 
 const StyledPopoverContent = styled(PopoverPrimitive.Content, {
-  zIndex: 1000,
+  zIndex: '$30',
   backgroundColor: '#fff',
   maxWidth: '100vw',
   boxShadow: '$md',

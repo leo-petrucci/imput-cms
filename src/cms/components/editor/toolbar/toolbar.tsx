@@ -13,7 +13,9 @@ const Toolbar = ({
   <Box
     {...props}
     css={{
-      position: 'relative',
+      position: 'sticky',
+      background: 'white',
+      zIndex: '$10',
       padding: '$2 $2',
       marginBottom: '$2',
       // borderBottom: "1px solid $gray-200",

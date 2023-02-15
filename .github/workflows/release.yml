@@ -10,15 +10,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          # Fetch the entire commit history to include all commits.
-          # By default, "actions/checkout" checks out the repository
-          # at the commit that's triggered the workflow. This means
-          # that the "@ossjs/release" may not be able to read older
-          # commits that may affect the next release version number.
           fetch-depth: 0
 
-          # Provide your custom "CI_GITHUB_TOKEN" secret that holds
-          # your GitHub Personal Access Token.
           token: ${{ secrets.CI_GITHUB_TOKEN }}
 
       - uses: actions/setup-node@v3
@@ -26,7 +19,6 @@ jobs:
           always-auth: true
           registry-url: https://registry.npmjs.org
 
-      # Configure the Git user that'd author release commits.
       - name: Setup Git
         run: |
           git config --local user.name "Leonardo Petrucci"

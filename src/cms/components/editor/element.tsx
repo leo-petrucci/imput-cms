@@ -30,9 +30,9 @@ export const Element = (props: CustomRenderElementProps) => {
       return <CodeblockElement {...props} />
     case defaultNodeTypes.block_quote:
       return (
-        <blockquote style={style} {...attributes}>
+        <StyledBlockQuote style={style} {...attributes}>
           {children}
-        </blockquote>
+        </StyledBlockQuote>
       )
     case defaultNodeTypes.ul_list:
       return (
@@ -79,9 +79,9 @@ export const Element = (props: CustomRenderElementProps) => {
 
     case defaultNodeTypes.listItem:
       return (
-        <li style={style} {...attributes}>
+        <StyledListItem style={style} {...attributes}>
           {children}
-        </li>
+        </StyledListItem>
       )
     case defaultNodeTypes.ol_list:
       return (
@@ -101,6 +101,10 @@ export const Element = (props: CustomRenderElementProps) => {
   }
 }
 
+const StyledListItem = styled('li', {
+  flex: '1 1 0%',
+})
+
 const StyledOrderedList = styled('ol', {
   marginLeft: '$4',
   flex: '1 1 0%',
@@ -109,4 +113,10 @@ const StyledOrderedList = styled('ol', {
 const StyledUnorderedList = styled('ul', {
   marginLeft: '$4',
   flex: '1 1 0%',
+})
+
+const StyledBlockQuote = styled('blockquote', {
+  borderLeft: '3px solid $gray-200',
+  marginLeft: '$2',
+  padding: '$2',
 })

@@ -30,7 +30,7 @@ const Image = ({
         setImages((i) => [...i, loadedImage])
       }
     }
-    if (imageBlobUrl === undefined && onScreen) {
+    if (imageBlobUrl === undefined && onScreen && path) {
       doLoad()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

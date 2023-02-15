@@ -306,7 +306,7 @@ export default function serialize(
       }\n${children}\n\`\`\`\n${BREAK_TAG}`
 
     case nodeTypes.link:
-      return `[${children}](${(chunk as BlockType).link || ''})`
+      return `[${children}](${(chunk as BlockType).url || ''})`
     case nodeTypes.image:
       return `![${(chunk as BlockType).caption}](${
         (chunk as BlockType).link || ''
@@ -322,9 +322,6 @@ export default function serialize(
     case nodeTypes.listItemText:
       // whether it's an ordered or unordered list
       const isOL = chunk && chunk.parentType === nodeTypes.ol_list
-      const treatAsLeaf =
-        (chunk as BlockType).children.length === 1 &&
-        isLeafNode((chunk as BlockType).children[0])
 
       let spacer = ''
       for (let k = 0; listDepth > k; k++) {
@@ -335,9 +332,7 @@ export default function serialize(
           spacer += '  '
         }
       }
-      return `${spacer}${isOL ? `1.` : '-'} ${children}${
-        treatAsLeaf ? '\n' : ''
-      }`
+      return `${spacer}${isOL ? `1.` : '-'} ${children}${'\n'}`
 
     case nodeTypes.paragraph:
       return `${children !== '\n' ? `${children}\n` : ''}${BREAK_TAG}`

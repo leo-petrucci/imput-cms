@@ -2,6 +2,7 @@ import React from 'react'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkSlate, {
+  defaultNodeTypes,
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
 import { createEditor, Descendant, Path, Transforms } from 'slate'
@@ -16,6 +17,7 @@ import Toolbar from '../../../cms/components/editor/toolbar'
 import {
   BlockButton,
   ComponentButton,
+  LinkButton,
   MarkButton,
   StyledButton,
 } from '../../../cms/components/editor/button/button'
@@ -40,6 +42,7 @@ import {
   onKeyDown,
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
+import { withInlines } from './button/link'
 
 export const deserialize = (src: string): Descendant[] => {
   const { result } = unified()
@@ -83,6 +86,10 @@ const Editor = ({
     // a level of 2 means it's a root element
     const displayControls = Path.levels(path).length === 2
 
+    if (props.element.type === defaultNodeTypes.link) {
+      return <Element {...props} />
+    }
+
     return (
       <Box
         css={{
@@ -115,8 +122,10 @@ const Editor = ({
 
   const [editor] = React.useState(
     () =>
-      withEditableVoids(
-        withListsReact(withListsPlugin(withReact(createEditor())))
+      withInlines(
+        withEditableVoids(
+          withListsReact(withListsPlugin(withReact(createEditor())))
+        )
       ) as ReactEditor & ListsEditor
   )
 
@@ -134,6 +143,7 @@ const Editor = ({
           <MarkButton format="bold" icon={<TextBolder size={16} />} />
           <MarkButton format="italic" icon={<TextItalic size={16} />} />
           <MarkButton format="code" icon={<CodeSimple size={16} />} />
+          <LinkButton />
           <BlockButton format="code_block" icon={<Code size={16} />} />
           <BlockButton format="heading_one" icon={<TextHOne size={16} />} />
           <BlockButton format="heading_two" icon={<TextHTwo size={16} />} />

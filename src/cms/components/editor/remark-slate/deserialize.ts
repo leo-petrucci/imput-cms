@@ -37,7 +37,7 @@ export default function deserialize<T extends InputNodeTypes>(
     },
   }
 
-  const linkDestinationKey = opts?.linkDestinationKey ?? 'link'
+  const linkDestinationKey = opts?.linkDestinationKey ?? 'url'
   const imageSourceKey = opts?.imageSourceKey ?? 'link'
   const imageCaptionKey = opts?.imageCaptionKey ?? 'caption'
 

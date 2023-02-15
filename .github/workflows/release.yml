@@ -29,8 +29,8 @@ jobs:
       # Configure the Git user that'd author release commits.
       - name: Setup Git
         run: |
-          git config --local user.name "GitHub Actions"
-          git config --local user.email "actions@github.com"
+          git config --local user.name "Leonardo Petrucci"
+          git config --local user.email "leonardo@creativiii.com"
 
       - run: yarn install --frozen-lockfile
 

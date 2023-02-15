@@ -1,7 +1,7 @@
 # .github/workflows/release.yml
 name: release
 on:
-  workflow_dispatch
+  workflow_dispatch:
   push:
     branches: [main]
 jobs:

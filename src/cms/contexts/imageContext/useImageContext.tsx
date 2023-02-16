@@ -6,6 +6,7 @@ import {
 import ctxt, { ImageState, LoadedImages } from './context'
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 import { base64ToBlob } from '../../../cms/utils/base64ToBlob'
+import Loader from '../../components/loader'
 
 const fileToBlob = async (file: File) =>
   new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })
@@ -145,7 +146,7 @@ export const ImagesProvider = ({
   const { isLoading, data } = useGetGithubImages()
 
   if (isLoading) {
-    return <>Loading...</>
+    return <Loader />
   }
 
   return (

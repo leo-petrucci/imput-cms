@@ -16,6 +16,7 @@ import { CollectionType } from '../../../cms/types/collection'
 import useMeasure from '../../../cms/utils/useMeasure'
 import Button from '../../../cms/components/designSystem/button'
 import NewPage from '../../../cms/pages/new'
+import Loader from '../../components/loader'
 
 const CollectionPage = () => {
   const { collection } = useParams<{
@@ -138,7 +139,7 @@ const CollectionPage = () => {
           />
         </Routes>
       ) : (
-        <>Loading...</>
+        <Loader />
       )}
     </React.Fragment>
   )

@@ -27,7 +27,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '../../../cms/queries/keys'
 import { useNavigate, useParams } from 'react-router-dom'
-import { EditorProps } from '../../components/editor/editor'
+import Loader from '../../components/loader'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -294,7 +294,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     )
   }
 
-  return <>Loading...</>
+  return <Loader />
 }
 
 const CreateEditor = () => {

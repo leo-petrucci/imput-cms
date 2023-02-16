@@ -172,10 +172,10 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
           </Box>
           <Box
             css={{
-              paddingTop: `calc(${height}px + $4)`,
-              paddingLeft: '$4',
-              paddingRight: '$4',
-              paddingBottom: '$4',
+              maxHeight: `calc(100vh - ${height}px)`,
+              overflowY: 'auto',
+              marginTop: `calc(${height}px)`,
+              padding: '$4',
               flex: '1 0 0%',
             }}
           >
@@ -230,7 +230,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                       case 'datetime':
                         return <Input.Controlled type="datetime-local" />
                       case 'markdown':
-                        return <CreateEditor toolbarStickyTop={height} />
+                        return <CreateEditor />
                       case 'image':
                         return <ImagePicker.Controlled />
                       case 'boolean':
@@ -280,7 +280,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
           </Box>
           <Box
             css={{
-              paddingTop: `calc(${height}px + $4)`,
+              maxHeight: `calc(100vh - ${height}px)`,
+              overflowY: 'auto',
+              marginTop: `calc(${height}px)`,
               whiteSpace: 'pre-wrap',
               flex: '1 0 0%',
             }}
@@ -295,9 +297,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   return <>Loading...</>
 }
 
-const CreateEditor = ({
-  toolbarStickyTop,
-}: Pick<EditorProps, 'toolbarStickyTop'>) => {
+const CreateEditor = () => {
   const { name, rules } = useFormItem()
   const { control } = useFormContext()
 
@@ -325,11 +325,7 @@ const CreateEditor = ({
 
   return (
     <DepthProvider>
-      <Editor
-        value={value}
-        onChange={(value) => handleChange(value)}
-        toolbarStickyTop={toolbarStickyTop}
-      />
+      <Editor value={value} onChange={(value) => handleChange(value)} />
     </DepthProvider>
   )
 }

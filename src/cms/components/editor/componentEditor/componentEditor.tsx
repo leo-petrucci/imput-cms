@@ -244,7 +244,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           <Flex direction="column" gap="1">
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
-              toolbarStickyTop={-27}
               value={reactChildren!}
               onChange={
                 (val) => editReactChildren(path, mdxElement, editor, val)

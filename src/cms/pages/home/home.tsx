@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
+import Loader from '../../components/loader'
 
 /**
  * Will redirect user to the first collection in their settings.
@@ -19,7 +20,7 @@ const HomePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [collections, history, location.pathname])
 
-  return <>Loading...</>
+  return <Loader />
 }
 
 export default HomePage

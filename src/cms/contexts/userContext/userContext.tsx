@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Login from '../../../cms/pages/login'
 import { useGithubToken, useGithubUser } from '../../../cms/queries/auth'
 import ctxt from '../../../cms/contexts/userContext/context'
+import Loader from '../../components/loader'
 
 export const useUser = () => {
   const user = useContext(ctxt)
@@ -21,7 +22,7 @@ export const UserProvider = ({
   const { data, isSuccess, isLoading } = useGithubUser(tokenQuery.data!)
 
   if (tokenQuery.isLoading || isLoading) {
-    return <>Loading...</>
+    return <Loader />
   }
 
   if (!isSuccess) {

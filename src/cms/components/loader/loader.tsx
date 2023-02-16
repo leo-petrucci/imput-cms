@@ -1,3 +1,4 @@
+import React from 'react'
 import { keyframes } from '@stitches/react'
 import { CircleNotch } from 'phosphor-react'
 import { styled } from '../../../../stitches.config'

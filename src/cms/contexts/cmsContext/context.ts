@@ -1,4 +1,5 @@
 import React from 'react'
+import { FieldValues, RegisterOptions } from 'react-hook-form'
 
 export type Widgets =
   | {
@@ -170,10 +171,7 @@ export interface NextCMSContext {
          * What will the input be labeled as in the Ui
          */
         label: string
-        /**
-         * Whether the input needs to exist for the user to save
-         */
-        required?: boolean
+        rules?: RegisterOptions<FieldValues, string>
       } & Extract<
         Widgets,
         {

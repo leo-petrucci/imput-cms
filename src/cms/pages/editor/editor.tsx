@@ -264,12 +264,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                       key={f.name}
                       name={f.name}
                       label={f.label}
-                      rules={{
-                        required: {
-                          value: f.required || false,
-                          message: `${f.label} is required.`,
-                        },
-                      }}
+                      rules={f.rules}
                     >
                       {renderControl()}
                     </Form.Item>

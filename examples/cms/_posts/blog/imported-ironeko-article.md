@@ -1,5 +1,5 @@
 ---
-published: true
+published: false
 title: The do's and dont's of Skeleton Loading in React
 categories: ''
 author: Leonardo Petrucci

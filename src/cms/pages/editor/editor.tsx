@@ -28,6 +28,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '../../../cms/queries/keys'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../components/loader'
+import { cloneDeep } from 'lodash'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -105,8 +106,14 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
         )
       }
 
+      // slugify each property in the current schema so that it can be used to construct our slug.
+      const slugifiedRest = cloneDeep(rest)
+      Object.keys(slugifiedRest).forEach((key) => {
+        slugifiedRest[key] = slugify(String(slugifiedRest[key]))
+      })
+
       return template({
-        ...rest,
+        ...slugifiedRest,
         slug: slugify(String(rest.title)),
         year: date.getFullYear(),
         month: date.getMonth(),
@@ -121,6 +128,8 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown])
+
+  console.log(filename)
 
   const { mutate, isLoading } = useSaveMarkdown(filename)
 

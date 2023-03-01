@@ -10,9 +10,5 @@ category:
   - Feature
   - React
 ---
-<Notice>
-
 Test
-
-</Notice>
 

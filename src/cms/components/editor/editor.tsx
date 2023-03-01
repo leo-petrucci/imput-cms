@@ -1,4 +1,5 @@
 import React from 'react'
+import remarkStringify from 'remark-stringify'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkSlate, {
@@ -43,13 +44,23 @@ import {
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
+import { escapeSmallerThan } from './lib/escapeSmallerThan'
 
 export const deserialize = (src: string): Descendant[] => {
+  console.log('deserialize')
+  // temporary solution for crash when paragraphs end in `<`
+  // https://github.com/creativiii/meow-cms/issues/56
+  const { value: escapedSmallerThan } = unified()
+    .use(remarkParse)
+    .use(escapeSmallerThan)
+    .use(remarkStringify)
+    .processSync(src)
+
   const { result } = unified()
     .use(remarkParse)
     .use(remarkMdx)
     .use(remarkSlate)
-    .processSync(src)
+    .processSync(escapedSmallerThan)
 
   return result as Descendant[]
 }
@@ -129,7 +140,6 @@ const Editor = ({ value, onChange }: EditorProps) => {
   )
 
   const onEditorChange = (val: Descendant[]) => {
-    console.log(val)
     onChange?.(val)
   }
 

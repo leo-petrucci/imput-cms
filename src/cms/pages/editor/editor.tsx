@@ -129,8 +129,6 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown])
 
-  console.log(filename)
-
   const { mutate, isLoading } = useSaveMarkdown(filename)
 
   // we parse form values into a graymatter string so we can display it
@@ -324,7 +322,8 @@ const CreateEditor = () => {
 
   const value = React.useMemo(
     () => deserialize(content || 'My markdown content'),
-    [content]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   )
 
   return (

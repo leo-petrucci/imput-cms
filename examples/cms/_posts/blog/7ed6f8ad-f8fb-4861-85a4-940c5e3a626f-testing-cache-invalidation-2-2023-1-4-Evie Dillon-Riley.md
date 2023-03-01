@@ -10,13 +10,9 @@ category:
   - Feature
   - React
 ---
-My markdown content
+<Notice>
 
-- Testing
+Content
 
-![](images/y0j2l3.jpg "")
-
-Will this work?
-
-Updating content 👀
+</Notice>
 

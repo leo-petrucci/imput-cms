@@ -139,7 +139,7 @@ const Editor = ({ value, onChange }: EditorProps) => {
   )
 
   const onEditorChange = (val: Descendant[]) => {
-    if (process.env.NODE_ENV === 'development') console.log(val)
+    console.log(val)
     onChange?.(val)
   }
 

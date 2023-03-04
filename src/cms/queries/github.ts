@@ -259,6 +259,11 @@ const saveToGithub = async (
       owner,
       repo,
       branch,
+      headers: {
+        // disable disk cache to ensure data is always new
+        // update will fail if branch is fetched from cache
+        'If-None-Match': '',
+      },
     }
   )
 

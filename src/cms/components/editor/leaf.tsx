@@ -1,7 +1,8 @@
 import { styled } from '../../../../stitches.config'
 import React from 'react'
 
-export const Leaf = ({ attributes, children, leaf }: any) => {
+export const Leaf = (props: any) => {
+  let { attributes, children, leaf } = props
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
@@ -18,8 +19,32 @@ export const Leaf = ({ attributes, children, leaf }: any) => {
     children = <u>{children}</u>
   }
 
-  return <span {...attributes}>{children}</span>
+  return <Text {...props}>{children}</Text>
 }
+
+// The following is a workaround for a Chromium bug where,
+// if you have an inline at the end of a block,
+// clicking the end of a block puts the cursor inside the inline
+// instead of inside the final {text: ''} node
+// https://github.com/ianstormtaylor/slate/issues/4704#issuecomment-1006696364
+const Text = (props: any) => {
+  const { attributes, children, leaf } = props
+  return (
+    <StyledText text={leaf.text ? true : false} {...attributes}>
+      {children}
+    </StyledText>
+  )
+}
+
+const StyledText = styled('span', {
+  variants: {
+    text: {
+      true: {
+        paddingLeft: '0.1px',
+      },
+    },
+  },
+})
 
 const Code = styled('code', {
   padding: '0.2em 0.4em',

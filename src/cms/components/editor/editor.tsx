@@ -40,11 +40,12 @@ import { ImageElement } from '../../../cms/components/editor/images/imageElement
 import { withListsPlugin } from './lists'
 import {
   ListsEditor,
-  onKeyDown,
+  onKeyDown as listsKeyDown,
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
 import { escapeSmallerThan } from './lib/escapeSmallerThan'
+import { onKeyDownOffset } from './lib/keyDownOffset'
 
 export const deserialize = (src: string): Descendant[] => {
   // temporary solution for crash when paragraphs end in `<`
@@ -190,7 +191,10 @@ const Editor = ({ value, onChange }: EditorProps) => {
           <Editable
             renderElement={renderElement}
             renderLeaf={renderLeaf}
-            onKeyDown={(event: any) => onKeyDown(editor, event)}
+            onKeyDown={(event: any) => {
+              listsKeyDown(editor, event)
+              onKeyDownOffset(editor, event)
+            }}
           />
         </Box>
       </Slate>

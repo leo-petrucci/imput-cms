@@ -71,7 +71,7 @@ export const withInlines = (editor: ReactEditor) => {
 
   editor.isInline = (element) => {
     const customElement: CustomElement = element as any
-    return ['link', 'button'].includes(customElement.type) || isInline(element)
+    return ['link'].includes(customElement.type) || isInline(element)
   }
 
   editor.insertText = (text) => {

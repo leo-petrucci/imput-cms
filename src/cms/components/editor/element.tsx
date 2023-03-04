@@ -42,39 +42,75 @@ export const Element = (props: CustomRenderElementProps) => {
       )
     case defaultNodeTypes.heading[1]:
       return (
-        <h1 style={style} {...attributes}>
+        <StyledHeading
+          as="h1"
+          css={{
+            fontSize: '$4xl',
+          }}
+          {...attributes}
+        >
           {children}
-        </h1>
+        </StyledHeading>
       )
     case defaultNodeTypes.heading[2]:
       return (
-        <h2 style={style} {...attributes}>
+        <StyledHeading
+          as="h2"
+          css={{
+            fontSize: '$3xl',
+          }}
+          {...attributes}
+        >
           {children}
-        </h2>
+        </StyledHeading>
       )
     case defaultNodeTypes.heading[3]:
       return (
-        <h3 style={style} {...attributes}>
+        <StyledHeading
+          as="h3"
+          css={{
+            fontSize: '$2xl',
+          }}
+          {...attributes}
+        >
           {children}
-        </h3>
+        </StyledHeading>
       )
     case defaultNodeTypes.heading[4]:
       return (
-        <h4 style={style} {...attributes}>
+        <StyledHeading
+          as="h4"
+          css={{
+            fontSize: '$xl',
+          }}
+          {...attributes}
+        >
           {children}
-        </h4>
+        </StyledHeading>
       )
     case defaultNodeTypes.heading[5]:
       return (
-        <h5 style={style} {...attributes}>
+        <StyledHeading
+          as="h5"
+          css={{
+            fontSize: '$lg',
+          }}
+          {...attributes}
+        >
           {children}
-        </h5>
+        </StyledHeading>
       )
     case defaultNodeTypes.heading[6]:
       return (
-        <h6 style={style} {...attributes}>
+        <StyledHeading
+          as="h6"
+          css={{
+            fontSize: '$base',
+          }}
+          {...attributes}
+        >
           {children}
-        </h6>
+        </StyledHeading>
       )
 
     case defaultNodeTypes.listItem:
@@ -100,6 +136,8 @@ export const Element = (props: CustomRenderElementProps) => {
       )
   }
 }
+
+const StyledHeading = styled('h1', {})
 
 const StyledListItem = styled('li', {
   flex: '1 1 0%',

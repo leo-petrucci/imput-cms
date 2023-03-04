@@ -2,7 +2,7 @@ import { styled } from '../../../../stitches.config'
 import React from 'react'
 
 export const Leaf = (props: any) => {
-  let { attributes, children, leaf } = props
+  let { children, leaf } = props
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }

@@ -7171,6 +7171,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-hotkey@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "is-hotkey@npm:0.2.0"
+  checksum: 97d295cfd8c3eb2c9b218daee5bff0ddaf47210930e3eb1eff36d2e6ad74854028203c640f35ea2d183d0cba94ac4c4bcd291925bc3a343d8a4c7d2c5ab3e2a6
+  languageName: node
+  linkType: hard
+
 "is-interactive@npm:^1.0.0":
   version: 1.0.0
   resolution: "is-interactive@npm:1.0.0"
@@ -8741,6 +8748,7 @@ __metadata:
     framer-motion: 6.5.1
     gray-matter: ^4.0.3
     handlebars: ^4.7.7
+    is-hotkey: ^0.2.0
     is-url: ^1.2.4
     lodash: ^4.17.21
     mime: ^3.0.0

@@ -47,6 +47,8 @@ export const useGetGithubCollection = (type: string) => {
         )
       } catch (err) {}
 
+      console.log(files)
+
       // if the repo has no content, then the folder won't exist and cause a 404
       // this prevents that from happening by simply returning an empty array
       if (!files) {
@@ -59,6 +61,7 @@ export const useGetGithubCollection = (type: string) => {
           octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
+            sha: backend.branch,
             path: `${type}/${file.path}`,
             page: 1,
             per_page: 1,

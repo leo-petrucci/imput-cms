@@ -181,6 +181,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             css={{
               maxHeight: `calc(100vh - ${height}px)`,
               overflowY: 'auto',
+              zIndex: 0,
               marginTop: `calc(${height}px)`,
               padding: '$4',
               flex: '1 0 0%',

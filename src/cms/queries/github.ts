@@ -31,14 +31,29 @@ export const useGetGithubCollection = (type: string) => {
       const octokit = new Octokit({
         auth: getToken(),
       })
-      const files = await octokit.request(
-        'GET /repos/{owner}/{repo}/git/trees/{tree_sha}',
-        {
-          owner,
-          repo,
-          tree_sha: `${backend.branch}:${type}`,
-        }
-      )
+
+      let files:
+        | Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
+        | undefined
+
+      try {
+        files = await octokit.request(
+          'GET /repos/{owner}/{repo}/git/trees/{tree_sha}',
+          {
+            owner,
+            repo,
+            tree_sha: `${backend.branch}:${type}`,
+          }
+        )
+      } catch (err) {}
+
+      console.log(files)
+
+      // if the repo has no content, then the folder won't exist and cause a 404
+      // this prevents that from happening by simply returning an empty array
+      if (!files) {
+        return []
+      }
 
       // these will all get fetched at the same time, saving us a ton of time
       const commits = await Promise.all(
@@ -46,6 +61,7 @@ export const useGetGithubCollection = (type: string) => {
           octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
+            sha: backend.branch,
             path: `${type}/${file.path}`,
             page: 1,
             per_page: 1,
@@ -106,14 +122,31 @@ export const useGetGithubImages = () => {
       const octokit = new Octokit({
         auth: getToken(),
       })
-      const files = await octokit.request(
-        'GET /repos/{owner}/{repo}/git/trees/{tree_sha}',
-        {
-          owner,
-          repo,
-          tree_sha: `${backend.branch}:${media_folder}`,
-        }
-      )
+
+      let files:
+        | Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
+        | undefined
+
+      try {
+        files = await octokit.request(
+          'GET /repos/{owner}/{repo}/git/trees/{tree_sha}',
+          {
+            owner,
+            repo,
+            tree_sha: `${backend.branch}:${media_folder}`,
+          }
+        )
+      } catch (err) {}
+
+      // if the repo has no content, then the folder won't exist and cause a 404
+      // this prevents that from happening by simply returning an empty array
+      if (!files) {
+        return {
+          data: {
+            tree: [] as Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']['data']['tree'],
+          },
+        } as Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
+      }
 
       // these will all get fetched at the same time, saving us a ton of time
       const commits = await Promise.all(
@@ -121,6 +154,7 @@ export const useGetGithubImages = () => {
           octokit.request('GET /repos/{owner}/{repo}/commits', {
             owner,
             repo,
+            sha: backend.branch,
             path: `${media_folder}/${file.path}`,
             page: 1,
             per_page: 1,
@@ -259,11 +293,6 @@ const saveToGithub = async (
       owner,
       repo,
       branch,
-      headers: {
-        // disable disk cache to ensure data is always new
-        // update will fail if branch is fetched from cache
-        'If-None-Match': '',
-      },
     }
   )
 

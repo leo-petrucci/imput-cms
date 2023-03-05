@@ -1,0 +1,46 @@
+---
+name: Getting started
+---
+# Getting started
+
+You can easily install Meow from npm:
+
+```js
+npm install meow-cms
+```
+
+You can then use it in your Next.js app by creating a new page:
+
+```
+my-nextjs-app/
+├─ pages/
+│  ├─ admin/
+│  │  ├─ [[...meow]].jsx 
+
+```
+
+Create a folder inside your `pages` directory (`admin` in our case) and then add a catch-all route within it `[[...meow]].jsx`. 
+
+Then you just need to import the main Meow component to render your new CMS:
+
+```jsx
+import dynamic from 'next/dynamic'
+
+const NextCMS = dynamic(() => import('meow-cms'), {
+  ssr: false,
+})
+
+const CMS = () => (
+  <NextCMS
+    {...{
+      // your settings will go here!
+    }}
+  />
+)
+
+export default CMS
+
+```
+
+Note: We use Next's dynamic import so Meow isn't added during the build!
+

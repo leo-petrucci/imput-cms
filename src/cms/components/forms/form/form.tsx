@@ -141,7 +141,12 @@ const Item = ({
             color: '$red-600',
           }}
         >
-          {get(methods.formState.errors, `${name}.message`) as string}
+          {
+            get(
+              methods.formState.errors,
+              `${name}.message`
+            ) as unknown as string
+          }
         </Box>
       </Box>
     </FormItemProvider>

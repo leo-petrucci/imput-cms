@@ -3,4 +3,25 @@ const withNextra = require('nextra')({
   themeConfig: './theme.config.jsx',
 })
 
-module.exports = withNextra()
+const path = require('path')
+
+module.exports = withNextra({
+  experimental: {
+    externalDir: true,
+  },
+  webpack: (
+    config,
+    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
+  ) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      cms: path.resolve(__dirname, '../../src/cms/'),
+      'stitches.config$': path.resolve(__dirname, '../../stitches.config.ts'),
+      'node_modules/modern-normalize/modern-normalize.css$': path.resolve(
+        __dirname,
+        '../../node_modules/modern-normalize/modern-normalize.css'
+      ),
+    }
+    return config
+  },
+})

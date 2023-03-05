@@ -47,14 +47,15 @@ const ImageUploadButton = () => {
                       oldData: Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
                     ) => {
                       // image might have already been uploaded, so we remove duplicates
-                      const uniqueTree = [
-                        ...new Map(
+                      const uniqueTree = Array.from(
+                        new Map(
                           [newImage, ...oldData.data.tree].map((item) => [
                             item['path'],
                             item,
                           ])
-                        ).values(),
-                      ]
+                        ).values()
+                      )
+
                       return {
                         ...oldData,
                         data: {

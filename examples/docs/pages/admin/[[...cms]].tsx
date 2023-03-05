@@ -23,11 +23,11 @@ const CMS = () => (
             label: 'Docs',
             folder: 'examples/docs/pages/docs',
             create: true,
-            slug: '{{title}}',
+            slug: '{{name}}',
             extension: 'mdx',
             fields: [
               { label: 'Name', name: 'name', widget: 'string' },
-              { label: 'Content', name: 'content', widget: 'markdown' },
+              { label: 'Content', name: 'body', widget: 'markdown' },
             ],
           },
         ],

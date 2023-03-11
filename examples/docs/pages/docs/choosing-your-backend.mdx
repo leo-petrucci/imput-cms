@@ -1,6 +1,7 @@
 ---
 name: Choosing your backend
 ---
+
 <Note>
 
 At the moment Meow only supports Github as a backend, but other Git providers are planned for the future. Sorry! 😺
@@ -20,9 +21,11 @@ If you've been following along with the documentation, your Meow config should l
 ```tsx
 const CMS = () => (
   <NextCMS
-    {...{
-      // your settings will go here!
-    }}
+    {
+      ...{
+        // your settings will go here!
+      }
+    }
   />
 )
 ```
@@ -37,11 +40,11 @@ const CMS = () => (
         backend: {
           name: 'github',
           repo: '{your github username}/{your repo name}',
-          branch: 'main', // the branch you want to edit, usually main or master 
+          branch: 'main', // the branch you want to edit, usually main or master
           base_url: 'https://mysite.com/', // the root address of your site
-          auth_endpoint: 'api/auth', // where your auth endpoint is located 
+          auth_endpoint: 'api/auth', // where your auth endpoint is located
         },
-      }
+      },
     }}
   />
 )
@@ -51,5 +54,4 @@ const CMS = () => (
 
 Meow leaves the authentication up to you, which means you need to set up an oAuth endpoint that will set a cookie to allow you to access your repo. First of all you'll need to create a new oAuth application and get your secret tokens. Go to [your Github settings](https://github.com/settings/profile) and follow along with the video.
 
-![](images/screen-recording-2023-03-11-at-135222.mov "")
-
+<Video src={'/images/screen-recording-2023-03-11-at-135222.mov'} />

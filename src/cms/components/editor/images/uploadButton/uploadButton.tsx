@@ -30,6 +30,7 @@ const ImageUploadButton = () => {
           if (e.target.files && e.target.files?.length > 0) {
             const file = e.target.files[0]
             const id = toast.loading(`Uploading ${file.name}...`)
+
             mutate(
               {
                 filename: file.name,

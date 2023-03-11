@@ -404,26 +404,38 @@ export const useUploadFile = () => {
        */
       file: File
     }) => {
-      const slugifiedFilename = slugify(filename)
+      const re = /(?:\.([^.]+))?$/
+      // separate file's extension
+      const [reFullExt, reExt] = re.exec(filename) as unknown as [
+        string,
+        string
+      ]
+
+      // get the filename only without the extension
+      const splitFilename = filename.split(reFullExt)[0]
+
+      // slugify it
+      const slugifiedFilename = slugify(splitFilename)
       const blob = await fileToBlob(file)
       const content = await blobToBase64(blob)
+
       const res = await saveToGithub(
         {
           owner,
           repo,
           branch,
         },
-        filename,
+        `${slugifiedFilename}.${reExt}`,
         {
           type: 'file',
           content: content.split(',')[1],
-          path: `${media_folder}/${slugifiedFilename}`,
+          path: `${media_folder}/${slugifiedFilename}.${reExt}`,
           encoding: 'base64',
         }
       )
 
       return {
-        path: slugifiedFilename,
+        path: `${slugifiedFilename}.${reExt}`,
         sha: res.sha,
       }
     },

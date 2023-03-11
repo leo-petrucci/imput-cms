@@ -136,7 +136,7 @@ export const useCMS = () => {
    */
   const getSchema = (componentName: string) => {
     const component = components?.find(
-      (c: BlockType) => (c.name = componentName)
+      (c: BlockType) => c.name === componentName
     )
 
     if (!component) return undefined

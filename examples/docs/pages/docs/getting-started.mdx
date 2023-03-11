@@ -19,7 +19,7 @@ my-nextjs-app/
 
 ```
 
-Create a folder inside your `pages` directory (`admin` in our case) and then add a catch-all route within it `[[...meow]].jsx`. 
+Create a folder inside your `pages` directory (`admin` in our case) and then add a catch-all route within it `[[...meow]].jsx`.
 
 Then you just need to import the main Meow component to render your new CMS:
 
@@ -42,5 +42,9 @@ export default CMS
 
 ```
 
-Note: We use Next's dynamic import so Meow isn't added during the build!
+<Note>
+
+Note: We use Next's dynamic import so Meow isn't added to the page's bundle. This also ensures Meow is only rendered client-side.
+
+</Note>
 

@@ -23,20 +23,18 @@ const CMS = () => (
             label: 'Blog',
             folder: 'examples/cms/_posts/blog',
             create: true,
-            slug: '{{uuid}}-{{slug}}-{{year}}-{{month}}-{{day}}-{{author}}',
+            slug: '{{title}}',
             extension: 'md',
             fields: [
               {
                 label: 'Published',
                 name: 'published',
                 widget: 'boolean',
-                required: true,
               },
               {
                 label: 'Title',
                 name: 'title',
                 widget: 'string',
-                required: true,
               },
               {
                 label: 'Categories',
@@ -64,7 +62,6 @@ const CMS = () => (
                 label: 'Featured Image',
                 name: 'thumbnail',
                 widget: 'image',
-                required: false,
               },
               { label: 'Body', name: 'body', widget: 'markdown' },
             ],
@@ -130,13 +127,11 @@ const CMS = () => (
                 label: 'Name',
                 name: 'name',
                 widget: 'string',
-                required: true,
               },
               {
                 label: 'Avatar',
                 name: 'avatar',
                 widget: 'image',
-                required: true,
               },
               { label: 'Body', name: 'body', widget: 'markdown' },
             ],

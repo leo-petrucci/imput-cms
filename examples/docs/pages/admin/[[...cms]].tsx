@@ -16,7 +16,7 @@ const CMS = () => (
           auth_endpoint: 'api/auth',
         },
         media_folder: 'examples/docs/public/images',
-        public_folder: 'images',
+        public_folder: '/images',
         collections: [
           {
             name: 'docs',
@@ -28,6 +28,47 @@ const CMS = () => (
             fields: [
               { label: 'Name', name: 'name', widget: 'string' },
               { label: 'Content', name: 'body', widget: 'markdown' },
+            ],
+            blocks: [
+              {
+                name: 'PropsTable',
+                label: 'Props Table',
+                fields: [
+                  {
+                    name: 'data',
+                    label: 'Data',
+                    type: {
+                      widget: 'json',
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Note',
+                label: 'Note',
+                fields: [
+                  {
+                    name: 'children',
+                    label: 'Children',
+                    type: {
+                      widget: 'markdown',
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Video',
+                label: 'Video',
+                fields: [
+                  {
+                    name: 'src',
+                    label: 'Source',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                ],
+              },
             ],
           },
         ],

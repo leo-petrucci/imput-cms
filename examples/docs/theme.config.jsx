@@ -12,9 +12,7 @@ export default {
           <div className="nx-select-none nx-text-xl ltr:nx-pl-3 ltr:nx-pr-2 rtl:nx-pr-3 rtl:nx-pl-2">
             💡
           </div>
-          <div className="nx-w-full nx-min-w-0 nx-leading-7">
-            <p className="nx-mt-6 nx-leading-7 first:nx-mt-0">{children}</p>
-          </div>
+          <div className="nx-w-full nx-min-w-0 nx-leading-7">{children}</div>
         </div>
       )
     },

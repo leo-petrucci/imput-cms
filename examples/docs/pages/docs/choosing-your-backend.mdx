@@ -1,6 +1,7 @@
 ---
 name: Choosing your backend
 ---
+
 <Note>
 
 At the moment Meow only supports Github as a backend, but other Git providers are planned for the future. Sorry! 😺
@@ -66,7 +67,7 @@ OAUTH_GITHUB_CLIENT_SECRET={your github client secret}
 
 <Note>
 
-The endpoints here are specific to Next.js, but the logic should be exactly the same for any other API framework. The only difference will be how you get certain headers. 
+The endpoints here are specific to Next.js, but the logic should be exactly the same for any other API framework. The only difference will be how you get certain headers.
 
 If you're having trouble [open an issue on Github](https://github.com/creativiii/meow-cms/issues/new) and we'll add it to the docs.
 
@@ -150,66 +151,4 @@ export default auth;
 
 Then you'll need to set up your callback endpoint, this one will receive the token from Github and send it back to Meow:
 
-```javascript
-// pages/api/callback.ts
-
-import { NextApiRequest, NextApiResponse } from 'next'
-import { AuthorizationCode } from 'simple-oauth2'
-import { config } from '../../lib/config'
-
-const callback = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { host } = req.headers
-  const url = new URL(`https://${host}/${req.url}`)
-  const urlParams = url.searchParams
-  const code = urlParams.get('code') as string
-
-  const provider = urlParams.get('provider') as 'github' | 'gitlab'
-  const client = new AuthorizationCode(config(provider))
-  const tokenParams = {
-    code,
-    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
-  }
-
-  try {
-    const accessToken = await client.getToken(tokenParams)
-    const token = accessToken.token['access_token']
-
-    res.statusCode = 200
-
-    res.setHeader('Content-Type', 'text/html')
-    res.end(`
-        <script type="text/javascript">
-          if (window.opener) {
-              window.opener.postMessage('${JSON.stringify({
-                token,
-                provider,
-              })}', "*");
-          }
-          window.close();
-        </script>
-    `)
-  } catch (e) {
-    res.statusCode = 200
-    res.end(renderBody('error', e))
-  }
-}
-
-function renderBody(status: string, content: any) {
-  return `
-    <script>
-        event.source.postMessage(
-            'authorization:${content.provider}:${status}:${JSON.stringify(
-    content
-  )}',
-            message.origin
-        );
-    </script>
-  `
-}
-
-export default callback
-
-```
-
-Once these two endpoints are in place you should be able to visit your CMS page 
-
+Once these two endpoints are in place you should be able to visit your CMS page

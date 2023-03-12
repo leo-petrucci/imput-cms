@@ -49,12 +49,61 @@ const CMS = () => (
 )
 ```
 
-### Setting up an auth endpoint for Github
+### Getting your oAuth secrets
 
 Meow leaves the authentication up to you, which means you need to set up an oAuth endpoint that will set a cookie to allow you to access your repo. First of all you'll need to create a new oAuth application and get your secret tokens. Go to [your Github settings](https://github.com/settings/profile) and follow along with the video.
 
-<Video src="/images/screen-recording-2023-03-11-at-135222.mov" >
+<Video src="/images/screen-recording-2023-03-11-at-135222.mov" />
 
+Then you'll want to add both of these secrets to your `.env` file:
 
-</Video>
+```
+OAUTH_GITHUB_CLIENT_ID={your github client id}
+OAUTH_GITHUB_CLIENT_SECRET={your github client secret}
+```
+
+### Create your endpoints
+
+<Note>
+
+The endpoints here are specific to Next.js, but the logic should be exactly the same for any other API framework. The only difference will be how you get certain headers. 
+
+If you're having trouble [open an issue on Github](https://github.com/creativiii/meow-cms/issues/new) and we'll add it to the docs.
+
+</Note>
+
+First create a config file for your oAuth:
+
+```tsx
+// lib/config.ts
+
+export const config = (provider: "github") => ({
+  client: {
+    id: client[provider].id as string,
+    secret: client[provider].secret as string,
+  },
+  auth: {
+    tokenHost: auth[provider].tokenHost,
+    tokenPath: auth[provider].tokenPath,
+    authorizePath: auth[provider].authorizePath,
+  },
+});
+
+const auth = {
+  github: {
+    tokenHost: "https://github.com",
+    tokenPath: "/login/oauth/access_token",
+    authorizePath: "/login/oauth/authorize",
+  },
+};
+
+const client = {
+  github: {
+    id: process.env.OAUTH_GITHUB_CLIENT_ID,
+    secret: process.env.OAUTH_GITHUB_CLIENT_SECRET,
+  },
+};
+```
+
+This file will tell our endpoints where to login on Github's side.
 

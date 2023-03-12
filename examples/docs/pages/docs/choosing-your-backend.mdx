@@ -49,12 +49,167 @@ const CMS = () => (
 )
 ```
 
-### Setting up an auth endpoint for Github
+### Getting your oAuth secrets
 
 Meow leaves the authentication up to you, which means you need to set up an oAuth endpoint that will set a cookie to allow you to access your repo. First of all you'll need to create a new oAuth application and get your secret tokens. Go to [your Github settings](https://github.com/settings/profile) and follow along with the video.
 
-<Video src="/images/screen-recording-2023-03-11-at-135222.mov" >
+<Video src="/images/screen-recording-2023-03-11-at-135222.mov" />
 
+Then you'll want to add both of these secrets to your `.env` file:
 
-</Video>
+```
+OAUTH_GITHUB_CLIENT_ID={your github client id}
+OAUTH_GITHUB_CLIENT_SECRET={your github client secret}
+```
+
+### Create your endpoints
+
+<Note>
+
+The endpoints here are specific to Next.js, but the logic should be exactly the same for any other API framework. The only difference will be how you get certain headers. 
+
+If you're having trouble [open an issue on Github](https://github.com/creativiii/meow-cms/issues/new) and we'll add it to the docs.
+
+</Note>
+
+First create a config file for your oAuth, this file will tell our endpoints where to login on Github's side.:
+
+```javascript
+// lib/config.ts
+
+export const config = (provider: "github") => ({
+  client: {
+    id: client[provider].id as string,
+    secret: client[provider].secret as string,
+  },
+  auth: {
+    tokenHost: auth[provider].tokenHost,
+    tokenPath: auth[provider].tokenPath,
+    authorizePath: auth[provider].authorizePath,
+  },
+});
+
+const auth = {
+  github: {
+    tokenHost: "https://github.com",
+    tokenPath: "/login/oauth/access_token",
+    authorizePath: "/login/oauth/authorize",
+  },
+};
+
+const client = {
+  github: {
+    id: process.env.OAUTH_GITHUB_CLIENT_ID,
+    secret: process.env.OAUTH_GITHUB_CLIENT_SECRET,
+  },
+};
+```
+
+Then we'll create our endpoints. For this we'll use an external dependency:
+
+```plain
+npm install simple-oauth2
+```
+
+Then create the auth endpoint, this will generate your Github login link and send you to it:
+
+```javascript
+// pages/api/auth.ts
+
+import { AuthorizationCode } from "simple-oauth2";
+import { randomBytes } from "crypto";
+import { config } from "../../lib/config";
+import { NextApiRequest, NextApiResponse } from "next";
+
+export const randomString = () => randomBytes(4).toString("hex");
+
+const auth = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { host } = req.headers;
+  const url = new URL(`https://${host}/${req.url}`);
+  const urlParams = url.searchParams;
+  const provider = urlParams.get("provider") as "github";
+
+  const client = new AuthorizationCode(config(provider));
+
+  console.log("host", host);
+  console.log("provider", provider);
+
+  const authorizationUri = client.authorizeURL({
+    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
+    scope: "repo,user",
+    state: randomString(),
+  });
+
+  res.writeHead(301, { Location: authorizationUri });
+  res.end();
+};
+
+export default auth;
+
+```
+
+Then you'll need to set up your callback endpoint, this one will receive the token from Github and send it back to Meow:
+
+```javascript
+// pages/api/callback.ts
+
+import { NextApiRequest, NextApiResponse } from 'next'
+import { AuthorizationCode } from 'simple-oauth2'
+import { config } from '../../lib/config'
+
+const callback = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { host } = req.headers
+  const url = new URL(`https://${host}/${req.url}`)
+  const urlParams = url.searchParams
+  const code = urlParams.get('code') as string
+
+  const provider = urlParams.get('provider') as 'github' | 'gitlab'
+  const client = new AuthorizationCode(config(provider))
+  const tokenParams = {
+    code,
+    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
+  }
+
+  try {
+    const accessToken = await client.getToken(tokenParams)
+    const token = accessToken.token['access_token']
+
+    res.statusCode = 200
+
+    res.setHeader('Content-Type', 'text/html')
+    res.end(`
+        <script type="text/javascript">
+          if (window.opener) {
+              window.opener.postMessage('${JSON.stringify({
+                token,
+                provider,
+              })}', "*");
+          }
+          window.close();
+        </script>
+    `)
+  } catch (e) {
+    res.statusCode = 200
+    res.end(renderBody('error', e))
+  }
+}
+
+function renderBody(status: string, content: any) {
+  return `
+    <script>
+        event.source.postMessage(
+            'authorization:${content.provider}:${status}:${JSON.stringify(
+    content
+  )}',
+            message.origin
+        );
+    </script>
+  `
+}
+
+export default callback
+
+```
+
+Once these two endpoints are in place you should be able to visit your CMS page 
 

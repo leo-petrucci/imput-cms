@@ -72,9 +72,9 @@ If you're having trouble [open an issue on Github](https://github.com/creativiii
 
 </Note>
 
-First create a config file for your oAuth:
+First create a config file for your oAuth, this file will tell our endpoints where to login on Github's side.:
 
-```tsx
+```javascript
 // lib/config.ts
 
 export const config = (provider: "github") => ({
@@ -105,5 +105,46 @@ const client = {
 };
 ```
 
-This file will tell our endpoints where to login on Github's side.
+Then we'll create our endpoints. For this we'll use an external dependency:
+
+```plain
+npm install simple-oauth2
+```
+
+Then create the auth endpoint, :
+
+```javascript
+// pages/api/auth.ts
+
+import { AuthorizationCode } from "simple-oauth2";
+import { randomBytes } from "crypto";
+import { config } from "../../lib/config";
+import { NextApiRequest, NextApiResponse } from "next";
+
+export const randomString = () => randomBytes(4).toString("hex");
+
+const auth = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { host } = req.headers;
+  const url = new URL(`https://${host}/${req.url}`);
+  const urlParams = url.searchParams;
+  const provider = urlParams.get("provider") as "github";
+
+  const client = new AuthorizationCode(config(provider));
+
+  console.log("host", host);
+  console.log("provider", provider);
+
+  const authorizationUri = client.authorizeURL({
+    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
+    scope: "repo,user",
+    state: randomString(),
+  });
+
+  res.writeHead(301, { Location: authorizationUri });
+  res.end();
+};
+
+export default auth;
+
+```
 

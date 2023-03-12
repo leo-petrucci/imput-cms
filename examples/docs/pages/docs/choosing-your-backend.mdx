@@ -75,37 +75,6 @@ If you're having trouble [open an issue on Github](https://github.com/creativiii
 
 First create a config file for your oAuth, this file will tell our endpoints where to login on Github's side.:
 
-```javascript
-// lib/config.ts
-
-export const config = (provider: "github") => ({
-  client: {
-    id: client[provider].id as string,
-    secret: client[provider].secret as string,
-  },
-  auth: {
-    tokenHost: auth[provider].tokenHost,
-    tokenPath: auth[provider].tokenPath,
-    authorizePath: auth[provider].authorizePath,
-  },
-});
-
-const auth = {
-  github: {
-    tokenHost: "https://github.com",
-    tokenPath: "/login/oauth/access_token",
-    authorizePath: "/login/oauth/authorize",
-  },
-};
-
-const client = {
-  github: {
-    id: process.env.OAUTH_GITHUB_CLIENT_ID,
-    secret: process.env.OAUTH_GITHUB_CLIENT_SECRET,
-  },
-};
-```
-
 Then we'll create our endpoints. For this we'll use an external dependency:
 
 ```plain

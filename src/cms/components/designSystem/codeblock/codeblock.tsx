@@ -199,7 +199,10 @@ const Codeblock = ({
       }
     })
     .filter(Boolean)
-  const [lang, setLang] = React.useState(language || availableLang[0] || '')
+  const [lang, setLang] = React.useState(
+    language || availableLang[0] || 'plain'
+  )
+
   return (
     <StyledCodeContainer>
       {!hideLanguageSelect && (

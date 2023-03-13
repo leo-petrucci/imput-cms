@@ -200,8 +200,8 @@ function renderBody(status: string, content: any) {
     <script>
         event.source.postMessage(
             'authorization:${content.provider}:${status}:${JSON.stringify(
-    content
-  )}',
+              content
+            )}',
             message.origin
         );
     </script>
@@ -212,4 +212,7 @@ export default callback
 
 ```
 
-Once these two endpoints are in place you should be able to visit your CMS page
+Once these two endpoints are in place you should be able to visit your CMS page (the one you created in "[Getting Started](/docs/getting-started)" and use the Login button to login. 
+
+Next, we'll set up your content categories 👉
+

@@ -9,7 +9,7 @@ import {
   useFormContext,
   UseFormReturn,
 } from 'react-hook-form'
-import Box from '../../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import ctxt from './context'
 import Label from '../../../../cms/components/designSystem/label'
 

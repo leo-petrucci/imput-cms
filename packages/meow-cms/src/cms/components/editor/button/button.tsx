@@ -1,12 +1,12 @@
 import { blackA } from '@radix-ui/colors'
-import Box from '../../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import { Modal } from '../../../../cms/components/designSystem/modal'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
 import React from 'react'
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
 import { useSlate } from 'slate-react'
-import { styled } from '../../../../stitches.config'
+import { styled } from '@meow/stitches'
 import { insertLink, isLinkActive, unwrapLink } from './link'
 
 const LIST_TYPES = ['ul_list', 'ol_list']

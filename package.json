@@ -12,7 +12,7 @@
     "dev": "turbo run docs:dev"
   },
   "devDependencies": {
-    "local-meow-cms": "*",
+    "local-meow-cms": "workspace:",
     "prettier": "latest",
     "process": "^0.11.10",
     "turbo": "latest"

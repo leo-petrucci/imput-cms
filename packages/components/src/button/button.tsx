@@ -1,6 +1,6 @@
 import { keyframes } from '@stitches/react'
 import React from 'react'
-import { styled } from '../../../../stitches.config'
+import { styled } from '@meow/stitches'
 
 const spin = keyframes({
   '0%': { transform: 'rotate(0deg)' },

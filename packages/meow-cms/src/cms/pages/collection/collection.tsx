@@ -9,7 +9,7 @@ import {
   useLocation,
 } from 'react-router-dom'
 import ContentPage from '../../../cms/pages/content'
-import Box from '../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import CollectionSelect from '../../../cms/components/collections/collectionSelect'
 import CollectionCard from '../../../cms/components/collections/collectionCard'
 import { CollectionType } from '../../../cms/types/collection'

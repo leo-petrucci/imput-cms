@@ -1,5 +1,5 @@
 import React from 'react'
-import { inlineCss, CustomCSS } from '../../../../stitches.config'
+import { inlineCss, CustomCSS } from '@meow/stitches'
 
 interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
   css: CustomCSS

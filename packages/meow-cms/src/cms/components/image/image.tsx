@@ -1,7 +1,7 @@
 import { useImages } from '../../../cms/contexts/imageContext/useImageContext'
 import { useOnScreen } from '../../../cms/utils/useOnScreen'
 import React from 'react'
-import Box from '../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import { CustomCSS } from '../../../stitches.config'
 
 /**

@@ -1,0 +1,8 @@
+{
+  "version": "0.3.10",
+  "name": "@meow/stitches",
+  "main": "src/index.tsx",
+  "dependencies": {
+    "@stitches/react": "^1.2.8"
+  }
+}

@@ -14,7 +14,7 @@
     "@types/react-dom": "18.0.11",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
-    "local-meow-cms": "*",
+    "local-meow-cms": "workspace:",
     "next": "13.2.3",
     "nextra": "^2.2.17",
     "nextra-theme-docs": "^2.2.17",

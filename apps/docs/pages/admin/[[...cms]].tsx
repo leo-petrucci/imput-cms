@@ -13,7 +13,7 @@ const CMS = () => (
           repo: 'creativiii/meow-cms',
           branch: 'feature/more-docs-improvements',
           base_url:
-            'meow-cms-git-feature-more-to-monorepo-creativiii.vercel.app/',
+            'https://meow-cms-git-feature-more-to-monorepo-creativiii.vercel.app/',
           auth_endpoint: 'api/auth',
         },
         media_folder: 'examples/docs/public/images',

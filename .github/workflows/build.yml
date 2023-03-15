@@ -1,9 +1,10 @@
-# .github/workflows/release.yml
 name: release
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
-  push:
-    branches: [main]
+
 jobs:
   release:
     runs-on: ubuntu-latest

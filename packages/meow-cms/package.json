@@ -6,7 +6,7 @@
   "typings": "dist/index.d.ts",
   "scripts": {
     "meow:build": "dts build",
-    "release": "release publish",
+    "meow:release": "release publish",
     "lint": "dts lint",
     "prepare": "dts build",
     "start": "dts watch",

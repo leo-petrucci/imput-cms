@@ -7,10 +7,11 @@
   ],
   "scripts": {
     "build": "turbo run meow:build",
+    "release": "turbo run meow:release",
     "dev": "turbo run docs:dev"
   },
   "devDependencies": {
-    "meow-cms": "*",
+    "local-meow-cms": "*",
     "prettier": "latest",
     "process": "^0.11.10",
     "turbo": "latest"

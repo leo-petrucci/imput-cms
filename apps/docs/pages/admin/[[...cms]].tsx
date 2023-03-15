@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const NextCMS = dynamic(() => import('meow-cms'), {
+const NextCMS = dynamic(() => import('local-meow-cms'), {
   ssr: false,
 })
 

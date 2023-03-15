@@ -1,0 +1,23 @@
+# .github/workflows/release.yml
+name: release
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          always-auth: true
+          registry-url: https://registry.npmjs.org
+
+      - name: Install and build
+        run: -|
+          yarn install --frozen-lockfile
+          yarn build

@@ -5,7 +5,7 @@
   "module": "dist/meow.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "meow:build": "dts build",
+    "meow:build": "tsc && dts build",
     "meow:release": "release publish",
     "lint": "dts lint",
     "prepare": "dts build",
@@ -66,6 +66,7 @@
     "simple-oauth2": "^4.3.0",
     "slate": "^0.86.0",
     "slate-history": "^0.86.0",
+    "slate-hyperscript": "^0.77.0",
     "slate-react": "^0.86.0",
     "slugify": "^1.6.5",
     "tslib": "^2.5.0",
@@ -83,6 +84,7 @@
     "@types/react": "18.x",
     "@types/uuid": "^8.3.4",
     "eslint": "8.7.0",
+    "tsc": "^2.0.4",
     "typescript": "4.8.4"
   },
   "peerDependencies": {

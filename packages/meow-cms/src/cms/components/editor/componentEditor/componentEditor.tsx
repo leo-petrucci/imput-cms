@@ -18,7 +18,7 @@ import Input from '../../../../cms/components/designSystem/input'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { Box } from '@meow/components'
 import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
-import Codeblock from '../../../../cms/components/designSystem/codeblock'
+import { Codeblock } from '@meow/components'
 import React from 'react'
 
 /**

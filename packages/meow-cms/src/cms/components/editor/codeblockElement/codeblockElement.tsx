@@ -1,4 +1,4 @@
-import Codeblock from '../../../../cms/components/designSystem/codeblock'
+import { Codeblock } from '@meow/components'
 import { Transforms, Node, Descendant } from 'slate'
 import {
   ReactEditor,

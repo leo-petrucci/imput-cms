@@ -1,10 +1,35 @@
 ---
 name: Creating your first collection
 ---
+# Collections
+
 A collection in Meow is an assortment of content that all shares the same shape.
 
 - All `posts` have both a title and an author
 - All `authors` have an email and an email address
 - And so on...
+
+## Add a collection
+
+Collections are added to cms' settings like everything else, you can define collections like this:
+
+```javascript
+import dynamic from 'next/dynamic'
+ 
+const NextCMS = dynamic(() => import('meow-cms'), {
+  ssr: false,
+})
+ 
+const CMS = () => (
+  <NextCMS
+    {...{
+      // your collections go in here!
+      collections: []
+    }}
+  />
+)
+ 
+export default CMS
+```
 
 

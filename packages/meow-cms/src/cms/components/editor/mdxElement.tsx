@@ -10,7 +10,7 @@ import Flex from '../../../cms/components/designSystem/flex'
 import { BracketsSquare } from 'phosphor-react'
 import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
-import ErrorBoundary from '../../../cms/components/designSystem/errorBoundary'
+import { ErrorBoundary } from '@meow/components'
 import { CustomElement } from '../../types/slate'
 
 const StyledMdxButton = styled('button', {

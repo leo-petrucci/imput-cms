@@ -4,7 +4,7 @@ import { useUploadFile } from '../../../../../cms/queries/github'
 import toast from 'react-hot-toast'
 import { queryKeys } from '../../../../../cms/queries/keys'
 import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
-import Button from '../../../../../cms/components/designSystem/button'
+import { Button } from '@meow/components'
 import { Endpoints } from '@octokit/types'
 
 /**

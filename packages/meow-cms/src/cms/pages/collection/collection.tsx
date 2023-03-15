@@ -14,7 +14,7 @@ import CollectionSelect from '../../../cms/components/collections/collectionSele
 import CollectionCard from '../../../cms/components/collections/collectionCard'
 import { CollectionType } from '../../../cms/types/collection'
 import useMeasure from '../../../cms/utils/useMeasure'
-import Button from '../../../cms/components/designSystem/button'
+import { Button } from '@meow/components'
 import NewPage from '../../../cms/pages/new'
 import Loader from '../../components/loader'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Editor from 'react-simple-code-editor'
 import { languages, highlight } from 'prismjs'
-import { styled } from '../../../../../stitches.config'
+import { styled } from '../../../../stitches.config'
 import isFunction from 'lodash/isFunction'
 import 'prismjs/components/prism-clike'
 import 'prismjs/components/prism-javascript'

@@ -6,7 +6,7 @@ import {
   useSelected,
   useSlateStatic,
 } from 'slate-react'
-import { styled } from '../../../../../stitches.config'
+import { styled } from '../../../../stitches.config'
 import { CustomElement } from '../../../types/slate'
 import Flex from '../../designSystem/flex'
 import Input from '../../designSystem/input'

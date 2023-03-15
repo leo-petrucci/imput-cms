@@ -1,6 +1,6 @@
 import React from 'react'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
-import { styled } from '../../../../../stitches.config'
+import { styled } from '../../../../stitches.config'
 import { X } from 'phosphor-react'
 
 const StyledPopoverContainer = styled('div', {

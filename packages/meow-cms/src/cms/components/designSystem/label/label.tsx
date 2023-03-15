@@ -1,5 +1,5 @@
 import * as LabelPrimitive from '@radix-ui/react-label'
-import { styled } from '../../../../../stitches.config'
+import { styled } from '../../../../stitches.config'
 import React from 'react'
 
 const StyledLabel = styled(LabelPrimitive.Root, {

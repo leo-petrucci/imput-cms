@@ -1,7 +1,7 @@
 import Box from '../../../../cms/components/designSystem/box'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { NavLink } from 'react-router-dom'
-import { styled } from '../../../../../stitches.config'
+import { styled } from '../../../../stitches.config'
 import React from 'react'
 
 const CollectionButton = styled(NavLink, {

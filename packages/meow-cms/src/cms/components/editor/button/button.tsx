@@ -6,7 +6,7 @@ import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
 import React from 'react'
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
 import { useSlate } from 'slate-react'
-import { styled } from '../../../../../stitches.config'
+import { styled } from '../../../../stitches.config'
 import { insertLink, isLinkActive, unwrapLink } from './link'
 
 const LIST_TYPES = ['ul_list', 'ol_list']

@@ -1,4 +1,4 @@
-import { styled } from '../../../../stitches.config'
+import { styled } from '../../../stitches.config'
 import React from 'react'
 
 export const Leaf = (props: any) => {

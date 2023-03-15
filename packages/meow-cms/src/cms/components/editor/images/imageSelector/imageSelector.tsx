@@ -5,7 +5,7 @@ import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
 import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
 import { LayoutGroup, motion } from 'framer-motion'
-import { styled } from '../../../../../../stitches.config'
+import { styled } from '../../../../../stitches.config'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void

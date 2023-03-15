@@ -1,12 +1,12 @@
 {
-  "name": "docs",
+  "name": "apps.docs",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "docs:dev": "next dev",
+    "docs:build": "next build",
+    "docs:start": "next start",
+    "docs:lint": "next lint"
   },
   "dependencies": {
     "@types/node": "18.14.6",
@@ -14,7 +14,7 @@
     "@types/react-dom": "18.0.11",
     "eslint": "8.35.0",
     "eslint-config-next": "13.2.3",
-    "meow-cms": "^0.3.8",
+    "meow-cms": "*",
     "next": "13.2.3",
     "nextra": "^2.2.17",
     "nextra-theme-docs": "^2.2.17",

@@ -11,7 +11,7 @@ const CMS = () => (
         backend: {
           name: 'github',
           repo: 'creativiii/meow-cms',
-          branch: 'main',
+          branch: 'feature/more-docs-improvements',
           base_url: 'https://meow-cms-creativiii.vercel.app/',
           auth_endpoint: 'api/auth',
         },

@@ -1,5 +1,5 @@
 {
-  "name": "meow-cms-dev",
+  "name": "apps.test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -15,7 +15,7 @@
     "@types/react-dom": "18.0.10",
     "@types/simple-oauth2": "^5.0.1",
     "is-hotkey": "^0.2.0",
-    "meow-cms": "latest",
+    "meow-cms": "*",
     "next": "13.1.6",
     "react": "18.x",
     "react-dom": "18.x",

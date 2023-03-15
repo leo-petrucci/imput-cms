@@ -181,7 +181,7 @@ export default function serialize(
      * Mess of duplicated code, but it works so fuck it
      */
     case nodeTypes.mdxJsxFlowElement:
-      function escapeDoubleQuotes(str: string) {
+      const escapeDoubleQuotes = (str: string) => {
         return str.replace(/\\([\s\S])|(")/g, '\\$1$2') // thanks @slevithan!
       }
 

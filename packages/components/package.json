@@ -1,10 +1,10 @@
 {
-  "version": "0.3.10",
   "name": "@meow/components",
   "main": "src/index.tsx",
   "dependencies": {
     "@ironeko/spuntare": "^1.0.6",
     "@meow/stitches": "workspace:*",
+    "@meow/utils": "workspace:*",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-alert-dialog": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.2",

@@ -2061,12 +2061,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@meow/components@workspace:, @meow/components@workspace:packages/components":
+"@meow/components@workspace:*, @meow/components@workspace:packages/components":
   version: 0.0.0-use.local
   resolution: "@meow/components@workspace:packages/components"
   dependencies:
     "@ironeko/spuntare": ^1.0.6
     "@meow/stitches": "workspace:*"
+    "@meow/utils": "workspace:*"
     "@radix-ui/colors": ^0.1.8
     "@radix-ui/react-alert-dialog": ^1.0.2
     "@radix-ui/react-dialog": ^1.0.2
@@ -2087,6 +2088,12 @@ __metadata:
   resolution: "@meow/stitches@workspace:packages/stitches"
   dependencies:
     "@stitches/react": ^1.2.8
+  languageName: unknown
+  linkType: soft
+
+"@meow/utils@workspace:*, @meow/utils@workspace:packages/utils":
+  version: 0.0.0-use.local
+  resolution: "@meow/utils@workspace:packages/utils"
   languageName: unknown
   linkType: soft
 
@@ -5906,9 +5913,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.330
-  resolution: "electron-to-chromium@npm:1.4.330"
-  checksum: aace45fdfc082489f4bd4222f78b495cddbd9cda10100149d42221042053e1ae3c9c651ca39e6c9906939c9e544e6fa6a64058954a6f4075281cd5eecc65b571
+  version: 1.4.331
+  resolution: "electron-to-chromium@npm:1.4.331"
+  checksum: 74a2fbc221de82166238d7f1769673ffb15bad4bc2964520541279bfee9353a78432310e3fab95931efb667ed5caa65b2e87a36f72728cdfd85902631bb22a6e
   languageName: node
   linkType: hard
 
@@ -9897,7 +9904,8 @@ __metadata:
     "@jongwooo/prism-theme-github": ^1.7.0
     "@juggle/resize-observer": ^3.4.0
     "@lukemorales/query-key-factory": ^1.1.0
-    "@meow/components": "workspace:"
+    "@meow/components": "workspace:*"
+    "@meow/utils": "workspace:*"
     "@octokit/types": ^7.5.0
     "@ossjs/release": ^0.4.0
     "@radix-ui/colors": ^0.1.8

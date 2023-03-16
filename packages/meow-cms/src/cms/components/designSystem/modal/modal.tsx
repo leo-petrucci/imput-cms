@@ -6,7 +6,7 @@ import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
 import { inlineCss } from '../../../../stitches.config'
 import { Box } from '@meow/components'
-import useMeasure from '../../../../cms/utils/useMeasure'
+import { useMeasure } from '@meow/utils'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backgroundColor: grayA.grayA6,

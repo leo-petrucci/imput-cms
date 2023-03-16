@@ -9,7 +9,8 @@
     "docs:build": "turbo run docs:build",
     "build": "turbo run meow:build",
     "release": "turbo run meow:release",
-    "dev": "turbo run docs:dev"
+    "dev": "turbo run docs:dev",
+    "oops": "test"
   },
   "devDependencies": {
     "@meow/components": "workspace:*",

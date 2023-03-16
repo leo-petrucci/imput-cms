@@ -46,11 +46,11 @@ const CMS = () => (
     {...{
       collections: [
         {
-          name: 'page',
-          label: 'Page',
-          folder: 'content/pages',
-          create: true,
-          slug: '{{name}}',
+          name: 'page', // a unique id for your collection
+          label: 'Page', // a readable name for your collection
+          folder: 'content/pages', // this is the directory where your files will be created
+          create: true, // whether new content can be created for this category
+          slug: '{{title}}',
           extension: 'mdx',
           fields: [
             { label: 'Title', name: 'title', widget: 'string' },
@@ -64,4 +64,13 @@ const CMS = () => (
  
 export default CMS
 ```
+
+- `name` should be considered a unique id for your collection
+- `label` should be a readable string that describes your collection (e.g. "Blog", "Pages", etc.)
+- `folder` is where your files will be saved and updated in your repository
+- `create` whether new content can be created for this collection
+- `slug` is how Meow will generate your new content's filename {{add link to slug page here}}
+- `extension` either "md" or "mdx", the file extension Meow will create your new content in
+- `fields` this is your collection schema, in the example above our content will have a `title` and a `body` value
+
 

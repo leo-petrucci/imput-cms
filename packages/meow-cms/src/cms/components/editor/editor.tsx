@@ -148,7 +148,6 @@ const Editor = ({ value, onChange }: EditorProps) => {
 
   return (
     <>
-      Fuck
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
         <Toolbar>
           <MarkButton format="bold" icon={<TextBolder size={16} />} />

@@ -1,5 +1,5 @@
 import { Box } from '@meow/components'
-import Flex from '../../../../cms/components/designSystem/flex'
+import { Flex } from '@meow/components'
 import Input from '../../../../cms/components/designSystem/input'
 import Popover from '../../../../cms/components/designSystem/popover'
 import { useImages } from '../../../../cms/contexts/imageContext/useImageContext'

@@ -1,7 +1,7 @@
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 import { useGetContent, useSaveMarkdown } from '../../../cms/queries/github'
 import Form from '../../../cms/components/forms/form'
-import Flex from '../../../cms/components/designSystem/flex'
+import { Flex } from '@meow/components'
 import { Box } from '@meow/components'
 import { DepthProvider } from '../../../cms/components/editor/depthContext'
 import Editor, { deserialize, serialize } from '../../../cms/components/editor'

@@ -9,7 +9,7 @@ import { editAttributes } from '../../../../cms/components/editor/lib/editAttrib
 import { editReactChildren } from '../../../../cms/components/editor/lib/editReactChildren'
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import Label from '../../../../cms/components/designSystem/label'
-import Flex from '../../../../cms/components/designSystem/flex'
+import { Flex } from '@meow/components'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import Select from '../../../../cms/components/designSystem/select'

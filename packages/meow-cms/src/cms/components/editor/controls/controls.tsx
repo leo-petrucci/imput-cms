@@ -1,5 +1,5 @@
 import { Box } from '@meow/components'
-import Flex from '../../../../cms/components/designSystem/flex'
+import { Flex } from '@meow/components'
 import { Element } from 'slate'
 import React from 'react'
 import { styled } from '@meow/stitches'

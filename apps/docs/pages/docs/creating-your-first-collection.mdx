@@ -13,7 +13,7 @@ A collection in Meow is an assortment of content that all shares the same shape.
 
 Collections are added to cms' settings like everything else, you can define collections like this:
 
-```javascript
+```tsx
 import dynamic from 'next/dynamic'
  
 const NextCMS = dynamic(() => import('meow-cms'), {
@@ -32,4 +32,36 @@ const CMS = () => (
 export default CMS
 ```
 
+Let's add the most bare-bones configuration for adding new pages. Your config will look something like this:
+
+```tsx
+import dynamic from 'next/dynamic'
+ 
+const NextCMS = dynamic(() => import('meow-cms'), {
+  ssr: false,
+})
+ 
+const CMS = () => (
+  <NextCMS
+    {...{
+      collections: [
+        {
+          name: 'page',
+          label: 'Page',
+          folder: 'content/pages',
+          create: true,
+          slug: '{{name}}',
+          extension: 'mdx',
+          fields: [
+            { label: 'Title', name: 'title', widget: 'string' },
+            { label: 'Content', name: 'body', widget: 'markdown' },
+          ],
+        }
+      ]
+    }}
+  />
+)
+ 
+export default CMS
+```
 

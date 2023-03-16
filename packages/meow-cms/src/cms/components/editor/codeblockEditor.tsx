@@ -6,7 +6,7 @@ import { withHistory } from 'slate-history'
 import { CustomRenderElementProps } from '../../../cms/components/editor/element'
 import { MdxElementShape } from '../../../cms/components/editor/mdxElement'
 import { editAttributes } from '../../../cms/components/editor/lib/editAttributes'
-import { styled } from '@stitches/react'
+import { styled } from '@meow/stitches'
 import { MDXNode } from '../../../cms/types/mdxNode'
 
 const CodeBlockEditor = ({

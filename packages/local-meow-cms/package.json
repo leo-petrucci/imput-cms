@@ -1,5 +1,4 @@
 {
-  "version": "0.3.10",
   "name": "local-meow-cms",
   "main": "src/index.tsx"
 }

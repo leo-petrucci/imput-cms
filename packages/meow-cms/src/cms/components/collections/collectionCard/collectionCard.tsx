@@ -1,4 +1,4 @@
-import Box from '../../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import Image from '../../../../cms/components/image/image'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { CollectionType } from '../../../../cms/types/collection'

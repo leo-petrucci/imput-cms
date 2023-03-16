@@ -9,12 +9,12 @@ import {
   useLocation,
 } from 'react-router-dom'
 import ContentPage from '../../../cms/pages/content'
-import Box from '../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import CollectionSelect from '../../../cms/components/collections/collectionSelect'
 import CollectionCard from '../../../cms/components/collections/collectionCard'
 import { CollectionType } from '../../../cms/types/collection'
-import useMeasure from '../../../cms/utils/useMeasure'
-import Button from '../../../cms/components/designSystem/button'
+import { useMeasure } from '@meow/utils'
+import { Button } from '@meow/components'
 import NewPage from '../../../cms/pages/new'
 import Loader from '../../components/loader'
 

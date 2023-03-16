@@ -35,7 +35,7 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
-import Box from '../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import { ImageElement } from '../../../cms/components/editor/images/imageElement'
 import { withListsPlugin } from './lists'
 import {
@@ -146,11 +146,8 @@ const Editor = ({ value, onChange }: EditorProps) => {
 
   const debouncedOnChange = debounce(onEditorChange, 100)
 
-  console.log('test')
-
   return (
     <>
-      Fuck
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
         <Toolbar>
           <MarkButton format="bold" icon={<TextBolder size={16} />} />

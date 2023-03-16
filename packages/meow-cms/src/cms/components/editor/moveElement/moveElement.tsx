@@ -1,8 +1,8 @@
-import Box from '../../../../cms/components/designSystem/box'
+import { Box } from '@meow/components'
 import { CaretDown, CaretUp } from 'phosphor-react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { styled } from '../../../../stitches.config'
+import { styled } from '@meow/stitches'
 import React from 'react'
 import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
 

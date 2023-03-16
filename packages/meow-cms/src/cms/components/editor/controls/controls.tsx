@@ -1,8 +1,8 @@
-import Box from '../../../../cms/components/designSystem/box'
-import Flex from '../../../../cms/components/designSystem/flex'
+import { Box } from '@meow/components'
+import { Flex } from '@meow/components'
 import { Element } from 'slate'
 import React from 'react'
-import { styled } from '../../../../stitches.config'
+import { styled } from '@meow/stitches'
 import AddSpace from '../../../../cms/components/editor/controls/addSpace'
 import RemoveElement from '../../../../cms/components/editor/controls/removeElement'
 

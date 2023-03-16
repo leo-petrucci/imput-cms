@@ -22,10 +22,11 @@
   ],
   "description": "An MDX-powered CMS.",
   "dependencies": {
-    "@ironeko/spuntare": "^1.0.6",
     "@jongwooo/prism-theme-github": "^1.7.0",
     "@juggle/resize-observer": "^3.4.0",
     "@lukemorales/query-key-factory": "^1.1.0",
+    "@meow/components": "workspace:*",
+    "@meow/utils": "workspace:*",
     "@octokit/types": "^7.5.0",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-alert-dialog": "^1.0.2",

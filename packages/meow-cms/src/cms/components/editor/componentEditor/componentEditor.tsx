@@ -8,17 +8,19 @@ import { CustomRenderElementProps } from '../../../../cms/components/editor/elem
 import { editAttributes } from '../../../../cms/components/editor/lib/editAttributes'
 import { editReactChildren } from '../../../../cms/components/editor/lib/editReactChildren'
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
-import Label from '../../../../cms/components/designSystem/label'
-import Flex from '../../../../cms/components/designSystem/flex'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import Select from '../../../../cms/components/designSystem/select'
-import Switch from '../../../../cms/components/designSystem/switch'
-import Input from '../../../../cms/components/designSystem/input'
+import {
+  Input,
+  Select,
+  Box,
+  Switch,
+  Codeblock,
+  Label,
+  Flex,
+} from '@meow/components'
 import { MDXNode } from '../../../../cms/types/mdxNode'
-import Box from '../../../../cms/components/designSystem/box'
 import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
-import Codeblock from '../../../../cms/components/designSystem/codeblock'
 import React from 'react'
 
 /**

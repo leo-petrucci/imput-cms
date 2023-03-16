@@ -1,0 +1,5 @@
+{
+  "version": "0.3.10",
+  "name": "@meow/utils",
+  "main": "src/index.tsx"
+}

@@ -1,9 +1,9 @@
 import PropsTable from './components/PropsTable'
 
 export default {
-  logo: <span>My Nextra Documentation</span>,
+  logo: <span>Meow CMS</span>,
   project: {
-    link: 'https://github.com/shuding/nextra',
+    link: 'https://github.com/creativiii/meow-cms',
   },
   components: {
     Note: ({ children }) => {

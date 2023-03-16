@@ -4367,7 +4367,7 @@ __metadata:
     "@types/simple-oauth2": ^5.0.2
     eslint: 8.35.0
     eslint-config-next: 13.2.3
-    local-meow-cms: "workspace:"
+    local-meow-cms: "workspace:*"
     next: 13.2.3
     nextra: ^2.2.17
     nextra-theme-docs: ^2.2.17
@@ -4389,7 +4389,7 @@ __metadata:
     "@types/react-dom": 18.0.10
     "@types/simple-oauth2": ^5.0.1
     is-hotkey: ^0.2.0
-    local-meow-cms: "workspace:"
+    local-meow-cms: "workspace:*"
     next: 13.1.6
     react: 18.x
     react-dom: 18.x
@@ -5913,9 +5913,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.284":
-  version: 1.4.331
-  resolution: "electron-to-chromium@npm:1.4.331"
-  checksum: 74a2fbc221de82166238d7f1769673ffb15bad4bc2964520541279bfee9353a78432310e3fab95931efb667ed5caa65b2e87a36f72728cdfd85902631bb22a6e
+  version: 1.4.332
+  resolution: "electron-to-chromium@npm:1.4.332"
+  checksum: d65870e47b41dce95ca246ddd27179539de1af34a2f79cdb892b70c8bd6c2ed751aeb937bffd1fbd22e1d63b5c6bf4ce67430f208e6970a51c81e98e0beea1f4
   languageName: node
   linkType: hard
 
@@ -9363,7 +9363,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"local-meow-cms@workspace:, local-meow-cms@workspace:packages/local-meow-cms":
+"local-meow-cms@workspace:*, local-meow-cms@workspace:packages/local-meow-cms":
   version: 0.0.0-use.local
   resolution: "local-meow-cms@workspace:packages/local-meow-cms"
   languageName: unknown
@@ -9890,7 +9890,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "meow-cms-monorepo@workspace:."
   dependencies:
-    local-meow-cms: "workspace:"
+    "@meow/components": "workspace:*"
+    local-meow-cms: "workspace:*"
     prettier: latest
     process: ^0.11.10
     turbo: latest

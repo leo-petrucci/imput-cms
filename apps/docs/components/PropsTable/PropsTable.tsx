@@ -1,4 +1,5 @@
 import React from 'react'
+import { Popover } from '@meow/components'
 
 const Code = (props: React.HTMLAttributes<HTMLElement>) => (
   <code
@@ -16,6 +17,7 @@ type PropDef = {
   required?: boolean
   default?: string | boolean
   type: string
+  typeSimple: string
   description?: string
 }
 
@@ -49,30 +51,112 @@ const PropsTable = ({
           </tr>
         </thead>
         <tbody>
-          {data.map(({ name, type, required, default: defaultValue }, i) => (
-            <tr key={`${name}-${i}`}>
-              <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3 nx-whitespace-nowrap">
-                <div className="nx-flex nx-gap-2">
-                  <Code>
-                    {name}
-                    {required ? '*' : null}
-                  </Code>
-                </div>
-              </td>
-              <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3">
-                <div className="nx-flex nx-gap-2">
-                  <Code className="nx-text-gray-900">{type}</Code>
-                </div>
-              </td>
-              <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3">
-                {Boolean(defaultValue) ? (
-                  <Code>{defaultValue}</Code>
-                ) : (
-                  <div className="nx-color-slate-700">-</div>
-                )}
-              </td>
-            </tr>
-          ))}
+          {data.map(
+            (
+              {
+                name,
+                type,
+                required,
+                default: defaultValue,
+                description,
+                typeSimple,
+              },
+              i
+            ) => (
+              <tr key={`${name}-${i}`}>
+                <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3 nx-whitespace-nowrap">
+                  <div className="nx-flex nx-gap-2">
+                    <Code>
+                      {name}
+                      {required ? '*' : null}
+                    </Code>
+                    {description && (
+                      <Popover content={<>{description}</>}>
+                        <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="#000000"
+                            viewBox="0 0 256 256"
+                          >
+                            <rect width="256" height="256" fill="none"></rect>
+                            <circle
+                              cx="128"
+                              cy="128"
+                              r="96"
+                              fill="none"
+                              stroke="#000000"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            ></circle>
+                            <polyline
+                              points="120 120 128 120 128 176 136 176"
+                              fill="none"
+                              stroke="#000000"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            ></polyline>
+                            <circle cx="126" cy="84" r="12"></circle>
+                          </svg>
+                        </button>
+                      </Popover>
+                    )}
+                  </div>
+                </td>
+                <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3">
+                  <div className="nx-flex nx-gap-2">
+                    <Code className="nx-text-gray-900">
+                      {Boolean(typeSimple) ? typeSimple : type}
+                    </Code>
+                    {Boolean(typeSimple) && (
+                      <Popover content={<Code>{type}</Code>}>
+                        <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="16"
+                            height="16"
+                            fill="#000000"
+                            viewBox="0 0 256 256"
+                          >
+                            <rect width="256" height="256" fill="none"></rect>
+                            <circle
+                              cx="128"
+                              cy="128"
+                              r="96"
+                              fill="none"
+                              stroke="#000000"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            ></circle>
+                            <polyline
+                              points="120 120 128 120 128 176 136 176"
+                              fill="none"
+                              stroke="#000000"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="16"
+                            ></polyline>
+                            <circle cx="126" cy="84" r="12"></circle>
+                          </svg>
+                        </button>
+                      </Popover>
+                    )}
+                  </div>
+                </td>
+                <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3">
+                  {Boolean(defaultValue) ? (
+                    <Code>{defaultValue}</Code>
+                  ) : (
+                    <div className="nx-color-slate-700">-</div>
+                  )}
+                </td>
+              </tr>
+            )
+          )}
         </tbody>
       </table>
     </div>

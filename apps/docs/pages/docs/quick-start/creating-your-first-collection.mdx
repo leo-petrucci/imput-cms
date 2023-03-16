@@ -1,7 +1,6 @@
 ---
 name: Creating your first collection
 ---
-
 # Collections
 
 A collection in Meow is an assortment of content that all shares the same shape.
@@ -15,55 +14,43 @@ A collection in Meow is an assortment of content that all shares the same shape.
 Collections are added to cms' settings like everything else, you can define collections like this:
 
 ```tsx
-import dynamic from 'next/dynamic'
-
-const NextCMS = dynamic(() => import('meow-cms'), {
-  ssr: false,
-})
-
 const CMS = () => (
-  <NextCMS
+  <MeowCMS
     {...{
-      // your collections go in here!
-      collections: [],
+      settings: {
+        // your collections go in here!
+        collections: [],
+      }
     }}
   />
 )
-
-export default CMS
 ```
 
 Let's add the most bare-bones configuration for adding new pages. Your config will look something like this:
 
 ```tsx
-import dynamic from 'next/dynamic'
-
-const NextCMS = dynamic(() => import('meow-cms'), {
-  ssr: false,
-})
-
 const CMS = () => (
-  <NextCMS
+  <MeowCMS
     {...{
-      collections: [
-        {
-          name: 'page',
-          label: 'Page',
-          folder: 'content/pages',
-          create: true,
-          slug: '{{title}}',
-          extension: 'mdx',
-          fields: [
-            { label: 'Title', name: 'title', widget: 'string' },
-            { label: 'Content', name: 'body', widget: 'markdown' },
-          ],
-        },
-      ],
+      settings: {
+        collections: [
+          {
+            name: 'page',
+            label: 'Page',
+            folder: 'content/pages',
+            create: true,
+            slug: '{{title}}',
+            extension: 'mdx',
+            fields: [
+              { label: 'Title', name: 'title', widget: 'string' },
+              { label: 'Content', name: 'body', widget: 'markdown' },
+            ],
+          },
+        ],
+      }
     }}
   />
 )
-
-export default CMS
 ```
 
 - `name` should be considered a unique id for your collection
@@ -75,3 +62,4 @@ export default CMS
 - `fields` this is your collection schema, in the example above our content will have a `title` and a `body` value
 
 That's the bare minimum config! There's a lot more to collections but we'll go over it later. Next up, handling media uploads.
+

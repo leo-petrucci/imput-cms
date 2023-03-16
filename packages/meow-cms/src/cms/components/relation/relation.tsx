@@ -1,12 +1,11 @@
-import { Widgets } from '../../../../../cms/contexts/cmsContext/context'
-import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
-import { useGetGithubCollection } from '../../../../../cms/queries/github'
+import { Widgets } from '../../contexts/cmsContext/context'
+import { useCMS } from '../../contexts/cmsContext/useCMSContext'
+import { useGetGithubCollection } from '../../queries/github'
 import isArray from 'lodash/isArray'
 import React from 'react'
-import Select from '../../../../../cms/components/designSystem/select'
 import { useController, useFormContext } from 'react-hook-form'
-import { GroupBase, Props } from 'react-select'
-import { useFormItem } from '../../../../../cms/components/forms/form/form'
+import { GroupBase } from 'react-select'
+import { useFormItem, Select } from '@meow/components'
 
 type SelectAndWidget = React.ComponentProps<typeof Select> &
   Omit<

@@ -1,20 +1,21 @@
-import { Box } from '@meow/components'
-import { Flex } from '@meow/components'
-import Input from '../../../../cms/components/designSystem/input'
-import Popover from '../../../../cms/components/designSystem/popover'
-import { useImages } from '../../../../cms/contexts/imageContext/useImageContext'
+import { Input, Modal } from '@meow/components'
+import { useImages } from '../../contexts/imageContext/useImageContext'
 import { ImageSquare } from 'phosphor-react'
 import { Element } from 'slate'
 import { styled } from '@meow/stitches'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
-import { Label } from '@meow/components'
-import ImageSelector from '../../../../cms/components/editor/images/imageSelector'
-import { Modal } from '../../../../cms/components/designSystem/modal'
-import ImageUploadButton from '../../../../cms/components/editor/images/uploadButton'
-import { Button } from '@meow/components'
-import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
+import ImageSelector from '../editor/images/imageSelector'
+import ImageUploadButton from '../editor/images/uploadButton'
+import {
+  Button,
+  useFormItem,
+  Label,
+  Flex,
+  Box,
+  Popover,
+} from '@meow/components'
+import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useController, useFormContext } from 'react-hook-form'
-import { useFormItem } from '../../../../cms/components/forms/form/form'
 import React from 'react'
 
 const StyledImage = styled('div', {

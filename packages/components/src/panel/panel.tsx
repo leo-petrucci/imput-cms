@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { SpuntareProps } from '@ironeko/spuntare'
-import Modal, {
-  ModalProps,
-} from '../../../../cms/components/designSystem/modal'
+import { ModalProps, Modal } from '@meow/components'
 
 type ExtendedOverlayProps = Omit<SpuntareProps, 'open'> & ModalProps
 

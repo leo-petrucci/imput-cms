@@ -8,10 +8,7 @@ import {
 } from 'slate-react'
 import { styled } from '@meow/stitches'
 import { CustomElement } from '../../../types/slate'
-import { Flex } from '@meow/components'
-import Input from '../../designSystem/input'
-import { Label } from '@meow/components'
-import Popover from '../../designSystem/popover'
+import { Flex, Input, Label, Popover } from '@meow/components'
 
 const LinkElement = ({
   attributes,

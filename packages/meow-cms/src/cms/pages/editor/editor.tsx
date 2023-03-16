@@ -1,24 +1,26 @@
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 import { useGetContent, useSaveMarkdown } from '../../../cms/queries/github'
-import Form from '../../../cms/components/forms/form'
-import { Flex } from '@meow/components'
-import { Box } from '@meow/components'
 import { DepthProvider } from '../../../cms/components/editor/depthContext'
 import Editor, { deserialize, serialize } from '../../../cms/components/editor'
 import React, { useEffect } from 'react'
 import matter from 'gray-matter'
 import { useController, useForm, useFormContext } from 'react-hook-form'
-import { useFormItem } from '../../../cms/components/forms/form/form'
-import Input from '../../../cms/components/designSystem/input'
+import {
+  useFormItem,
+  Form,
+  Flex,
+  Box,
+  Button,
+  ErrorBoundary,
+  Switch,
+  Input,
+  Select,
+} from '@meow/components'
 import toast from 'react-hot-toast'
-import { Button } from '@meow/components'
 import { useMeasure } from '@meow/utils'
-import ImagePicker from '../../../cms/components/designSystem/imagePicker'
-import Switch from '../../../cms/components/designSystem/switch'
-import Select from '../../../cms/components/designSystem/select/select'
+import ImagePicker from '../../components/imagePicker'
 import { Widgets } from '../../../cms/contexts/cmsContext/context'
-import Relation from '../../../cms/components/designSystem/select/relation'
-import { ErrorBoundary } from '@meow/components'
+import Relation from '../../components/relation'
 import merge from 'lodash/merge'
 // @ts-expect-error
 import * as Handlebars from 'handlebars/dist/handlebars'

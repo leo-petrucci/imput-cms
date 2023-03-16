@@ -1,6 +1,5 @@
 import { blackA } from '@radix-ui/colors'
-import { Box } from '@meow/components'
-import { Modal } from '../../../../cms/components/designSystem/modal'
+import { Box, Modal } from '@meow/components'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
 import React from 'react'

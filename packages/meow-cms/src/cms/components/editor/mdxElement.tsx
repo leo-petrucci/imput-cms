@@ -1,16 +1,13 @@
 import { Descendant } from 'slate'
-import { RenderElementProps, useSelected } from 'slate-react'
+import { useSelected } from 'slate-react'
 import { CustomRenderElementProps } from '../../../cms/components/editor/element'
 import ComponentEditor from '../../../cms/components/editor/componentEditor'
-import Panel from '../../../cms/components/designSystem/panel'
-import { Box } from '@meow/components'
 import { useEditorDepth } from '../../../cms/components/editor/depthContext'
 import { styled } from '@meow/stitches'
-import { Flex } from '@meow/components'
+import { Flex, Panel, ErrorBoundary, Box } from '@meow/components'
 import { BracketsSquare } from 'phosphor-react'
 import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
-import { ErrorBoundary } from '@meow/components'
 import { CustomElement } from '../../types/slate'
 
 const StyledMdxButton = styled('button', {

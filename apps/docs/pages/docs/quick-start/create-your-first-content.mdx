@@ -1,0 +1,53 @@
+---
+name: Create your first content
+---
+# Create your first piece of content
+
+If you've been following along with this getting started guide then it means you're ready to write your first content with Meow. You configuration should look something like this:
+
+```tsx
+const CMS = () => (
+  <MeowCMS
+    {...{
+      settings: {
+        backend: {
+          name: 'github',
+          repo: '{your github username}/{your repo name}',
+          branch: 'main', // the branch you want to edit, usually main or master
+          base_url: 'https://mysite.com/', // the root address of your site
+          auth_endpoint: 'api/auth', // where your auth endpoint is located
+        },
+        media_folder: 'public/images',
+        public_folder: '/images',
+        collections: [
+          {
+            name: 'page',
+            label: 'Page',
+            folder: 'content/pages',
+            create: true,
+            slug: '{{title}}',
+            extension: 'mdx',
+            fields: [
+              { label: 'Title', name: 'title', widget: 'string' },
+              { label: 'Content', name: 'body', widget: 'markdown' },
+            ],
+          },
+        ],
+      },
+    }}
+  />
+)
+```
+
+Now visit the page where you're rendering Meow's main component and you'll be able to login 🎉
+
+<Note>
+
+If your auth endpoints aren't publicly accessible yet, you can login locally by changing `base_url` to your local dev server:
+
+```js
+base_url: 'http://localhost:3000/',
+```
+
+</Note>
+

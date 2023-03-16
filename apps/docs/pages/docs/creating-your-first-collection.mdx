@@ -46,10 +46,10 @@ const CMS = () => (
     {...{
       collections: [
         {
-          name: 'page', // a unique id for your collection
-          label: 'Page', // a readable name for your collection
-          folder: 'content/pages', // this is the directory where your files will be created
-          create: true, // whether new content can be created for this category
+          name: 'page',
+          label: 'Page', 
+          folder: 'content/pages', 
+          create: true, 
           slug: '{{title}}',
           extension: 'mdx',
           fields: [
@@ -73,4 +73,5 @@ export default CMS
 - `extension` either "md" or "mdx", the file extension Meow will create your new content in
 - `fields` this is your collection schema, in the example above our content will have a `title` and a `body` value
 
+That's the bare minimum config! There's a lot more to collections but we'll go over it later. Next up, handling media uploads.
 

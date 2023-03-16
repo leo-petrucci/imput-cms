@@ -17,8 +17,10 @@ Meow allows you to do all of these! Setting up your media is really straight for
 const CMS = () => (
   <MeowCMS
     {...{
-      media_folder: 'public/images',
-      public_folder: '/images',
+      settings: {
+        media_folder: 'public/images',
+        public_folder: '/images',
+      }
     }}
   />
 )

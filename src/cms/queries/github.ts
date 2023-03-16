@@ -93,15 +93,21 @@ export const useGetGithubCollection = (type: string) => {
           const decoded = matter(buf.toString('utf-8'))
           return {
             ...decoded,
+            filename: file.path,
             updatedAt: file.date,
             slug: file.path?.split(`.${currentCollection.extension}`)[0],
             markdown: buf.toString('utf-8'),
           }
         })
       ).then((d) =>
-        d.sort((a, b) => {
-          return +new Date(b.updatedAt) - +new Date(a.updatedAt)
-        })
+        d
+          .sort((a, b) => {
+            return +new Date(b.updatedAt) - +new Date(a.updatedAt)
+          })
+          // remove any files that don't match our filetype
+          .filter((c) =>
+            c.filename?.endsWith(`.${currentCollection.extension}`)
+          )
       )
 
       return decodedFiles

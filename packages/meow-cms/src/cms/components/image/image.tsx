@@ -2,7 +2,7 @@ import { useImages } from '../../../cms/contexts/imageContext/useImageContext'
 import { useOnScreen } from '../../../cms/utils/useOnScreen'
 import React from 'react'
 import { Box } from '@meow/components'
-import { CustomCSS } from '../../../stitches.config'
+import { CustomCSS } from '@meow/stitches'
 
 /**
  * Displays an image from local state, if the image has not yet been loaded to state it loads it and displays it

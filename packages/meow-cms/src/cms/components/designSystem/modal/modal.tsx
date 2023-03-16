@@ -4,7 +4,7 @@ import { blackA, grayA, mauve, whiteA } from '@radix-ui/colors'
 import { CSS, styled } from '@stitches/react'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
-import { inlineCss } from '../../../../stitches.config'
+import { inlineCss } from '@meow/stitches'
 import { Box } from '@meow/components'
 import { useMeasure } from '@meow/utils'
 

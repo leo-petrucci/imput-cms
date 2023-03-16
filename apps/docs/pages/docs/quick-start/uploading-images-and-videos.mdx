@@ -14,22 +14,14 @@ This is important because while Markdown might not support the specific filetype
 Meow allows you to do all of these! Setting up your media is really straight forward:
 
 ```tsx
-import dynamic from 'next/dynamic'
-
-const NextCMS = dynamic(() => import('meow-cms'), {
-  ssr: false,
-})
-
 const CMS = () => (
-  <NextCMS
+  <MeowCMS
     {...{
       media_folder: 'public/images',
       public_folder: '/images',
     }}
   />
 )
-
-export default CMS
 ```
 
 - `media_folder` is the folder in your project where your files will be uploaded

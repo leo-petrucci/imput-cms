@@ -5,11 +5,37 @@ name: Uploading images and videos
 
 Meow adopts a hands-off approach to media upload. We don't restrict what kind of files you want to upload as long as they fit the upload size allowed by your provider.
 
-This is important because while Markdown might not support the specific filetype you uploaded Meow also understands that you might want to do something else with your files. 
+This is important because while Markdown might not support the specific filetype you uploaded Meow also understands that you might want to do something else with your files.
 
 - You could have your own video component to playback videos
 - You could simply want to link your users to a direct download
 - Or maybe you just want to upload a file for safekeeping without manually going through your provider
 
-Meow allows you to do all of these!
+Meow allows you to do all of these! Setting up your media is really straight forward:
+
+```tsx
+import dynamic from 'next/dynamic'
+
+const NextCMS = dynamic(() => import('meow-cms'), {
+  ssr: false,
+})
+
+const CMS = () => (
+  <NextCMS
+    {...{
+      media_folder: 'public/images',
+      public_folder: '/images',
+    }}
+  />
+)
+
+export default CMS
+```
+
+- `media_folder` is the folder in your project where your files will be uploaded
+- `public_folder` is the public address where your files will be accessible from on your website
+
+That's all 🎉
+
+Next we'll access Meow and create our first piece of content.
 

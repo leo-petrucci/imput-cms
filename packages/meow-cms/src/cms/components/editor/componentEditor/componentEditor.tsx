@@ -8,7 +8,7 @@ import { CustomRenderElementProps } from '../../../../cms/components/editor/elem
 import { editAttributes } from '../../../../cms/components/editor/lib/editAttributes'
 import { editReactChildren } from '../../../../cms/components/editor/lib/editReactChildren'
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
-import Label from '../../../../cms/components/designSystem/label'
+import { Label } from '@meow/components'
 import { Flex } from '@meow/components'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'

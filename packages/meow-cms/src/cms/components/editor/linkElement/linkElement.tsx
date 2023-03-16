@@ -10,7 +10,7 @@ import { styled } from '@meow/stitches'
 import { CustomElement } from '../../../types/slate'
 import { Flex } from '@meow/components'
 import Input from '../../designSystem/input'
-import Label from '../../designSystem/label'
+import { Label } from '@meow/components'
 import Popover from '../../designSystem/popover'
 
 const LinkElement = ({

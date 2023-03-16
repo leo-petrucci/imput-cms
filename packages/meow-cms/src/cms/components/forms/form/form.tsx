@@ -11,7 +11,7 @@ import {
 } from 'react-hook-form'
 import { Box } from '@meow/components'
 import ctxt from './context'
-import Label from '../../../../cms/components/designSystem/label'
+import { Label } from '@meow/components'
 
 export interface FormProps<T extends FieldValues> {
   form?: UseFormReturn<T, any>

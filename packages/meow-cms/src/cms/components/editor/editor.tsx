@@ -146,8 +146,6 @@ const Editor = ({ value, onChange }: EditorProps) => {
 
   const debouncedOnChange = debounce(onEditorChange, 100)
 
-  console.log('test')
-
   return (
     <>
       Fuck

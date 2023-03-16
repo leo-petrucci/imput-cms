@@ -40,7 +40,6 @@ export function increaseListItemDepth(
     if (!previousListItemHasChildList) {
       const listNodePath = Path.ancestors(listItemPath, { reverse: true })[0]
       const listNode = Node.get(editor, listNodePath)
-      console.log({ getListType: getListType(editor, listNode) })
       Transforms.insertNodes(
         editor,
         editor.createListNode(getListType(editor, listNode), { children: [] }),

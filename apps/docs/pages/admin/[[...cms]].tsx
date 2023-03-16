@@ -21,7 +21,7 @@ const CMS = () => (
           {
             name: 'docs',
             label: 'Docs',
-            folder: 'examples/docs/pages/docs',
+            folder: 'apps/docs/pages/docs',
             create: true,
             slug: '{{name}}',
             extension: 'mdx',

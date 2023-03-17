@@ -230,9 +230,6 @@ export default function serialize(
 
       const hasChildren = checkForChildren(mdxElement.reactChildren)
 
-      console.log(mdxElement)
-      console.log('haschildren', hasChildren)
-
       if (hasChildren) {
         children = mdxElement.reactChildren
           .map((c: any) => {

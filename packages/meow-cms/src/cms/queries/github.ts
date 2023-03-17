@@ -78,25 +78,28 @@ export const useGetGithubCollection = (type: string) => {
       const filesWithDate = files as unknown as FilesWithDate
 
       const decodedFiles = await Promise.all(
-        filesWithDate.data.tree.map(async (file) => {
-          const blob = await octokit.request(
-            'GET /repos/{owner}/{repo}/git/blobs/{file_sha}',
-            {
-              owner,
-              repo,
-              file_sha: file.sha!,
+        filesWithDate.data.tree
+          // this will filter out non-files from the results
+          .filter((t) => t.mode === '100644')
+          .map(async (file) => {
+            const blob = await octokit.request(
+              'GET /repos/{owner}/{repo}/git/blobs/{file_sha}',
+              {
+                owner,
+                repo,
+                file_sha: file.sha!,
+              }
+            )
+            const buf = Buffer.from(blob.data.content, 'base64')
+            const decoded = matter(buf.toString('utf-8'))
+            return {
+              ...decoded,
+              filename: file.path,
+              updatedAt: file.date,
+              slug: file.path?.split(`.${currentCollection.extension}`)[0],
+              markdown: buf.toString('utf-8'),
             }
-          )
-          const buf = Buffer.from(blob.data.content, 'base64')
-          const decoded = matter(buf.toString('utf-8'))
-          return {
-            ...decoded,
-            filename: file.path,
-            updatedAt: file.date,
-            slug: file.path?.split(`.${currentCollection.extension}`)[0],
-            markdown: buf.toString('utf-8'),
-          }
-        })
+          })
       ).then((d) =>
         d
           .sort((a, b) => {
@@ -181,9 +184,12 @@ export const useGetGithubImages = () => {
         ...filesWithDate,
         data: {
           ...filesWithDate.data,
-          tree: filesWithDate.data.tree.sort((a, b) => {
-            return +new Date(b.date) - +new Date(a.date)
-          }),
+          tree: filesWithDate.data.tree
+            // filter out anything that isn't a file
+            .filter((t) => t.mode === '100644')
+            .sort((a, b) => {
+              return +new Date(b.date) - +new Date(a.date)
+            }),
         },
       }
 

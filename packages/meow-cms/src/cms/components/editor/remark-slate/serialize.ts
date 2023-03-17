@@ -208,11 +208,20 @@ export default function serialize(
           .join(' ')
       }
 
-      // Components with no children usually have a {text: ''} array
-      const hasChildren = mdxElement.reactChildren.some(
-        // @ts-ignore
-        (e) => e.type !== undefined
-      )
+      /**
+       * Recursively check if the component has children. Components without children
+       * usually have a {text: ''} array.
+       * @param node
+       * @returns
+       */
+      const checkForChildren = (node: any): boolean => {
+        if (node.children) {
+          return checkForChildren(node.children)
+        }
+        return node.type !== undefined
+      }
+
+      const hasChildren = checkForChildren(mdxElement.reactChildren)
 
       if (hasChildren) {
         children = mdxElement.reactChildren

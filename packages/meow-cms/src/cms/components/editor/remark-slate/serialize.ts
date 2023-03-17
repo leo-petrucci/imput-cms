@@ -195,14 +195,21 @@ export default function serialize(
               return `${prop.name}="${prop.value}"`
             }
             if (isObject(prop.value)) {
-              let v = get(
-                prop,
-                mdxAccessors[prop.value.data.estree.body[0].expression.type]
-              )
-              if (isString(v)) {
-                return `${prop.name}={"${escapeDoubleQuotes(v)}"}`
+              const expressionType =
+                prop.value.data.estree.body[0].expression.type
+              let v = get(prop, mdxAccessors[expressionType])
+
+              switch (expressionType) {
+                // special case for literals because they can be strings
+                case 'Literal':
+                  if (isString(v)) {
+                    return `${prop.name}={"${escapeDoubleQuotes(v)}"}`
+                  } else {
+                    return `${prop.name}={${v}}`
+                  }
+                default:
+                  return `${prop.name}={${v}}`
               }
-              return `${prop.name}={${v}}`
             }
           })
           .join(' ')

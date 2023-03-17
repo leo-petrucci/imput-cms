@@ -203,12 +203,12 @@ export default function serialize(
                 // special case for literals because they can be strings
                 case 'Literal':
                   if (isString(v)) {
-                    return `${prop.name}={"${escapeDoubleQuotes(v)}"}`
+                    return `${prop.name}="${escapeDoubleQuotes(v)}"`
                   } else {
-                    return `${prop.name}={${v}}`
+                    return `${prop.name}={${v || 'undefined'}}`
                   }
                 default:
-                  return `${prop.name}={${v}}`
+                  return `${prop.name}={${v || 'undefined'}}`
               }
             }
           })
@@ -225,10 +225,13 @@ export default function serialize(
         if (node.children) {
           return checkForChildren(node.children)
         }
-        return node.type !== undefined
+        return node.text !== ''
       }
 
       const hasChildren = checkForChildren(mdxElement.reactChildren)
+
+      console.log(mdxElement)
+      console.log('haschildren', hasChildren)
 
       if (hasChildren) {
         children = mdxElement.reactChildren

@@ -1,7 +1,6 @@
 ---
 name: Collections
 ---
-
 # Collections
 
 A Meow collection is a grouping of similar content, you can use collections to split up content that is similar. For example:
@@ -22,15 +21,59 @@ Each collection can also define any number of "blocks". Blocks are just React co
 
 ## Collections API
 
-<PropsTable
-  data={[
-    {
-      name: 'name',
-      required: false,
-      type: 'string',
-      description: 'An unique id for your collection.',
-    },
-  ]}
-/>
+<PropsTable data={[
+ {
+   name: "name",
+   required: true,
+   type: "string",
+   description: "An unique id for your collection.",
+ },
+ {
+   name: "label",
+   required: true,
+   type: "string",
+   description: "A readable name for your collection, this will be used in the Meow interface.",
+ },
+ {
+   name: "folder",
+   required: true,
+   type: "string",
+   description: "The directory used by Meow to load and save files for this collection.",
+ },
+ {
+   name: "create",
+   required: true,
+   type: "bool",
+   description: "Whether users can or cannot create new content for this collection.",
+ },
+ {
+   name: "slug",
+   required: true,
+   type: "string",
+   description: "A handlebar template that defines the shape of filenames for new content.",
+ },
+ {
+   name: "extension",
+   required: true,
+   typeSimple: "enum",
+   type: `"md" | "mdx"`,
+   description: "The file extension this collection will handle.",
+ },
+ {
+   name: "fields",
+   required: true,
+   typeSimple: "array",
+   type: "FieldType[]",
+   description: "An array of objects that define the inputs to display when creating or modifying content in this collection.",
+ },
+ {
+   name: "blocks",
+   required: false,
+   typeSimple: "array",
+   type: "BlockType[]",
+   description: "An array of objects that define which MDX components this collection is allowed to use.",
+ },
+]} />
 
 Test
+

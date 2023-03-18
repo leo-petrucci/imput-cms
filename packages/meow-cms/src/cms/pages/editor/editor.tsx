@@ -324,7 +324,11 @@ const CreateEditor = () => {
   )
 
   const value = React.useMemo(
-    () => deserialize(content || 'My markdown content'),
+    () => {
+      const deserialized = deserialize(content || 'My markdown content')
+
+      return deserialized.result
+    },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )

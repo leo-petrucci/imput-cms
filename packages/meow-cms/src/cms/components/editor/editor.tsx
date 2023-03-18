@@ -44,25 +44,38 @@ import {
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
-import { escapeSmallerThan } from './lib/escapeSmallerThan'
 import { onKeyDownOffset } from './lib/keyDownOffset'
 
-export const deserialize = (src: string): Descendant[] => {
-  // temporary solution for crash when paragraphs end in `<`
-  // https://github.com/creativiii/meow-cms/issues/56
-  const { value: escapedSmallerThan } = unified()
-    .use(remarkParse)
-    .use(escapeSmallerThan)
-    .use(remarkStringify)
-    .processSync(src)
+export const deserialize = (
+  src: string
+): {
+  result: Descendant[]
+  response: { status: 'ok' | 'error'; error?: Error }
+} => {
+  let result: Descendant[] = []
+  let response: { status: 'ok' | 'error'; error?: Error }
 
-  const { result } = unified()
-    .use(remarkParse)
-    .use(remarkMdx)
-    .use(remarkSlate)
-    .processSync(escapedSmallerThan)
+  // handle the MDX parser failing
+  // Sometimes there's literally nothing we can do on our side to fix it
+  // so the best solution is return everything in plaintext and let the user sort it out
+  try {
+    const parsed = unified()
+      .use(remarkParse)
+      .use(remarkMdx)
+      .use(remarkSlate)
+      .processSync(src)
 
-  return result as Descendant[]
+    result = parsed.result as Descendant[]
+    response = { status: 'ok' }
+  } catch (err) {
+    const error = err as Error
+    const parsed = unified().use(remarkParse).use(remarkSlate).processSync(src)
+
+    result = parsed.result as Descendant[]
+    response = { status: 'error', error }
+  }
+
+  return { result, response }
 }
 
 export const serialize = remarkSerialize

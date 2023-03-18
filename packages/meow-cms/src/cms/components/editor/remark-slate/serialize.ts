@@ -225,7 +225,8 @@ export default function serialize(
         if (node.children) {
           return checkForChildren(node.children)
         }
-        return node.text !== ''
+
+        return node.length === 1 && node[0].text !== ''
       }
 
       const hasChildren = checkForChildren(mdxElement.reactChildren)

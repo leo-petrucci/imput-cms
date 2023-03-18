@@ -11,7 +11,7 @@ A Meow collection is a grouping of similar content, you can use collections to s
 
 <Note>
 
-If you're familiar with databases you can think of each collection as its own table in a database, except instead of being a database they're markdown files contained in a folder 
+If you're familiar with databases you can think of each collection as its own table in a database, except instead of being a database they're markdown files contained in a folder
 
 </Note>
 
@@ -20,4 +20,16 @@ You can define a specific "schema" for each collection, which will define the sh
 Each collection can also define any number of "blocks". Blocks are just React components that can be inserted in your markdown.
 
 ## Collections API
+
+<PropsTable data={[
+  {
+    name: "name",
+    required: false,
+    type: "string",
+    description: "An unique id for your collection."
+  }
+]} >
+
+
+</PropsTable>
 

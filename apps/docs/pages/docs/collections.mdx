@@ -22,6 +22,13 @@ Each collection can also define any number of "blocks". Blocks are just React co
 
 ## Collections API
 
-<Test prop={[{ test: 'value' }]} />
-
-Test <
+<PropsTable
+  data={[
+    {
+      name: 'name',
+      required: false,
+      type: 'string',
+      description: 'An unique id for your collection.',
+    },
+  ]}
+/>

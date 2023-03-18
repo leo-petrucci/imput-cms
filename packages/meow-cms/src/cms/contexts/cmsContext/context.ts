@@ -85,6 +85,31 @@ export type BlockType = {
   }[]
 }
 
+export type FieldType = {
+  /**
+   * The name of each input
+   */
+  name: string
+  /**
+   * What will the input be labeled as in the Ui
+   */
+  label: string
+  rules?: RegisterOptions<FieldValues, string>
+} & Extract<
+  Widgets,
+  {
+    widget:
+      | 'string'
+      | 'date'
+      | 'datetime'
+      | 'select'
+      | 'image'
+      | 'boolean'
+      | 'markdown'
+      | 'relation'
+  }
+>
+
 type PickByType<T, Value> = {
   [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
 }
@@ -162,30 +187,7 @@ export interface NextCMSContext {
        * This will dictate the
        * inputs displayed when editing or creating content.
        */
-      fields: ({
-        /**
-         * The name of each input
-         */
-        name: string
-        /**
-         * What will the input be labeled as in the Ui
-         */
-        label: string
-        rules?: RegisterOptions<FieldValues, string>
-      } & Extract<
-        Widgets,
-        {
-          widget:
-            | 'string'
-            | 'date'
-            | 'datetime'
-            | 'select'
-            | 'image'
-            | 'boolean'
-            | 'markdown'
-            | 'relation'
-        }
-      >)[]
+      fields: FieldType[]
       /**
        * Components that will be made available to this type of content
        */

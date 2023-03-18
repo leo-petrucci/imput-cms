@@ -222,11 +222,15 @@ export default function serialize(
        * @returns
        */
       const checkForChildren = (node: any): boolean => {
-        if (node.children) {
-          return checkForChildren(node.children)
+        // if node has more than one child then we assume it has children
+        if (node && node.length > 1) {
+          return true
         }
 
-        return node.length === 1 && node[0].text !== ''
+        if (node && node.length === 1 && node[0].children) {
+          return checkForChildren(node[0].children)
+        }
+        return node && node.length === 1 && node[0].text !== ''
       }
 
       const hasChildren = checkForChildren(mdxElement.reactChildren)

@@ -30,7 +30,7 @@ In case you want to ensure content can't be created or saved without a specific 
 
 ## Widgets
 
-Widgets are what Meow calls different types of input you can use for fields. 
+Widgets are what Meow calls different types of input you can use for fields.
 
 <Note>
 
@@ -38,4 +38,28 @@ Meow doesn't yet support custom widgets, however they are on the roadmap. Hopefu
 
 </Note>
 
+<TabsRoot triggers={[
+  {
+    value: 'string',
+    children: 'String',
+  },
+  {
+    value: 'select',
+    children: 'Select',
+  },
+]} >
+
+<TabsContent value="string" >
+
+String description!
+
+</TabsContent>
+
+<TabsContent value="select" >
+
+Select description
+
+</TabsContent>
+
+</TabsRoot>
 

@@ -1,13 +1,14 @@
 ---
 name: Fields
 ---
+
 # Fields
 
 The `field` array in your collection configuration is used to define which inputs should appear when creating or modifying content in that specific collection. You can specify rules to validate or transform this input as well as which widget should be used to modify this input.
 
 ## Validation rules
 
-Behind the scenes Meow uses the excellent [react-hook-form](https://react-hook-form.com/) for input validation. On each `field`  object you can define `rules`. The shape of your rules object accepts all kinds of validation options specified by the [react-hook-form register API](https://react-hook-form.com/api/useform/register/).
+Behind the scenes Meow uses the excellent [react-hook-form](https://react-hook-form.com/) for input validation. On each `field` object you can define `rules`. The shape of your rules object accepts all kinds of validation options specified by the [react-hook-form register API](https://react-hook-form.com/api/useform/register/).
 
 ### Example: Require a field
 
@@ -79,13 +80,13 @@ String description!
 
 </TabsContent>
 
-<TabsContent value="date" children="" >
+<TabsContent value="date" >
 
 Date widget
 
 </TabsContent>
 
-<TabsContent value="dateTime" children="" >
+<TabsContent value="dateTime">
 
 Datetime widget
 
@@ -97,29 +98,28 @@ Select description
 
 </TabsContent>
 
-<TabsContent value="image" children="" >
+<TabsContent value="image" >
 
 Image widget
 
 </TabsContent>
 
-<TabsContent value="boolean" children="" >
+<TabsContent value="boolean" >
 
 Boolean widget
 
 </TabsContent>
 
-<TabsContent value="markdown" children="" >
+<TabsContent value="markdown" >
 
 Markdown widget
 
 </TabsContent>
 
-<TabsContent value="relation" children="" >
+<TabsContent value="relation" >
 
 Relation widget
 
 </TabsContent>
 
 </TabsRoot>
-

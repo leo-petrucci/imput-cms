@@ -44,8 +44,32 @@ value: 'string',
 children: 'String',
 },
 {
+value: 'date',
+children: 'Date',
+},
+{
+value: 'dateTime',
+children: 'Datetime',
+},
+{
 value: 'select',
 children: 'Select',
+},
+{
+value: 'image',
+children: 'image',
+},
+{
+value: 'boolean',
+children: 'Boolean',
+},
+{
+value: 'markdown',
+children: 'Markdown',
+},
+{
+value: 'relation',
+children: 'Relation',
 },
 ]} defaultValue="string" >
 
@@ -55,9 +79,45 @@ String description!
 
 </TabsContent>
 
+<TabsContent value="date" children="" >
+
+Date widget
+
+</TabsContent>
+
+<TabsContent value="dateTime" children="" >
+
+Datetime widget
+
+</TabsContent>
+
 <TabsContent value="select" >
 
 Select description
+
+</TabsContent>
+
+<TabsContent value="image" children="" >
+
+Image widget
+
+</TabsContent>
+
+<TabsContent value="boolean" children="" >
+
+Boolean widget
+
+</TabsContent>
+
+<TabsContent value="markdown" children="" >
+
+Markdown widget
+
+</TabsContent>
+
+<TabsContent value="relation" children="" >
+
+Relation widget
 
 </TabsContent>
 

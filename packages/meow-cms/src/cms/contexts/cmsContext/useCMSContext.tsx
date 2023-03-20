@@ -42,7 +42,8 @@ export const useCMS = () => {
     let attributes: any[] = []
 
     component?.fields?.forEach((f) => {
-      attributes.push(generateComponentProp(f))
+      // children is a special prop, handled differently
+      if (f.name !== 'children') attributes.push(generateComponentProp(f))
     })
 
     const c = {

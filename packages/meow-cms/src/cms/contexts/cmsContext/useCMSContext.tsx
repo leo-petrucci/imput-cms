@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import ctxt, { BlockType, NextCMSContext } from './context'
+import { generateComponentProp } from '../../components/editor/lib/generateComponentProp'
 
 /**
  * Returns the CMS settings object
@@ -41,76 +42,7 @@ export const useCMS = () => {
     let attributes: any[] = []
 
     component?.fields?.forEach((f) => {
-      switch (f.type.widget) {
-        case 'date':
-        case 'datetime':
-        case 'image':
-        case 'string':
-          attributes.push({
-            name: f.name,
-            type: 'mdxJsxAttribute',
-            value: f.type.default || '',
-          })
-          break
-        case 'select':
-        case 'boolean':
-          const literalNode: MDXNode = {
-            type: 'mdxJsxAttribute',
-            name: f.name,
-            value: {
-              type: 'mdxJsxAttributeValueExpression',
-              value: '',
-              data: {
-                estree: {
-                  type: 'program',
-                  start: 0,
-                  end: 1,
-                  sourcetype: 'module',
-                  body: [
-                    {
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'Literal',
-                        raw: `${f.type.default}`,
-                        value: f.type.default || undefined,
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-          }
-          attributes.push(literalNode)
-          break
-        case 'json':
-          const jsonNode: MDXNode = {
-            type: 'mdxJsxAttribute',
-            name: f.name,
-            value: {
-              type: 'mdxJsxAttributeValueExpression',
-              value: '',
-              data: {
-                estree: {
-                  type: 'program',
-                  start: 0,
-                  end: 1,
-                  sourcetype: 'module',
-                  body: [
-                    {
-                      type: 'ExpressionStatement',
-                      expression: {
-                        type: 'ObjectExpression',
-                        properties: [],
-                      },
-                    },
-                  ],
-                },
-              },
-            },
-          }
-          attributes.push(jsonNode)
-          break
-      }
+      attributes.push(generateComponentProp(f))
     })
 
     const c = {

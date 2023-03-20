@@ -23,14 +23,22 @@ export const editAttributes = (
   editor: BaseEditor
 ) => {
   // find the index of the attribute
-  const index = mdxElement.attributes.map((m) => m.name).indexOf(attribute.name)
+  let index = mdxElement.attributes.map((m) => m.name).indexOf(attribute.name)
 
   // copy the attributes array
-  const newAttributes = [...mdxElement.attributes]
+  let newAttributes = [...mdxElement.attributes]
 
-  // change just this value
-  newAttributes[index] = {
-    ...attribute,
+  // if the user has changed their schema since the last time this component was written
+  // then the attribute won't exist and index will be -1
+  // in that case we want to add the new attribute outright
+  if (index >= 0) {
+    // change just this value
+    newAttributes[index] = {
+      ...attribute,
+    }
+  } else {
+    // push it to the end of the array
+    newAttributes = [...newAttributes, attribute]
   }
 
   Transforms.setNodes<MdxElementShape>(

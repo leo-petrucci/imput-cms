@@ -22,6 +22,7 @@ import {
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
 import React from 'react'
+import { generateComponentProp } from '../lib/generateComponentProp'
 
 /**
  *
@@ -114,11 +115,18 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
           let value: any
 
+          // if the user has changed their schema since the last time this component was written
+          // `prop` will be `{}`
+          // we catch this edge case by generating the attribute on the fly
+          if (!prop.value) {
+            prop = generateComponentProp(c)
+          }
+
           if (isString(prop.value)) {
             value = prop.value
           } else {
             // different types require different handling
-            switch (prop.value.data.estree.body[0].expression.type) {
+            switch (prop.value?.data.estree.body[0].expression.type) {
               // For bools and numbers we want to get the raw (unstringified) value
               case 'Literal':
                 value = get(
@@ -179,7 +187,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       set(
                         newObj,
                         mdxAccessors[
-                          prop.value.data.estree.body[0].expression.type
+                          prop.value!.data.estree.body[0].expression.type
                         ],
                         val
                       )
@@ -206,7 +214,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                         set(
                           newObj,
                           mdxAccessors[
-                            prop.value.data.estree.body[0].expression.type
+                            prop.value!.data.estree.body[0].expression.type
                           ],
                           option.value
                         )
@@ -230,7 +238,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       set(
                         newObj,
                         mdxAccessors[
-                          prop.value.data.estree.body[0].expression.type
+                          prop.value!.data.estree.body[0].expression.type
                         ],
                         code
                       )

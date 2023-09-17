@@ -1,6 +1,7 @@
 import PropsTable from './components/PropsTable'
+import { Tabs } from '@meow/components'
 
-export default {
+const theme = {
   logo: <span>Meow CMS</span>,
   project: {
     link: 'https://github.com/creativiii/meow-cms',
@@ -20,5 +21,10 @@ export default {
     Video: ({ src }) => {
       return <video controls src={src}></video>
     },
+    TabsRoot: Tabs,
+    TabsContent: Tabs.Content,
+    ContentLink: () => <></>,
   },
 }
+
+export default theme

@@ -45,70 +45,66 @@ const blocks: any[] = [
     ],
   },
   {
-    name: 'ReactComponent',
-    label: 'My first block',
+    name: 'ContentLink',
+    label: 'Content Link',
     fields: [
       {
-        name: 'name',
-        label: 'Name',
+        name: 'title',
+        label: 'Title',
         type: {
           widget: 'string',
         },
       },
       {
-        name: 'date',
-        label: 'Date',
+        name: 'href',
+        label: 'Link',
         type: {
-          widget: 'date',
+          widget: 'string',
+        },
+      },
+    ],
+  },
+  {
+    name: 'TabsRoot',
+    label: 'Tabs',
+    fields: [
+      {
+        name: 'defaultValue',
+        label: 'Defailt tab id',
+        type: {
+          widget: 'string',
         },
       },
       {
-        name: 'datetime',
-        label: 'DateTime',
-        type: {
-          widget: 'datetime',
-        },
-      },
-      {
-        name: 'boolean',
-        label: 'Boolean',
-        type: {
-          widget: 'boolean',
-        },
-      },
-      {
-        name: 'variant',
-        label: 'Variant',
-        type: {
-          widget: 'select',
-          options: ['option1', 'option2'],
-        },
-      },
-      {
-        name: 'padding',
-        label: 'Padding',
-        type: {
-          widget: 'select',
-          options: [4, 8, 12],
-        },
-      },
-      {
-        name: 'object',
-        label: 'Object',
-        type: {
-          widget: 'json',
-        },
-      },
-      {
-        name: 'array',
-        label: 'Array',
+        name: 'triggers',
+        label: 'Triggers',
         type: {
           widget: 'json',
         },
       },
       {
         name: 'children',
-        label: 'Content',
+        label: 'Children',
+        type: {
+          widget: 'markdown',
+        },
+      },
+    ],
+  },
+  {
+    name: 'TabsContent',
+    label: 'Tabs Content',
+    fields: [
+      {
+        name: 'value',
+        label: 'Value',
+        type: {
+          widget: 'string',
+        },
+      },
+      {
+        name: 'children',
+        label: 'Children',
         type: {
           widget: 'markdown',
         },
@@ -139,7 +135,14 @@ const CMS = () => (
             slug: '{{name}}',
             extension: 'mdx',
             fields: [
-              { label: 'Name', name: 'name', widget: 'string' },
+              {
+                label: 'Name',
+                name: 'name',
+                widget: 'string',
+                rules: {
+                  required: 'This field is required',
+                },
+              },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
             blocks,

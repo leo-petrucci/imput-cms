@@ -11,6 +11,7 @@ import Panel from './panel'
 import Switch from './switch'
 import Popover from './popover'
 import Select from './select'
+import Tabs from './tabs'
 
 export {
   Box,
@@ -27,6 +28,7 @@ export {
   Switch,
   Popover,
   Select,
+  Tabs,
 }
 
 export type { ModalProps }

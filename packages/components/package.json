@@ -18,5 +18,8 @@
     "react-select": "^5.7.0",
     "react-simple-code-editor": "^0.13.1",
     "react-use-measure": "^2.1.1"
+  },
+  "peerDependencies": {
+    "react-hook-form": "^7.41.5"
   }
 }

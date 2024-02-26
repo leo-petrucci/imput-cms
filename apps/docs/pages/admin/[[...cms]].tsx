@@ -1,10 +1,11 @@
+import { BlockType } from 'local-meow-cms/src/cms/contexts/cmsContext/context'
 import dynamic from 'next/dynamic'
 
 const NextCMS = dynamic(() => import('local-meow-cms'), {
   ssr: false,
 })
 
-const blocks: any[] = [
+const blocks: BlockType[] = [
   {
     name: 'PropsTable',
     label: 'Props Table',

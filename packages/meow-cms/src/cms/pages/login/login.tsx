@@ -9,7 +9,7 @@ const Login = () => {
   const queryClient = useQueryClient()
 
   const receiveMessage = (event: any) => {
-    if (!event.data.includes('setImmediate')) {
+    if (event.data.includes && !event.data.includes('setImmediate')) {
       const { token, provider } = JSON.parse(event.data) as {
         token: string
         provider: 'github'

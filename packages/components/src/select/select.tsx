@@ -1,4 +1,4 @@
-import { useFormItem } from '@meow/components'
+import { useFormItem } from '../'
 import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 import ReactSelect, { GroupBase, Props } from 'react-select'
@@ -7,7 +7,7 @@ import isArray from 'lodash/isArray'
 function Select<
   Option,
   IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 >(props: Props<Option, IsMulti, Group>) {
   return <ReactSelect {...props} />
 }
@@ -19,7 +19,7 @@ interface ControlledSelectProps {
 function Controlled<
   Option,
   IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
+  Group extends GroupBase<Option> = GroupBase<Option>,
 >(props: Props<Option, IsMulti, Group> & ControlledSelectProps) {
   const form = useFormContext()
   const { name, rules } = useFormItem()

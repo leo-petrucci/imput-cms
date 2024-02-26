@@ -9,9 +9,9 @@ import {
   useFormContext,
   UseFormReturn,
 } from 'react-hook-form'
-import { Box } from '@meow/components'
+import { Box } from '../'
 import ctxt from './context'
-import { Label } from '@meow/components'
+import { Label } from '../'
 
 export interface FormProps<T extends FieldValues> {
   form?: UseFormReturn<T, any>

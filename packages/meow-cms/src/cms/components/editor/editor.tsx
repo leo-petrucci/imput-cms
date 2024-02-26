@@ -35,7 +35,7 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
-import { Box } from '@meow/components'
+import { Box } from '../'
 import { ImageElement } from '../../../cms/components/editor/images/imageElement'
 import { withListsPlugin } from './lists'
 import {

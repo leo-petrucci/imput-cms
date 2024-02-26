@@ -4,7 +4,7 @@ import {
   ErrorBoundaryProps,
   FallbackProps,
 } from 'react-error-boundary'
-import { Box } from '@meow/components'
+import { Box } from '../'
 import { styled } from '@meow/stitches'
 
 const StyledPre = styled('pre', {})

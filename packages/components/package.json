@@ -15,14 +15,20 @@
     "framer-motion": "6.5.1",
     "lodash": "^4.17.21",
     "phosphor-react": "^1.4.1",
+    "prismjs": "^1.29.0",
+    "react-error-boundary": "^3.1.4",
     "react-select": "^5.7.0",
     "react-simple-code-editor": "^0.13.1",
     "react-use-measure": "^2.1.1"
   },
   "peerDependencies": {
+    "@stitches/react": "1.2.8",
+    "@types/react": "18.x",
     "react": "18.x",
     "react-dom": "18.x",
-    "@types/react": "18.x",
     "react-hook-form": "^7.41.5"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.186"
   }
 }

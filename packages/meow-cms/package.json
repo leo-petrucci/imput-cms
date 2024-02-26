@@ -5,7 +5,7 @@
   "module": "dist/meow.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "meow:build": "tsc && dts build",
+    "meow:build": "tsc -v && tsc && dts build",
     "meow:release": "release publish",
     "lint": "dts lint",
     "prepare": "dts build",

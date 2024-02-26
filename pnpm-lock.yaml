@@ -66,6 +66,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@meow/components':
+        specifier: workspace:*
+        version: link:../../packages/components
       '@types/node':
         specifier: 18.14.6
         version: 18.14.6
@@ -185,6 +188,9 @@ importers:
       '@types/lodash':
         specifier: ^4.14.186
         version: 4.14.202
+      '@types/prismjs':
+        specifier: ^1.26.0
+        version: 1.26.3
 
   packages/local-meow-cms: {}
 
@@ -202,12 +208,18 @@ importers:
       '@meow/components':
         specifier: workspace:*
         version: link:../components
+      '@meow/stitches':
+        specifier: workspace:*
+        version: link:../stitches
       '@meow/utils':
         specifier: workspace:*
         version: link:../utils
       '@octokit/types':
         specifier: ^7.5.0
         version: 7.5.1
+      '@prezly/slate-lists':
+        specifier: ^0.102.0
+        version: 0.102.0(react@18.2.0)(slate-react@0.86.0)(slate@0.86.0)
       '@radix-ui/colors':
         specifier: ^0.1.8
         version: 0.1.9
@@ -359,6 +371,9 @@ importers:
       '@tsconfig/create-react-app':
         specifier: ^1.0.3
         version: 1.0.3
+      '@types/is-hotkey':
+        specifier: ^0.1.7
+        version: 0.1.10
       '@types/is-url':
         specifier: ^1.2.30
         version: 1.2.32
@@ -368,6 +383,9 @@ importers:
       '@types/mime':
         specifier: ^3.0.1
         version: 3.0.4
+      '@types/mocha':
+        specifier: ^10.0.6
+        version: 10.0.6
       '@types/node':
         specifier: 17.0.12
         version: 17.0.12
@@ -390,7 +408,14 @@ importers:
         specifier: 1.2.8
         version: 1.2.8(react@18.2.0)
 
-  packages/utils: {}
+  packages/utils:
+    dependencies:
+      '@juggle/resize-observer':
+        specifier: ^3.4.0
+        version: 3.4.0
+      react-use-measure:
+        specifier: ^2.1.1
+        version: 2.1.1(react-dom@18.2.0)(react@18.2.0)
 
 packages:
 
@@ -679,6 +704,7 @@ packages:
   /@babel/highlight@7.23.4:
     resolution: {integrity: sha512-acGdbYSfp2WheJoJm/EBBBLh/ID8KDc64ISZ9DYtBmC8/Q204PZJLHyzeB5qMzJ5trcOkybd78M4x2KWsUq++A==}
     engines: {node: '>=6.9.0'}
+    requiresBuild: true
     dependencies:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
@@ -3038,6 +3064,20 @@ packages:
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
     dev: false
 
+  /@prezly/slate-lists@0.102.0(react@18.2.0)(slate-react@0.86.0)(slate@0.86.0):
+    resolution: {integrity: sha512-8jwKQFFTqhB6YL/5L4smD/62l6ukd73dzQvgvXA8dyj7ce3OOkhfTHf+Ve/bG8oNmNB4VYtOWqbOahLDTaPa7w==}
+    peerDependencies:
+      react: ^18.2.0
+      slate: ^0.101.5
+      slate-react: ^0.101.5
+    dependencies:
+      is-hotkey: 0.2.0
+      react: 18.2.0
+      slate: 0.86.0
+      slate-react: 0.86.0(react-dom@18.2.0)(react@18.2.0)(slate@0.86.0)
+      uuid: 8.3.2
+    dev: false
+
   /@radix-ui/colors@0.1.9:
     resolution: {integrity: sha512-Vxq944ErPJsdVepjEUhOLO9ApUVOocA63knc+V2TkJ09D/AVOjiMIgkca/7VoYgODcla0qbSIBjje0SMfZMbAw==}
     dev: false
@@ -4022,6 +4062,10 @@ packages:
 
   /@types/minimist@1.2.5:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
+
+  /@types/mocha@10.0.6:
+    resolution: {integrity: sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==}
+    dev: true
 
   /@types/ms@0.7.34:
     resolution: {integrity: sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==}

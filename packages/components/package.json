@@ -29,6 +29,7 @@
     "react-hook-form": "^7.41.5"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.186"
+    "@types/lodash": "^4.14.186",
+    "@types/prismjs": "^1.26.0"
   }
 }

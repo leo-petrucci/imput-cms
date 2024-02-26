@@ -25,8 +25,10 @@
     "@juggle/resize-observer": "^3.4.0",
     "@lukemorales/query-key-factory": "^1.1.0",
     "@meow/components": "workspace:*",
+    "@meow/stitches": "workspace:*",
     "@meow/utils": "workspace:*",
     "@octokit/types": "^7.5.0",
+    "@prezly/slate-lists": "^0.102.0",
     "@radix-ui/colors": "^0.1.8",
     "@radix-ui/react-alert-dialog": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.2",
@@ -76,9 +78,11 @@
   "devDependencies": {
     "@ossjs/release": "^0.4.0",
     "@tsconfig/create-react-app": "^1.0.3",
+    "@types/is-hotkey": "^0.1.7",
     "@types/is-url": "^1.2.30",
     "@types/lodash": "^4.14.186",
     "@types/mime": "^3.0.1",
+    "@types/mocha": "^10.0.6",
     "@types/node": "17.0.12",
     "@types/prismjs": "^1.26.0",
     "@types/uuid": "^8.3.4",
@@ -86,9 +90,9 @@
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "react": "18.x",
-    "@types/react": "18.x",
     "@stitches/react": "1.2.8",
+    "@types/react": "18.x",
+    "react": "18.x",
     "react-dom": "18.x"
   }
 }

@@ -1,5 +1,9 @@
 {
   "version": "0.3.10",
   "name": "@meow/utils",
-  "main": "src/index.tsx"
+  "main": "src/index.tsx",
+  "dependencies": {
+    "@juggle/resize-observer": "^3.4.0",
+    "react-use-measure": "^2.1.1"
+  }
 }

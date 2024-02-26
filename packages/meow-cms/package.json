@@ -8,7 +8,6 @@
     "meow:build": "tsc -v && tsc && dts build",
     "meow:release": "release publish",
     "lint": "dts lint",
-    "prepare": "pnpm meow:build",
     "start": "dts watch",
     "test": "dts test --passWithNoTests"
   },

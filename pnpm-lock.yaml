@@ -154,6 +154,12 @@ importers:
       phosphor-react:
         specifier: ^1.4.1
         version: 1.4.1(react@18.2.0)
+      react:
+        specifier: 18.x
+        version: 18.2.0
+      react-dom:
+        specifier: 18.x
+        version: 18.2.0(react@18.2.0)
       react-hook-form:
         specifier: ^7.41.5
         version: 7.50.1(react@18.2.0)

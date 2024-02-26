@@ -20,6 +20,8 @@
     "react-use-measure": "^2.1.1"
   },
   "peerDependencies": {
+    "react": "18.x",
+    "react-dom": "18.x",
     "react-hook-form": "^7.41.5"
   }
 }

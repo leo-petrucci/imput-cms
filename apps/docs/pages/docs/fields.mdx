@@ -104,7 +104,7 @@ The string widget uses a simple text input which is then translated into a strin
 
 ### Date
 
-A simple date input. Outputs a date string. 
+A simple date input. Outputs a date string.
 
   - **Name:** `date`
   - **UI:** a date picker
@@ -129,7 +129,26 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="dateTime" >
 
-Datetime widget
+### Datetime
+
+  - **Name:** `datetime`
+  - **UI:** a datetime picker
+  - **Options:**
+    - `default`: accepts a string, defaults to an empty string
+    - `label`:  the descriptive label associated with the input
+    - `rules`: the input's validation rules
+  - **Example:**
+
+```javascript
+{
+  label: 'DateTime',
+  name: 'datetime',
+  widget: 'datetime',
+  rules: {
+    required: 'This field is required',
+  },
+}
+```
 
 </TabsContent>
 

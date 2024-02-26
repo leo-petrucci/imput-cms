@@ -361,9 +361,6 @@ importers:
       eslint:
         specifier: 8.7.0
         version: 8.7.0
-      tsc:
-        specifier: ^2.0.4
-        version: 2.0.4
       typescript:
         specifier: 4.8.4
         version: 4.8.4
@@ -11774,11 +11771,6 @@ packages:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: false
-
-  /tsc@2.0.4:
-    resolution: {integrity: sha512-fzoSieZI5KKJVBYGvwbVZs/J5za84f2lSTLPYf6AGiIf43tZ3GNrI1QzTLcjtyDDP4aLxd46RTZq1nQxe7+k5Q==}
-    hasBin: true
-    dev: true
 
   /tsconfig-paths@3.15.0:
     resolution: {integrity: sha512-2Ac2RgzDe/cn48GvOe3M+o82pEFewD3UPbyoUHHdKasHwJKjds4fLXWf/Ux5kATBKN20oaFGu+jbElp1pos0mg==}

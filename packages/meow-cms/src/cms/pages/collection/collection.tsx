@@ -44,7 +44,7 @@ const CollectionPage = () => {
             element={
               <>
                 <Box
-                  // @ts-expect-error
+                  // @ts-ignore
                   ref={ref}
                   css={{
                     position: 'fixed',

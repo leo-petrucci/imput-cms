@@ -1,5 +1,5 @@
 # .github/workflows/release.yml
-name: release
+name: Release Meow Package
 on:
   workflow_dispatch:
   push:
@@ -12,35 +12,25 @@ jobs:
         with:
           fetch-depth: 0
 
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
-
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
-
-      - uses: actions/cache@v3
-        id: yarn-cache
+      - uses: pnpm/action-setup@v3
         with:
-          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          version: 8
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          always-auth: true
-          registry-url: https://registry.npmjs.org
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: Setup Git
         run: |
           git config --local user.name "Leonardo Petrucci"
           git config --local user.email "leonardo@creativiii.com"
 
-      - run: yarn install --frozen-lockfile
+      - run: pnpm install --frozen-lockfile
 
-      - run: yarn build
+      - run: pnpm build
 
-      - run: yarn run release
+      - run: pnpm run release
         env:
           GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

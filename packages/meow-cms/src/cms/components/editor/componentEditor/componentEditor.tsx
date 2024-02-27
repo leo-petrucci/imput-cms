@@ -10,15 +10,13 @@ import { editReactChildren } from '../../../../cms/components/editor/lib/editRea
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import {
-  Input,
-  Select,
-  Box,
-  Switch,
-  Codeblock,
-  Label,
-  Flex,
-} from '@meow/components'
+import Input from '@meow/components/input'
+import Box from '@meow/components/box'
+import Switch from '@meow/components/switch'
+import Codeblock from '@meow/components/codeblock'
+import Label from '@meow/components/label'
+import Flex from '@meow/components/flex'
+import Combobox from '@meow/components/Combobox'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
 import React from 'react'
@@ -198,15 +196,33 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
               )
             case 'select':
               const options = c.type.options.map((v) => ({
-                value: v,
-                label: v,
+                value: String(v),
+                label: String(v),
               }))
               const selectVal = options.find((o) => o.value === value)
 
               return (
                 <Flex direction="column" gap="1" key={c.name}>
                   <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
-                  <Select
+
+                  <Combobox
+                    options={options}
+                    // defaultValue={selectVal}
+                    onValueChange={(val) => {
+                      if (val) {
+                        var newObj = cloneDeep(prop)
+                        set(
+                          newObj,
+                          mdxAccessors[
+                            prop.value!.data.estree.body[0].expression.type
+                          ],
+                          val.value
+                        )
+                        editAttributes(path, mdxElement, newObj, editor)
+                      }
+                    }}
+                  />
+                  {/* <Select
                     defaultValue={selectVal}
                     onChange={(option) => {
                       if (option) {
@@ -222,7 +238,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       }
                     }}
                     options={options}
-                  />
+                  /> */}
                 </Flex>
               )
             case 'json':

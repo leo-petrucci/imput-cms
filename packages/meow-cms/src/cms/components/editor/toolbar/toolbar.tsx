@@ -16,7 +16,7 @@ const Toolbar = ({
       top: '-$4',
       position: 'sticky',
       background: 'white',
-      zIndex: '$10',
+      zIndex: '1',
       padding: '$2 $2',
       marginBottom: '$2',
       // borderBottom: "1px solid $gray-200",

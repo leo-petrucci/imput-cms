@@ -12,13 +12,13 @@ const StyledOverlay = styled(DialogPrimitive.Overlay, {
   backgroundColor: grayA.grayA6,
   // backdropFilter: 'blur(1px)',
   position: 'fixed',
-  zIndex: '$30',
+  // zIndex: '$30',
   inset: 0,
 })
 
 const StyledContent = styled(DialogPrimitive.Content, {
   display: 'flex',
-  zIndex: '$30',
+  // zIndex: '$30',
   backgroundColor: 'white',
   borderRadius: 6,
   boxShadow:

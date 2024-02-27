@@ -1,8 +1,9 @@
 {
   "name": "@meow/components",
-  "main": "src/index.tsx",
+  "main": "index.tsx",
   "dependencies": {
     "@ironeko/spuntare": "^1.0.6",
+    "@juggle/resize-observer": "^3.4.0",
     "@meow/stitches": "workspace:*",
     "@meow/utils": "workspace:*",
     "@radix-ui/colors": "^0.1.8",
@@ -12,6 +13,8 @@
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.1",
     "@radix-ui/react-tabs": "^1.0.3",
+    "@tsconfig/create-react-app": "^1.0.3",
+    "cmdk": "^0.2.1",
     "framer-motion": "6.5.1",
     "lodash": "^4.17.21",
     "phosphor-react": "^1.4.1",

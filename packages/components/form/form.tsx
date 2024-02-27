@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import get from 'lodash/get'
 import {
   FieldValues,
@@ -13,13 +13,12 @@ import { Box } from '../'
 import ctxt from './context'
 import { Label } from '../'
 
-export interface FormProps<T extends FieldValues> {
+export type FormProps<T extends FieldValues> = {
   form?: UseFormReturn<T, any>
   onSubmit: SubmitHandler<T>
   children: React.ReactNode
   debug?: boolean
-  formProps?: React.HTMLAttributes<HTMLFormElement>
-}
+} & Omit<React.HTMLAttributes<HTMLFormElement>, 'onSubmit'>
 
 /**
  * Renders a form component managed by `react-hook-form`. Its children should be components controlled by `react-hook-form`.
@@ -33,7 +32,7 @@ function Form<T extends FieldValues>({
   onSubmit,
   children,
   debug,
-  formProps,
+  ...rest
 }: FormProps<T>) {
   const methods = useForm<T>()
 
@@ -49,7 +48,7 @@ function Form<T extends FieldValues>({
 
   return (
     <FormProvider {...context}>
-      <form onSubmit={context.handleSubmit(onSubmit)} {...formProps}>
+      <form onSubmit={context.handleSubmit(onSubmit)} {...rest}>
         {children}
       </form>
     </FormProvider>
@@ -69,13 +68,15 @@ export const FormItemProvider = ({
   children,
   rules,
   name,
+  setValueAs,
 }: {
   children: React.ReactNode
   rules: RegisterOptions
   name: string
+  setValueAs: FormItemProps['setValueAs']
 }): JSX.Element => {
   return (
-    <FormItemContextProvider value={{ rules, name }}>
+    <FormItemContextProvider value={{ rules, name, setValueAs: setValueAs! }}>
       {children}
     </FormItemContextProvider>
   )
@@ -86,7 +87,8 @@ export const FormItemProvider = ({
  */
 export const useFormItem = () => useContext(ctxt)
 
-interface FormItemProps extends Partial<React.ComponentProps<typeof Box>> {
+export interface FormItemProps
+  extends Partial<React.ComponentProps<typeof Box>> {
   children: React.ReactNode
   /**
    * Label text, can either be a string or a custom component.
@@ -104,6 +106,10 @@ interface FormItemProps extends Partial<React.ComponentProps<typeof Box>> {
    * Validation rules for the Form item's children
    */
   rules?: RegisterOptions
+  /**
+   * If defined, can be used to transform value before it's saved to the form
+   */
+  setValueAs?: (value: string) => any
 }
 
 /**
@@ -115,12 +121,13 @@ const Item = ({
   label,
   rules = {},
   css,
+  setValueAs = (val: string) => val,
   ...rest
 }: FormItemProps) => {
   const methods = useFormContext()
 
   return (
-    <FormItemProvider rules={rules} name={name}>
+    <FormItemProvider rules={rules} name={name} setValueAs={setValueAs}>
       <Box
         {...rest}
         css={{

@@ -165,7 +165,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               padding: '$4',
               background: 'white',
               borderBottom: '1px solid $gray-200',
-              zIndex: '$10',
+              // zIndex: '$10',
               display: 'flex',
               justifyContent: 'flex-end',
             }}
@@ -193,7 +193,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               body: string
               [k: string]: string
             }>
-              formProps={{ id: 'content-form' }}
+              id="content-form"
               form={form}
               onSubmit={() => {
                 const id = toast.loading('Saving content...')

@@ -20,6 +20,20 @@ const blocks: BlockType[] = [
     ],
   },
   {
+    name: 'Test',
+    label: 'Test Component',
+    fields: [
+      {
+        name: 'select',
+        label: 'Select',
+        type: {
+          options: ['Option 1', 'Option 2', 'Option 3'],
+          widget: 'select',
+        },
+      },
+    ],
+  },
+  {
     name: 'Note',
     label: 'Note',
     fields: [

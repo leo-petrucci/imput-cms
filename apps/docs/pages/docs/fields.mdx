@@ -1,0 +1,186 @@
+---
+name: Fields
+---
+# Fields
+
+The `field` array in your collection configuration is used to define which inputs should appear when creating or modifying content in that specific collection. You can specify rules to validate or transform this input as well as which widget should be used to modify this input.
+
+## Validation rules
+
+Behind the scenes Meow uses the excellent [react-hook-form](https://react-hook-form.com/) for input validation. On each `field` object you can define `rules`. The shape of your rules object accepts all kinds of validation options specified by the [react-hook-form register API](https://react-hook-form.com/api/useform/register/).
+
+### Example: Require a field
+
+In case you want to ensure content can't be created or saved without a specific input you can force it to be required. This would look something like this:
+
+```js
+{
+  fields: [
+    {
+      label: 'Name',
+      name: 'name',
+      widget: 'string',
+      rules: {
+        required: 'This field is required',
+      },
+    }`
+  ]
+}
+```
+
+## Widgets
+
+Widgets are what Meow calls different types of input you can use for fields.
+
+<Note>
+
+Meow doesn't yet support custom widgets, however they are on the roadmap. Hopefully the available widgets will cover most use-cases.
+
+</Note>
+
+<TabsRoot triggers={[
+{
+value: 'string',
+children: 'String',
+},
+{
+value: 'date',
+children: 'Date',
+},
+{
+value: 'dateTime',
+children: 'Datetime',
+},
+{
+value: 'select',
+children: 'Select',
+},
+{
+value: 'image',
+children: 'image',
+},
+{
+value: 'boolean',
+children: 'Boolean',
+},
+{
+value: 'markdown',
+children: 'Markdown',
+},
+{
+value: 'relation',
+children: 'Relation',
+},
+]} defaultValue="string" >
+
+<TabsContent value="string" >
+
+### String
+
+The string widget uses a simple text input which is then translated into a string.
+
+  - **Name:** `string`
+  - **UI:** A text input
+  - **Options:**
+    - `default`: accepts a string and defaults to an empty string
+    - `label`: the descriptive label associated with the input
+    - `rules`: the input's validation rules
+  - **Example:**
+
+```javascript
+{
+  label: 'Name',
+  name: 'name',
+  widget: 'string',
+  rules: {
+    required: 'This field is required',
+  },
+}
+```
+
+</TabsContent>
+
+<TabsContent value="date" >
+
+### Date
+
+A simple date input. Outputs a date string.
+
+  - **Name:** `date`
+  - **UI:** a date picker
+  - **Options:**
+    - `default`: accepts a string, defaults to an empty string
+    - `label`:  the descriptive label associated with the input
+    - `rules`: the input's validation rules
+  - **Example:**
+
+```javascript
+{
+  label: 'Date',
+  name: 'date',
+  widget: 'date',
+  rules: {
+    required: 'This field is required',
+  },
+}
+```
+
+</TabsContent>
+
+<TabsContent value="dateTime" >
+
+### Datetime
+
+  - **Name:** `datetime`
+  - **UI:** a datetime picker
+  - **Options:**
+    - `default`: accepts a string, defaults to an empty string
+    - `label`:  the descriptive label associated with the input
+    - `rules`: the input's validation rules
+  - **Example:**
+
+```javascript
+{
+  label: 'DateTime',
+  name: 'datetime',
+  widget: 'datetime',
+  rules: {
+    required: 'This field is required',
+  },
+}
+```
+
+</TabsContent>
+
+<TabsContent value="select" >
+
+Select description
+
+</TabsContent>
+
+<TabsContent value="image" >
+
+Image widget
+
+</TabsContent>
+
+<TabsContent value="boolean" >
+
+Boolean widget
+
+</TabsContent>
+
+<TabsContent value="markdown" >
+
+Markdown widget
+
+</TabsContent>
+
+<TabsContent value="relation" >
+
+Relation widget
+
+</TabsContent>
+
+</TabsRoot>
+

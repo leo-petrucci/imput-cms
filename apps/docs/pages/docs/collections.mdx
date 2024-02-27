@@ -1,0 +1,89 @@
+---
+name: Collections
+---
+# Collections
+
+A Meow collection is a grouping of similar content, you can use collections to split up content that is similar. For example:
+
+- "Blogposts" is a collection that contains all of your blog's content
+- "Authors" is a collection of the people who write said blogs
+- "Categories" is a collections of the categories your blog posts fall under
+
+<Note>
+
+If you're familiar with databases you can think of each collection as its own table in a database, except instead of being a database they're markdown files contained in a folder
+
+</Note>
+
+You can define a specific "schema" for each collection, which will define the shape of the data of each item in that collection. Your "schema" (Meow calls them fields!) will define which inputs appear when creating or editing content.
+
+Each collection can also define any number of "blocks". Blocks are just React components that can be inserted in your markdown.
+
+## Collections API
+
+<PropsTable data={[
+{
+name: "name",
+required: true,
+type: "string",
+description: "An unique id for your collection.",
+},
+{
+name: "label",
+required: true,
+type: "string",
+description: "A readable name for your collection, this will be used in the Meow interface.",
+},
+{
+name: "folder",
+required: true,
+type: "string",
+description: "The directory used by Meow to load and save files for this collection.",
+},
+{
+name: "create",
+required: true,
+type: "bool",
+description: "Whether users can or cannot create new content for this collection.",
+},
+{
+name: "slug",
+required: true,
+type: "string",
+description: "A handlebar template that defines the shape of filenames for new content.",
+},
+{
+name: "extension",
+required: true,
+typeSimple: "enum",
+type: `"md" | "mdx"`,
+description: "The file extension this collection will handle.",
+},
+{
+name: "fields",
+required: true,
+typeSimple: "array",
+type: "FieldType[]",
+description: "An array of objects that define the inputs to display when creating or modifying content in this collection.",
+},
+{
+name: "blocks",
+required: false,
+typeSimple: "array",
+type: "BlockType[]",
+description: "An array of objects that define which MDX components this collection is allowed to use.",
+},
+]} />
+
+## Fields
+
+The `field` array in your collection configuration is used to define which inputs should appear when creating or modifying content in that specific collection.
+
+<ContentLink title="Fields documentation" href="/docs/fields" />
+
+## Blocks
+
+The `blocks` array in your collection is used to specify which MDX components the collection will be able to create in the editor. This array allows you to define a specific schema for each component.
+
+<ContentLink title="Blocks documentation" href="/docs/blocks" />
+

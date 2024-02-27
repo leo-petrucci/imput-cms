@@ -1,0 +1,9 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "docs:dev": {},
+    "docs:build": {},
+    "meow:release": {},
+    "meow:build": {}
+  }
+}

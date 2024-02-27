@@ -43,6 +43,7 @@ const CollectionPage = () => {
             path={'/'}
             element={
               <>
+                <div className="bg-red-700 h-32 w-32"></div>
                 <Box
                   // @ts-ignore
                   ref={ref}

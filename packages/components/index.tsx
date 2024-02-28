@@ -1,8 +1,7 @@
 import Box from './box'
-import Button from './button'
+import { Button } from './Button'
 import Codeblock from './codeblock'
 import ErrorBoundary from './errorBoundary'
-import Flex from './flex'
 import Label from './label'
 import Form, { useFormItem } from './form'
 import Input from './input'
@@ -18,7 +17,6 @@ export {
   Button,
   Codeblock,
   ErrorBoundary,
-  Flex,
   Label,
   Form,
   useFormItem,

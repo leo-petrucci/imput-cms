@@ -1,7 +1,17 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "docs:dev": {},
+    "meow:tailwind": {
+      "cache": false,
+      "inputs": ["meow-cms"]
+    },
+    "docs:dev": {
+      "cache": true,
+      "inputs": ["apps/docs"]
+    },
+    "docs": {
+      "dependsOn": ["meow:tailwind", "docs:dev"]
+    },
     "docs:build": {},
     "meow:release": {},
     "meow:build": {}

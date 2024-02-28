@@ -3,34 +3,24 @@ import { useSelected } from 'slate-react'
 import { CustomRenderElementProps } from '../../../cms/components/editor/element'
 import ComponentEditor from '../../../cms/components/editor/componentEditor'
 import { useEditorDepth } from '../../../cms/components/editor/depthContext'
-import { styled } from '@meow/stitches'
-import { Flex, Panel, ErrorBoundary, Box } from '@meow/components'
+import { Panel, ErrorBoundary } from '@meow/components'
 import { BracketsSquare } from 'phosphor-react'
 import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
+import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../types/slate'
+import { FakeP } from '@meow/components/src/Typography'
 
-const StyledMdxButton = styled('button', {
-  width: '100%',
-  background: 'white',
-  border: '1px solid var(--colors-gray-200)',
-  borderRadius: '$md',
-  marginTop: '$1',
-  marginBottom: '$1',
-  cursor: 'pointer',
-  padding: 0,
-  overflow: 'hidden',
-  position: 'relative',
-
-  variants: {
-    selected: {
-      true: {
-        outline: '2px solid var(--colors-gray-600)',
-        outlineOffset: '4px',
+const StyledMdxButton = cva(
+  'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',
+  {
+    variants: {
+      selected: {
+        true: 'outline outline-2 outline-offset-4 outline-primary/80',
       },
     },
-  },
-})
+  }
+)
 
 /**
  * Interface for custom MDX element
@@ -95,26 +85,17 @@ const MdxElement = (props: CustomRenderElementProps) => {
           </ErrorBoundary>
         )}
       >
-        <StyledMdxButton selected={selected} contentEditable={false}>
-          <Box
-            css={{
-              padding: '$4',
-            }}
-          >
-            <Flex direction="row" gap="2" align="center">
+        <button
+          className={StyledMdxButton({ selected })}
+          contentEditable={false}
+        >
+          <div className="p-4">
+            <div className="flex flex-row gap-2 items-center">
               <BracketsSquare size={16} weight="bold" />
-              <Box
-                css={{
-                  color: '$gray-800',
-                  fontWeight: '500',
-                  fontSize: '$sm',
-                }}
-              >
-                {mdxElement.name} Block
-              </Box>
-            </Flex>
-          </Box>
-        </StyledMdxButton>
+              <FakeP>{mdxElement.name} Block</FakeP>
+            </div>
+          </div>
+        </button>
       </Panel>
     </div>
   )

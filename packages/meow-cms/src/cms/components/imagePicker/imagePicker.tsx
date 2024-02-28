@@ -2,51 +2,27 @@ import { Input, Modal } from '@meow/components'
 import { useImages } from '../../contexts/imageContext/useImageContext'
 import { ImageSquare } from 'phosphor-react'
 import { Element } from 'slate'
-import { styled } from '@meow/stitches'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import ImageSelector from '../editor/images/imageSelector'
 import ImageUploadButton from '../editor/images/uploadButton'
-import {
-  Button,
-  useFormItem,
-  Label,
-  Flex,
-  Box,
-  Popover,
-} from '@meow/components'
+import { Button } from '@meow/components/src/Button'
+import { useFormItem, Label, Popover } from '@meow/components'
 import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useController, useFormContext } from 'react-hook-form'
 import React from 'react'
+import { cva } from 'class-variance-authority'
+import { FakeP } from '@meow/components/src/Typography'
 
-const StyledImage = styled('div', {
-  display: 'block',
-  maxWidth: '100%',
-  minHeight: '20em',
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-})
-
-const StyledImageButton = styled('button', {
-  width: '100%',
-  background: 'white',
-  border: '1px solid var(--colors-gray-200)',
-  borderRadius: '$md',
-  marginTop: '$1',
-  marginBottom: '$1',
-  cursor: 'pointer',
-  padding: 0,
-  overflow: 'hidden',
-  position: 'relative',
-
-  variants: {
-    selected: {
-      true: {
-        outline: '2px solid var(--colors-gray-600)',
-        outlineOffset: '4px',
+const StyledImageButton = cva(
+  'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',
+  {
+    variants: {
+      selected: {
+        true: 'outline outline-2 outline-offset-4 outline-primary/80',
       },
     },
-  },
-})
+  }
+)
 
 export interface ImageElement extends Element {
   type: 'image'
@@ -108,15 +84,10 @@ const ImagePicker = ({
   return (
     <Popover
       content={
-        <Box
-          css={{
-            position: 'relative',
-            marginBottom: '$2',
-          }}
-        >
-          <Flex direction="column" gap="2">
+        <div className="relative mb-2">
+          <div className="flex flex-col gap-2">
             {imageTitle !== false && (
-              <Flex direction="column" gap="1">
+              <div className="flex flex-col gap-1">
                 <Label htmlFor={`image-title`}>Image title</Label>
                 <Input
                   name="image-title"
@@ -126,10 +97,10 @@ const ImagePicker = ({
                     imageTitle?.onImageTitleChange(value)
                   }}
                 />
-              </Flex>
+              </div>
             )}
             {imageAltText !== false && (
-              <Flex direction="column" gap="1">
+              <div className="flex flex-col gap-1">
                 <Label htmlFor={`image-alt`}>Image alt text</Label>
                 <Input
                   name="image-alt"
@@ -139,9 +110,9 @@ const ImagePicker = ({
                     imageAltText?.onImageAltTextChange(value)
                   }}
                 />
-              </Flex>
+              </div>
             )}
-            <Flex direction="column" gap="1">
+            <div className="flex flex-col gap-1">
               <Label htmlFor={`image-file`}>Upload image</Label>
               <Modal
                 title={'Select media'}
@@ -155,19 +126,9 @@ const ImagePicker = ({
                   },
                 }}
                 headingContent={
-                  <Box
-                    css={{
-                      position: 'relative',
-                      flex: 1,
-                      display: 'flex',
-                      justifyContent: 'end',
-                      padding: '0 0 $2 0',
-                      margin: '0 0 $2 0',
-                      borderBottom: '1px solid $gray-200',
-                    }}
-                  >
+                  <div className="relative flex-1 flex justify-end border-b border-border mb-2 pb-2">
                     <ImageUploadButton />
-                  </Box>
+                  </div>
                 }
                 description={(_open, setOpen) => (
                   <ImageSelector
@@ -180,12 +141,15 @@ const ImagePicker = ({
               >
                 <Button type="button">Select image</Button>
               </Modal>
-            </Flex>
-          </Flex>
-        </Box>
+            </div>
+          </div>
+        </div>
       }
     >
-      <StyledImageButton selected={selected} contentEditable={false}>
+      <button
+        className={StyledImageButton({ selected })}
+        contentEditable={false}
+      >
         <PopoverPrimitive.Anchor
           style={{
             position: 'absolute',
@@ -199,7 +163,8 @@ const ImagePicker = ({
           }}
         />
         {image ? (
-          <StyledImage
+          <div
+            className="block max-w-full min-h-80 bg-cover bg-center"
             style={{
               backgroundImage: `url(${
                 image
@@ -213,26 +178,14 @@ const ImagePicker = ({
             }}
           />
         ) : (
-          <Box
-            css={{
-              padding: '$4',
-            }}
-          >
-            <Flex direction="row" gap="2" align="center">
+          <div className="p-4">
+            <div className="flex flex-row gap-2 items-center">
               <ImageSquare size={16} weight="bold" />
-              <Box
-                css={{
-                  color: '$gray-800',
-                  fontWeight: '500',
-                  fontSize: '$sm',
-                }}
-              >
-                Add an image
-              </Box>
-            </Flex>
-          </Box>
+              <FakeP>Add an image</FakeP>
+            </div>
+          </div>
         )}
-      </StyledImageButton>
+      </button>
     </Popover>
   )
 }

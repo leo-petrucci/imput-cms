@@ -1,11 +1,9 @@
-import { Box } from '@meow/components'
 import Image from '../../../../../cms/components/image'
 import React from 'react'
 import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
 import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
-import { LayoutGroup, motion } from 'framer-motion'
-import { styled } from '@meow/stitches'
+import { Button } from '@meow/components/src/Button'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void
@@ -19,41 +17,14 @@ const ImageSelector = ({ onImageSelect }: ImageSelectorProps) => {
 
   return (
     <>
-      <Box
-        css={{
-          position: 'relative',
-          display: 'grid',
-          gap: '$2',
-          gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
-          '@md': {
-            gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-          },
-          overflowY: 'scroll',
-        }}
-      >
-        <LayoutGroup>
-          {imageTree.map((i) => (
-            <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-          ))}
-        </LayoutGroup>
-      </Box>
+      <div className="relative grid gap-2 grid-cols-1 md:grid-cols-3">
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}
+      </div>
     </>
   )
 }
-
-const ImageSelectorButton = styled('button', {
-  borderRadius: '.25em',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'stretch',
-  cursor: 'pointer',
-  background: 'none',
-  border: '1px solid $gray-300',
-  textAlign: 'left',
-  padding: 0,
-
-  '&:hover': { backgroundColor: '$gray-100' },
-})
 
 const ImageCard = ({
   image,
@@ -65,29 +36,20 @@ const ImageCard = ({
   const { public_folder } = useCMS()
 
   return (
-    <MotionImageSelectorButton
-      layout
+    <Button
+      variant="outline"
+      className="h-auto flex flex-col"
       onClick={() => {
         // return the full path to the public image
         onImageSelect?.(`${public_folder}/${image.path!}`)
       }}
     >
       <Image path={image.path!} />
-      <Box
-        css={{
-          padding: '$1 $2',
-          '& > h2': {
-            fontSize: '$md',
-            fontWeight: '$medium',
-          },
-        }}
-      >
-        <h2>{image.path}</h2>
-      </Box>
-    </MotionImageSelectorButton>
+      <div className="px-1 py-2">
+        <h2 className="text-lg font-medium">{image.path}</h2>
+      </div>
+    </Button>
   )
 }
-
-const MotionImageSelectorButton = motion(ImageSelectorButton)
 
 export default ImageSelector

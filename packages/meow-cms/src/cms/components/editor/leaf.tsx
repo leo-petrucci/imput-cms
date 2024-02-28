@@ -1,5 +1,5 @@
-import { styled } from '@meow/stitches'
 import React from 'react'
+import { cva } from 'class-variance-authority'
 
 export const Leaf = (props: any) => {
   let { children, leaf } = props
@@ -8,7 +8,11 @@ export const Leaf = (props: any) => {
   }
 
   if (leaf.code) {
-    children = <Code>{children}</Code>
+    children = (
+      <code className="px-[0.2em] py-[0.4em] m-0 text-[85%] whitespace-break-spaces bg-secondary rounded text-red-500">
+        {children}
+      </code>
+    )
   }
 
   if (leaf.italic) {
@@ -30,27 +34,19 @@ export const Leaf = (props: any) => {
 const Text = (props: any) => {
   const { attributes, children, leaf } = props
   return (
-    <StyledText text={leaf.text ? true : false} {...attributes}>
+    <span
+      className={StyledText({ text: leaf.text ? true : true })}
+      {...attributes}
+    >
       {children}
-    </StyledText>
+    </span>
   )
 }
 
-const StyledText = styled('span', {
+const StyledText = cva('', {
   variants: {
     text: {
-      true: {
-        paddingLeft: '0.1px',
-      },
+      true: 'pl-[0.1px]',
     },
   },
-})
-
-const Code = styled('code', {
-  padding: '0.2em 0.4em',
-  margin: 0,
-  fontSize: '85%',
-  whiteSpace: 'break-spaces',
-  backgroundColor: '$gray-100',
-  borderRadius: 6,
 })

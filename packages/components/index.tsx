@@ -1,4 +1,3 @@
-import Box from './box'
 import { Button } from './Button'
 import Codeblock from './codeblock'
 import ErrorBoundary from './errorBoundary'
@@ -13,7 +12,6 @@ import Select from './select'
 import Tabs from './tabs'
 
 export {
-  Box,
   Button,
   Codeblock,
   ErrorBoundary,

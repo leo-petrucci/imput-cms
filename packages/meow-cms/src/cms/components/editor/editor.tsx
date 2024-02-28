@@ -42,7 +42,7 @@ import {
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
-import Toggle from '@meow/components/src/Toggle'
+import Toggle from '@meow/components/Toggle'
 import { onKeyDownOffset } from './lib/keyDownOffset'
 
 export const deserialize = (

@@ -3,5 +3,5 @@
   "compilerOptions": {
     "downlevelIteration": true
   },
-  "include": ["**/*", "types"]
+  "include": ["**/*.ts", "types"]
 }

@@ -4,36 +4,21 @@ import {
   ErrorBoundaryProps,
   FallbackProps,
 } from 'react-error-boundary'
-import { Box } from '../'
 import { styled } from '@meow/stitches'
 
 const StyledPre = styled('pre', {})
 
 const ErrorFallback = ({ error }: FallbackProps) => {
   return (
-    <Box
+    <div
       role="alert"
-      css={{
-        padding: '$1 $3',
-        borderRadius: '$md',
-        backgroundColor: '$red-100',
-        color: '$red-700',
-
-        '& pre': {
-          fontSize: '$sm',
-          whiteSpace: 'normal',
-          lineHeight: '140%',
-        },
-
-        '& p': {
-          fontSize: '$sm',
-          fontWeight: '$medium',
-        },
-      }}
+      className="px-1 py-3 rounded-md bg-destructive/10 text-destructive"
     >
-      <p>Something went wrong:</p>
-      <pre>{error.message}</pre>
-    </Box>
+      <p className="text-sm font-medium">Something went wrong:</p>
+      <pre className="text-sm whitespace-normal leading-[140%]">
+        {error.message}
+      </pre>
+    </div>
   )
 }
 

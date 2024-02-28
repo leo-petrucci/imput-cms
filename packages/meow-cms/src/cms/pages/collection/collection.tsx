@@ -13,10 +13,10 @@ import CollectionSelect from '../../../cms/components/collections/collectionSele
 import CollectionCard from '../../../cms/components/collections/collectionCard'
 import { CollectionType } from '../../../cms/types/collection'
 import { useMeasure } from '@meow/utils'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 import NewPage from '../../../cms/pages/new'
 import Loader from '../../components/loader'
-import { H1 } from '@meow/components/src/Typography'
+import { H1 } from '@meow/components/Typography'
 
 const CollectionPage = () => {
   const { collection } = useParams<{

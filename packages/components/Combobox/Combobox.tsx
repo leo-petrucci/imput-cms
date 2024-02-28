@@ -6,7 +6,7 @@ import {
   CommandGroup,
   CommandInput,
   CommandItem,
-} from 'cmdk'
+} from '../Command'
 import {
   Popover,
   PopoverContent,
@@ -16,6 +16,7 @@ import {
 } from '@radix-ui/react-popover'
 import useMeasure from '../utils/useMeasure'
 import { styled } from '@meow/stitches'
+import { Button } from '../Button'
 
 /**
  * Props shared by both single and multi combobox
@@ -238,9 +239,9 @@ const ComboboxMulti = (props: ComboboxMultiProps & SharedComboboxProps) => {
       buttonRender={
         <>
           {value.length > 0 ? (
-            <div className="combobox__pillcontainer">
+            <div className="flex flex-wrap gap-[2px]">
               {value.map((v) => (
-                <span key={v.value} className="combobox__pill">
+                <span key={v.value} className="text-sm p-2">
                   {v.label}
                 </span>
               ))}
@@ -294,173 +295,109 @@ const ComboboxPrimtive = (
   const [ref, { width: buttonWidth }] = useMeasure()
 
   return (
-    <StyledCombobox>
-      <Popover open={open} onOpenChange={onOpenChange} modal>
-        <PopoverTrigger asChild>
-          <button
-            data-testid="combobox"
-            className="combobox__button"
-            role="combobox"
-            aria-expanded={open}
-            disabled={disabled}
-            ref={ref}
-            {...rest}
-          >
-            {buttonRender}
-            <StyledIcon
-              style={{
-                marginLeft: '.5rem',
-              }}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 256 256"
-                aria-hidden="true"
-              >
-                <rect width="256" height="256" fill="none" />
-                <polyline
-                  points="80 176 128 224 176 176"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="24"
-                />
-                <polyline
-                  points="80 80 128 32 176 80"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="24"
-                />
-              </svg>
-            </StyledIcon>
-          </button>
-        </PopoverTrigger>
-        <PopoverPortal>
-          <StyledPopoverContent
+    <Popover open={open} onOpenChange={onOpenChange} modal>
+      <PopoverTrigger asChild>
+        <Button
+          variant="outline"
+          data-testid="combobox"
+          className="min-w-full flex justify-between"
+          role="combobox"
+          aria-expanded={open}
+          disabled={disabled}
+          ref={ref}
+          {...rest}
+        >
+          {buttonRender}
+          <StyledIcon
             style={{
-              width: buttonWidth,
+              marginLeft: '.5rem',
             }}
           >
-            <Command
-              className="combobox__command"
-              value={value}
-              onValueChange={(v) => setValue(v)}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 256 256"
+              aria-hidden="true"
             >
-              <CommandInput
-                placeholder="Type to search options"
-                className="combobox__commandinput"
+              <rect width="256" height="256" fill="none" />
+              <polyline
+                points="80 176 128 224 176 176"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="24"
               />
-              <CommandList>
-                <CommandEmpty>No results.</CommandEmpty>
-                <CommandGroup className="combobox__commandgroup">
-                  {options.map((option) => (
-                    <CommandItem
-                      value={option.label}
-                      className="combobox__commanditem"
-                      key={option.value}
-                      onSelect={() => {
-                        handleSelect(option)
+              <polyline
+                points="80 80 128 32 176 80"
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="24"
+              />
+            </svg>
+          </StyledIcon>
+        </Button>
+      </PopoverTrigger>
+      <PopoverPortal>
+        <PopoverContent
+          className="rounded-md border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
+          style={{
+            width: buttonWidth,
+          }}
+        >
+          <Command
+            className="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground"
+            value={value}
+            onValueChange={(v) => setValue(v)}
+          >
+            <CommandInput
+              placeholder="Type to search options"
+              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+            />
+            <CommandList>
+              <CommandEmpty>No results.</CommandEmpty>
+              <CommandGroup className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground">
+                {options.map((option) => (
+                  <CommandItem
+                    value={option.label}
+                    className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                    key={option.value}
+                    onSelect={() => {
+                      handleSelect(option)
+                    }}
+                  >
+                    <StyledIcon
+                      style={{
+                        opacity: handleIconOpacity(option) ? 1 : 0,
                       }}
                     >
-                      <StyledIcon
-                        style={{
-                          opacity: handleIconOpacity(option) ? 1 : 0,
-                        }}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 256 256"
                       >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 256 256"
-                        >
-                          <rect width="256" height="256" fill="none" />
-                          <polyline
-                            points="40 144 96 200 224 72"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="24"
-                          />
-                        </svg>
-                      </StyledIcon>
-                      <span>{option.label}</span>
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </StyledPopoverContent>
-        </PopoverPortal>
-      </Popover>
-    </StyledCombobox>
+                        <rect width="256" height="256" fill="none" />
+                        <polyline
+                          points="40 144 96 200 224 72"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="24"
+                        />
+                      </svg>
+                    </StyledIcon>
+                    <span>{option.label}</span>
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </PopoverPortal>
+    </Popover>
   )
 }
-
-const StyledCombobox = styled('div', {
-  display: 'flex',
-  justifyContent: 'space-between',
-  padding: '$4',
-  alignItems: 'center',
-  width: '100%',
-  border: '1px solid transparent',
-  fontWeight: 500,
-
-  '& .combobox__button': {
-    minWidth: '100%',
-  },
-
-  '& .combobox__pillcontainer': {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: '2px',
-  },
-
-  '& .combobox__pill': {
-    fontSize: '$sm',
-    padding: '$2',
-  },
-})
-
-const StyledPopoverContent = styled(PopoverContent, {
-  "&[aria-hidden='true']": {
-    display: 'none',
-  },
-
-  '& .combobox__commandinput': {
-    padding: '$4',
-    boxShadow: 'none',
-    backgroundColor: 'transparent',
-  },
-
-  '& [cmdk-empty]': {
-    padding: '$4',
-    fontSize: '$sm',
-    textAlign: 'center',
-  },
-
-  '& [cmdk-list]': {
-    maxHeight: '170px',
-    overflow: 'auto',
-    msScrollChaining: 'none',
-    overscrollBehavior: 'contain',
-    transition: '0.1s ease',
-    transitionProperty: 'height',
-  },
-
-  '& .combobox__command, & .combobox__commandgroup > div': {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-
-  '& .combobox__commanditem': {
-    display: 'flex',
-    cursor: 'pointer',
-    gap: '$2',
-    padding: '$4',
-  },
-})
 
 const StyledIcon = styled('div', {
   height: '16px',

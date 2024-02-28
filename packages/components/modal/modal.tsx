@@ -5,7 +5,6 @@ import { CSS, styled } from '@stitches/react'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
 import { inlineCss } from '@meow/stitches'
-import { Box } from '../'
 import { useMeasure } from '@meow/utils'
 
 const StyledOverlay = styled(DialogPrimitive.Overlay, {
@@ -173,17 +172,10 @@ export const Modal = ({
                   </div>
                 </StyledDescription>
 
-                <Box
+                <div
+                  className="fixed top-0 left-0 right-0 p-4 pr-0 bg-white"
                   // @ts-ignore
                   ref={headingRef}
-                  css={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    padding: '$4 $4 0 $4',
-                    background: 'white',
-                  }}
                 >
                   {title !== undefined && <StyledTitle>{title}</StyledTitle>}
                   <DialogPrimitive.Cancel asChild>
@@ -206,7 +198,7 @@ export const Modal = ({
                     </IconButton>
                   </DialogPrimitive.Cancel>
                   {headingContent}
-                </Box>
+                </div>
               </motion.div>
             </StyledContent>
           </DialogPrimitive.Portal>

@@ -13,7 +13,7 @@ import {
   Input,
   Select,
 } from '@meow/components'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 import toast from 'react-hot-toast'
 import { useMeasure } from '@meow/utils'
 import ImagePicker from '../../components/imagePicker'

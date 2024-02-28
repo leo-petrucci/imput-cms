@@ -5,7 +5,7 @@ import React from 'react'
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
 import { useSlate } from 'slate-react'
 import { insertLink, isLinkActive, unwrapLink } from './link'
-import Toggle from '@meow/components/src/Toggle'
+import Toggle from '@meow/components/Toggle'
 
 const LIST_TYPES = ['ul_list', 'ol_list']
 

@@ -199,7 +199,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
                   <Combobox
                     options={options}
-                    // defaultValue={selectVal}
+                    defaultValue={selectVal?.value}
                     onValueChange={(val) => {
                       if (val) {
                         var newObj = cloneDeep(prop)
@@ -214,23 +214,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       }
                     }}
                   />
-                  {/* <Select
-                    defaultValue={selectVal}
-                    onChange={(option) => {
-                      if (option) {
-                        var newObj = cloneDeep(prop)
-                        set(
-                          newObj,
-                          mdxAccessors[
-                            prop.value!.data.estree.body[0].expression.type
-                          ],
-                          option.value
-                        )
-                        editAttributes(path, mdxElement, newObj, editor)
-                      }
-                    }}
-                    options={options}
-                  />*/}
                 </div>
               )
             case 'json':

@@ -5,13 +5,13 @@ import { Element } from 'slate'
 import * as PopoverPrimitive from '@radix-ui/react-popover'
 import ImageSelector from '../editor/images/imageSelector'
 import ImageUploadButton from '../editor/images/uploadButton'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 import { useFormItem, Label, Popover } from '@meow/components'
 import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useController, useFormContext } from 'react-hook-form'
 import React from 'react'
 import { cva } from 'class-variance-authority'
-import { FakeP } from '@meow/components/src/Typography'
+import { FakeP } from '@meow/components/Typography'
 
 const StyledImageButton = cva(
   'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',

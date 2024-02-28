@@ -9,7 +9,7 @@ import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
 import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../types/slate'
-import { FakeP } from '@meow/components/src/Typography'
+import { FakeP } from '@meow/components/Typography'
 
 const StyledMdxButton = cva(
   'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',

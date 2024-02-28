@@ -9,7 +9,6 @@ import {
   useFormContext,
   UseFormReturn,
 } from 'react-hook-form'
-import { Box } from '../'
 import ctxt from './context'
 import { Label } from '../'
 
@@ -87,8 +86,7 @@ export const FormItemProvider = ({
  */
 export const useFormItem = () => useContext(ctxt)
 
-export interface FormItemProps
-  extends Partial<React.ComponentProps<typeof Box>> {
+export interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   /**
    * Label text, can either be a string or a custom component.
@@ -120,7 +118,6 @@ const Item = ({
   children,
   label,
   rules = {},
-  css,
   setValueAs = (val: string) => val,
   ...rest
 }: FormItemProps) => {
@@ -128,34 +125,22 @@ const Item = ({
 
   return (
     <FormItemProvider rules={rules} name={name} setValueAs={setValueAs}>
-      <Box
-        {...rest}
-        css={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '$1',
-          ...css,
-        }}
-      >
+      <div className="flex flex-col gap-1" {...rest}>
         {typeof label === 'string' ? (
           <Label htmlFor={name}>{label}</Label>
         ) : (
           label
         )}
         <div>{children}</div>
-        <Box
-          css={{
-            color: '$red-600',
-          }}
-        >
+        <div className="text-destructive">
           {
             get(
               methods.formState.errors,
               `${name}.message`
             ) as unknown as string
           }
-        </Box>
-      </Box>
+        </div>
+      </div>
     </FormItemProvider>
   )
 }

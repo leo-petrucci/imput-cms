@@ -3,7 +3,7 @@ import React from 'react'
 import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
 import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void

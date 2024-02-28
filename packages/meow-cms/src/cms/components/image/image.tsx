@@ -1,19 +1,11 @@
 import { useImages } from '../../../cms/contexts/imageContext/useImageContext'
 import { useOnScreen } from '../../../cms/utils/useOnScreen'
 import React from 'react'
-import { Box } from '@meow/components'
-import { CustomCSS } from '@meow/stitches'
 
 /**
  * Displays an image from local state, if the image has not yet been loaded to state it loads it and displays it
  */
-const Image = ({
-  path,
-  css,
-}: {
-  path: string | undefined
-  css?: CustomCSS
-}) => {
+const Image = ({ path }: { path: string | undefined }) => {
   const { images, loadImage, setImages } = useImages()
   const imageBlobUrl = path
     ? images.find((i) => i.filename.includes(path))?.blobUrl
@@ -37,14 +29,14 @@ const Image = ({
   }, [imageBlobUrl, onScreen])
 
   return (
-    <Box
+    <div
       ref={ref}
-      css={{
+      style={{
         backgroundImage: `url(${imageBlobUrl})`,
         height: '12rem',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        ...css,
+        width: '100%',
       }}
     />
   )

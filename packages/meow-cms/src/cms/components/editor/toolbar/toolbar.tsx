@@ -1,5 +1,4 @@
 import React from 'react'
-import { Box } from '@meow/components'
 
 interface BaseProps {
   className?: string
@@ -10,19 +9,7 @@ const Toolbar = ({
   className,
   ...props
 }: React.PropsWithChildren<BaseProps>) => (
-  <Box
-    {...props}
-    css={{
-      top: '-$4',
-      position: 'sticky',
-      background: 'white',
-      zIndex: '1',
-      padding: '$2 $2',
-      marginBottom: '$2',
-      // borderBottom: "1px solid $gray-200",
-      display: 'flex',
-    }}
-  />
+  <div {...props} className="top-0 sticky bg-white p-2 mb-2 flex" />
 )
 
 export default Toolbar

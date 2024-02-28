@@ -1,97 +1,57 @@
-import { keyframes } from '@stitches/react'
-import React from 'react'
-import { styled } from '@meow/stitches'
+import * as React from 'react'
+import { Slot } from '@radix-ui/react-slot'
+import { cva, type VariantProps } from 'class-variance-authority'
 
-const spin = keyframes({
-  '0%': { transform: 'rotate(0deg)' },
-  to: { transform: 'rotate(359deg)' },
-})
+import { cn } from '../lib/utils'
 
-const StyledButton = styled('button', {
-  all: 'unset',
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  borderRadius: 4,
-  lineHeight: 1,
-  fontWeight: 500,
-  cursor: 'pointer',
-
-  '& > #loadingContainer': {
-    color: '$primary-700',
-    animation: `${spin} 1s cubic-bezier(0.6, 0, 0.4, 1) infinite`,
-  },
-
-  variants: {
-    size: {
-      normal: {
-        padding: '$3 $4',
-        fontSize: '$base',
+const buttonVariants = cva(
+  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  {
+    variants: {
+      variant: {
+        default:
+          'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+        destructive:
+          'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
+        outline:
+          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+        secondary:
+          'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        ghost: 'hover:bg-accent hover:text-accent-foreground',
+        link: 'text-primary underline-offset-4 hover:underline',
+      },
+      size: {
+        default: 'h-9 px-4 py-2',
+        sm: 'h-8 rounded-md px-3 text-xs',
+        lg: 'h-10 rounded-md px-8',
+        icon: 'h-9 w-9',
       },
     },
-
-    variant: {
-      primary: {
-        backgroundColor: '$primary-100',
-        color: '$primary-700',
-        '&:hover': { backgroundColor: '$primary-200' },
-        '&:focus': { boxShadow: `0 0 0 2px black` },
-      },
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
     },
-  },
+  }
+)
 
-  defaultVariants: {
-    variant: 'primary',
-    size: 'normal',
-  },
-})
-
-const Button = ({
-  children,
-  onClick,
-  loading,
-  ...rest
-}: React.ComponentProps<typeof StyledButton> & { loading?: boolean }) => {
-  const [internalLoading, setLoading] = React.useState(false)
-
-  return (
-    <StyledButton
-      {...rest}
-      onClick={async (e) => {
-        if (onClick) {
-          const onClickIsPromise = onClick.constructor.name === 'AsyncFunction'
-          if (onClickIsPromise) setLoading(true)
-          await onClick?.(e)
-          if (onClickIsPromise) setLoading(false)
-        }
-      }}
-    >
-      {internalLoading || loading ? (
-        <span style={{ height: 20 }} id="loadingContainer">
-          <svg
-            id="loading"
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            fill="none"
-            viewBox="0 0 256 256"
-          >
-            <rect width="256" height="256" fill="none"></rect>
-            <path
-              d="M168,40.7a96,96,0,1,1-80,0"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="28"
-            ></path>
-          </svg>
-        </span>
-      ) : (
-        <span style={{ whiteSpace: 'nowrap' }}>{children}</span>
-      )}
-    </StyledButton>
-  )
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
 }
 
-export default Button
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  ({ className, variant, size, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button'
+    return (
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }))}
+        ref={ref}
+        {...props}
+      />
+    )
+  }
+)
+Button.displayName = 'Button'
+
+export { Button, buttonVariants }

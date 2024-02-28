@@ -1,42 +1,25 @@
-import { Box } from '@meow/components'
 import { CaretDown, CaretUp } from 'phosphor-react'
 import { Transforms } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { styled } from '@meow/stitches'
 import React from 'react'
 import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
-
-const StyledButton = styled('button', {
-  padding: '$1',
-  background: 'transparent',
-  border: '0px solid',
-  borderRadius: '$sm',
-  cursor: 'pointer',
-  display: 'flex',
-  justifyContent: 'center',
-  alignContent: 'center',
-  '&:hover': {
-    background: '$gray-100',
-  },
-})
+import { Button } from '@meow/components/src/Button'
 
 const MoveElement = (props: CustomRenderElementProps) => {
   const editor = useSlate()
   // @ts-ignore
   const path = ReactEditor.findPath(editor, props.element)[0]
   return (
-    <Box
-      css={{
-        display: 'flex',
-        alignSelf: 'center',
-        flexDirection: 'column',
-        flex: '0!important',
-        justifyContent: 'space-between',
-        gap: '$1',
+    <div
+      style={{
+        flex: 0,
       }}
+      className="flex self-center flex-col justify-between gap-1"
     >
-      <StyledButton
+      <Button
         type="button"
+        variant="ghost"
+        className="p-1 h-auto"
         onClick={() => {
           if (path > 0) {
             Transforms.moveNodes(editor, {
@@ -47,9 +30,11 @@ const MoveElement = (props: CustomRenderElementProps) => {
         }}
       >
         <CaretUp size={12} />
-      </StyledButton>
-      <StyledButton
+      </Button>
+      <Button
         type="button"
+        variant="ghost"
+        className="p-1 h-auto"
         onClick={() => {
           if (path < editor.children.length - 1) {
             Transforms.moveNodes(editor, {
@@ -60,8 +45,8 @@ const MoveElement = (props: CustomRenderElementProps) => {
         }}
       >
         <CaretDown size={12} />
-      </StyledButton>
-    </Box>
+      </Button>
+    </div>
   )
 }
 

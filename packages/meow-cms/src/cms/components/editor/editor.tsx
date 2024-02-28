@@ -20,7 +20,6 @@ import {
   ComponentButton,
   LinkButton,
   MarkButton,
-  StyledButton,
 } from '../../../cms/components/editor/button/button'
 import {
   CodeSimple,
@@ -35,7 +34,6 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
-import { Box } from '@meow/components'
 import { ImageElement } from '../../../cms/components/editor/images/imageElement'
 import { withListsPlugin } from './lists'
 import {
@@ -44,6 +42,7 @@ import {
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
+import Toggle from '@meow/components/src/Toggle'
 import { onKeyDownOffset } from './lib/keyDownOffset'
 
 export const deserialize = (
@@ -114,30 +113,13 @@ const Editor = ({ value, onChange }: EditorProps) => {
     }
 
     return (
-      <Box
-        css={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '$2',
-          '& > div': {
-            flex: 1,
-          },
-        }}
-      >
-        <Box
-          css={{
-            display: 'flex',
-            gap: '$2',
-            '& > div': {
-              flex: 1,
-            },
-          }}
-        >
+      <div className="flex flex-col gap-2 children:flex-1">
+        <div className="flex gap-2 children:flex-1">
           {displayControls && <MoveElement {...props} />}
           <Element {...props} />
-        </Box>
+        </div>
         {displayControls && <Controls {...props} />}
-      </Box>
+      </div>
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -174,11 +156,9 @@ const Editor = ({ value, onChange }: EditorProps) => {
           <BlockButton format="block_quote" icon={<Quotes size={16} />} />
           <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
           <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
-          <StyledButton
-            type="button"
-            active={false}
-            onMouseDown={(event) => {
-              event.preventDefault()
+          <Toggle
+            pressed={false}
+            onPressedChange={() => {
               const text = { text: '' }
               const image: ImageElement = {
                 type: 'image',
@@ -191,16 +171,10 @@ const Editor = ({ value, onChange }: EditorProps) => {
             }}
           >
             <Image size={16} alt="image-icon" />
-          </StyledButton>
+          </Toggle>
           <ComponentButton />
         </Toolbar>
-        <Box
-          css={{
-            '& > div': {
-              padding: '$2',
-            },
-          }}
-        >
+        <div className="children:p-2">
           <Editable
             renderElement={renderElement}
             renderLeaf={renderLeaf}
@@ -209,7 +183,7 @@ const Editor = ({ value, onChange }: EditorProps) => {
               onKeyDownOffset(editor, event)
             }}
           />
-        </Box>
+        </div>
       </Slate>
     </>
   )

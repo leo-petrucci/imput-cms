@@ -1,6 +1,5 @@
 import React from 'react'
 import { RenderElementProps } from 'slate-react'
-import { styled } from '@meow/stitches'
 import CodeblockElement from '../../../cms/components/editor/codeblockElement/codeblockElement'
 import Image from '../../../cms/components/editor/images/imageElement'
 import MdxElement from '../../../cms/components/editor/mdxElement'
@@ -30,100 +29,68 @@ export const Element = (props: CustomRenderElementProps) => {
       return <CodeblockElement {...props} />
     case defaultNodeTypes.block_quote:
       return (
-        <StyledBlockQuote style={style} {...attributes}>
+        <blockquote
+          className="border-l-4 pl-4 border-primary"
+          style={style}
+          {...attributes}
+        >
           {children}
-        </StyledBlockQuote>
+        </blockquote>
       )
     case defaultNodeTypes.ul_list:
       return (
-        <StyledUnorderedList style={style} {...attributes}>
+        <ul className="ml-4 flex-1" style={style} {...attributes}>
           {children}
-        </StyledUnorderedList>
+        </ul>
       )
     case defaultNodeTypes.heading[1]:
       return (
-        <StyledHeading
-          as="h1"
-          css={{
-            fontSize: '$4xl',
-          }}
-          {...attributes}
-        >
+        <h1 className="text-4xl" {...attributes}>
           {children}
-        </StyledHeading>
+        </h1>
       )
     case defaultNodeTypes.heading[2]:
       return (
-        <StyledHeading
-          as="h2"
-          css={{
-            fontSize: '$3xl',
-          }}
-          {...attributes}
-        >
+        <h2 className="text-3xl" {...attributes}>
           {children}
-        </StyledHeading>
+        </h2>
       )
     case defaultNodeTypes.heading[3]:
       return (
-        <StyledHeading
-          as="h3"
-          css={{
-            fontSize: '$2xl',
-          }}
-          {...attributes}
-        >
+        <h3 className="text-2xl" {...attributes}>
           {children}
-        </StyledHeading>
+        </h3>
       )
     case defaultNodeTypes.heading[4]:
       return (
-        <StyledHeading
-          as="h4"
-          css={{
-            fontSize: '$xl',
-          }}
-          {...attributes}
-        >
+        <h4 className="text-xl" {...attributes}>
           {children}
-        </StyledHeading>
+        </h4>
       )
     case defaultNodeTypes.heading[5]:
       return (
-        <StyledHeading
-          as="h5"
-          css={{
-            fontSize: '$lg',
-          }}
-          {...attributes}
-        >
+        <h5 className="lg" {...attributes}>
           {children}
-        </StyledHeading>
+        </h5>
       )
     case defaultNodeTypes.heading[6]:
       return (
-        <StyledHeading
-          as="h6"
-          css={{
-            fontSize: '$base',
-          }}
-          {...attributes}
-        >
+        <h6 className="base" {...attributes}>
           {children}
-        </StyledHeading>
+        </h6>
       )
 
     case defaultNodeTypes.listItem:
       return (
-        <StyledListItem style={style} {...attributes}>
+        <li className="flex-1" style={style} {...attributes}>
           {children}
-        </StyledListItem>
+        </li>
       )
     case defaultNodeTypes.ol_list:
       return (
-        <StyledOrderedList style={{ ...style }} {...attributes}>
+        <ol className="ml-4 flex-1" style={{ ...style }} {...attributes}>
           {children}
-        </StyledOrderedList>
+        </ol>
       )
     default:
       if (element.type === 'link') {
@@ -136,25 +103,3 @@ export const Element = (props: CustomRenderElementProps) => {
       )
   }
 }
-
-const StyledHeading = styled('h1', {})
-
-const StyledListItem = styled('li', {
-  flex: '1 1 0%',
-})
-
-const StyledOrderedList = styled('ol', {
-  marginLeft: '$4',
-  flex: '1 1 0%',
-})
-
-const StyledUnorderedList = styled('ul', {
-  marginLeft: '$4',
-  flex: '1 1 0%',
-})
-
-const StyledBlockQuote = styled('blockquote', {
-  borderLeft: '3px solid $gray-200',
-  marginLeft: '$2',
-  padding: '$2',
-})

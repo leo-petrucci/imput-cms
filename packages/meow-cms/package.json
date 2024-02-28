@@ -7,6 +7,7 @@
   "scripts": {
     "meow:build": "tsc -v && tsc && dts build",
     "meow:release": "release publish",
+    "meow:tailwind": "pnpm dlx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch=always",
     "lint": "dts lint",
     "start": "dts watch",
     "test": "dts test --passWithNoTests"
@@ -21,12 +22,11 @@
   ],
   "description": "An MDX-powered CMS.",
   "dependencies": {
-    "@meow/tailwind": "workspace:*",
     "@jongwooo/prism-theme-github": "^1.7.0",
     "@juggle/resize-observer": "^3.4.0",
     "@lukemorales/query-key-factory": "^1.1.0",
     "@meow/components": "workspace:*",
-    "@meow/stitches": "workspace:*",
+    "@meow/tailwind": "workspace:*",
     "@meow/utils": "workspace:*",
     "@octokit/types": "^7.5.0",
     "@prezly/slate-lists": "^0.102.0",
@@ -36,10 +36,10 @@
     "@radix-ui/react-label": "^2.0.0",
     "@radix-ui/react-popover": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.1",
-    "@stitches/react": "^1.2.8",
     "@tanstack/query-core": "^4.24.4",
     "@tanstack/react-query": "^4.24.4",
     "axios": "^0.27.2",
+    "class-variance-authority": "^0.7.0",
     "dts-cli": "^1.6.3",
     "escape-html": "^1.0.3",
     "framer-motion": "6.5.1",
@@ -90,10 +90,10 @@
     "autoprefixer": "^10.4.17",
     "eslint": "8.7.0",
     "postcss": "^8.4.35",
+    "rollup-plugin-import-css": "^3.5.0",
     "typescript": "4.9.5"
   },
   "peerDependencies": {
-    "@stitches/react": "1.2.8",
     "@types/react": "18.x",
     "react": "18.x",
     "react-dom": "18.x"

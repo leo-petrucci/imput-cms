@@ -6,10 +6,13 @@ import {
   useSelected,
   useSlateStatic,
 } from 'slate-react'
-import { styled } from '@meow/stitches'
+import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../../types/slate'
-import { Flex, Input, Label, Popover } from '@meow/components'
+import { Input, Label, Popover } from '@meow/components'
 
+/**
+ * Handles link elements in-editor. When clicked a popover appears which allows typing a link
+ */
 const LinkElement = ({
   attributes,
   element,
@@ -21,8 +24,8 @@ const LinkElement = ({
   return (
     <Popover
       content={
-        <Flex>
-          <Flex direction="column" gap="1">
+        <div className="flex">
+          <div className="flex flex-col gap-1">
             <Label htmlFor={`image-title`}>Url</Label>
             <Input
               name="image-title"
@@ -41,44 +44,37 @@ const LinkElement = ({
                 // imageTitle?.onImageTitleChange(value)
               }}
             />
-          </Flex>
-        </Flex>
+          </div>
+        </div>
       }
     >
-      <StyledLink {...attributes} href={element.url} selected={selected}>
+      <a
+        className={StyledLink({ selected })}
+        {...attributes}
+        href={element.url}
+      >
         <InlineChromiumBugfix />
         {children}
         <InlineChromiumBugfix />
-      </StyledLink>
+      </a>
     </Popover>
   )
 }
 
 // Put this at the start and end of an inline component to work around this Chromium bug:
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1249405
-const InlineChromiumBugfix = () => (
-  <StyledInlineChromiumBugfix contentEditable={false}>
-    ${String.fromCodePoint(160) /* Non-breaking space */}
-  </StyledInlineChromiumBugfix>
-)
+const InlineChromiumBugfix = () => {
+  return (
+    <span className="text-[0px]">
+      ${String.fromCodePoint(160) /* Non-breaking space */}
+    </span>
+  )
+}
 
-const StyledInlineChromiumBugfix = styled('span', {
-  fontSize: 0,
-})
-
-const StyledLink = styled('a', {
-  fontWeight: '$medium',
-  color: '$blue-600',
-
-  hover: {},
-
+const StyledLink = cva('font-medium text-blue-500', {
   variants: {
     selected: {
-      true: {
-        boxShadow: '0 0 0 3px $blue-100',
-        borderRadius: '$md',
-        color: '$blue-500',
-      },
+      true: 'outline-none ring border-blue-500 rounded',
     },
   },
 })

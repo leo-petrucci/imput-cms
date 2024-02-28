@@ -8,14 +8,12 @@ import { useController, useForm, useFormContext } from 'react-hook-form'
 import {
   useFormItem,
   Form,
-  Flex,
-  Box,
-  Button,
   ErrorBoundary,
   Switch,
   Input,
   Select,
 } from '@meow/components'
+import { Button } from '@meow/components/src/Button'
 import toast from 'react-hot-toast'
 import { useMeasure } from '@meow/utils'
 import ImagePicker from '../../components/imagePicker'
@@ -153,40 +151,25 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   if (markdown) {
     return (
       <>
-        <Flex direction="row" align="stretch" gap="4">
-          <Box
-            // @ts-expect-error
+        <div className="flex flex-row items-stretch gap-4">
+          <div
             ref={ref}
-            css={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              right: 0,
-              padding: '$4',
-              background: 'white',
-              borderBottom: '1px solid $gray-200',
-              zIndex: '$10',
-              display: 'flex',
-              justifyContent: 'flex-end',
-            }}
+            className="fixed top-0 right-0 left-0 p-4 bg-white border-b border-border z-10 flex justify-end"
           >
             <Button
               type="submit"
               form="content-form"
-              loading={isLoading}
+              // loading={isLoading}
               disabled={isLoading}
             >
               {isNewFile ? 'Publish' : 'Update'}
             </Button>
-          </Box>
-          <Box
-            css={{
+          </div>
+          <div
+            className="overflow-auto p-4 flex-1"
+            style={{
               maxHeight: `calc(100vh - ${height}px)`,
-              overflowY: 'auto',
-              zIndex: 0,
               marginTop: `calc(${height}px)`,
-              padding: '$4',
-              flex: '1 0 0%',
             }}
           >
             <Form<{
@@ -229,7 +212,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                 )
               }}
             >
-              <Flex direction="column" gap="2">
+              <div className="flex flex-col gap-2">
                 {currentCollection.fields.map((f) => {
                   const renderControl = () => {
                     switch (f.widget) {
@@ -280,21 +263,19 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                     </Form.Item>
                   )
                 })}
-              </Flex>
+              </div>
             </Form>
-          </Box>
-          <Box
-            css={{
+          </div>
+          <div
+            className="overflow-y-auto whitespace-pre-wrap flex-1"
+            style={{
               maxHeight: `calc(100vh - ${height}px)`,
-              overflowY: 'auto',
               marginTop: `calc(${height}px)`,
-              whiteSpace: 'pre-wrap',
-              flex: '1 0 0%',
             }}
           >
             {markdown}
-          </Box>
-        </Flex>
+          </div>
+        </div>
       </>
     )
   }

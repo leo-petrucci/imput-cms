@@ -1,7 +1,5 @@
 import React from 'react'
-import { keyframes } from '@stitches/react'
 import { CircleNotch } from 'phosphor-react'
-import { styled } from '@meow/stitches'
 
 export interface LoaderProps {
   children?: React.ReactNode
@@ -9,41 +7,13 @@ export interface LoaderProps {
 
 const Loader = ({ children }: LoaderProps) => {
   return (
-    <StyledLoader>
-      <div className="loader_internal">
-        <CircleNotch size={24} weight="bold" />
+    <div className="h-screen w-full flex items-center justify-center text-primary">
+      <div className="flex flex-col items-center gap-4">
+        <CircleNotch size={24} weight="bold" className="animate-spin	" />
         {children || 'Getting your content ready...'}
       </div>
-    </StyledLoader>
+    </div>
   )
 }
-
-const rotate = keyframes({
-  '0%': { transform: 'rotate(0deg)' },
-  '100%': { transform: 'rotate(360deg)' },
-})
-
-const StyledLoader = styled('div', {
-  height: '100vh',
-  width: '100%',
-
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-
-  color: '$gray-500',
-
-  '& > .loader_internal': {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    gap: '$4',
-
-    svg: {
-      animation: `${rotate} 600ms infinite`,
-      color: '$gray-400',
-    },
-  },
-})
 
 export default Loader

@@ -5,7 +5,6 @@ import { UserProvider } from '../../cms/contexts/userContext/userContext'
 import HomePage from '../../cms/pages/home'
 import CollectionPage from '../../cms/pages/collection'
 import { ImagesProvider } from '../../cms/contexts/imageContext/useImageContext'
-import { Box } from '@meow/components'
 import React from 'react'
 import { Octokit } from 'octokit'
 import { getToken } from '../../cms/queries/auth'
@@ -56,18 +55,14 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
           <UserProvider>
             {/* All images to be used in the CMS */}
             <ImagesProvider>
-              <Box
-                css={{
-                  fontSize: 16,
-                }}
-              >
+              <div className="text-base">
                 <Toaster
                   containerStyle={{
                     zIndex: 99999,
                   }}
                 />
                 <NextCMSPrivateRoutes />
-              </Box>
+              </div>
             </ImagesProvider>
           </UserProvider>
         </CMSProvider>

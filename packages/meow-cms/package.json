@@ -76,7 +76,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@ossjs/release": "^0.4.0",
+    "@ossjs/release": "^0.8.0",
     "@tsconfig/create-react-app": "^1.0.3",
     "@types/is-hotkey": "^0.1.7",
     "@types/is-url": "^1.2.30",

@@ -3,6 +3,8 @@
   "name": "@meow/stitches",
   "main": "src/index.tsx",
   "peerDependencies": {
-    "@stitches/react": "1.2.8"
+    "@stitches/react": "1.2.8",
+    "@types/react": "18.x",
+    "react": "18.x"
   }
 }

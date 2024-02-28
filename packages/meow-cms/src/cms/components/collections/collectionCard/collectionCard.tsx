@@ -1,8 +1,8 @@
-import { Box } from '@meow/components'
 import Image from '../../../../cms/components/image/image'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { CollectionType } from '../../../../cms/types/collection'
 import { Link } from 'react-router-dom'
+import { Card, CardHeader } from '@meow/components/src/Card'
 import React from 'react'
 
 export interface CollectionCardProps extends CollectionType {
@@ -29,30 +29,11 @@ const CollectionCard = (props: CollectionCardProps) => {
 
   return (
     <Link key={props.slug} to={`${props.baseUrl}/${props.slug}`}>
-      <Box
-        css={{
-          borderRadius: '$md',
-          border: '1px solid $gray-200',
-          overflow: 'hidden',
-          transition: '200ms background',
-
-          '&:hover': {
-            background: '$gray-50',
-          },
-        }}
-      >
+      <Card className="hover:bg-accent hover:text-accent-foreground">
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <Image path={image} />
-        <Box
-          css={{
-            padding: '$4',
-            fontSize: '$xl',
-            fontWeight: '$semibold',
-          }}
-        >
-          {title}
-        </Box>
-      </Box>
+        <CardHeader>{title}</CardHeader>
+      </Card>
     </Link>
   )
 }

@@ -1,12 +1,11 @@
-import { blackA } from '@radix-ui/colors'
-import { Box, Modal } from '@meow/components'
+import { Modal } from '@meow/components'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
 import React from 'react'
 import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
 import { useSlate } from 'slate-react'
-import { styled } from '@meow/stitches'
 import { insertLink, isLinkActive, unwrapLink } from './link'
+import Toggle from '@meow/components/src/Toggle'
 
 const LIST_TYPES = ['ul_list', 'ol_list']
 
@@ -63,35 +62,6 @@ const isMarkActive = (editor: BaseEditor, format: string) => {
   return marks ? marks[format] === true : false
 }
 
-export const StyledButton = styled('button', {
-  display: 'flex',
-  justifyContent: 'center',
-  alignContent: 'center',
-  background: 'transparent',
-  border: '0px solid transparent',
-  padding: '$2',
-  aspectRatio: '1/1',
-  cursor: 'pointer',
-  borderRadius: '$sm',
-  '& > div': {
-    display: 'flex',
-  },
-  '&:hover': {
-    background: '$gray-100',
-  },
-  variants: {
-    active: {
-      true: {
-        color: '$gray-900',
-        background: '$gray-100',
-      },
-      false: {
-        color: '$gray-500',
-      },
-    },
-  },
-})
-
 export const BlockButton = ({
   format,
   icon,
@@ -100,17 +70,16 @@ export const BlockButton = ({
   icon: React.ReactNode
 }) => {
   const editor = useSlate()
+
   return (
-    <StyledButton
-      type="button"
-      active={isBlockActive(editor, format)}
-      onMouseDown={(event) => {
-        event.preventDefault()
+    <Toggle
+      pressed={isBlockActive(editor, format)}
+      onPressedChange={() => {
         toggleBlock(editor, format)
       }}
     >
       {icon}
-    </StyledButton>
+    </Toggle>
   )
 }
 
@@ -132,44 +101,29 @@ export const MarkButton = ({
   icon: React.ReactNode
 }) => {
   const editor = useSlate()
+
   return (
-    <StyledButton
-      type="button"
-      active={isMarkActive(editor, format)}
-      onMouseDown={(event) => {
-        event.preventDefault()
+    <Toggle
+      pressed={isMarkActive(editor, format)}
+      onPressedChange={() => {
         toggleMark(editor, format)
       }}
     >
-      <div className="icon">{icon}</div>
-    </StyledButton>
+      {icon}
+    </Toggle>
   )
 }
-
-const ComponentSelectorButton = styled('button', {
-  borderRadius: '.25em',
-  display: 'inline-flex',
-  padding: '$4',
-  alignItems: 'flex-start',
-  color: blackA.blackA11,
-  cursor: 'pointer',
-  background: 'none',
-  border: `1px solid ${blackA.blackA7}`,
-
-  '&:hover': { backgroundColor: blackA.blackA2 },
-})
 
 /**
  * A button that wraps selected text into a link. If a link is selected, the link will be removed.
  */
 export const LinkButton = () => {
   const editor = useSlate()
+
   return (
-    <StyledButton
-      type="button"
-      active={isLinkActive(editor)}
-      onMouseDown={(event) => {
-        event.preventDefault()
+    <Toggle
+      pressed={isLinkActive(editor)}
+      onPressedChange={() => {
         if (isLinkActive(editor)) {
           unwrapLink(editor)
         } else {
@@ -184,7 +138,7 @@ export const LinkButton = () => {
       ) : (
         <Link size={16} weight="bold" />
       )}
-    </StyledButton>
+    </Toggle>
   )
 }
 
@@ -208,17 +162,10 @@ export const ComponentButton = () => {
           },
         }}
         description={(_open, setOpen) => (
-          <Box
-            css={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(1, minmax(0, 1fr))',
-              '@md': {
-                gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-              },
-            }}
-          >
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
             {components?.map((c) => (
-              <ComponentSelectorButton
+              <button
+                className="inline-flex p-4 items-start w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer overflow-hidden relative"
                 key={c.name}
                 onClick={() => {
                   const component = createComponent(c.name)
@@ -229,20 +176,14 @@ export const ComponentButton = () => {
                 }}
               >
                 {c.label}
-              </ComponentSelectorButton>
+              </button>
             ))}
-          </Box>
+          </div>
         )}
       >
-        <StyledButton
-          type="button"
-          active={false}
-          onMouseDown={(event) => {
-            event.preventDefault()
-          }}
-        >
+        <Toggle pressed={false} onPressedChange={() => {}}>
           <BracketsSquare size={16} />
-        </StyledButton>
+        </Toggle>
       </Modal>
     </>
   )

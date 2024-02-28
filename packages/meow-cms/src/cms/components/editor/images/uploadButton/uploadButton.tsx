@@ -4,7 +4,7 @@ import { useUploadFile } from '../../../../../cms/queries/github'
 import toast from 'react-hot-toast'
 import { queryKeys } from '../../../../../cms/queries/keys'
 import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
-import { Button } from '@meow/components'
+import { Button } from '@meow/components/src/Button'
 import { Endpoints } from '@octokit/types'
 
 /**
@@ -81,7 +81,7 @@ const ImageUploadButton = () => {
       />
       <Button
         disabled={isLoading}
-        loading={isLoading}
+        // loading={isLoading}
         onClick={() => {
           uploadRef.current!.click()
         }}

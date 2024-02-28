@@ -10,15 +10,7 @@ import { editReactChildren } from '../../../../cms/components/editor/lib/editRea
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import {
-  Input,
-  Select,
-  Box,
-  Switch,
-  Codeblock,
-  Label,
-  Flex,
-} from '@meow/components'
+import { Input, Select, Switch, Codeblock, Label } from '@meow/components'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
 import React from 'react'
@@ -79,7 +71,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
   return (
     <>
-      <Flex direction="column" gap="2">
+      <div className="flex flex-col gap-2">
         {componentSchema?.map((c) => {
           // children are handled differently
           // markdown can only be used for children
@@ -97,19 +89,13 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
           // if prop is undefined it means the schema does not match the prop and we stop the component here
           if (prop === undefined) {
             return (
-              <Box
+              <div
                 key={c.name}
-                css={{
-                  background: '$red-100',
-                  borderRadius: '$md',
-                  padding: '$2',
-                  color: '$red-700',
-                  fontSize: '$sm',
-                }}
+                className="bg-destructive/10 p-2 rounded text-destructive text-sm"
               >
                 There was an error with your schema and a control for {c.name}{' '}
                 could not be rendered.
-              </Box>
+              </div>
             )
           }
 
@@ -161,7 +147,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                 }
               }
               return (
-                <Flex direction="column" gap="1" key={c.name}>
+                <div className="flex flex-col gap-1" key={c.name}>
                   <Label htmlFor={`string-prop-${c.name}`}>{c.label}</Label>
                   <Input
                     type={getInputType()}
@@ -173,11 +159,11 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       editAttributes(path, mdxElement, newObj, editor)
                     }}
                   />
-                </Flex>
+                </div>
               )
             case 'boolean':
               return (
-                <Flex direction="column" gap="1" key={c.name}>
+                <div className="flex flex-col gap-1" key={c.name}>
                   <Label htmlFor={`boolean-prop-${c.name}`}>{c.label}</Label>
                   <Switch
                     name={`boolean-prop-${c.name}`}
@@ -194,7 +180,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       editAttributes(path, mdxElement, newObj, editor)
                     }}
                   />
-                </Flex>
+                </div>
               )
             case 'select':
               const options = c.type.options.map((v) => ({
@@ -204,7 +190,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
               const selectVal = options.find((o) => o.value === value)
 
               return (
-                <Flex direction="column" gap="1" key={c.name}>
+                <div className="flex flex-col gap-1" key={c.name}>
                   <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
                   <Select
                     defaultValue={selectVal}
@@ -223,11 +209,11 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                     }}
                     options={options}
                   />
-                </Flex>
+                </div>
               )
             case 'json':
               return (
-                <Flex direction="column" gap="1" key={c.name}>
+                <div className="flex flex-col gap-1" key={c.name}>
                   <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
                   <Codeblock
                     defaultValue={value}
@@ -245,13 +231,13 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                       editAttributes(path, mdxElement, newObj, editor)
                     }}
                   />
-                </Flex>
+                </div>
               )
           }
         })}
 
         {hasChildren && (
-          <Flex direction="column" gap="1">
+          <div className="flex flex-col gap-1">
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
               value={reactChildren!}
@@ -260,9 +246,9 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                 // editReactChildrenById(id, mdxElement, editor, val)
               }
             />
-          </Flex>
+          </div>
         )}
-      </Flex>
+      </div>
     </>
   )
 }

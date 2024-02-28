@@ -2,7 +2,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import React from 'react'
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 import { queryKeys } from '../../../cms/queries/keys'
-import { Button } from '@meow/components'
+import { Button } from '@meow/components/src/Button'
 
 const Login = () => {
   const { backend } = useCMS()
@@ -33,13 +33,13 @@ const Login = () => {
     const width = window.innerWidth
       ? window.innerWidth
       : document.documentElement.clientWidth
-      ? document.documentElement.clientWidth
-      : screen.width
+        ? document.documentElement.clientWidth
+        : screen.width
     const height = window.innerHeight
       ? window.innerHeight
       : document.documentElement.clientHeight
-      ? document.documentElement.clientHeight
-      : screen.height
+        ? document.documentElement.clientHeight
+        : screen.height
 
     const systemZoom = width / window.screen.availWidth
     const left = (width - w) / 2 / systemZoom + dualScreenLeft

@@ -9,14 +9,14 @@ import {
   useLocation,
 } from 'react-router-dom'
 import ContentPage from '../../../cms/pages/content'
-import { Box } from '@meow/components'
 import CollectionSelect from '../../../cms/components/collections/collectionSelect'
 import CollectionCard from '../../../cms/components/collections/collectionCard'
 import { CollectionType } from '../../../cms/types/collection'
 import { useMeasure } from '@meow/utils'
-import { Button } from '@meow/components'
+import { Button } from '@meow/components/src/Button'
 import NewPage from '../../../cms/pages/new'
 import Loader from '../../components/loader'
+import { H1 } from '@meow/components/src/Typography'
 
 const CollectionPage = () => {
   const { collection } = useParams<{
@@ -43,68 +43,25 @@ const CollectionPage = () => {
             path={'/'}
             element={
               <>
-                <Box
+                <div
                   // @ts-ignore
                   ref={ref}
-                  css={{
-                    position: 'fixed',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    padding: '$4',
-                    background: 'white',
-                    borderBottom: '1px solid $gray-200',
-                    zIndex: '$10',
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                  }}
-                ></Box>
-                <Box
-                  css={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Box
-                    css={{
-                      padding: `calc(${height}px + $4) $4 $4 $4`,
-
-                      display: 'grid',
-                      gap: '$4',
-                      gridTemplateColumns: 'repeat(6, minmax(0, 1fr))',
-                      maxWidth: '$screen-xl',
-                      width: '100%',
+                  className="fixed top-0 right-0 left-0 p-4 bg-white border-b border-border z-10 flex justify-end"
+                ></div>
+                <div className="flex justify-center items-center">
+                  <div
+                    className="grid gap-4 grid-cols-6 max-w-screen-xl w-full"
+                    style={{
+                      padding: `calc(${height}px + 1rem) 1rem 1rem 1rem`,
                     }}
                   >
-                    <Box
-                      css={{
-                        gridColumn: 'span 2 / span 2',
-                      }}
-                    >
+                    <div className="col-span-2	">
                       <CollectionSelect baseUrl={`/${params.cms}`} />
-                    </Box>
-                    <Box
-                      css={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '$4',
-                        gridColumn: 'span 4 / span 4',
-                      }}
-                    >
-                      <Box
-                        css={{
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
+                    </div>
+                    <div className="flex flex-col gap-4 col-span-4">
+                      <div className="flex justify-between items-center">
+                        <H1>{thisCollection?.label}</H1>
 
-                          '& > h1': {
-                            fontSize: '$3xl',
-                            fontWeight: '$semibold',
-                          },
-                        }}
-                      >
-                        <h1>{thisCollection?.label}</h1>
                         <Button
                           onClick={() => {
                             navigate(`${location.pathname}/new`)
@@ -112,14 +69,8 @@ const CollectionPage = () => {
                         >
                           Add new
                         </Button>
-                      </Box>
-                      <Box
-                        css={{
-                          display: 'grid',
-                          gap: '$2',
-                          gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
-                        }}
-                      >
+                      </div>
+                      <div className="grid gap-2 grid-cols-2">
                         {isSuccess &&
                           data.map((content: CollectionType) => {
                             return (
@@ -130,10 +81,10 @@ const CollectionPage = () => {
                               />
                             )
                           })}
-                      </Box>
-                    </Box>
-                  </Box>
-                </Box>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </>
             }
           />

@@ -1083,6 +1083,10 @@ video {
   white-space: normal;
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .visible {
   visibility: visible;
 }
@@ -1141,10 +1145,6 @@ video {
 
 .z-10 {
   z-index: 10;
-}
-
-.z-50 {
-  z-index: 50;
 }
 
 .col-span-2 {
@@ -1336,10 +1336,6 @@ video {
 
 .w-4 {
   width: 1rem;
-}
-
-.w-72 {
-  width: 18rem;
 }
 
 .w-9 {
@@ -1561,10 +1557,6 @@ video {
 
 .self-center {
   align-self: center;
-}
-
-.overflow-auto {
-  overflow: auto;
 }
 
 .overflow-hidden {
@@ -1937,12 +1929,12 @@ video {
   padding-left: 0.1px;
 }
 
-.pt-0 {
-  padding-top: 0px;
-}
-
 .pr-0 {
   padding-right: 0px;
+}
+
+.pt-0 {
+  padding-top: 0px;
 }
 
 .text-left {

@@ -14,27 +14,6 @@ import { Leaf } from '../../../cms/components/editor/leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
 import debounce from 'lodash/debounce'
-import Toolbar from '../../../cms/components/editor/toolbar'
-import {
-  BlockButton,
-  ComponentButton,
-  LinkButton,
-  MarkButton,
-} from '../../../cms/components/editor/button/button'
-import {
-  CodeSimple,
-  Code,
-  Image,
-  ListBullets,
-  ListNumbers,
-  Quotes,
-  TextBolder,
-  TextHOne,
-  TextHThree,
-  TextHTwo,
-  TextItalic,
-} from 'phosphor-react'
-import { ImageElement } from '../../../cms/components/editor/images/imageElement'
 import { withListsPlugin } from './lists'
 import {
   ListsEditor,
@@ -42,8 +21,8 @@ import {
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
-import Toggle from '@meow/components/Toggle'
 import { onKeyDownOffset } from './lib/keyDownOffset'
+import { FloatingToolbar } from './floatingToolbar'
 
 export const deserialize = (
   src: string
@@ -144,36 +123,7 @@ const Editor = ({ value, onChange }: EditorProps) => {
   return (
     <>
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
-        <Toolbar>
-          <MarkButton format="bold" icon={<TextBolder size={16} />} />
-          <MarkButton format="italic" icon={<TextItalic size={16} />} />
-          <MarkButton format="code" icon={<CodeSimple size={16} />} />
-          <LinkButton />
-          <BlockButton format="code_block" icon={<Code size={16} />} />
-          <BlockButton format="heading_one" icon={<TextHOne size={16} />} />
-          <BlockButton format="heading_two" icon={<TextHTwo size={16} />} />
-          <BlockButton format="heading_three" icon={<TextHThree size={16} />} />
-          <BlockButton format="block_quote" icon={<Quotes size={16} />} />
-          <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
-          <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
-          <Toggle
-            pressed={false}
-            onPressedChange={() => {
-              const text = { text: '' }
-              const image: ImageElement = {
-                type: 'image',
-                link: null,
-                title: '',
-                caption: '',
-                children: [text],
-              }
-              Transforms.insertNodes(editor, image)
-            }}
-          >
-            <Image size={16} alt="image-icon" />
-          </Toggle>
-          <ComponentButton />
-        </Toolbar>
+        <FloatingToolbar />
         <div className="children:p-2">
           <Editable
             renderElement={renderElement}

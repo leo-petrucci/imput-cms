@@ -13,6 +13,7 @@ import {
   Input,
   Select,
 } from '@meow/components'
+import { Portal } from '@meow/components/Portal'
 import { Button } from '@meow/components/Button'
 import toast from 'react-hot-toast'
 import { useMeasure } from '@meow/utils'
@@ -28,6 +29,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { queryKeys } from '../../../cms/queries/keys'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../components/loader'
+import { Layout } from '../../components/atoms/Layout'
 import { cloneDeep } from 'lodash'
 
 interface EditorPageProps {
@@ -150,12 +152,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
   if (markdown) {
     return (
-      <>
-        <div className="flex flex-row items-stretch gap-4">
-          <div
-            ref={ref}
-            className="fixed top-0 right-0 left-0 p-4 bg-white border-b border-border flex justify-end"
-          >
+      <Layout
+        navbar={
+          <>
             <Button
               type="submit"
               form="content-form"
@@ -164,119 +163,122 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             >
               {isNewFile ? 'Publish' : 'Update'}
             </Button>
-          </div>
-          <div
-            className="overflow-auto p-4 flex-1"
-            style={{
-              maxHeight: `calc(100vh - ${height}px)`,
-              marginTop: `calc(${height}px)`,
-            }}
-          >
-            <Form<{
-              body: string
-              [k: string]: string
-            }>
-              id="content-form"
-              form={form}
-              onSubmit={() => {
-                const id = toast.loading('Saving content...')
-                const { body, ...rest } = getCorrectedFormValues()
-                const content = matter.stringify(body, rest)
-                mutate(
-                  {
-                    markdown: {
-                      content,
-                      path: `${currentCollection.folder}/${filename}.${currentCollection.extension}`,
-                    },
-                  },
-                  {
-                    onSuccess: () => {
-                      toast.success('Content saved!', {
-                        id,
-                      })
-
-                      // We can get a big UX win here by upating the cache with the data we get back
-                      queryClient.removeQueries(
-                        queryKeys.github.collection(currentCollection.folder)
-                          .queryKey
-                      )
-
-                      // redirect to the file we've just created
-                      if (isNewFile) {
-                        navigate(`/${cms}/${collection}/${filename}`, {
-                          replace: true,
-                        })
-                      }
-                    },
-                  }
-                )
+          </>
+        }
+      >
+        {({ navbarHeight }) => (
+          <div className="flex flex-row items-stretch gap-4">
+            <div
+              className="overflow-y-auto p-4 flex-1"
+              style={{
+                maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
             >
-              <div className="flex flex-col gap-2">
-                {currentCollection.fields.map((f) => {
-                  const renderControl = () => {
-                    switch (f.widget) {
-                      case 'string':
-                        return <Input.Controlled />
-                      case 'date':
-                        return <Input.Controlled type="date" />
-                      case 'datetime':
-                        return <Input.Controlled type="datetime-local" />
-                      case 'markdown':
-                        return <CreateEditor />
-                      case 'image':
-                        return <ImagePicker.Controlled />
-                      case 'boolean':
-                        return <Switch.Controlled />
-                      case 'select':
-                        return (
-                          <Select.Controlled
-                            isMulti={f.multiple || false}
-                            options={f.options.map((o) => ({
-                              value: o,
-                              label: o,
-                            }))}
-                          />
-                        )
-                      case 'relation':
-                        return (
-                          <ErrorBoundary>
-                            <Relation.Controlled
-                              collection={f.collection}
-                              value_field={f.value_field}
-                              display_fields={f.display_fields}
-                              isMulti={f.multiple || false}
-                            />
-                          </ErrorBoundary>
-                        )
-                    }
-                  }
+              <Form<{
+                body: string
+                [k: string]: string
+              }>
+                id="content-form"
+                form={form}
+                onSubmit={() => {
+                  const id = toast.loading('Saving content...')
+                  const { body, ...rest } = getCorrectedFormValues()
+                  const content = matter.stringify(body, rest)
+                  mutate(
+                    {
+                      markdown: {
+                        content,
+                        path: `${currentCollection.folder}/${filename}.${currentCollection.extension}`,
+                      },
+                    },
+                    {
+                      onSuccess: () => {
+                        toast.success('Content saved!', {
+                          id,
+                        })
 
-                  return (
-                    <Form.Item
-                      key={f.name}
-                      name={f.name}
-                      label={f.label}
-                      rules={f.rules}
-                    >
-                      {renderControl()}
-                    </Form.Item>
+                        // We can get a big UX win here by upating the cache with the data we get back
+                        queryClient.removeQueries(
+                          queryKeys.github.collection(currentCollection.folder)
+                            .queryKey
+                        )
+
+                        // redirect to the file we've just created
+                        if (isNewFile) {
+                          navigate(`/${cms}/${collection}/${filename}`, {
+                            replace: true,
+                          })
+                        }
+                      },
+                    }
                   )
-                })}
-              </div>
-            </Form>
+                }}
+              >
+                <div className="flex flex-col gap-2">
+                  {currentCollection.fields.map((f) => {
+                    const renderControl = () => {
+                      switch (f.widget) {
+                        case 'string':
+                          return <Input.Controlled />
+                        case 'date':
+                          return <Input.Controlled type="date" />
+                        case 'datetime':
+                          return <Input.Controlled type="datetime-local" />
+                        case 'markdown':
+                          return <CreateEditor />
+                        case 'image':
+                          return <ImagePicker.Controlled />
+                        case 'boolean':
+                          return <Switch.Controlled />
+                        case 'select':
+                          return (
+                            <Select.Controlled
+                              isMulti={f.multiple || false}
+                              options={f.options.map((o) => ({
+                                value: o,
+                                label: o,
+                              }))}
+                            />
+                          )
+                        case 'relation':
+                          return (
+                            <ErrorBoundary>
+                              <Relation.Controlled
+                                collection={f.collection}
+                                value_field={f.value_field}
+                                display_fields={f.display_fields}
+                                isMulti={f.multiple || false}
+                              />
+                            </ErrorBoundary>
+                          )
+                      }
+                    }
+
+                    return (
+                      <Form.Item
+                        key={f.name}
+                        name={f.name}
+                        label={f.label}
+                        rules={f.rules}
+                      >
+                        {renderControl()}
+                      </Form.Item>
+                    )
+                  })}
+                </div>
+              </Form>
+            </div>
+            <div
+              className="overflow-y-auto whitespace-pre-wrap flex-1"
+              style={{
+                maxHeight: `calc(100vh - ${navbarHeight}px)`,
+              }}
+            >
+              {markdown}
+            </div>
           </div>
-          <div
-            className="overflow-y-auto whitespace-pre-wrap flex-1"
-            style={{
-              maxHeight: `calc(100vh - ${height}px)`,
-              marginTop: `calc(${height}px)`,
-            }}
-          >
-            {markdown}
-          </div>
-        </div>
-      </>
+        )}
+      </Layout>
     )
   }
 

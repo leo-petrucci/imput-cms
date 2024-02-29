@@ -26,7 +26,7 @@ const StyledContent = styled(DialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   width: '90vw',
-  maxWidth: '450px',
+  maxWidth: '550px',
   maxHeight: '85vh',
   transformOrigin: 'center',
   padding: 25,
@@ -156,24 +156,8 @@ export const Modal = ({
                 className={css ? inlineCss(css) : ''}
                 {...rest}
               >
-                <StyledDescription {...descriptionProps} asChild>
-                  <div
-                    style={{
-                      paddingTop: `${headingHeight}px`,
-                      flex: '1 1 0%',
-                      position: 'relative',
-                      // maxHeight: `calc(${0}px - 50px)`,
-                      overflowY: 'scroll',
-                      paddingLeft: 3,
-                      paddingRight: 3,
-                    }}
-                  >
-                    {description?.(open, setOpen)}
-                  </div>
-                </StyledDescription>
-
                 <div
-                  className="fixed top-0 left-0 right-0 p-4 pr-0 bg-white"
+                  className="fixed top-0 left-0 right-0 pr-0 bg-white"
                   // @ts-ignore
                   ref={headingRef}
                 >
@@ -199,6 +183,22 @@ export const Modal = ({
                   </DialogPrimitive.Cancel>
                   {headingContent}
                 </div>
+
+                <StyledDescription {...descriptionProps} asChild>
+                  <div
+                    style={{
+                      paddingTop: `${headingHeight}px`,
+                      flex: '1 1 0%',
+                      position: 'relative',
+                      // maxHeight: `calc(${0}px - 50px)`,
+                      overflowY: 'scroll',
+                      paddingLeft: 3,
+                      paddingRight: 3,
+                    }}
+                  >
+                    {description?.(open, setOpen)}
+                  </div>
+                </StyledDescription>
               </motion.div>
             </StyledContent>
           </DialogPrimitive.Portal>

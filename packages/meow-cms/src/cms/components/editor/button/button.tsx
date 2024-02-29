@@ -31,6 +31,10 @@ const isBlockActive = (
   return !!match
 }
 
+/**
+ * Used to wrap an entire paragraph in a new block, like a code block or a list
+ * @param format the type of block it'll be wrapped in (e.g. `code_block`)
+ */
 const toggleBlock = (editor: BaseEditor, format: string) => {
   const isActive = isBlockActive(editor, format)
   const isList = LIST_TYPES.includes(format)
@@ -83,6 +87,10 @@ export const BlockButton = ({
   )
 }
 
+/**
+ * Used to wrap a specific selection in a style, for example bold or italics
+ * @param format the type of formatting to apply (e.g. bold)
+ */
 const toggleMark = (editor: BaseEditor, format: string) => {
   const isActive = isMarkActive(editor, format)
 

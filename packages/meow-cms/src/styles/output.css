@@ -1131,7 +1131,7 @@ video {
   left: 0px;
 }
 
-.left-\[50\%\] {
+.left-1\/2 {
   left: 50%;
 }
 
@@ -1147,20 +1147,12 @@ video {
   top: 0px;
 }
 
-.top-4 {
-  top: 1rem;
-}
-
-.top-\[50\%\] {
-  top: 50%;
-}
-
-.left-1\/2 {
-  left: 50%;
-}
-
 .top-1\/2 {
   top: 50%;
+}
+
+.top-4 {
+  top: 1rem;
 }
 
 .isolate {
@@ -1173,10 +1165,6 @@ video {
 
 .z-10 {
   z-index: 10;
-}
-
-.z-50 {
-  z-index: 50;
 }
 
 .col-span-2 {
@@ -1410,10 +1398,6 @@ video {
   flex: 1 1 0%;
 }
 
-.flex-none {
-  flex: none;
-}
-
 .flex-shrink {
   flex-shrink: 1;
 }
@@ -1440,16 +1424,6 @@ video {
 
 .origin-center {
   transform-origin: center;
-}
-
-.translate-x-\[-50\%\] {
-  --tw-translate-x: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-y-\[-50\%\] {
-  --tw-translate-y: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
 .transform {
@@ -1983,11 +1957,6 @@ video {
   padding-bottom: 0.4em;
 }
 
-.px-6 {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-}
-
 .pb-2 {
   padding-bottom: 0.5rem;
 }
@@ -2002,10 +1971,6 @@ video {
 
 .pl-\[0\.1px\] {
   padding-left: 0.1px;
-}
-
-.pr-0 {
-  padding-right: 0px;
 }
 
 .pt-0 {
@@ -2410,10 +2375,6 @@ video {
   transition-duration: 150ms;
 }
 
-.duration-200 {
-  transition-duration: 200ms;
-}
-
 .ease-in {
   transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
@@ -2446,10 +2407,6 @@ video {
 
 .zoom-out {
   --tw-exit-scale: 0;
-}
-
-.duration-200 {
-  animation-duration: 200ms;
 }
 
 .ease-in {
@@ -2492,10 +2449,6 @@ video {
 
 .zoom-out {
   --tw-exit-scale: 0;
-}
-
-.duration-200 {
-  animation-duration: 200ms;
 }
 
 .ease-in {
@@ -2710,14 +2663,6 @@ video {
   --tw-enter-translate-y: 0.5rem;
 }
 
-.data-\[state\=closed\]\:slide-out-to-left-1\/2[data-state=closed] {
-  --tw-exit-translate-x: -50%;
-}
-
-.data-\[state\=open\]\:slide-in-from-left-1\/2[data-state=open] {
-  --tw-enter-translate-x: -50%;
-}
-
 .data-\[state\=open\]\:animate-in[data-state=open] {
   animation-name: enter;
   animation-duration: 150ms;
@@ -2768,14 +2713,6 @@ video {
 
 .data-\[side\=top\]\:slide-in-from-bottom-2[data-side=top] {
   --tw-enter-translate-y: 0.5rem;
-}
-
-.data-\[state\=closed\]\:slide-out-to-left-1\/2[data-state=closed] {
-  --tw-exit-translate-x: -50%;
-}
-
-.data-\[state\=open\]\:slide-in-from-left-1\/2[data-state=open] {
-  --tw-enter-translate-x: -50%;
 }
 
 .children\:flex-1 > * {

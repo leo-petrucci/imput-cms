@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useState } from 'react'
+import React, { useCallback, useLayoutEffect, useState } from 'react'
 
 type ClientRect = Record<keyof Omit<DOMRect, 'toJSON'>, number>
 
@@ -45,9 +45,27 @@ export function useTextSelection(target?: HTMLElement) {
   const [{ clientRect, isCollapsed, textContent }, setState] =
     useState<TextSelectionState>(defaultState)
 
+  const scrollableParentRef = React.useRef<Element | null>()
+
   const reset = useCallback(() => {
     setState(defaultState)
   }, [])
+
+  /**
+   * Returns the first scrollable parent of the item being selected
+   * in our case it would be the editor
+   */
+  function getScrollParent(node: Element) {
+    if (node == null) {
+      return null
+    }
+
+    if (node.scrollHeight > node.clientHeight) {
+      return node
+    } else {
+      return getScrollParent(node.parentNode as Element)
+    }
+  }
 
   const handler = useCallback(() => {
     let newRect: ClientRect
@@ -60,6 +78,10 @@ export function useTextSelection(target?: HTMLElement) {
     }
 
     const range = selection.getRangeAt(0)
+
+    // we try and find the first scrollable parent so we can add scroll listeners to it
+    const scrollableParent = getScrollParent(range.startContainer as Element)
+    scrollableParentRef.current = scrollableParent
 
     if (target != null && !target.contains(range.commonAncestorContainer)) {
       setState(newState)
@@ -107,6 +129,14 @@ export function useTextSelection(target?: HTMLElement) {
       window.removeEventListener('resize', handler)
     }
   }, [target])
+
+  // add a scroll listener to the parent, so the item follows with scrolling
+  useLayoutEffect(() => {
+    scrollableParentRef.current?.addEventListener('scroll', handler)
+    return () => {
+      scrollableParentRef.current?.removeEventListener('scroll', handler)
+    }
+  }, [clientRect, isCollapsed, textContent])
 
   return {
     clientRect,

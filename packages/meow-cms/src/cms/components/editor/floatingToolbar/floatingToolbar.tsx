@@ -1,10 +1,9 @@
 import React from 'react'
-import { useSlate, useSlateSelection } from 'slate-react'
+import { useSlateSelection } from 'slate-react'
 import { Portal } from '@meow/components/Portal'
 import { useTextSelection } from '../../../utils/useTextSelection'
 import { MarkButton } from '../button'
-import { BlockButton, ComponentButton, LinkButton } from '../button/button'
-import Toggle from '@meow/components/Toggle'
+import { BlockButton, LinkButton } from '../button/button'
 import {
   Popover,
   PopoverAnchor,
@@ -13,7 +12,6 @@ import {
 import {
   CodeSimple,
   Code,
-  Image,
   ListBullets,
   ListNumbers,
   Quotes,
@@ -23,18 +21,15 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
-import { Transforms } from 'slate'
-import { ImageElement } from '../images/imageElement'
 
 /**
- * This component handles selections in the editor
+ * A floating toolbar that only appears when text is selected
  */
 const FloatingToolbar = () => {
-  const editor = useSlate()
   const selection = useSlateSelection()
   const popoverRef = React.useRef()
 
-  const { clientRect, isCollapsed } = useTextSelection()
+  const { clientRect } = useTextSelection()
 
   const [pointerUp, setPointerUp] = React.useState(false)
 

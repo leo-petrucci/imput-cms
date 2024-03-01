@@ -68,7 +68,7 @@ export function useTextSelection(target?: HTMLElement) {
   }
 
   const handler = useCallback(() => {
-    let newRect: ClientRect
+    let newRect = null as null | ClientRect
     const selection = window.getSelection()
     let newState: TextSelectionState = {}
 
@@ -103,14 +103,16 @@ export function useTextSelection(target?: HTMLElement) {
 
     if (rects.length === 0 && range.commonAncestorContainer != null) {
       const el = range.commonAncestorContainer as HTMLElement
-      newRect = roundValues(el.getBoundingClientRect().toJSON())
+      if (el.getBoundingClientRect)
+        newRect = roundValues(el.getBoundingClientRect().toJSON())
     } else {
       if (rects.length < 1) return
       newRect = roundValues(rects[0].toJSON())
     }
-    if (shallowDiff(clientRect, newRect)) {
-      newState.clientRect = newRect
-    }
+    if (newRect)
+      if (shallowDiff(clientRect, newRect)) {
+        newState.clientRect = newRect
+      }
     newState.isCollapsed = range.collapsed
 
     setState(newState)

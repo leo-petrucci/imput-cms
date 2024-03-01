@@ -10,18 +10,18 @@ const CMS = () => (
       settings: {
         backend: {
           name: 'github',
-          repo: 'creativiii/meow-cms',
+          repo: 'leo-petrucci/meow-cms',
           branch: 'main',
-          base_url: 'https://meow-cms-creativiii.vercel.app/',
-          auth_endpoint: 'api/auth',
+          base_url: 'http://localhost:3000/',
+          auth_endpoint: 'api/authorize',
         },
-        media_folder: 'examples/cms/public/images',
+        media_folder: 'apps/cms/public/images',
         public_folder: 'images',
         collections: [
           {
             name: 'blog',
             label: 'Blog',
-            folder: 'examples/cms/_posts/blog',
+            folder: 'apps/cms/_posts/blog',
             create: true,
             slug: '{{title}}',
             extension: 'md',
@@ -66,6 +66,79 @@ const CMS = () => (
               { label: 'Body', name: 'body', widget: 'markdown' },
             ],
             blocks: [
+              {
+                name: 'ReactComponent',
+                label: 'My first block',
+                fields: [
+                  {
+                    name: 'name',
+                    label: 'Name',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                  {
+                    name: 'date',
+                    label: 'Date',
+                    type: {
+                      widget: 'date',
+                    },
+                  },
+                  {
+                    name: 'datetime',
+                    label: 'DateTime',
+                    type: {
+                      widget: 'datetime',
+                    },
+                  },
+                  {
+                    name: 'boolean',
+                    label: 'Boolean',
+                    type: {
+                      widget: 'boolean',
+                    },
+                  },
+                  {
+                    name: 'variant',
+                    label: 'Variant',
+                    type: {
+                      widget: 'select',
+                      options: ['option1', 'option2'],
+                    },
+                  },
+                  {
+                    name: 'padding',
+                    label: 'Padding',
+                    type: {
+                      widget: 'select',
+                      options: [4, 8, 12],
+                    },
+                  },
+                  {
+                    name: 'object',
+                    label: 'Object',
+                    type: {
+                      widget: 'json',
+                    },
+                  },
+                  {
+                    name: 'array',
+                    label: 'Array',
+                    type: {
+                      options: ['Option 1', 'Option 2', 'Option 3'],
+                      widget: 'select',
+                      multiple: true,
+                    },
+                  },
+                  {
+                    name: 'children',
+                    label: 'Content',
+                    type: {
+                      widget: 'markdown',
+                    },
+                  },
+                ],
+              },
               {
                 name: 'Notice',
                 label: 'Notice Block',
@@ -118,7 +191,7 @@ const CMS = () => (
           {
             name: 'authors',
             label: 'Authors',
-            folder: 'examples/cms/_posts/authors',
+            folder: 'apps/cms/_posts/authors',
             create: true,
             slug: '{{slug}}',
             extension: 'mdx',
@@ -139,7 +212,7 @@ const CMS = () => (
           {
             name: 'categories',
             label: 'Categories',
-            folder: 'examples/cms/_posts/categories',
+            folder: 'apps/cms/_posts/categories',
             create: true,
             slug: '{{name}}',
             extension: 'mdx',

@@ -90,7 +90,7 @@ const tailwind = {
     typography,
     require('tailwindcss-animate'),
     plugin(({ addVariant }) => {
-      addVariant('children', '& > *')
+      addVariant('children', '& > *'), addVariant('textarea', '& textarea')
     }),
   ],
 }

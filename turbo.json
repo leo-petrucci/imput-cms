@@ -9,8 +9,15 @@
       "cache": true,
       "inputs": ["apps/docs"]
     },
+    "test:dev": {
+      "cache": true,
+      "inputs": ["apps/cms"]
+    },
     "docs": {
       "dependsOn": ["meow:tailwind", "docs:dev"]
+    },
+    "test": {
+      "dependsOn": ["meow:tailwind", "test:dev"]
     },
     "docs:build": {},
     "meow:release": {},

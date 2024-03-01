@@ -191,31 +191,63 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                 value: String(v),
                 label: String(v),
               }))
-              const selectVal = options.find((o) => o.value === value)
 
-              return (
-                <div className="flex flex-col gap-1" key={c.name}>
-                  <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
+              // different stuff depending if the component allows multiple values or not
+              if (c.type.multiple) {
+                const selectVal = options.filter((o) => o.value === value)
+                return (
+                  <div className="flex flex-col gap-1" key={c.name}>
+                    <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
 
-                  <Combobox
-                    options={options}
-                    defaultValue={selectVal?.value}
-                    onValueChange={(val) => {
-                      if (val) {
+                    <Combobox.Multi
+                      options={options}
+                      defaultValue={selectVal.map((v) => v.value)}
+                      onValueChange={(val) => {
+                        if (val) {
+                          var newObj = cloneDeep(prop)
+                          console.log('newvalue')
+                          set(
+                            newObj,
+                            mdxAccessors[
+                              prop.value!.data.estree.body[0].expression.type
+                            ],
+                            JSON.stringify(val.map((v) => v.value)).replaceAll(
+                              '\\',
+                              ''
+                            )
+                          )
+                          editAttributes(path, mdxElement, newObj, editor)
+                        }
+                      }}
+                    />
+                  </div>
+                )
+              } else {
+                const selectVal = options.find((o) => o.value === value)
+
+                return (
+                  <div className="flex flex-col gap-1" key={c.name}>
+                    <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
+
+                    <Combobox
+                      options={options}
+                      defaultValue={selectVal?.value}
+                      onValueChange={(val) => {
                         var newObj = cloneDeep(prop)
                         set(
                           newObj,
                           mdxAccessors[
                             prop.value!.data.estree.body[0].expression.type
                           ],
-                          val.value
+                          val?.value
                         )
                         editAttributes(path, mdxElement, newObj, editor)
-                      }
-                    }}
-                  />
-                </div>
-              )
+                      }}
+                    />
+                  </div>
+                )
+              }
+
             case 'json':
               return (
                 <div className="flex flex-col gap-1" key={c.name}>
@@ -226,6 +258,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                     language="json"
                     onValueChange={(code: any) => {
                       var newObj = cloneDeep(prop)
+                      console.log({ newObj })
                       set(
                         newObj,
                         mdxAccessors[

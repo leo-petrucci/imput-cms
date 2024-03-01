@@ -9,7 +9,7 @@ category:
   - Design
   - Open Source
 ---
-<ReactComponent name="12434" date="2023-02-02" datetime="2023-02-02T17:20" boolean={true} variant={"option1"} padding={8} object={} array={} >
+<ReactComponent name="12434" date="2023-02-02" datetime="2023-02-02T17:20" boolean={true} variant={"option1"} padding={8} object={""} array={} >
 
 Test
 

@@ -81,7 +81,9 @@ const MdxElement = (props: CustomRenderElementProps) => {
         title={'Edit component'}
         description={() => (
           <ErrorBoundary>
-            <ComponentEditor {...props} />
+            <div className="p-4">
+              <ComponentEditor {...props} />
+            </div>
           </ErrorBoundary>
         )}
       >

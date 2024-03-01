@@ -1,12 +1,15 @@
 import React from 'react'
-import * as PopoverPrimitive from '@radix-ui/react-popover'
 import { useSlate, useSlateSelection } from 'slate-react'
 import { Portal } from '@meow/components/Portal'
-import { cn } from '@meow/components/lib/utils'
 import { useTextSelection } from '../../../utils/useTextSelection'
 import { MarkButton } from '../button'
 import { BlockButton, ComponentButton, LinkButton } from '../button/button'
 import Toggle from '@meow/components/Toggle'
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+} from '@meow/components/Popover'
 import {
   CodeSimple,
   Code,
@@ -30,8 +33,6 @@ const FloatingToolbar = () => {
   const editor = useSlate()
   const selection = useSlateSelection()
   const popoverRef = React.useRef()
-
-  console.log(selection?.anchor.path, selection?.focus.path)
 
   const { clientRect, isCollapsed } = useTextSelection()
 
@@ -87,9 +88,9 @@ const FloatingToolbar = () => {
   if (!pointerUp) return null
 
   return (
-    <PopoverPrimitive.Root open>
+    <Popover open>
       <Portal.Root>
-        <PopoverPrimitive.Anchor asChild>
+        <PopoverAnchor asChild>
           <div
             className="pointer-events-none"
             style={{
@@ -100,10 +101,10 @@ const FloatingToolbar = () => {
               position: 'absolute',
             }}
           ></div>
-        </PopoverPrimitive.Anchor>
+        </PopoverAnchor>
       </Portal.Root>
       {/* @ts-ignore */}
-      <PopoverContent ref={popoverRef} side="top">
+      <PopoverContent ref={popoverRef} side="top" className="p-0 w-auto">
         <div className="flex">
           <MarkButton format="bold" icon={<TextBolder size={16} />} />
           <MarkButton format="italic" icon={<TextItalic size={16} />} />
@@ -116,45 +117,10 @@ const FloatingToolbar = () => {
           <BlockButton format="block_quote" icon={<Quotes size={16} />} />
           <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
           <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
-          <Toggle
-            pressed={false}
-            onPressedChange={() => {
-              const text = { text: '' }
-              const image: ImageElement = {
-                type: 'image',
-                link: null,
-                title: '',
-                caption: '',
-                children: [text],
-              }
-              Transforms.insertNodes(editor, image)
-            }}
-          >
-            <Image size={16} alt="image-icon" />
-          </Toggle>
-          <ComponentButton />
         </div>
       </PopoverContent>
-    </PopoverPrimitive.Root>
+    </Popover>
   )
 }
-
-const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = 'center', sideOffset = 4, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
-    <PopoverPrimitive.Content
-      ref={ref}
-      align={align}
-      sideOffset={sideOffset}
-      className={cn(
-        'rounded-md border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2',
-        className
-      )}
-      {...props}
-    />
-  </PopoverPrimitive.Portal>
-))
 
 export { FloatingToolbar }

@@ -161,16 +161,9 @@ export const ComponentButton = () => {
     <>
       <Modal
         title={'Select a block to add'}
-        css={{
-          minWidth: '100vw',
-          minHeight: '100vh',
-          '@md': {
-            minWidth: 968,
-            minHeight: 524,
-          },
-        }}
+        className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
         description={(_open, setOpen) => (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-4">
             {components?.map((c) => (
               <button
                 className="inline-flex p-4 items-start w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer overflow-hidden relative"

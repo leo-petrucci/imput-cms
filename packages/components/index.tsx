@@ -7,7 +7,12 @@ import Input from './input'
 import { Modal, ModalProps } from './modal'
 import Panel from './panel'
 import Switch from './switch'
-import Popover from './popover'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+  PopoverAnchor,
+} from './Popover'
 import Select from './select'
 import Tabs from './tabs'
 
@@ -23,6 +28,9 @@ export {
   Panel,
   Switch,
   Popover,
+  PopoverContent,
+  PopoverTrigger,
+  PopoverAnchor,
   Select,
   Tabs,
 }

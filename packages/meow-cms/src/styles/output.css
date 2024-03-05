@@ -2649,6 +2649,14 @@ video {
   opacity: 0.5;
 }
 
+.peer:disabled ~ .peer-disabled\:cursor-not-allowed {
+  cursor: not-allowed;
+}
+
+.peer:disabled ~ .peer-disabled\:opacity-70 {
+  opacity: 0.7;
+}
+
 .aria-selected\:bg-accent[aria-selected="true"] {
   --tw-bg-opacity: 1;
   background-color: hsl(210 40% 96.1% / var(--tw-bg-opacity));

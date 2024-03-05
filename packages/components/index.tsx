@@ -1,7 +1,6 @@
 import { Button } from './Button'
 import Codeblock from './codeblock'
 import ErrorBoundary from './errorBoundary'
-import Label from './label'
 import Form, { useFormItem } from './form'
 import { Modal, ModalProps } from './Modal'
 import Panel from './panel'
@@ -18,7 +17,6 @@ export {
   Button,
   Codeblock,
   ErrorBoundary,
-  Label,
   Form,
   useFormItem,
   Modal,

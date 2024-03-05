@@ -15,8 +15,8 @@ import {
   PopoverProps,
 } from '@radix-ui/react-popover'
 import useMeasure from '../utils/useMeasure'
-import { styled } from '@meow/stitches'
 import { Button } from '../Button'
+import { cva } from 'class-variance-authority'
 
 /**
  * Props shared by both single and multi combobox
@@ -326,7 +326,8 @@ export const ComboboxPrimtive = React.forwardRef<
           {...rest}
         >
           {buttonRender}
-          <StyledIcon
+          <div
+            className={StyledIcon()}
             style={{
               marginLeft: '.5rem',
             }}
@@ -354,7 +355,7 @@ export const ComboboxPrimtive = React.forwardRef<
                 strokeWidth="24"
               />
             </svg>
-          </StyledIcon>
+          </div>
         </Button>
       </PopoverTrigger>
       <PopoverPortal>
@@ -385,7 +386,8 @@ export const ComboboxPrimtive = React.forwardRef<
                       handleSelect(option)
                     }}
                   >
-                    <StyledIcon
+                    <div
+                      className={`${StyledIcon()} mr-2`}
                       style={{
                         opacity: handleIconOpacity(option) ? 1 : 0,
                       }}
@@ -404,7 +406,7 @@ export const ComboboxPrimtive = React.forwardRef<
                           strokeWidth="24"
                         />
                       </svg>
-                    </StyledIcon>
+                    </div>
                     <span>{option.label}</span>
                   </CommandItem>
                 ))}
@@ -417,10 +419,7 @@ export const ComboboxPrimtive = React.forwardRef<
   )
 })
 
-const StyledIcon = styled('div', {
-  height: '16px',
-  width: '16px',
-})
+const StyledIcon = cva('h-4 w-4')
 
 const Combobox = Object.assign(ComboboxSingle, { Multi: ComboboxMulti })
 

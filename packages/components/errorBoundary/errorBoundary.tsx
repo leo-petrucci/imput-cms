@@ -4,9 +4,6 @@ import {
   ErrorBoundaryProps,
   FallbackProps,
 } from 'react-error-boundary'
-import { styled } from '@meow/stitches'
-
-const StyledPre = styled('pre', {})
 
 const ErrorFallback = ({ error }: FallbackProps) => {
   return (

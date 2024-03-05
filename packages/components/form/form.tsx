@@ -10,7 +10,7 @@ import {
   UseFormReturn,
 } from 'react-hook-form'
 import ctxt from './context'
-import { Label } from '../'
+import { Label } from '../Label'
 
 export type FormProps<T extends FieldValues> = {
   form?: UseFormReturn<T, any>

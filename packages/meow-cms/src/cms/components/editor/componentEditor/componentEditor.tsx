@@ -13,7 +13,7 @@ import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { Input } from '@meow/components/Input'
 import { Switch } from '@meow/components/Switch'
 import Codeblock from '@meow/components/codeblock'
-import Label from '@meow/components/label'
+import { Label } from '@meow/components/Label'
 import { Combobox } from '@meow/components/Combobox'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import {

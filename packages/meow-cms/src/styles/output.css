@@ -1522,6 +1522,10 @@ video {
   align-items: flex-start;
 }
 
+.\!items-start {
+  align-items: flex-start !important;
+}
+
 .items-center {
   align-items: center;
 }
@@ -2016,6 +2020,10 @@ video {
 
 .text-left {
   text-align: left;
+}
+
+.\!text-left {
+  text-align: left !important;
 }
 
 .text-center {

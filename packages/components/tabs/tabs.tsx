@@ -1,7 +1,6 @@
 import React from 'react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
 import { omit } from 'lodash'
-import { styled } from '@meow/stitches'
 
 export interface ITabsProps extends TabsPrimitive.TabsProps {
   children: React.ReactNode
@@ -9,67 +8,35 @@ export interface ITabsProps extends TabsPrimitive.TabsProps {
   triggers: TabsPrimitive.TabsTriggerProps[]
 }
 
-const StyledRoot = styled(TabsPrimitive.Root, {
-  display: 'flex',
-  flexDirection: 'column',
-  margin: '$4 0',
-})
-
-const StyledList = styled(TabsPrimitive.List, {
-  display: 'flex',
-  flexShrink: 0,
-  borderBottom: 1,
-  borderColor: '$gray-200',
-  gap: '$4',
-  flexWrap: 'wrap',
-})
-
-const StyledTrigger = styled(TabsPrimitive.Trigger, {
-  alignItems: 'center',
-  justifyContent: 'center',
-  height: '3rem',
-  padding: '0 1.25rem',
-  fontSize: '$base',
-  color: '$gray-500',
-  userSelect: 'none',
-  fontWeight: '$semibold',
-  borderRadius: '$md',
-
-  "&[data-state='inactive']:hover": {
-    color: '$primary-800',
-    background: '$primary-100',
-  },
-
-  "&[data-state='active']": {
-    color: '$primary-800',
-    background: '$gray-100',
-  },
-})
-
 /**
  * Create a Tabs component. Uses RadixUI Tabs component.
  * https://www.radix-ui.com/docs/primitives/components/tabs
  */
 const Tabs = (props: ITabsProps): JSX.Element => (
-  <StyledRoot {...omit(props, 'listProps', 'triggers', 'children')}>
-    <StyledList {...props.listProps}>
+  <TabsPrimitive.Root {...omit(props, 'listProps', 'triggers', 'children')}>
+    <TabsPrimitive.List
+      className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"
+      {...props.listProps}
+    >
       {props.triggers.map((triggerProps, index) => (
-        <StyledTrigger key={index} {...triggerProps} />
+        <TabsPrimitive.Trigger
+          className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+          key={index}
+          {...triggerProps}
+        />
       ))}
-    </StyledList>
+    </TabsPrimitive.List>
     {props.children}
-  </StyledRoot>
+  </TabsPrimitive.Root>
 )
 
 export interface ITabsContentProps extends TabsPrimitive.TabsContentProps {}
 
-const StyledContent = styled(TabsPrimitive.Content, {
-  padding: '0 $4',
-  marginTop: '$4',
-})
-
 const Content = (props: ITabsContentProps) => (
-  <StyledContent className="mt-2" {...props} />
+  <TabsPrimitive.Content
+    className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+    {...props}
+  />
 )
 
 Tabs.Content = Content

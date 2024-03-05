@@ -1,4 +1,4 @@
-name: Build Meow Package
+name: Build and Test Meow Package
 on:
   pull_request:
     branches:
@@ -22,7 +22,14 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
-      - name: Install and build
+      - name: Install
         run: |-
           pnpm install --frozen-lockfile
+
+      - name: Build
+        run: |-
           pnpm build
+
+      - name: Test
+        run: |-
+          pnpm test

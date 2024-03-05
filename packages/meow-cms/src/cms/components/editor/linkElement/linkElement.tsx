@@ -8,7 +8,13 @@ import {
 } from 'slate-react'
 import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../../types/slate'
-import { Input, Label, Popover } from '@meow/components'
+import { Label } from '@meow/components/Label'
+import { Input } from '@meow/components/Input'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@meow/components/Popover'
 
 /**
  * Handles link elements in-editor. When clicked a popover appears which allows typing a link
@@ -22,10 +28,10 @@ const LinkElement = ({
   const editor = useSlateStatic() as ReactEditor
   const path = ReactEditor.findPath(editor, element)
   return (
-    <Popover
-      content={
-        <div className="flex">
-          <div className="flex flex-col gap-1">
+    <Popover>
+      <PopoverContent>
+        <div className="flex flex-1">
+          <div className="flex flex-col gap-1 flex-1">
             <Label htmlFor={`image-title`}>Url</Label>
             <Input
               name="image-title"
@@ -46,17 +52,18 @@ const LinkElement = ({
             />
           </div>
         </div>
-      }
-    >
-      <a
-        className={StyledLink({ selected })}
-        {...attributes}
-        href={element.url}
-      >
-        <InlineChromiumBugfix />
-        {children}
-        <InlineChromiumBugfix />
-      </a>
+      </PopoverContent>
+      <PopoverTrigger>
+        <a
+          className={StyledLink({ selected })}
+          {...attributes}
+          href={element.url}
+        >
+          <InlineChromiumBugfix />
+          {children}
+          <InlineChromiumBugfix />
+        </a>
+      </PopoverTrigger>
     </Popover>
   )
 }

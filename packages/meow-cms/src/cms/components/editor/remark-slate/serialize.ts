@@ -205,10 +205,10 @@ export default function serialize(
                   if (isString(v)) {
                     return `${prop.name}="${escapeDoubleQuotes(v)}"`
                   } else {
-                    return `${prop.name}={${v || 'undefined'}}`
+                    return `${prop.name}={${v === undefined ? 'undefined' : v}}`
                   }
                 default:
-                  return `${prop.name}={${v || 'undefined'}}`
+                  return `${prop.name}={${v === undefined ? 'undefined' : v}}`
               }
             }
           })

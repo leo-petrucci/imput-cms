@@ -9,7 +9,7 @@ import { MDXNode } from '../../../cms/types/mdxNode'
 import React from 'react'
 import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../types/slate'
-import { FakeP } from '@meow/components/src/Typography'
+import { FakeP } from '@meow/components/Typography'
 
 const StyledMdxButton = cva(
   'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',
@@ -50,6 +50,9 @@ export interface MdxElementShape extends CustomElement {
   text: string
 }
 
+/**
+ * A slate element that represents a React object. Can be clicked.
+ */
 const MdxElement = (props: CustomRenderElementProps) => {
   const { attributes, children, element } = props
   const mdxElement = element as MdxElementShape
@@ -81,11 +84,14 @@ const MdxElement = (props: CustomRenderElementProps) => {
         title={'Edit component'}
         description={() => (
           <ErrorBoundary>
-            <ComponentEditor {...props} />
+            <div className="p-4">
+              <ComponentEditor {...props} />
+            </div>
           </ErrorBoundary>
         )}
       >
         <button
+          data-testid={`${mdxElement.name}-block`}
           className={StyledMdxButton({ selected })}
           contentEditable={false}
         >

@@ -1,17 +1,24 @@
-import { Input, Modal } from '@meow/components'
+import { Modal } from '@meow/components'
 import { useImages } from '../../contexts/imageContext/useImageContext'
 import { ImageSquare } from 'phosphor-react'
 import { Element } from 'slate'
-import * as PopoverPrimitive from '@radix-ui/react-popover'
 import ImageSelector from '../editor/images/imageSelector'
 import ImageUploadButton from '../editor/images/uploadButton'
-import { Button } from '@meow/components/src/Button'
-import { useFormItem, Label, Popover } from '@meow/components'
+import { Button } from '@meow/components/Button'
+import { useFormItem } from '@meow/components'
+import { Label } from '@meow/components/Label'
 import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useController, useFormContext } from 'react-hook-form'
 import React from 'react'
 import { cva } from 'class-variance-authority'
-import { FakeP } from '@meow/components/src/Typography'
+import { FakeP } from '@meow/components/Typography'
+import {
+  Popover,
+  PopoverAnchor,
+  PopoverContent,
+  PopoverTrigger,
+} from '@meow/components/Popover'
+import { Input } from '@meow/components/Input'
 
 const StyledImageButton = cva(
   'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',
@@ -82,8 +89,8 @@ const ImagePicker = ({
   }, [imageBlobUrl, image])
 
   return (
-    <Popover
-      content={
+    <Popover>
+      <PopoverContent>
         <div className="relative mb-2">
           <div className="flex flex-col gap-2">
             {imageTitle !== false && (
@@ -116,27 +123,21 @@ const ImagePicker = ({
               <Label htmlFor={`image-file`}>Upload image</Label>
               <Modal
                 title={'Select media'}
-                css={{
-                  zIndex: 9999,
-                  minWidth: '100vw',
-                  minHeight: '100vh',
-                  '@md': {
-                    minWidth: 968,
-                    minHeight: 524,
-                  },
-                }}
+                className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
                 headingContent={
                   <div className="relative flex-1 flex justify-end border-b border-border mb-2 pb-2">
                     <ImageUploadButton />
                   </div>
                 }
                 description={(_open, setOpen) => (
-                  <ImageSelector
-                    onImageSelect={(filename: string) => {
-                      setOpen(false)
-                      onImageChange?.(filename)
-                    }}
-                  />
+                  <div className="p-4">
+                    <ImageSelector
+                      onImageSelect={(filename: string) => {
+                        setOpen(false)
+                        onImageChange?.(filename)
+                      }}
+                    />
+                  </div>
                 )}
               >
                 <Button type="button">Select image</Button>
@@ -144,48 +145,49 @@ const ImagePicker = ({
             </div>
           </div>
         </div>
-      }
-    >
-      <button
-        className={StyledImageButton({ selected })}
-        contentEditable={false}
-      >
-        <PopoverPrimitive.Anchor
-          style={{
-            position: 'absolute',
-            top: '50%',
-            left: '50%',
-            height: !image ? '2em' : '6em',
-            width: !image ? '2em' : '6em',
-            background: 'transparent',
-            zIndex: 1000,
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
-        {image ? (
-          <div
-            className="block max-w-full min-h-80 bg-cover bg-center"
+      </PopoverContent>
+      <PopoverTrigger asChild>
+        <button
+          className={StyledImageButton({ selected })}
+          contentEditable={false}
+        >
+          <PopoverAnchor
             style={{
-              backgroundImage: `url(${
-                image
-                  ? // needs to match the url as it is in markdown
-                    // e.g. images/filename.png
-                    images.find((i) =>
-                      `${public_folder}/${i.filename}`.includes(`${image}`)
-                    )?.blobUrl
-                  : ''
-              })`,
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              height: !image ? '2em' : '6em',
+              width: !image ? '2em' : '6em',
+              background: 'transparent',
+              zIndex: 1000,
+              transform: 'translate(-50%, -50%)',
             }}
           />
-        ) : (
-          <div className="p-4">
-            <div className="flex flex-row gap-2 items-center">
-              <ImageSquare size={16} weight="bold" />
-              <FakeP>Add an image</FakeP>
+          {image ? (
+            <div
+              className="block max-w-full min-h-80 bg-cover bg-center"
+              style={{
+                backgroundImage: `url(${
+                  image
+                    ? // needs to match the url as it is in markdown
+                      // e.g. images/filename.png
+                      images.find((i) =>
+                        `${public_folder}/${i.filename}`.includes(`${image}`)
+                      )?.blobUrl
+                    : ''
+                })`,
+              }}
+            />
+          ) : (
+            <div className="p-4">
+              <div className="flex flex-row gap-2 items-center">
+                <ImageSquare size={16} weight="bold" />
+                <FakeP>Add an image</FakeP>
+              </div>
             </div>
-          </div>
-        )}
-      </button>
+          )}
+        </button>
+      </PopoverTrigger>
     </Popover>
   )
 }

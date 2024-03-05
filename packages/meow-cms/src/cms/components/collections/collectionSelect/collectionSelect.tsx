@@ -1,8 +1,8 @@
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { NavLink } from 'react-router-dom'
 import React from 'react'
-import { Card, CardHeader } from '@meow/components/src/Card'
-import { H5 } from '@meow/components/src/Typography'
+import { Card, CardHeader } from '@meow/components/Card'
+import { H5 } from '@meow/components/Typography'
 
 /**
  * Renders a container that lists all the different collections available

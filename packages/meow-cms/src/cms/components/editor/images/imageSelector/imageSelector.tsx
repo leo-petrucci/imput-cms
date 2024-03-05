@@ -3,7 +3,7 @@ import React from 'react'
 import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
 import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void
@@ -18,6 +18,54 @@ const ImageSelector = ({ onImageSelect }: ImageSelectorProps) => {
   return (
     <>
       <div className="relative grid gap-2 grid-cols-1 md:grid-cols-3">
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
+        {imageTree.map((i) => (
+          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+        ))}{' '}
         {imageTree.map((i) => (
           <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
         ))}

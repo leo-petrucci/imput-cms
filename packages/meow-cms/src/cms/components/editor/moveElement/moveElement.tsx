@@ -3,7 +3,7 @@ import { Transforms } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 import React from 'react'
 import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 
 const MoveElement = (props: CustomRenderElementProps) => {
   const editor = useSlate()

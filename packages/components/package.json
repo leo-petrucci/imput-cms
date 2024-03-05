@@ -4,7 +4,6 @@
   "dependencies": {
     "@ironeko/spuntare": "^1.0.6",
     "@juggle/resize-observer": "^3.4.0",
-    "@meow/stitches": "workspace:*",
     "@meow/tailwind": "workspace:*",
     "@meow/utils": "workspace:*",
     "@phosphor-icons/react": "^2.0.15",
@@ -35,7 +34,6 @@
     "tailwindcss-animate": "^1.0.6"
   },
   "peerDependencies": {
-    "@stitches/react": "1.2.8",
     "@types/react": "18.x",
     "react": "18.x",
     "react-dom": "18.x",

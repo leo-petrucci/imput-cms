@@ -2,7 +2,7 @@ import Image from '../../../../cms/components/image/image'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { CollectionType } from '../../../../cms/types/collection'
 import { Link } from 'react-router-dom'
-import { Card, CardHeader } from '@meow/components/src/Card'
+import { Card, CardHeader } from '@meow/components/Card'
 import React from 'react'
 
 export interface CollectionCardProps extends CollectionType {

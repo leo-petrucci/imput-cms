@@ -8,6 +8,7 @@
   "scripts": {
     "docs:build": "turbo run docs:build",
     "build": "turbo run meow:build",
+    "test": "turbo run meow:test",
     "release": "turbo run meow:release",
     "dev": "turbo run docs:dev"
   },

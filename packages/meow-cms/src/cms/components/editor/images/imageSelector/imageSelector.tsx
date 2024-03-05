@@ -3,7 +3,7 @@ import React from 'react'
 import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
 import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
 import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void
@@ -38,15 +38,17 @@ const ImageCard = ({
   return (
     <Button
       variant="outline"
-      className="h-auto flex flex-col"
+      className="h-auto flex flex-col truncate !items-start"
       onClick={() => {
         // return the full path to the public image
         onImageSelect?.(`${public_folder}/${image.path!}`)
       }}
     >
       <Image path={image.path!} />
-      <div className="px-1 py-2">
-        <h2 className="text-lg font-medium">{image.path}</h2>
+      <div className="truncate max-w-full px-1 py-2">
+        <h2 className="text-lg font-medium max-w-full truncate">
+          {image.path}
+        </h2>
       </div>
     </Button>
   )

@@ -14,6 +14,7 @@ const tailwind = {
     './src/components/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     './utils/**/*.{ts,tsx}',
+    './theme.config.jsx',
     '../../packages/components/**/*.{ts,tsx}',
     '../../packages/meow-cms/**/*.{ts,tsx}',
   ],
@@ -90,7 +91,7 @@ const tailwind = {
     typography,
     require('tailwindcss-animate'),
     plugin(({ addVariant }) => {
-      addVariant('children', '& > *')
+      addVariant('children', '& > *'), addVariant('textarea', '& textarea')
     }),
   ],
 }

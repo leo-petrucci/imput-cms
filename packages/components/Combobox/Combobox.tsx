@@ -185,6 +185,7 @@ const ComboboxMulti = (props: ComboboxMultiProps & SharedComboboxProps) => {
     onValueChange,
     ...rest
   } = props
+
   const [open, setOpen] = React.useState(false)
 
   const [value, setValue] = React.useState<OptionType[]>(() => {

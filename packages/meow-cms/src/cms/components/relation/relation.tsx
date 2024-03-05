@@ -6,24 +6,32 @@ import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
 import { GroupBase } from 'react-select'
 import { useFormItem, Select } from '@meow/components'
+import Combobox from '@meow/components/Combobox'
 
-type SelectAndWidget = React.ComponentProps<typeof Select> &
-  Omit<
-    Extract<
-      Widgets,
-      {
-        widget: 'relation'
-      }
-    >,
-    'widget'
-  >
+type SelectAndWidget = Omit<
+  Extract<
+    Widgets,
+    {
+      widget: 'relation'
+    }
+  >,
+  'widget'
+>
 
-export interface RelationSelectProps extends SelectAndWidget {}
+export interface RelationSelectProps
+  extends SelectAndWidget,
+    Pick<React.ComponentProps<typeof Combobox>, 'value'> {
+  isMulti?: boolean
+  onValueChange: (value: any) => any
+}
 
 const RelationSelect = ({
   collection,
   value_field,
   display_fields,
+  isMulti,
+  value,
+  onValueChange,
   ...props
 }: RelationSelectProps) => {
   const { collections } = useCMS()
@@ -65,35 +73,45 @@ const RelationSelect = ({
   // as well as multi selects with multiple values
   // and multi selects with non-array values
   const valueMemo = React.useMemo(() => {
-    if (props.value && isSuccess) {
-      if (isArray(props.value)) {
-        return props.value.map((v: any) =>
-          optionsMemo?.find((o) => o.value === v)
-        )
+    if (value && isSuccess) {
+      if (isMulti) {
+        return value.map((v: any) => optionsMemo?.find((o) => o.value === v))
       } else {
-        return optionsMemo?.find((o) => o.value === props.value)
+        return optionsMemo?.find((o) => o.value === value)
       }
     } else {
       return undefined
     }
-  }, [props.value, isSuccess, optionsMemo])
+  }, [value, isSuccess, optionsMemo])
 
   if (!isSuccess) return <>Loading...</>
 
+  if (isMulti) {
+    return (
+      <Combobox.Multi
+        options={optionsMemo}
+        // should be an array
+        defaultValue={value}
+        onValueChange={onValueChange}
+      />
+    )
+  }
+
   return (
-    <Select {...props} value={valueMemo || undefined} options={optionsMemo} />
+    <Combobox
+      options={optionsMemo}
+      defaultValue={value}
+      onValueChange={onValueChange}
+    />
   )
 }
 
 interface ControlledSelectProps extends SelectAndWidget {
   name?: string
+  isMulti?: boolean
 }
 
-function Controlled<
-  Option,
-  IsMulti extends boolean = false,
-  Group extends GroupBase<Option> = GroupBase<Option>
->(props: ControlledSelectProps) {
+function Controlled(props: ControlledSelectProps) {
   const form = useFormContext()
   const { name, rules } = useFormItem()
 
@@ -110,13 +128,12 @@ function Controlled<
       {...props}
       {...fields}
       value={value}
-      onChange={(v) => {
+      onValueChange={(v) => {
         if (props.isMulti) {
-          // @ts-expect-error
+          // @ts-ignore
           fields.onChange(v.map((o) => o.value))
         } else {
-          // @ts-expect-error
-          fields.onChange(v.value)
+          fields.onChange(v?.value)
         }
       }}
     />

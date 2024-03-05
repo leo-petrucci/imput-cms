@@ -20,54 +20,6 @@ const ImageSelector = ({ onImageSelect }: ImageSelectorProps) => {
       <div className="relative grid gap-2 grid-cols-1 md:grid-cols-3">
         {imageTree.map((i) => (
           <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}{' '}
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
         ))}
       </div>
     </>

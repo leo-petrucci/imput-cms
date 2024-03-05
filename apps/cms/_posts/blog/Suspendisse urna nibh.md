@@ -1,10 +1,14 @@
 ---
 published: true
 title: A new title!
-categories: 
+select: option1
+multiSelect:
+  - option1
+  - option3
+categories:
   - Design
 author: Evie Dillon-Riley
-date: '2023-01-28'
+date: '2024-03-07T17:17'
 thumbnail: images/screenshot-2023-01-24-at-14.22.56.png
 datetime: '2023-01-28T15:13'
 category:

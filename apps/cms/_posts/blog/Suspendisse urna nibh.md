@@ -1,7 +1,8 @@
 ---
 published: true
 title: A new title!
-categories: ''
+categories: 
+  - Design
 author: Evie Dillon-Riley
 date: '2023-01-28'
 thumbnail: images/screenshot-2023-01-24-at-14.22.56.png

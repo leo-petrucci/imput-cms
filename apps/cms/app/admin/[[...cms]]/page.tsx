@@ -131,6 +131,15 @@ const CMS = () => (
                     },
                   },
                   {
+                    name: 'numberArray',
+                    label: 'Array',
+                    type: {
+                      options: [8, 12, 16],
+                      widget: 'select',
+                      multiple: true,
+                    },
+                  },
+                  {
                     name: 'children',
                     label: 'Content',
                     type: {

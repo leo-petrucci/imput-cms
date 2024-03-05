@@ -6,7 +6,7 @@ import Form, { useFormItem } from './form'
 import Input from './input'
 import { Modal, ModalProps } from './modal'
 import Panel from './panel'
-import Switch from './switch'
+import { Switch } from './switch'
 import {
   Popover,
   PopoverContent,

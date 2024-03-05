@@ -74,8 +74,4 @@ const Content = (props: ITabsContentProps) => (
 
 Tabs.Content = Content
 
-Tabs.defaultProps = {
-  listProps: undefined,
-}
-
 export default Tabs

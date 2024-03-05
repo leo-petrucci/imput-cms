@@ -144,7 +144,11 @@ export const Modal = ({
   )
 }
 
-const ExtendedModal = (props: ExtendedModalProps) => {
+const ExtendedModal = ({
+  depthOfType,
+  lengthOfType,
+  ...props
+}: ExtendedModalProps) => {
   return (
     <Modal
       initial={{
@@ -154,9 +158,9 @@ const ExtendedModal = (props: ExtendedModalProps) => {
       animate={{
         opacity: 1,
         transform: `translate(-50%, -50%) scale(${
-          1 - props.depthOfType * (0.2 / props.lengthOfType)
+          1 - depthOfType * (0.2 / lengthOfType)
         }) translateY(-${
-          props.depthOfType * (50 / props.lengthOfType)
+          depthOfType * (50 / lengthOfType)
         }px) translateZ(0.0000px)`,
         filter: props.depth > 0 ? 'blur(2px)' : 'blur(0px)',
       }}

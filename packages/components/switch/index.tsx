@@ -1,2 +1,1 @@
-export { default } from './switch'
-export type { SwitchProps } from './switch'
+export * from './switch'

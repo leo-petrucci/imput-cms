@@ -10,7 +10,7 @@
       "inputs": ["apps/docs"]
     },
     "test:dev": {
-      "cache": true,
+      "cache": false,
       "inputs": ["apps/cms"]
     },
     "docs": {
@@ -21,6 +21,10 @@
     },
     "docs:build": {},
     "meow:release": {},
-    "meow:build": {}
+    "meow:build": {},
+    "meow:test": {
+      "cache": false,
+      "inputs": ["meow-cms"]
+    }
   }
 }

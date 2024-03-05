@@ -78,9 +78,10 @@ const withEditableVoids = (editor: ReactEditor) => {
 export interface EditorProps {
   value: Descendant[]
   onChange?: (value: Descendant[]) => void
+  debug?: boolean
 }
 
-const Editor = ({ value, onChange }: EditorProps) => {
+const Editor = ({ value, onChange, debug }: EditorProps) => {
   const renderElement = React.useCallback((props: any) => {
     const path = ReactEditor.findPath(editor, props.element)
 
@@ -118,7 +119,18 @@ const Editor = ({ value, onChange }: EditorProps) => {
     onChange?.(val)
   }
 
-  const debouncedOnChange = debounce(onEditorChange, 100)
+  const debouncedOnChange = debug
+    ? onEditorChange
+    : debounce(onEditorChange, 100)
+
+  /**
+   * For debugging purposes, so onChange runs when the editor is first loaded
+   */
+  React.useEffect(() => {
+    if (debug) {
+      onChange?.(value)
+    }
+  }, [])
 
   return (
     <>
@@ -126,6 +138,7 @@ const Editor = ({ value, onChange }: EditorProps) => {
         <FloatingToolbar />
         <div className="children:p-2">
           <Editable
+            data-testid="slate-content-editable"
             renderElement={renderElement}
             renderLeaf={renderLeaf}
             onKeyDown={(event: any) => {

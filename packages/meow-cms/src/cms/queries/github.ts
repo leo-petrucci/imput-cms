@@ -22,7 +22,17 @@ type FilesWithDate =
  * @param type the name of the folder we want to load
  */
 export const useGetGithubCollection = (type: string) => {
-  const { backend, currentCollection } = useCMS()
+  const { backend, collections } = useCMS()
+
+  // we can't use `currentCollection` from `useCMS` because that's defined by which folder we've loaded
+  // we need to get the correct folder per hook call
+  const currentCollection = collections.find((c) => c.folder === type)
+
+  // stop it here in case collection can't be found
+  if (!currentCollection) {
+    throw new Error(`Collection ${type} does not exist.`)
+  }
+
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.collection(type),
@@ -91,7 +101,9 @@ export const useGetGithubCollection = (type: string) => {
               }
             )
             const buf = Buffer.from(blob.data.content, 'base64')
+
             const decoded = matter(buf.toString('utf-8'))
+
             return {
               ...decoded,
               filename: file.path,
@@ -418,7 +430,7 @@ export const useUploadFile = () => {
       // separate file's extension
       const [reFullExt, reExt] = re.exec(filename) as unknown as [
         string,
-        string
+        string,
       ]
 
       // get the filename only without the extension

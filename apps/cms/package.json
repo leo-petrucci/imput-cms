@@ -17,7 +17,7 @@
     "is-hotkey": "^0.2.0",
     "local-meow-cms": "workspace:*",
     "meow-cms": "link:../../packages/meow-cms",
-    "next": "13.1.6",
+    "next": "14.1.0",
     "react": "18.x",
     "react-dom": "18.x",
     "simple-oauth2": "^5.0.0",

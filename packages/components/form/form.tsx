@@ -54,10 +54,6 @@ function Form<T extends FieldValues>({
   )
 }
 
-Form.defaultProps = {
-  debug: false,
-}
-
 const FormItemContextProvider = ctxt.Provider
 
 /**

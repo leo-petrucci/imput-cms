@@ -25,7 +25,9 @@ const Input = React.forwardRef<
     Controlled: JSX.Element
   },
   InputProps
->((props: InputProps, ref: any) => <StyledInput {...props} ref={ref} />)
+>((props: InputProps, ref: any) => (
+  <StyledInput id={`input-${props.name}`} {...props} ref={ref} />
+))
 
 export interface ControlledInputProps extends InputProps {}
 

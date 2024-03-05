@@ -1,47 +1,37 @@
-import * as SwitchPrimitive from '@radix-ui/react-switch'
+import * as SwitchPrimitives from '@radix-ui/react-switch'
 import { useFormItem } from '../'
 import { useController, useFormContext } from 'react-hook-form'
-import { styled } from '@meow/stitches'
 import React from 'react'
+import { cn } from '../lib/utils'
 
-const StyledSwitch = styled(SwitchPrimitive.Root, {
-  all: 'unset',
-  width: 42,
-  height: 25,
-  backgroundColor: '$gray-200',
-  borderRadius: '9999px',
-  position: 'relative',
-  WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
-  '&:focus': { boxShadow: `0 0 0 2px black` },
-  '&[data-state="checked"]': { backgroundColor: '$primary-500' },
-})
+const Switch = React.forwardRef<
+  React.ElementRef<typeof SwitchPrimitives.Root>,
+  React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+>(({ className, ...props }, ref) => (
+  <SwitchPrimitives.Root
+    className={cn(
+      'peer inline-flex h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=unchecked]:bg-input',
+      className
+    )}
+    {...props}
+    ref={ref}
+  >
+    <SwitchPrimitives.Thumb
+      className={cn(
+        'pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0'
+      )}
+    />
+  </SwitchPrimitives.Root>
+))
+Switch.displayName = SwitchPrimitives.Root.displayName
 
-const StyledThumb = styled(SwitchPrimitive.Thumb, {
-  display: 'block',
-  width: 21,
-  height: 21,
-  backgroundColor: 'white',
-  borderRadius: '9999px',
-  transition: 'transform 100ms',
-  transform: 'translateX(2px)',
-  willChange: 'transform',
-  '&[data-state="checked"]': { transform: 'translateX(19px)' },
-})
-
-export interface SwitchProps extends SwitchPrimitive.SwitchProps {}
-
-const Switch = (props: SwitchProps) => (
-  <StyledSwitch {...props}>
-    <StyledThumb />
-  </StyledSwitch>
-)
-
-export interface ControlledSwitchProps extends SwitchProps {}
+export interface ControlledSwitchProps
+  extends React.ComponentProps<typeof Switch> {}
 
 /**
  * An on/off switch to be used in forms
  */
-const Controlled = (props: ControlledSwitchProps) => {
+const SwitchControlled = (props: ControlledSwitchProps) => {
   const form = useFormContext()
   const { rules, name } = useFormItem()
 
@@ -66,6 +56,4 @@ const Controlled = (props: ControlledSwitchProps) => {
   )
 }
 
-Switch.Controlled = Controlled
-
-export default Switch
+export { Switch, SwitchControlled }

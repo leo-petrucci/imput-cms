@@ -34,7 +34,10 @@ export type SharedComboboxProps = {
    * Disable the combobox
    */
   disabled?: boolean
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'value'>
+} & Omit<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  'value' | 'defaultValue'
+>
 
 type OptionType = {
   value: any

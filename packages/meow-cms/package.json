@@ -8,6 +8,8 @@
     "meow:build": "tsc -v && tsc && dts build",
     "meow:release": "release publish",
     "meow:tailwind": "pnpm dlx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch=always",
+    "meow:test": "vitest run",
+    "meow:test:dev": "vitest --watch",
     "lint": "dts lint",
     "start": "dts watch",
     "test": "dts test --passWithNoTests"
@@ -78,6 +80,9 @@
   },
   "devDependencies": {
     "@ossjs/release": "^0.8.0",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^14.2.1",
+    "@testing-library/user-event": "^14.5.2",
     "@tsconfig/create-react-app": "^1.0.3",
     "@types/is-hotkey": "^0.1.7",
     "@types/is-url": "^1.2.30",
@@ -87,11 +92,15 @@
     "@types/node": "17.0.12",
     "@types/prismjs": "^1.26.0",
     "@types/uuid": "^8.3.4",
+    "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.17",
     "eslint": "8.7.0",
     "postcss": "^8.4.35",
     "rollup-plugin-import-css": "^3.5.0",
-    "typescript": "4.9.5"
+    "slate-test-utils": "^1.3.2",
+    "typescript": "4.9.5",
+    "vite": "^5.1.4",
+    "vitest": "^1.3.1"
   },
   "peerDependencies": {
     "@types/react": "18.x",

@@ -9,11 +9,10 @@ import {
   useFormItem,
   Form,
   ErrorBoundary,
-  Switch,
   Input,
   Select,
 } from '@meow/components'
-import { Portal } from '@meow/components/Portal'
+import { SwitchControlled } from '@meow/components/switch'
 import { Button } from '@meow/components/Button'
 import toast from 'react-hot-toast'
 import { useMeasure } from '@meow/utils'
@@ -180,6 +179,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               }>
                 id="content-form"
                 form={form}
+                debug
                 onSubmit={() => {
                   const id = toast.loading('Saving content...')
                   const { body, ...rest } = getCorrectedFormValues()
@@ -229,7 +229,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                         case 'image':
                           return <ImagePicker.Controlled />
                         case 'boolean':
-                          return <Switch.Controlled />
+                          return <SwitchControlled />
                         case 'select':
                           return (
                             <Select.Controlled

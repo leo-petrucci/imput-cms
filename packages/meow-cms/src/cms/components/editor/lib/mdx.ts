@@ -7,3 +7,25 @@ export const mdxAccessors = {
   ObjectExpression: 'value.value',
   ArrowFunctionExpression: 'value.value',
 }
+
+/**
+ * Same as the above, but a function
+ */
+export const mdxAccessorsSwitch = (
+  type?:
+    | 'Literal'
+    | 'ArrayExpression'
+    | 'ObjectExpression'
+    | 'ArrowFunctionExpression'
+) => {
+  switch (type) {
+    case 'Literal':
+      return mdxAccessors['Literal']
+    case 'ArrayExpression':
+    case 'ObjectExpression':
+    case 'ArrowFunctionExpression':
+      return mdxAccessors['ArrayExpression']
+    default:
+      return 'value'
+  }
+}

@@ -6,7 +6,7 @@ type ExtendedOverlayProps = Omit<SpuntareProps, 'open'> & ModalProps
 
 export interface PanelProps extends ExtendedOverlayProps {}
 
-const Panel = (props: PanelProps) => {
+const Panel = ({ depthOfType, lengthOfType, ...props }: PanelProps) => {
   return (
     <Modal
       {...props}
@@ -17,10 +17,8 @@ const Panel = (props: PanelProps) => {
       animate={{
         opacity: 1,
         transform: `scale(${
-          1 - props.depthOfType * (0.2 / props.lengthOfType)
-        }) translateX(0%) translateX(${
-          props.depthOfType * (100 / props.lengthOfType)
-        }px)`,
+          1 - depthOfType * (0.2 / lengthOfType)
+        }) translateX(0%) translateX(${depthOfType * (100 / lengthOfType)}px)`,
         filter: props.depth > 0 ? 'blur(2px)' : 'blur(0px)',
       }}
       exit={{

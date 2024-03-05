@@ -50,6 +50,9 @@ export interface MdxElementShape extends CustomElement {
   text: string
 }
 
+/**
+ * A slate element that represents a React object. Can be clicked.
+ */
 const MdxElement = (props: CustomRenderElementProps) => {
   const { attributes, children, element } = props
   const mdxElement = element as MdxElementShape
@@ -88,6 +91,7 @@ const MdxElement = (props: CustomRenderElementProps) => {
         )}
       >
         <button
+          data-testid={`${mdxElement.name}-block`}
           className={StyledMdxButton({ selected })}
           contentEditable={false}
         >

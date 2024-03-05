@@ -1,6 +1,4 @@
-import { useFormItem } from '../'
 import React from 'react'
-import { useController, useFormContext } from 'react-hook-form'
 import { cn } from '../lib/utils'
 
 export interface InputProps
@@ -24,23 +22,4 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 Input.displayName = 'Input'
 
-export interface ControlledInputProps extends InputProps {}
-
-const Controlled = ({ ...rest }: ControlledInputProps) => {
-  const form = useFormContext()
-  const { name, rules } = useFormItem()
-
-  const { field } = useController({
-    name: name,
-    control: form.control,
-    rules,
-    defaultValue: rest.defaultValue,
-  })
-
-  return <Input {...rest} {...field} />
-}
-
-const InputNamespace = Object.assign(Input, { Controlled })
-
-export default InputNamespace
 export { Input }

@@ -5,7 +5,7 @@ import Editor, { deserialize, serialize } from '../../../cms/components/editor'
 import React, { useEffect } from 'react'
 import matter from 'gray-matter'
 import { useController, useForm, useFormContext } from 'react-hook-form'
-import { useFormItem, Form, ErrorBoundary, Input } from '@meow/components'
+import { useFormItem, Form, ErrorBoundary } from '@meow/components'
 import { SwitchControlled } from '@meow/components/Switch'
 import { ComboBox } from '@meow/components/Combobox/Controlled'
 import { Button } from '@meow/components/Button'
@@ -25,6 +25,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../components/loader'
 import { Layout } from '../../components/atoms/Layout'
 import { cloneDeep } from 'lodash'
+import { Input } from '@meow/components/Input/Controlled'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -214,11 +215,11 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                     const renderControl = () => {
                       switch (f.widget) {
                         case 'string':
-                          return <Input.Controlled />
+                          return <Input />
                         case 'date':
-                          return <Input.Controlled type="date" />
+                          return <Input type="date" />
                         case 'datetime':
-                          return <Input.Controlled type="datetime-local" />
+                          return <Input type="datetime-local" />
                         case 'markdown':
                           return <CreateEditor />
                         case 'image':

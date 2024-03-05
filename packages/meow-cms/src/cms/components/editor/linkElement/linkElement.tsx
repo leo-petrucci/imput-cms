@@ -8,7 +8,8 @@ import {
 } from 'slate-react'
 import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../../types/slate'
-import { Input, Label } from '@meow/components'
+import { Label } from '@meow/components'
+import { Input } from '@meow/components/Input'
 import {
   Popover,
   PopoverContent,

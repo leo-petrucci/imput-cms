@@ -10,7 +10,7 @@ import { editReactChildren } from '../../../../cms/components/editor/lib/editRea
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import Input from '@meow/components/input'
+import { Input } from '@meow/components/Input'
 import { Switch } from '@meow/components/Switch'
 import Codeblock from '@meow/components/codeblock'
 import Label from '@meow/components/label'

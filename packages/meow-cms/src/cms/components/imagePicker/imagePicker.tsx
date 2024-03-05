@@ -1,4 +1,4 @@
-import { Input, Modal } from '@meow/components'
+import { Modal } from '@meow/components'
 import { useImages } from '../../contexts/imageContext/useImageContext'
 import { ImageSquare } from 'phosphor-react'
 import { Element } from 'slate'
@@ -17,6 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@meow/components/Popover'
+import { Input } from '@meow/components/Input'
 
 const StyledImageButton = cva(
   'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',

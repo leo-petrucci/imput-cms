@@ -12,7 +12,7 @@ import {
   Input,
   Select,
 } from '@meow/components'
-import { SwitchControlled } from '@meow/components/switch'
+import { SwitchControlled } from '@meow/components/Switch'
 import { Button } from '@meow/components/Button'
 import toast from 'react-hot-toast'
 import { useMeasure } from '@meow/utils'

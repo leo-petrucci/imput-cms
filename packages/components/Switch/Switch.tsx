@@ -1,5 +1,5 @@
 import * as SwitchPrimitives from '@radix-ui/react-switch'
-import { useFormItem } from '../'
+import { useFormItem } from '..'
 import { useController, useFormContext } from 'react-hook-form'
 import React from 'react'
 import { cn } from '../lib/utils'

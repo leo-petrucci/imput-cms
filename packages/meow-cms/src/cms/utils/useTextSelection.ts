@@ -55,7 +55,7 @@ export function useTextSelection(target?: HTMLElement) {
    * Returns the first scrollable parent of the item being selected
    * in our case it would be the editor
    */
-  function getScrollParent(node: Element) {
+  function getScrollParent(node: Element): any {
     if (node == null) {
       return null
     }

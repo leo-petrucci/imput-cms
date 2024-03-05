@@ -1,12 +1,10 @@
 import { Widgets } from '../../contexts/cmsContext/context'
 import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useGetGithubCollection } from '../../queries/github'
-import isArray from 'lodash/isArray'
 import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { GroupBase } from 'react-select'
-import { useFormItem, Select } from '@meow/components'
-import Combobox from '@meow/components/Combobox'
+import { useFormItem } from '@meow/components'
+import { Combobox, ComboboxPrimtive } from '@meow/components/Combobox'
 
 type SelectAndWidget = Omit<
   Extract<
@@ -25,86 +23,81 @@ export interface RelationSelectProps
   onValueChange: (value: any) => any
 }
 
-const RelationSelect = ({
-  collection,
-  value_field,
-  display_fields,
-  isMulti,
-  value,
-  onValueChange,
-  ...props
-}: RelationSelectProps) => {
-  const { collections } = useCMS()
-  const foundCollection = collections.find((c) => c.name === collection)
+const RelationSelectComponent = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimtive>,
+  RelationSelectProps
+>(
+  (
+    {
+      collection,
+      value_field,
+      display_fields,
+      isMulti,
+      value,
+      onValueChange,
+    }: RelationSelectProps,
+    forwardedRef
+  ) => {
+    const { collections } = useCMS()
+    const foundCollection = collections.find((c) => c.name === collection)
 
-  if (!foundCollection) {
-    throw new Error(
-      `Could not find collection "${collection}" on relation widget.`
-    )
-  }
-
-  const { isSuccess, data } = useGetGithubCollection(foundCollection!.folder)
-
-  const valueKey = value_field
-  const displayKey = display_fields || value_field
-
-  const optionsMemo = React.useMemo(() => {
-    if (isSuccess) {
-      return data?.map((d) => {
-        const value = d.data[valueKey]
-        const label = d.data[displayKey]
-        if (!value || !label) {
-          throw new Error(
-            `An error occurred while displaying data in the relation widget. Are you sure your "value_field" and "display_fields" properties exist in the "${collection}" collection?`
-          )
-        }
-
-        return {
-          value,
-          label,
-        }
-      })
-    } else {
-      return []
+    if (!foundCollection) {
+      throw new Error(
+        `Could not find collection "${collection}" on relation widget.`
+      )
     }
-  }, [isSuccess])
 
-  // this should handle single selects
-  // as well as multi selects with multiple values
-  // and multi selects with non-array values
-  const valueMemo = React.useMemo(() => {
-    if (value && isSuccess) {
-      if (isMulti) {
-        return value.map((v: any) => optionsMemo?.find((o) => o.value === v))
+    const { isSuccess, data } = useGetGithubCollection(foundCollection!.folder)
+
+    const valueKey = value_field
+    const displayKey = display_fields || value_field
+
+    const optionsMemo = React.useMemo(() => {
+      if (isSuccess) {
+        return data?.map((d) => {
+          const value = d.data[valueKey]
+          const label = d.data[displayKey]
+          if (!value || !label) {
+            throw new Error(
+              `An error occurred while displaying data in the relation widget. Are you sure your "value_field" and "display_fields" properties exist in the "${collection}" collection?`
+            )
+          }
+
+          return {
+            value,
+            label,
+          }
+        })
       } else {
-        return optionsMemo?.find((o) => o.value === value)
+        return []
       }
-    } else {
-      return undefined
+    }, [isSuccess])
+
+    if (!isSuccess) return <>Loading...</>
+
+    if (isMulti) {
+      return (
+        <Combobox.Multi
+          ref={forwardedRef}
+          options={optionsMemo}
+          // should be an array
+          defaultValue={value}
+          onValueChange={onValueChange}
+        />
+      )
     }
-  }, [value, isSuccess, optionsMemo])
 
-  if (!isSuccess) return <>Loading...</>
-
-  if (isMulti) {
     return (
-      <Combobox.Multi
+      <Combobox
+        // @ts-expect-error
+        ref={forwardedRef}
         options={optionsMemo}
-        // should be an array
         defaultValue={value}
         onValueChange={onValueChange}
       />
     )
   }
-
-  return (
-    <Combobox
-      options={optionsMemo}
-      defaultValue={value}
-      onValueChange={onValueChange}
-    />
-  )
-}
+)
 
 interface ControlledSelectProps extends SelectAndWidget {
   name?: string
@@ -140,6 +133,6 @@ function Controlled(props: ControlledSelectProps) {
   )
 }
 
-RelationSelect.Controlled = Controlled
+const RelationSelect = Object.assign(RelationSelectComponent, { Controlled })
 
 export default RelationSelect

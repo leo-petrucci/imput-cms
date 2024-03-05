@@ -41,7 +41,7 @@ export type SharedComboboxProps = {
 
 type OptionType = {
   value: any
-  label: string
+  label: any
 }
 
 /**
@@ -69,7 +69,12 @@ export interface ComboboxProps {
 /**
  * A combobox element that allows selecting one value
  */
-const Combobox = (props: ComboboxProps & SharedComboboxProps) => {
+const ComboboxSingle = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimtive> & {
+    Multi: typeof ComboboxMulti
+  },
+  ComboboxProps & SharedComboboxProps
+>((props: ComboboxProps & SharedComboboxProps, ref) => {
   const {
     disabled = false,
     options,
@@ -126,6 +131,7 @@ const Combobox = (props: ComboboxProps & SharedComboboxProps) => {
 
   return (
     <ComboboxPrimtive
+      ref={ref}
       disabled={disabled}
       value={value}
       options={options}
@@ -150,7 +156,7 @@ const Combobox = (props: ComboboxProps & SharedComboboxProps) => {
       {...rest}
     />
   )
-}
+})
 
 /**
  * Props used exclusively by the single combobox
@@ -174,7 +180,10 @@ export interface ComboboxMultiProps {
 /**
  * A combobox element that allows selecting multiple values
  */
-const ComboboxMulti = (props: ComboboxMultiProps & SharedComboboxProps) => {
+const ComboboxMulti = React.forwardRef<
+  React.ElementRef<typeof ComboboxPrimtive>,
+  ComboboxMultiProps & SharedComboboxProps
+>((props: ComboboxMultiProps & SharedComboboxProps, forwardedRef) => {
   const {
     disabled = false,
     options,
@@ -235,6 +244,7 @@ const ComboboxMulti = (props: ComboboxMultiProps & SharedComboboxProps) => {
 
   return (
     <ComboboxPrimtive
+      ref={forwardedRef}
       value={value}
       disabled={disabled}
       options={options}
@@ -265,7 +275,7 @@ const ComboboxMulti = (props: ComboboxMultiProps & SharedComboboxProps) => {
       {...rest}
     />
   )
-}
+})
 
 interface ComboboxPrimitiveProps {
   buttonRender: React.ReactNode
@@ -280,9 +290,10 @@ interface ComboboxPrimitiveProps {
  * This is a combobox template, it helps with not duplicating tags and component logic
  * while still being customisable enough for both Single and Multi combobox to use it
  */
-const ComboboxPrimtive = (
-  props: ComboboxPrimitiveProps & SharedComboboxProps
-) => {
+export const ComboboxPrimtive = React.forwardRef<
+  React.ElementRef<typeof PopoverTrigger>,
+  ComboboxPrimitiveProps & SharedComboboxProps
+>((props: ComboboxPrimitiveProps & SharedComboboxProps, forwardedRef) => {
   const {
     disabled = false,
     options,
@@ -298,17 +309,20 @@ const ComboboxPrimtive = (
 
   const [ref, { width: buttonWidth }] = useMeasure()
 
+  // @ts-ignore
+  React.useImperativeHandle(forwardedRef, () => ref.current!, [])
+
   return (
     <Popover open={open} onOpenChange={onOpenChange} modal>
       <PopoverTrigger asChild>
         <Button
+          ref={ref}
           variant="outline"
           data-testid="combobox"
           className="min-w-full flex justify-between"
           role="combobox"
           aria-expanded={open}
           disabled={disabled}
-          ref={ref}
           {...rest}
         >
           {buttonRender}
@@ -401,13 +415,13 @@ const ComboboxPrimtive = (
       </PopoverPortal>
     </Popover>
   )
-}
+})
 
 const StyledIcon = styled('div', {
   height: '16px',
   width: '16px',
 })
 
-Combobox.Multi = ComboboxMulti
+const Combobox = Object.assign(ComboboxSingle, { Multi: ComboboxMulti })
 
-export default Combobox
+export { Combobox }

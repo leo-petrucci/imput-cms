@@ -37,6 +37,19 @@ const CMS = () => (
                 widget: 'string',
               },
               {
+                label: 'Select',
+                name: 'select',
+                widget: 'select',
+                options: ['option1', 'option2', 'option3'],
+              },
+              {
+                label: 'MultiSelect',
+                name: 'multiSelect',
+                widget: 'select',
+                multiple: true,
+                options: ['option1', 'option2', 'option3'],
+              },
+              {
                 label: 'Categories',
                 name: 'categories',
                 widget: 'relation',

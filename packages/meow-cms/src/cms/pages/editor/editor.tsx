@@ -5,14 +5,9 @@ import Editor, { deserialize, serialize } from '../../../cms/components/editor'
 import React, { useEffect } from 'react'
 import matter from 'gray-matter'
 import { useController, useForm, useFormContext } from 'react-hook-form'
-import {
-  useFormItem,
-  Form,
-  ErrorBoundary,
-  Input,
-  Select,
-} from '@meow/components'
+import { useFormItem, Form, ErrorBoundary, Input } from '@meow/components'
 import { SwitchControlled } from '@meow/components/Switch'
+import { ComboBox } from '@meow/components/Combobox/Controlled'
 import { Button } from '@meow/components/Button'
 import toast from 'react-hot-toast'
 import { useMeasure } from '@meow/utils'
@@ -231,9 +226,19 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                         case 'boolean':
                           return <SwitchControlled />
                         case 'select':
+                          if (f.multiple) {
+                            return (
+                              <ComboBox.Multi
+                                options={f.options.map((o) => ({
+                                  value: o,
+                                  label: o,
+                                }))}
+                              />
+                            )
+                          }
+
                           return (
-                            <Select.Controlled
-                              isMulti={f.multiple || false}
+                            <ComboBox
                               options={f.options.map((o) => ({
                                 value: o,
                                 label: o,

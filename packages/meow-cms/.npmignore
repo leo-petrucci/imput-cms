@@ -10,7 +10,6 @@ modern-normalise.ts
 next-env.d.ts
 ossjs.release.config.js
 prettier.config.js
-stitches.config.ts
 yarn.lock
 tsconfig.json
 .env.local

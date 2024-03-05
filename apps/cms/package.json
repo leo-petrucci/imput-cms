@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "test:dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,7 +16,8 @@
     "@types/simple-oauth2": "^5.0.1",
     "is-hotkey": "^0.2.0",
     "local-meow-cms": "workspace:*",
-    "next": "13.1.6",
+    "meow-cms": "link:../../packages/meow-cms",
+    "next": "14.1.0",
     "react": "18.x",
     "react-dom": "18.x",
     "simple-oauth2": "^5.0.0",

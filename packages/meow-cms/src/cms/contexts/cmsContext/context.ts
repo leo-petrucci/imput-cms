@@ -8,9 +8,9 @@ export type Widgets =
     }
   | {
       widget: 'select'
-      multiple?: boolean
       options: (string | number)[]
-      default?: string | number
+      multiple?: boolean
+      default?: (string | number)[] | (string | number)
     }
   | {
       widget: 'relation'

@@ -10,9 +10,16 @@ import { editReactChildren } from '../../../../cms/components/editor/lib/editRea
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import { Descendant, Node } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import { Input, Select, Switch, Codeblock, Label } from '@meow/components'
+import { Input } from '@meow/components/Input'
+import { Switch } from '@meow/components/Switch'
+import Codeblock from '@meow/components/codeblock'
+import { Label } from '@meow/components/Label'
+import { Combobox } from '@meow/components/Combobox'
 import { MDXNode } from '../../../../cms/types/mdxNode'
-import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
+import {
+  mdxAccessors,
+  mdxAccessorsSwitch,
+} from '../../../../cms/components/editor/lib/mdx'
 import React from 'react'
 import { generateComponentProp } from '../lib/generateComponentProp'
 
@@ -23,7 +30,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
   const { element } = props
   const editor = useSlateStatic() as ReactEditor
   const mdxElement = element as MdxElementShape
-  const { id } = mdxElement
 
   const path = ReactEditor.findPath(editor, element as unknown as Node)
 
@@ -71,7 +77,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2" data-testid="component-editor">
         {componentSchema?.map((c) => {
           // children are handled differently
           // markdown can only be used for children
@@ -108,26 +114,29 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             prop = generateComponentProp(c)
           }
 
+          /**
+           * Here we convert deserialized values to values we can use in our components
+           */
           if (isString(prop.value)) {
+            // if the value is a string, then it's easy
             value = prop.value
           } else {
-            // different types require different handling
-            switch (prop.value?.data.estree.body[0].expression.type) {
-              // For bools and numbers we want to get the raw (unstringified) value
-              case 'Literal':
-                value = get(
-                  prop,
-                  mdxAccessors[prop.value.data.estree.body[0].expression.type]
-                )
-                break
-              // For arrays and objects we'll just pull a string and render it in a special editor
-              case 'ArrayExpression':
-              case 'ObjectExpression':
-                value = get(
-                  prop,
-                  mdxAccessors[prop.value.data.estree.body[0].expression.type]
-                )
-                break
+            // if it's not a string then it'll be a bit more complex
+            if (prop.value?.value) {
+              try {
+                // if it's an array, a number, a boolean then we can just JSON.parse it
+                value = JSON.parse(prop.value?.value)
+              } catch (err) {
+                // however in some cases it can be a JS object
+                // {
+                //   Test: "something"
+                // }
+                // which fails when parsed
+                // in that case we just take the object as-is
+                // since it'll most likely just be edited by a code block
+                value = prop.value?.value
+              }
+            } else {
             }
           }
 
@@ -148,12 +157,15 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
               }
               return (
                 <div className="flex flex-col gap-1" key={c.name}>
-                  <Label htmlFor={`string-prop-${c.name}`}>{c.label}</Label>
+                  <Label htmlFor={`input-string-prop-${c.name}`}>
+                    {c.label}
+                  </Label>
                   <Input
                     type={getInputType()}
                     name={`string-prop-${c.name}`}
                     defaultValue={value}
                     onChange={(e) => {
+                      console.log('change', e.target.value)
                       var newObj = cloneDeep(prop)
                       set(newObj, 'value', e.target.value)
                       editAttributes(path, mdxElement, newObj, editor)
@@ -164,10 +176,12 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             case 'boolean':
               return (
                 <div className="flex flex-col gap-1" key={c.name}>
-                  <Label htmlFor={`boolean-prop-${c.name}`}>{c.label}</Label>
+                  <Label htmlFor={`switch-boolean-prop-${c.name}`}>
+                    {c.label}
+                  </Label>
                   <Switch
                     name={`boolean-prop-${c.name}`}
-                    checked={value as boolean}
+                    defaultChecked={value as boolean}
                     onCheckedChange={(val) => {
                       var newObj = cloneDeep(prop)
                       set(
@@ -185,32 +199,71 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             case 'select':
               const options = c.type.options.map((v) => ({
                 value: v,
-                label: v,
+                label: String(v),
               }))
-              const selectVal = options.find((o) => o.value === value)
 
-              return (
-                <div className="flex flex-col gap-1" key={c.name}>
-                  <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
-                  <Select
-                    defaultValue={selectVal}
-                    onChange={(option) => {
-                      if (option) {
+              // different stuff depending if the component allows multiple values or not
+              if (c.type.multiple) {
+                const selectVal = options.filter((o) =>
+                  value?.includes(o.value)
+                )
+                return (
+                  <div className="flex flex-col gap-1" key={c.name}>
+                    <Label htmlFor={`combobox-select-prop-${c.name}`}>
+                      {c.label}
+                    </Label>
+
+                    <Combobox.Multi
+                      options={options}
+                      defaultValue={selectVal.map((v) => v.value)}
+                      onValueChange={(val) => {
+                        if (val) {
+                          var newObj = cloneDeep(prop)
+                          set(
+                            newObj,
+                            mdxAccessors[
+                              prop.value!.data.estree.body[0].expression.type
+                            ],
+                            JSON.stringify(val.map((v) => v.value)).replaceAll(
+                              '\\',
+                              ''
+                            )
+                          )
+                          editAttributes(path, mdxElement, newObj, editor)
+                        }
+                      }}
+                    />
+                  </div>
+                )
+              } else {
+                const selectVal = options.find((o) => o.value === value)
+
+                return (
+                  <div className="flex flex-col gap-1" key={c.name}>
+                    <Label htmlFor={`combobox-select-prop-${c.name}`}>
+                      {c.label}
+                    </Label>
+
+                    <Combobox
+                      id={`combobox-select-prop-${c.name}`}
+                      options={options}
+                      defaultValue={selectVal?.value}
+                      onValueChange={(val) => {
                         var newObj = cloneDeep(prop)
                         set(
                           newObj,
-                          mdxAccessors[
-                            prop.value!.data.estree.body[0].expression.type
-                          ],
-                          option.value
+                          mdxAccessorsSwitch(
+                            prop.value!.data?.estree.body[0].expression.type
+                          ),
+                          val?.value
                         )
                         editAttributes(path, mdxElement, newObj, editor)
-                      }
-                    }}
-                    options={options}
-                  />
-                </div>
-              )
+                      }}
+                    />
+                  </div>
+                )
+              }
+
             case 'json':
               return (
                 <div className="flex flex-col gap-1" key={c.name}>

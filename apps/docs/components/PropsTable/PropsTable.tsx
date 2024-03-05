@@ -1,5 +1,9 @@
 import React from 'react'
-import { Popover } from '@meow/components'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@meow/components/Popover'
 
 const Code = (props: React.HTMLAttributes<HTMLElement>) => (
   <code
@@ -71,37 +75,42 @@ const PropsTable = ({
                       {required ? '*' : null}
                     </Code>
                     {description && (
-                      <Popover content={<>{description}</>}>
-                        <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="#000000"
-                            viewBox="0 0 256 256"
-                          >
-                            <rect width="256" height="256" fill="none"></rect>
-                            <circle
-                              cx="128"
-                              cy="128"
-                              r="96"
-                              fill="none"
-                              stroke="#000000"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="16"
-                            ></circle>
-                            <polyline
-                              points="120 120 128 120 128 176 136 176"
-                              fill="none"
-                              stroke="#000000"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="16"
-                            ></polyline>
-                            <circle cx="126" cy="84" r="12"></circle>
-                          </svg>
-                        </button>
+                      <Popover>
+                        <PopoverContent>
+                          <>{description}</>
+                        </PopoverContent>
+                        <PopoverTrigger>
+                          <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="#000000"
+                              viewBox="0 0 256 256"
+                            >
+                              <rect width="256" height="256" fill="none"></rect>
+                              <circle
+                                cx="128"
+                                cy="128"
+                                r="96"
+                                fill="none"
+                                stroke="#000000"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="16"
+                              ></circle>
+                              <polyline
+                                points="120 120 128 120 128 176 136 176"
+                                fill="none"
+                                stroke="#000000"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="16"
+                              ></polyline>
+                              <circle cx="126" cy="84" r="12"></circle>
+                            </svg>
+                          </button>
+                        </PopoverTrigger>
                       </Popover>
                     )}
                   </div>
@@ -112,37 +121,42 @@ const PropsTable = ({
                       {Boolean(typeSimple) ? typeSimple : type}
                     </Code>
                     {Boolean(typeSimple) && (
-                      <Popover content={<Code>{type}</Code>}>
-                        <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="16"
-                            height="16"
-                            fill="#000000"
-                            viewBox="0 0 256 256"
-                          >
-                            <rect width="256" height="256" fill="none"></rect>
-                            <circle
-                              cx="128"
-                              cy="128"
-                              r="96"
-                              fill="none"
-                              stroke="#000000"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="16"
-                            ></circle>
-                            <polyline
-                              points="120 120 128 120 128 176 136 176"
-                              fill="none"
-                              stroke="#000000"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="16"
-                            ></polyline>
-                            <circle cx="126" cy="84" r="12"></circle>
-                          </svg>
-                        </button>
+                      <Popover>
+                        <PopoverContent>
+                          <Code>{type}</Code>
+                        </PopoverContent>
+                        <PopoverTrigger>
+                          <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              fill="#000000"
+                              viewBox="0 0 256 256"
+                            >
+                              <rect width="256" height="256" fill="none"></rect>
+                              <circle
+                                cx="128"
+                                cy="128"
+                                r="96"
+                                fill="none"
+                                stroke="#000000"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="16"
+                              ></circle>
+                              <polyline
+                                points="120 120 128 120 128 176 136 176"
+                                fill="none"
+                                stroke="#000000"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="16"
+                              ></polyline>
+                              <circle cx="126" cy="84" r="12"></circle>
+                            </svg>
+                          </button>
+                        </PopoverTrigger>
                       </Popover>
                     )}
                   </div>

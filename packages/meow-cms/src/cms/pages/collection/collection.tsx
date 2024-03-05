@@ -13,10 +13,11 @@ import CollectionSelect from '../../../cms/components/collections/collectionSele
 import CollectionCard from '../../../cms/components/collections/collectionCard'
 import { CollectionType } from '../../../cms/types/collection'
 import { useMeasure } from '@meow/utils'
-import { Button } from '@meow/components/src/Button'
+import { Button } from '@meow/components/Button'
 import NewPage from '../../../cms/pages/new'
 import Loader from '../../components/loader'
-import { H1 } from '@meow/components/src/Typography'
+import { H1 } from '@meow/components/Typography'
+import { Portal } from '@meow/components/Portal'
 
 const CollectionPage = () => {
   const { collection } = useParams<{
@@ -43,11 +44,13 @@ const CollectionPage = () => {
             path={'/'}
             element={
               <>
-                <div
-                  // @ts-ignore
-                  ref={ref}
-                  className="fixed top-0 right-0 left-0 p-4 bg-white border-b border-border z-10 flex justify-end"
-                ></div>
+                <Portal.Root>
+                  <div
+                    // @ts-ignore
+                    ref={ref}
+                    className="fixed top-0 right-0 left-0 p-4 bg-white border-b border-border z-10 flex justify-end"
+                  ></div>
+                </Portal.Root>
                 <div className="flex justify-center items-center">
                   <div
                     className="grid gap-4 grid-cols-6 max-w-screen-xl w-full"

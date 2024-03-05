@@ -1,4 +1,4 @@
-import { BlockType } from 'local-meow-cms/src/cms/contexts/cmsContext/context'
+import { BlockType } from 'local-meow-cms'
 import dynamic from 'next/dynamic'
 
 const NextCMS = dynamic(() => import('local-meow-cms'), {
@@ -15,6 +15,40 @@ const blocks: BlockType[] = [
         label: 'Data',
         type: {
           widget: 'json',
+        },
+      },
+    ],
+  },
+  {
+    name: 'Test',
+    label: 'Test Component',
+    fields: [
+      {
+        name: 'select',
+        label: 'Select',
+        type: {
+          options: ['Option 1', 'Option 2', 'Option 3'],
+          default: 'Option 1',
+          widget: 'select',
+        },
+      },
+      {
+        name: 'selectMultipleWithDefault',
+        label: 'SelectMultiple',
+        type: {
+          options: ['Option 1', 'Option 2', 'Option 3'],
+          default: ['Option 1'],
+          widget: 'select',
+          multiple: true,
+        },
+      },
+      {
+        name: 'selectMultiple',
+        label: 'SelectMultiple',
+        type: {
+          options: ['Option 1', 'Option 2', 'Option 3'],
+          widget: 'select',
+          multiple: true,
         },
       },
     ],
@@ -120,12 +154,12 @@ const CMS = () => (
       settings: {
         backend: {
           name: 'github',
-          repo: 'creativiii/meow-cms',
-          branch: 'feature/more-docs-improvements',
+          repo: 'leo-petrucci/meow-cms',
+          branch: 'main',
           base_url: 'http://localhost:3000/',
           auth_endpoint: 'api/authorize',
         },
-        media_folder: 'examples/docs/public/images',
+        media_folder: 'apps/docs/public/images',
         public_folder: '/images',
         collections: [
           {

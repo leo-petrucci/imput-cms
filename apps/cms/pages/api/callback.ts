@@ -3,6 +3,11 @@ import { AuthorizationCode } from 'simple-oauth2'
 import { config } from '../../lib/config'
 
 const callback = async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log({
+    url: req.url,
+    Headers: req.headers,
+  })
+
   const { host } = req.headers
   const url = new URL(`https://${host}/${req.url}`)
   const urlParams = url.searchParams
@@ -12,12 +17,19 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = new AuthorizationCode(config(provider))
   const tokenParams = {
     code,
-    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
+    redirect_uri: `http://${host}/api/callback?provider=${provider}`,
   }
 
   try {
     const accessToken = await client.getToken(tokenParams)
     const token = accessToken.token['access_token']
+
+    console.log({
+      url: req.url,
+      code,
+      token,
+      provider,
+    })
 
     res.statusCode = 200
 

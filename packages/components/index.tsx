@@ -13,7 +13,6 @@ import {
   PopoverTrigger,
   PopoverAnchor,
 } from './Popover'
-import Select from './select'
 import Tabs from './tabs'
 
 export {
@@ -31,7 +30,6 @@ export {
   PopoverContent,
   PopoverTrigger,
   PopoverAnchor,
-  Select,
   Tabs,
 }
 

@@ -1414,20 +1414,12 @@ video {
   flex: 1 1 0%;
 }
 
-.flex-shrink {
-  flex-shrink: 1;
-}
-
 .shrink {
   flex-shrink: 1;
 }
 
 .shrink-0 {
   flex-shrink: 0;
-}
-
-.flex-grow {
-  flex-grow: 1;
 }
 
 .grow {
@@ -1468,12 +1460,6 @@ video {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
-}
-
-.select-all {
-  -webkit-user-select: all;
-     -moz-user-select: all;
-          user-select: all;
 }
 
 .resize {
@@ -1518,12 +1504,12 @@ video {
   flex-wrap: wrap;
 }
 
-.items-start {
-  align-items: flex-start;
-}
-
 .\!items-start {
   align-items: flex-start !important;
+}
+
+.items-start {
+  align-items: flex-start;
 }
 
 .items-center {
@@ -1607,14 +1593,6 @@ video {
   border-color: hsl(214.3 31.8% 91.4% / var(--tw-divide-opacity));
 }
 
-.self-start {
-  align-self: flex-start;
-}
-
-.self-end {
-  align-self: flex-end;
-}
-
 .self-center {
   align-self: center;
 }
@@ -1659,10 +1637,6 @@ video {
 
 .whitespace-break-spaces {
   white-space: break-spaces;
-}
-
-.break-all {
-  word-break: break-all;
 }
 
 .rounded {
@@ -2022,16 +1996,8 @@ video {
   text-align: left;
 }
 
-.\!text-left {
-  text-align: left !important;
-}
-
 .text-center {
   text-align: center;
-}
-
-.text-justify {
-  text-align: justify;
 }
 
 .font-mono {
@@ -2158,11 +2124,6 @@ video {
 
 .diagonal-fractions {
   --tw-numeric-fraction: diagonal-fractions;
-  font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
-}
-
-.stacked-fractions {
-  --tw-numeric-fraction: stacked-fractions;
   font-variant-numeric: var(--tw-ordinal) var(--tw-slashed-zero) var(--tw-numeric-figure) var(--tw-numeric-spacing) var(--tw-numeric-fraction);
 }
 
@@ -2410,6 +2371,12 @@ video {
   transition-duration: 150ms;
 }
 
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 .transition-colors {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -2426,20 +2393,6 @@ video {
   transition-property: transform;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
-}
-
-.transition-all {
-  transition-property: all;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-
-.ease-in {
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.ease-in-out {
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ease-out {
@@ -2466,14 +2419,6 @@ video {
 
 .zoom-out {
   --tw-exit-scale: 0;
-}
-
-.ease-in {
-  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.ease-in-out {
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ease-out {
@@ -2508,14 +2453,6 @@ video {
 
 .zoom-out {
   --tw-exit-scale: 0;
-}
-
-.ease-in {
-  animation-timing-function: cubic-bezier(0.4, 0, 1, 1);
-}
-
-.ease-in-out {
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .ease-out {
@@ -2695,6 +2632,11 @@ video {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.data-\[state\=active\]\:bg-background[data-state=active] {
+  --tw-bg-opacity: 1;
+  background-color: hsl(0 0% 100% / var(--tw-bg-opacity));
+}
+
 .data-\[state\=checked\]\:bg-primary[data-state=checked] {
   --tw-bg-opacity: 1;
   background-color: hsl(222.2 47.4% 11.2% / var(--tw-bg-opacity));
@@ -2715,9 +2657,9 @@ video {
   background-color: hsl(214.3 31.8% 91.4% / var(--tw-bg-opacity));
 }
 
-.data-\[state\=active\]\:bg-background[data-state=active] {
-  --tw-bg-opacity: 1;
-  background-color: hsl(0 0% 100% / var(--tw-bg-opacity));
+.data-\[state\=active\]\:text-foreground[data-state=active] {
+  --tw-text-opacity: 1;
+  color: hsl(222.2 47.4% 11.2% / var(--tw-text-opacity));
 }
 
 .data-\[state\=on\]\:text-accent-foreground[data-state=on] {
@@ -2728,11 +2670,6 @@ video {
 .data-\[state\=open\]\:text-muted-foreground[data-state=open] {
   --tw-text-opacity: 1;
   color: hsl(215.4 16.3% 46.9% / var(--tw-text-opacity));
-}
-
-.data-\[state\=active\]\:text-foreground[data-state=active] {
-  --tw-text-opacity: 1;
-  color: hsl(222.2 47.4% 11.2% / var(--tw-text-opacity));
 }
 
 .data-\[disabled\]\:opacity-50[data-disabled] {

@@ -72,6 +72,9 @@ importers:
       '@meow/components':
         specifier: workspace:*
         version: link:../../packages/components
+      '@meow/tailwind':
+        specifier: workspace:*
+        version: link:../../packages/tailwind
       '@types/node':
         specifier: 18.14.6
         version: 18.14.6
@@ -81,6 +84,9 @@ importers:
       '@types/react-dom':
         specifier: 18.0.11
         version: 18.0.11
+      autoprefixer:
+        specifier: ^10.4.17
+        version: 10.4.17(postcss@8.4.35)
       eslint:
         specifier: 8.35.0
         version: 8.35.0
@@ -102,6 +108,9 @@ importers:
       nextra-theme-docs:
         specifier: ^2.2.17
         version: 2.13.3(next@14.1.0)(nextra@2.13.3)(react-dom@18.2.0)(react@18.2.0)
+      postcss:
+        specifier: ^8.4.35
+        version: 8.4.35
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -111,6 +120,9 @@ importers:
       simple-oauth2:
         specifier: ^5.0.0
         version: 5.0.0
+      tailwindcss:
+        specifier: 3.3.2
+        version: 3.3.2
       typescript:
         specifier: 4.9.5
         version: 4.9.5
@@ -5320,7 +5332,6 @@ packages:
       picocolors: 1.0.0
       postcss: 8.4.35
       postcss-value-parser: 4.2.0
-    dev: true
 
   /available-typed-arrays@1.0.7:
     resolution: {integrity: sha512-wvUjBtSGN7+7SjNpq/9M2Tg350UZD3q62IFZLbRAR1bSMlCo1ZaeW+BJ+D090e4hIIZLBcTDWe4Mh4jvUDajzQ==}
@@ -7831,7 +7842,6 @@ packages:
 
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
-    dev: true
 
   /framer-motion@6.5.1(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-o1BGqqposwi7cgDrtg0dNONhkmPsUFDaLcKXigzuTFC5x58mE8iyTazxSudFzmT6MEyJKfjjU8ItoMe3W+3fiw==}
@@ -10855,7 +10865,6 @@ packages:
   /normalize-range@0.1.2:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /npm-run-path@2.0.2:
     resolution: {integrity: sha512-lJxZYlT4DW/bRUtFh1MQIWqmLwQfAxnqWG4HhEdjMlkrJYnJn0Jrr2u3mgxqaWsdiBc76TYkTG/mhrnYTuzfHw==}

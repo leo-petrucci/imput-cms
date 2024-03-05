@@ -2516,6 +2516,23 @@ video {
   animation-play-state: paused;
 }
 
+.file\:border-0::file-selector-button {
+  border-width: 0px;
+}
+
+.file\:bg-transparent::file-selector-button {
+  background-color: transparent;
+}
+
+.file\:text-sm::file-selector-button {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.file\:font-medium::file-selector-button {
+  font-weight: 500;
+}
+
 .placeholder\:text-muted-foreground::-moz-placeholder {
   --tw-text-opacity: 1;
   color: hsl(215.4 16.3% 46.9% / var(--tw-text-opacity));

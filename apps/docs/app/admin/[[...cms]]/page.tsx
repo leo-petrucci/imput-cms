@@ -161,7 +161,10 @@ const CMS = () => (
           name: 'github',
           repo: 'leo-petrucci/meow-cms',
           branch: 'main',
-          base_url: 'http://localhost:3000/',
+          base_url:
+            process.env.NODE_ENV === 'production'
+              ? 'https://meow.petruc.ci'
+              : 'http://localhost:3000/',
           auth_endpoint: 'api/authorize',
         },
         media_folder: 'apps/docs/public/images',

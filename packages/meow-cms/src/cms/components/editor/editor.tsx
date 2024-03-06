@@ -7,6 +7,7 @@ import remarkSlate, {
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
 import { createEditor, Descendant, Path } from 'slate'
+import { withHistory } from 'slate-history'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
 import Controls from '../../../cms/components/editor/controls'
@@ -125,7 +126,9 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
     () =>
       withInlines(
         withEditableVoids(
-          withListsReact(withListsPlugin(withReact(createEditor())))
+          withListsReact(
+            withListsPlugin(withReact(withHistory(createEditor())))
+          )
         )
       ) as ReactEditor & ListsEditor
   )

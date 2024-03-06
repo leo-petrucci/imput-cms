@@ -23,7 +23,8 @@ import { queryKeys } from '../../../cms/queries/keys'
 import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../components/loader'
 import { Layout } from '../../components/atoms/Layout'
-import { cloneDeep } from 'lodash'
+import cloneDeep from 'lodash/cloneDeep'
+import omit from 'lodash/omit'
 import { Input } from '@meow/components/Input/Controlled'
 import { MdxRenderer } from '../../../MeowRenderer'
 import { Descendant } from 'slate'
@@ -150,6 +151,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   const navigate = useNavigate()
   const { cms, collection } = useParams<{ cms: string; collection: string }>()
 
+  /**
+   * Renders a custom MDX preview or just the plain markdown
+   */
   const renderPreview = () => {
     return (
       <>
@@ -297,9 +301,15 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
             >
+              {currentCollection.preview?.header?.({
+                ...omit(formValues, ['rawBody']),
+              })}
               {currentCollection.preview?.wrapper?.({
                 children: renderPreview(),
               }) || renderPreview()}
+              {currentCollection.preview?.footer?.({
+                ...omit(formValues, ['rawBody']),
+              })}
             </div>
           </div>
         )}

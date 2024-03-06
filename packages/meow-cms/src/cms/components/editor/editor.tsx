@@ -53,6 +53,9 @@ export const deserialize = (
     response = { status: 'error', error }
   }
 
+  // we add ids to each node
+  // because we then iterate through them with react
+  // and we need something to use as key so rendering doesn't get weird
   result.map((r) => {
     // @ts-expect-error
     if (!r.id) {
@@ -66,6 +69,11 @@ export const deserialize = (
 
 export const serialize = remarkSerialize
 
+/**
+ * A void is an element with text that can't be edited
+ * Here we use them as buttons, so they can be clicked and
+ * you can interact with them (images and components)
+ */
 const withEditableVoids = (editor: ReactEditor) => {
   const { isVoid } = editor
 
@@ -127,6 +135,7 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
     onChange?.(val)
   }
 
+  // can't update on every change in prod
   const debouncedOnChange = debug
     ? onEditorChange
     : debounce(onEditorChange, 100)

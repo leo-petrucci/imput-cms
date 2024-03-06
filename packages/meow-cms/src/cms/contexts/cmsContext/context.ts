@@ -196,6 +196,9 @@ export interface NextCMSContext {
        * Components that will be made available to this type of content
        */
       blocks?: BlockType[]
+      /**
+       * Handles the preview
+       */
       preview?: {
         /**
          * Components to render within the mdx preview
@@ -207,6 +210,16 @@ export interface NextCMSContext {
          * An element that wraps the preview
          */
         wrapper?: (props: { children: React.ReactNode }) => JSX.Element
+        /**
+         * An element that renders before your preview
+         * receives your frontmatter object
+         */
+        header?: (props: { [k: string]: string }) => JSX.Element
+        /**
+         * An element that renders after your preview
+         * receives your frontmatter object
+         */
+        footer?: (props: { [k: string]: string }) => JSX.Element
       }
     }[]
   }

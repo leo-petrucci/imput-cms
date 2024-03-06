@@ -1175,6 +1175,10 @@ video {
   z-index: 10;
 }
 
+.z-50 {
+  z-index: 50;
+}
+
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
@@ -1374,6 +1378,14 @@ video {
   min-height: 100vh;
 }
 
+.min-h-24 {
+  min-height: 6rem;
+}
+
+.min-h-12 {
+  min-height: 3rem;
+}
+
 .w-11 {
   width: 2.75rem;
 }
@@ -1416,6 +1428,14 @@ video {
 
 .max-w-screen-xl {
   max-width: 1280px;
+}
+
+.max-w-16 {
+  max-width: 4rem;
+}
+
+.max-w-sm {
+  max-width: 24rem;
 }
 
 .flex-1 {
@@ -2432,8 +2452,26 @@ video {
   }
 }
 
+.animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+
+.fade-in-0 {
+  --tw-enter-opacity: 0;
+}
+
 .zoom-in {
   --tw-enter-scale: 0;
+}
+
+.zoom-in-95 {
+  --tw-enter-scale: .95;
 }
 
 .zoom-out {
@@ -2466,8 +2504,26 @@ video {
   }
 }
 
+.animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+
+.fade-in-0 {
+  --tw-enter-opacity: 0;
+}
+
 .zoom-in {
   --tw-enter-scale: 0;
+}
+
+.zoom-in-95 {
+  --tw-enter-scale: .95;
 }
 
 .zoom-out {
@@ -2545,6 +2601,11 @@ video {
 
 .hover\:bg-secondary\/80:hover {
   background-color: hsl(210 40% 96.1% / 0.8);
+}
+
+.hover\:bg-background:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(0 0% 100% / var(--tw-bg-opacity));
 }
 
 .hover\:text-accent-foreground:hover {

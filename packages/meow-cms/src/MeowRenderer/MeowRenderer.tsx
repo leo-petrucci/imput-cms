@@ -7,6 +7,12 @@ import { Descendant } from 'slate'
 import { serialize } from '../cms/components/editor'
 import { WarningCircle } from '@meow/components/Icon'
 import { Badge } from '@meow/components/Badge'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@meow/components/tooltip'
 
 const MdxRenderer = ({
   descendants,
@@ -68,14 +74,21 @@ const InternalRenderer = ({ descendant }: { descendant: Descendant }) => {
   const Content = exports.default
 
   return (
-    <div className="relative">
+    <div className="relative min-h-12">
       {errored && (
-        <Badge
-          variant="destructive"
-          className="absolute right-2 top-2 flex gap-1"
-        >
-          <WarningCircle size={16} weight="bold" /> Error
-        </Badge>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger className="absolute right-2 top-2">
+              <Badge variant="destructive" className="flex gap-1">
+                <WarningCircle size={16} weight="bold" /> Error
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-sm">
+              This doesn't necessarily mean there's an error with your Markdown,
+              it just means we can't display this block!
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
       <Content />
     </div>

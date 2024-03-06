@@ -13,14 +13,6 @@ module.exports = withNextra({
     config,
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
   ) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      cms: path.resolve(__dirname, '../../src/cms/'),
-      'node_modules/modern-normalize/modern-normalize.css$': path.resolve(
-        __dirname,
-        '../../node_modules/modern-normalize/modern-normalize.css'
-      ),
-    }
     return config
   },
 })

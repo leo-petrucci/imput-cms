@@ -1,12 +1,12 @@
 import React from 'react'
-import remarkStringify from 'remark-stringify'
+import { v4 as uuidv4 } from 'uuid'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkSlate, {
   defaultNodeTypes,
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
-import { createEditor, Descendant, Path, Transforms } from 'slate'
+import { createEditor, Descendant, Path } from 'slate'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
 import Controls from '../../../cms/components/editor/controls'
@@ -53,11 +53,27 @@ export const deserialize = (
     response = { status: 'error', error }
   }
 
+  // we add ids to each node
+  // because we then iterate through them with react
+  // and we need something to use as key so rendering doesn't get weird
+  result.map((r) => {
+    // @ts-expect-error
+    if (!r.id) {
+      // @ts-expect-error
+      r.id = uuidv4()
+    }
+  })
+
   return { result, response }
 }
 
 export const serialize = remarkSerialize
 
+/**
+ * A void is an element with text that can't be edited
+ * Here we use them as buttons, so they can be clicked and
+ * you can interact with them (images and components)
+ */
 const withEditableVoids = (editor: ReactEditor) => {
   const { isVoid } = editor
 
@@ -119,6 +135,7 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
     onChange?.(val)
   }
 
+  // can't update on every change in prod
   const debouncedOnChange = debug
     ? onEditorChange
     : debounce(onEditorChange, 100)

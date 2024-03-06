@@ -1,5 +1,6 @@
 import React from 'react'
 import { FieldValues, RegisterOptions } from 'react-hook-form'
+import { MdxRenderer } from '../../../MeowRenderer'
 
 export type Widgets =
   | {
@@ -114,6 +115,9 @@ type PickByType<T, Value> = {
   [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
 }
 
+// Define a type for a React functional component
+type ReactComponent<P = {}> = React.FunctionComponent<P>
+
 export interface NextCMSContext {
   settings: {
     /**
@@ -192,6 +196,31 @@ export interface NextCMSContext {
        * Components that will be made available to this type of content
        */
       blocks?: BlockType[]
+      /**
+       * Handles the preview
+       */
+      preview?: {
+        /**
+         * Components to render within the mdx preview
+         */
+        components?: {
+          [key: string]: ReactComponent<any>
+        }
+        /**
+         * An element that wraps the preview
+         */
+        wrapper?: (props: { children: React.ReactNode }) => JSX.Element
+        /**
+         * An element that renders before your preview
+         * receives your frontmatter object
+         */
+        header?: (props: { [k: string]: string }) => JSX.Element
+        /**
+         * An element that renders after your preview
+         * receives your frontmatter object
+         */
+        footer?: (props: { [k: string]: string }) => JSX.Element
+      }
     }[]
   }
 }

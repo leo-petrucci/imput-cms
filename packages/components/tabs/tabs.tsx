@@ -1,6 +1,6 @@
 import React from 'react'
 import * as TabsPrimitive from '@radix-ui/react-tabs'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 
 export interface ITabsProps extends TabsPrimitive.TabsProps {
   children: React.ReactNode

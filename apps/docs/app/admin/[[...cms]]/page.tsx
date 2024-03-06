@@ -1,5 +1,10 @@
+'use client'
+
 import { BlockType } from 'local-meow-cms'
 import dynamic from 'next/dynamic'
+import { Components } from '@/components/MdxComponents'
+import { PreviewWrapper } from '@/components/PreviewWrapper'
+import '../../../styles/tailwind.css'
 
 const NextCMS = dynamic(() => import('local-meow-cms'), {
   ssr: false,
@@ -180,6 +185,9 @@ const CMS = () => (
               },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
+            preview: {
+              components: Components,
+            },
             blocks,
           },
           {
@@ -193,6 +201,10 @@ const CMS = () => (
               { label: 'Name', name: 'name', widget: 'string' },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
+            preview: {
+              components: Components,
+              wrapper: PreviewWrapper,
+            },
             blocks,
           },
         ],

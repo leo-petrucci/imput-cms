@@ -19,7 +19,9 @@
     "test": {
       "dependsOn": ["meow:tailwind", "test:dev"]
     },
-    "docs:build": {},
+    "docs:build": {
+      "cache": false
+    },
     "meow:release": {},
     "meow:build": {},
     "meow:test": {

@@ -1,4 +1,4 @@
-import { BaseElement } from 'slate'
+import { BaseElement, Element, Text } from 'slate'
 import { RenderElementProps } from 'slate-react'
 
 /**

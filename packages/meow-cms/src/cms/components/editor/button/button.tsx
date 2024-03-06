@@ -2,8 +2,14 @@ import { Modal } from '@meow/components'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
 import React from 'react'
-import { BaseEditor, Editor, Element as SlateElement, Transforms } from 'slate'
-import { useSlate } from 'slate-react'
+import {
+  BaseEditor,
+  Editor,
+  Element,
+  Element as SlateElement,
+  Transforms,
+} from 'slate'
+import { ReactEditor, useSelected, useSlate } from 'slate-react'
 import { insertLink, isLinkActive, unwrapLink } from './link'
 import Toggle from '@meow/components/Toggle'
 
@@ -153,9 +159,10 @@ export const LinkButton = () => {
 /**
  * Opens a component selection modal.
  */
-export const ComponentButton = () => {
-  const editor = useSlate()
+export const ComponentButton = ({ element }: { element: Element }) => {
+  const editor = useSlate() as ReactEditor
   const { components, createComponent } = useCMS()
+  const path = ReactEditor.findPath(editor, element)
 
   return (
     <>
@@ -171,7 +178,10 @@ export const ComponentButton = () => {
                 onClick={() => {
                   const component = createComponent(c.name)
                   if (component) {
-                    Transforms.insertNodes(editor, component)
+                    Transforms.insertNodes(editor, component, {
+                      at: [path[0] + 1],
+                      select: true,
+                    })
                     setOpen(false)
                   }
                 }}

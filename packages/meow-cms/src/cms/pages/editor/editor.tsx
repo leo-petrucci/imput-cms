@@ -62,7 +62,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     // define body explicitly here even if it's going to be overwritten later for types
     defaultValues: {
       body: '',
-      rawBody: [] as Descendant[],
+      rawBody: [] as (Descendant & { id: string })[],
       ...defaultValues(),
     },
   })

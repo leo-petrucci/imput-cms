@@ -40,8 +40,6 @@ function useMDX(mdx: string) {
 
   const [errored, setErrored] = React.useState(false)
 
-  const components = useMDXComponents()
-
   React.useEffect(() => {
     // @ts-ignore
     evaluate(mdx, {

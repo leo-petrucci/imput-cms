@@ -7,16 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@meow/components/Popover'
-import {
-  Code,
-  Image,
-  ListBullets,
-  ListNumbers,
-  Quotes,
-  TextHOne,
-  TextHThree,
-  TextHTwo,
-} from 'phosphor-react'
+import { Image } from 'phosphor-react'
 import { Transforms, Element } from 'slate'
 import { ImageElement } from '../images/imageElement'
 import { Paragraph } from '@meow/components/Icon'
@@ -59,12 +50,15 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
                 caption: '',
                 children: [text],
               }
-              Transforms.insertNodes(editor, image)
+              Transforms.insertNodes(editor, image, {
+                at: [path[0] + 1],
+                select: true,
+              })
             }}
           >
             <Image size={16} alt="image-icon" />
           </Toggle>
-          <ComponentButton />
+          <ComponentButton element={element} />
         </div>
       </PopoverContent>
       <PopoverTrigger asChild>{children}</PopoverTrigger>

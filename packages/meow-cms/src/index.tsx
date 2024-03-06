@@ -1,8 +1,13 @@
 'use client'
 
 import NextCMS from './cms/routes'
-import { BlockType } from './cms/contexts/cmsContext/context'
+import { BlockType, NextCMSContext } from './cms/contexts/cmsContext/context'
+import { MdxProvider } from './MeowProvider'
+import { MdxRenderer } from './MeowRenderer'
 import './styles/output.css'
 
+type NextCMSSettings = NextCMSContext['settings']
+
 export default NextCMS
-export type { BlockType }
+export { MdxProvider, MdxRenderer }
+export type { BlockType, NextCMSSettings }

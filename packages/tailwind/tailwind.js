@@ -28,6 +28,7 @@ const tailwind = {
     },
     extend: {
       colors: {
+        ...colors,
         border: 'hsl(214.3 31.8% 91.4%)',
         input: 'hsl(214.3 31.8% 91.4%)',
         ring: 'hsl(215 20.2% 65.1%)',

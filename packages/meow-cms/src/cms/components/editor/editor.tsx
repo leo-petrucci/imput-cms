@@ -1,12 +1,12 @@
 import React from 'react'
-import remarkStringify from 'remark-stringify'
+import { v4 as uuidv4 } from 'uuid'
 import remarkMdx from 'remark-mdx'
 import remarkParse from 'remark-parse'
 import remarkSlate, {
   defaultNodeTypes,
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
-import { createEditor, Descendant, Path, Transforms } from 'slate'
+import { createEditor, Descendant, Path } from 'slate'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
 import Controls from '../../../cms/components/editor/controls'
@@ -52,6 +52,14 @@ export const deserialize = (
     result = parsed.result as Descendant[]
     response = { status: 'error', error }
   }
+
+  result.map((r) => {
+    // @ts-expect-error
+    if (!r.id) {
+      // @ts-expect-error
+      r.id = uuidv4()
+    }
+  })
 
   return { result, response }
 }

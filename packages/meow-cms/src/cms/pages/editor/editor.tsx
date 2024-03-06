@@ -10,7 +10,6 @@ import { SwitchControlled } from '@meow/components/Switch'
 import { ComboBox } from '@meow/components/Combobox/Controlled'
 import { Button } from '@meow/components/Button'
 import toast from 'react-hot-toast'
-import { useMeasure } from '@meow/utils'
 import ImagePicker from '../../components/imagePicker'
 import { Widgets } from '../../../cms/contexts/cmsContext/context'
 import Relation from '../../components/relation'
@@ -26,6 +25,8 @@ import Loader from '../../components/loader'
 import { Layout } from '../../components/atoms/Layout'
 import { cloneDeep } from 'lodash'
 import { Input } from '@meow/components/Input/Controlled'
+import { MdxRenderer } from '../../../MeowRenderer'
+import { Descendant } from 'slate'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -59,16 +60,22 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   // we need to initialize our empty values from config
   const form = useForm({
     // define body explicitly here even if it's going to be overwritten later for types
-    defaultValues: { body: '', ...defaultValues() },
+    defaultValues: {
+      body: '',
+      rawBody: [] as Descendant[],
+      ...defaultValues(),
+    },
   })
 
   // initialize default values to the form
   useEffect(() => {
     if (document) {
       const { content: body, data: grayMatterObj } = matter(document.markdown)
+      const rawBody = deserialize(body)
       form.reset({
         ...grayMatterObj,
         body,
+        rawBody: rawBody.result,
       })
       setMarkdown(document.markdown)
     }
@@ -131,7 +138,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   // we parse form values into a graymatter string so we can display it
   React.useEffect(() => {
     const mergedValues = getCorrectedFormValues()
-    const { body, ...rest } = mergedValues
+    const { body, rawBody, ...rest } = mergedValues
     const content = matter.stringify(body, {
       ...rest,
     })
@@ -139,11 +146,24 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues])
 
-  const [ref, { height }] = useMeasure()
-
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const { cms, collection } = useParams<{ cms: string; collection: string }>()
+
+  const renderPreview = () => {
+    return (
+      <>
+        {currentCollection.preview?.components ? (
+          <MdxRenderer
+            descendants={formValues.rawBody}
+            components={currentCollection.preview?.components}
+          />
+        ) : (
+          markdown
+        )}
+      </>
+    )
+  }
 
   if (markdown) {
     return (
@@ -169,10 +189,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
             >
-              <Form<{
-                body: string
-                [k: string]: string
-              }>
+              <Form
                 id="content-form"
                 form={form}
                 debug
@@ -275,12 +292,14 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               </Form>
             </div>
             <div
-              className="overflow-y-auto whitespace-pre-wrap flex-1"
+              className="overflow-y-auto flex-1"
               style={{
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
             >
-              {markdown}
+              {currentCollection.preview?.wrapper?.({
+                children: renderPreview(),
+              }) || renderPreview()}
             </div>
           </div>
         )}
@@ -293,7 +312,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
 const CreateEditor = () => {
   const { name, rules } = useFormItem()
-  const { control } = useFormContext()
+  const { control, setValue } = useFormContext()
 
   const { field } = useController({
     name,
@@ -308,6 +327,11 @@ const CreateEditor = () => {
       // serialize slate state to a markdown string
       const serialized = nextValue.map((v) => serialize(v)).join('')
       field.onChange(serialized)
+
+      // if this is the main body we save the raw slate array to form
+      if (name === 'body') {
+        setValue('rawBody', nextValue)
+      }
     },
     [field]
   )
@@ -328,5 +352,8 @@ const CreateEditor = () => {
     </DepthProvider>
   )
 }
+
+type ExcludeExceptionKey<T extends string | number | symbol> =
+  `${string & {}}` extends `${infer U}` ? (U extends T ? never : U) : never
 
 export default EditorPage

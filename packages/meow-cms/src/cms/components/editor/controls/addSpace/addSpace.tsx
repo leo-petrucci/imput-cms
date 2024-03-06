@@ -1,4 +1,5 @@
-import { Plus } from 'phosphor-react'
+import React from 'react'
+import { Plus } from '@meow/components/Icon'
 import { Element } from 'slate'
 import { NewNodeToolbar } from '../../newNodeToolbar'
 

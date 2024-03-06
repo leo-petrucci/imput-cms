@@ -12,7 +12,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@meow/components/tooltip'
+} from '@meow/components/Tooltip'
 
 const MdxRenderer = ({
   descendants,

@@ -4,18 +4,18 @@ rawBody:
   - type: heading_one
     children:
       - text: Fields
-    id: 39286b15-ee9a-43ad-8feb-81586528c8d1
+    id: 48a3cc1c-9981-42a4-a060-1769e8d97474
   - type: paragraph
     children:
       - text: 'The '
       - code: true
         text: field
       - text: ' array in your collection configuration is used to define which inputs should appear when creating or modifying content in that specific collection. You can specify rules to validate or transform this input as well as which widget should be used to modify this input.'
-    id: 7fc25d01-80f5-4090-b184-4ab0422b4179
+    id: f70d945c-18f8-4f0b-a17a-566346bf3ce3
   - type: heading_two
     children:
       - text: Validation rules
-    id: 8cc65c12-a0fc-40da-b324-81bf6d0a8fa6
+    id: ee09a938-c029-4e22-ac9e-11a3c1264543
   - type: paragraph
     children:
       - text: 'Behind the scenes Meow uses the excellent '
@@ -37,18 +37,18 @@ rawBody:
         children:
           - text: react-hook-form register API
       - text: .
-    id: 814562b4-1201-4c43-80b3-7966ce35b455
+    id: 322966f8-59af-48a4-ae82-48e63f15835b
   - type: heading_three
     children:
       - text: 'Example: Require a field'
-    id: 990a7ae3-89a7-48b4-84dd-7f858d570fd8
+    id: fc06473a-94c9-458a-9c7f-0f3e52fd46c4
   - type: paragraph
     children:
       - text: >-
           In case you want to ensure content can't be created or saved without a
           specific input you can force it to be required. This would look
           something like this:
-    id: 6a5e7981-a07a-4d23-9788-24f02a17218a
+    id: 5ffff66b-788a-4e01-b47f-ce72ab0467d8
   - type: code_block
     language: js
     children:
@@ -79,18 +79,18 @@ rawBody:
               }`
             ]
           }
-    id: fe0e4826-b2a0-4afe-be94-c587a9fa5f05
+    id: 866c45b6-4f69-495b-ba25-0bbfa1a13dad
   - type: heading_two
     children:
       - text: Widgets
-    id: 1f835b42-1d7a-4ce5-ad3e-93260cdd6513
+    id: 3873ce7f-0300-4162-9919-1f1ad72274d3
   - type: paragraph
     children:
       - text: >-
           Widgets are what Meow calls different types of input you can use for
           fields.
-    id: 255d9782-0ceb-4b5c-a45f-682a58d89124
-  - id: e4619755-59fe-4f5b-9727-d295f3be1487
+    id: 05cf6b70-748b-4db4-a0fe-e4b85c36ee89
+  - id: 262027ac-b2e5-4fb4-acfe-0a6ada72da1e
     name: Note
     type: mdxJsxFlowElement
     reactChildren:
@@ -103,11 +103,11 @@ rawBody:
     children:
       - text: ''
     attributes: []
-  - id: ef88c16e-d30a-4a67-b4f4-208c0aabe7c6
+  - id: 4d52210c-9098-46e8-959e-a9a3f9124fa7
     name: TabsRoot
     type: mdxJsxFlowElement
     reactChildren:
-      - id: 90f6c02d-54f1-44ef-94d7-b41c25b79a43
+      - id: 913f00de-30b7-47f9-96b5-57e79ac55aa6
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -204,7 +204,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: string
-      - id: 745e1f0c-df17-4fb8-9702-72894ec39b7b
+      - id: b068f882-256c-41b4-a50c-b3da436ad349
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -299,7 +299,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: date
-      - id: 3966ba14-d087-4266-975a-3bc53b209f65
+      - id: ef3784da-82f2-486c-bad3-b281d13d1291
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -391,7 +391,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: dateTime
-      - id: 09168027-2579-4ff9-b706-ab67301c7ddc
+      - id: 8f17d282-d62b-46f3-aa0d-58fd97ffd143
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -414,8 +414,8 @@ rawBody:
                   - type: list_item_text
                     children:
                       - bold: true
-                        text: 'UI: '
-                      - text: A searchable select
+                        text: 'UI:'
+                      - text: ' A searchable select'
               - type: list_item
                 children:
                   - type: list_item_text
@@ -433,31 +433,33 @@ rawBody:
                               - text: >-
                                   : accepts a string or number, the default
                                   value selected
-                      - children:
-                          - children:
-                              - text: options
-                                code: true
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: options
                               - text: >-
                                   : an array of strings or numbers, the options
                                   to select from
-                            type: list_item_text
-                        type: list_item
-                      - children:
-                          - children:
-                              - text: multiple
-                                code: true
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: multiple
                               - text: >-
                                   : boolean, defines whether the user is able to
                                   select more than one value
-                            type: list_item_text
-                        type: list_item
               - type: list_item
                 children:
                   - type: list_item_text
                     children:
                       - bold: true
                         text: 'Example:'
-          - children:
+          - type: code_block
+            language: javascript
+            children:
               - text: |-
                   {
                           name: 'select',
@@ -469,54 +471,204 @@ rawBody:
                             multiple: false
                           },
                         }
-            type: code_block
-            language: javascript
+            code:
+              - text: |-
+                  {
+                          name: 'select',
+                          label: 'Select',
+                          type: {
+                            options: ['Option 1', 'Option 2', 'Option 3'],
+                            default: 'Option 1',
+                            widget: 'select',
+                            multiple: false
+                          },
+                        }
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: select
-      - id: 9167d953-c5b7-4ae7-bd3f-f2ebd9cb4198
+      - id: 92cc58e5-1d31-45da-9829-7688302657d9
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
-          - type: paragraph
+          - type: ul_list
             children:
-              - text: Image widget
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: image
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' An image selector'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: ': accepts a string'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - id: 79b8b93c-3d80-4819-8e76-cd85db3b5837
+            children:
+              - text: |-
+                  {
+                    label: 'Image',
+                    name: 'image',
+                    widget: 'image',
+                  }
+            type: code_block
+            language: js
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: image
-      - id: 927c96df-3721-4cdf-9346-0ee10a61953b
+      - id: 8aa1013d-eb0f-4fde-89ba-61a2b4aab678
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
-          - type: paragraph
+          - type: ul_list
             children:
-              - text: Boolean widget
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: boolean
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' A switch'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: ': accepts a boolean'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - id: 7708b0c6-c5a9-4921-a88d-eba094c69855
+            children:
+              - text: |-
+                  {
+                    label: 'Boolean',
+                    name: 'boolean',
+                    widget: 'boolean',
+                    default: true
+                  }
+            type: code_block
+            language: js
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: boolean
-      - id: 284ad473-8d33-4d20-924e-f9a746d81320
+      - id: 10517217-d4fd-4035-ad5b-3ec04da70e34
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
-          - type: paragraph
+          - type: ul_list
             children:
-              - text: Markdown widget
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - text: markdown
+                        code: true
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' A text editor that accepts rich text'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: ': accepts a string'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - id: fa6d6c3b-74c6-4e49-8bb5-f63e4e5504c3
+            children:
+              - text: |-
+                  {
+                    label: 'Body',
+                    name: 'body',
+                    widget: 'markdown',
+                    default: 'My body content'
+                  }
+            type: code_block
+            language: js
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: markdown
-      - id: 82efd067-468b-4682-98aa-2bd9c751f071
+      - id: 9b8eb6a0-8d08-46fc-9e43-a5904a6621ff
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -556,7 +708,7 @@ rawBody:
             },
             {
             value: 'image',
-            children: 'image',
+            children: 'Image',
             },
             {
             value: 'boolean',
@@ -1675,7 +1827,7 @@ children: 'Select',
 },
 {
 value: 'image',
-children: 'image',
+children: 'Image',
 },
 {
 value: 'boolean',
@@ -1799,19 +1951,57 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="image" >
 
-Image widget
+  - **Name:** `image`
+  - **UI:** An image selector
+  - **Options:**
+    - `default`: accepts a string
+  - **Example:**
+
+```js
+{
+  label: 'Image',
+  name: 'image',
+  widget: 'image',
+}
+```
 
 </TabsContent>
 
 <TabsContent value="boolean" >
 
-Boolean widget
+  - **Name:** `boolean`
+  - **UI:** A switch
+  - **Options:**
+    - `default`: accepts a boolean
+  - **Example:**
+
+```js
+{
+  label: 'Boolean',
+  name: 'boolean',
+  widget: 'boolean',
+  default: true
+}
+```
 
 </TabsContent>
 
 <TabsContent value="markdown" >
 
-Markdown widget
+  - **Name:** `markdown`
+  - **UI:** A text editor that accepts rich text
+  - **Options:**
+    - `default`: accepts a string
+  - **Example:**
+
+```js
+{
+  label: 'Body',
+  name: 'body',
+  widget: 'markdown',
+  default: 'My body content'
+}
+```
 
 </TabsContent>
 

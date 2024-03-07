@@ -66,13 +66,18 @@ export const Modal = ({
       <AnimatePresence>
         {open && (
           <DialogPrimitive.Portal forceMount>
-            <AnimatedOverlay
-              className="fixed inset-0 bg-black/80"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              {...overlayProps}
-            />
+            {/* @ts-ignore */}
+            {rest.depth !== undefined ? (
+              <></>
+            ) : (
+              <AnimatedOverlay
+                className="fixed inset-0 bg-black/80"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                {...overlayProps}
+              />
+            )}
             <AnimatedContent
               className={cn(
                 'fixed top-1/2 left-1/2 w-full max-w-lg border bg-background shadow-lg sm:rounded-lg origin-center flex flex-col',

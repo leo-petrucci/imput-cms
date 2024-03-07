@@ -19,10 +19,7 @@ const Layout = ({ children, navbar }: LayoutProps) => {
       }}
     >
       <div className="flex flex-col">
-        <div
-          ref={ref}
-          className="p-4 bg-white border-b border-border flex justify-end"
-        >
+        <div ref={ref} className="p-4 bg-white border-b border-border flex">
           {navbar}
         </div>
         <div

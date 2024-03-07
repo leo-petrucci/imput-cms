@@ -9,8 +9,14 @@ import {
   Element as SlateElement,
   Transforms,
 } from 'slate'
-import { ReactEditor, useSelected, useSlate } from 'slate-react'
+import { ReactEditor, useSlate } from 'slate-react'
 import { insertLink, isLinkActive, unwrapLink } from './link'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@meow/components/Tooltip'
 import Toggle from '@meow/components/Toggle'
 
 const LIST_TYPES = ['ul_list', 'ol_list']
@@ -166,36 +172,43 @@ export const ComponentButton = ({ element }: { element: Element }) => {
 
   return (
     <>
-      <Modal
-        title={'Select a block to add'}
-        className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
-        description={(_open, setOpen) => (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-4">
-            {components?.map((c) => (
-              <button
-                className="inline-flex p-4 items-start w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer overflow-hidden relative"
-                key={c.name}
-                onClick={() => {
-                  const component = createComponent(c.name)
-                  if (component) {
-                    Transforms.insertNodes(editor, component, {
-                      at: [path[0] + 1],
-                      select: true,
-                    })
-                    setOpen(false)
-                  }
-                }}
-              >
-                {c.label}
-              </button>
-            ))}
-          </div>
-        )}
-      >
-        <Toggle pressed={false} onPressedChange={() => {}}>
-          <BracketsSquare size={16} />
-        </Toggle>
-      </Modal>
+      <TooltipProvider>
+        <Tooltip>
+          <Modal
+            title={'Select a block to add'}
+            className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
+            description={(_open, setOpen) => (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-4">
+                {components?.map((c) => (
+                  <button
+                    className="inline-flex p-4 items-start w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer overflow-hidden relative"
+                    key={c.name}
+                    onClick={() => {
+                      const component = createComponent(c.name)
+                      if (component) {
+                        Transforms.insertNodes(editor, component, {
+                          at: [path[0] + 1],
+                          select: true,
+                        })
+                        setOpen(false)
+                      }
+                    }}
+                  >
+                    {c.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          >
+            <TooltipTrigger asChild>
+              <Toggle pressed={false} onPressedChange={() => {}}>
+                <BracketsSquare size={16} />
+              </Toggle>
+            </TooltipTrigger>
+          </Modal>
+          <TooltipContent className="max-w-sm">Component Block</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </>
   )
 }

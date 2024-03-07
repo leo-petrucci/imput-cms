@@ -45,9 +45,12 @@ const Login = () => {
     const left = (width - w) / 2 / systemZoom + dualScreenLeft
     const top = (height - h) / 2 / systemZoom + dualScreenTop
 
+    // by building the url like this we ensure it always has a trailing slash
+    const url = new URL(backend.base_url)
+
     window.open(
-      `${backend.base_url}${backend.auth_endpoint}?provider=github`,
-      'Twitter Login',
+      `${url.href}${backend.auth_endpoint}?provider=github`,
+      'Login',
       `
         height=${h},
         width=${w},

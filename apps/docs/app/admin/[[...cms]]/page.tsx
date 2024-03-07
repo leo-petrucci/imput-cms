@@ -160,7 +160,7 @@ const CMS = () => (
         backend: {
           name: 'github',
           repo: 'leo-petrucci/meow-cms',
-          branch: 'main',
+          branch: 'mainwrong',
           base_url:
             process.env.NODE_ENV === 'production'
               ? 'https://meow.petruc.ci'

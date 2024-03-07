@@ -7,6 +7,7 @@ import ctxt, { ImageState, LoadedImages } from './context'
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 import { base64ToBlob } from '../../../cms/utils/base64ToBlob'
 import Loader from '../../components/loader'
+import { GenericError } from '../../components/atoms/GenericError'
 
 const fileToBlob = async (file: File) =>
   new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type })
@@ -143,7 +144,16 @@ export const ImagesProvider = ({
 }): JSX.Element => {
   const images = React.useState<LoadedImages[]>([])
   const imagesRef = React.useRef<LoadedImages[]>([])
-  const { isLoading, data } = useGetGithubImages()
+  const { isLoading, data, isError } = useGetGithubImages()
+
+  if (isError)
+    return (
+      <div className="w-screen h-screen flex items-center justify-center">
+        <GenericError title="Could not load content from Github.">
+          Are you sure your configuration is correct?
+        </GenericError>
+      </div>
+    )
 
   if (isLoading) {
     return <Loader />

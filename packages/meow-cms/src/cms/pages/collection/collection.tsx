@@ -18,6 +18,7 @@ import NewPage from '../../../cms/pages/new'
 import Loader from '../../components/loader'
 import { H1 } from '@meow/components/Typography'
 import { Portal } from '@meow/components/Portal'
+import { GenericError } from '../../components/atoms/GenericError'
 
 const CollectionPage = () => {
   const { collection } = useParams<{
@@ -28,7 +29,7 @@ const CollectionPage = () => {
   const navigate = useNavigate()
   const { collections } = useCMS()
   const thisCollection = collections.find((c) => c.name === collection)
-  const { isSuccess, data } = useGetGithubCollection(
+  const { isSuccess, data, isError, isLoading } = useGetGithubCollection(
     thisCollection!.folder || collections[0].folder
   )
 
@@ -36,7 +37,7 @@ const CollectionPage = () => {
 
   return (
     <React.Fragment>
-      {isSuccess ? (
+      {!isLoading ? (
         <Routes>
           <Route path={`/new`} element={<NewPage />} />
           <Route path={`/:file`} element={<ContentPage />} />
@@ -74,6 +75,11 @@ const CollectionPage = () => {
                         </Button>
                       </div>
                       <div className="grid gap-2 grid-cols-2">
+                        {isError && (
+                          <GenericError title="Could not find collection.">
+                            Are you sure your settings are correct?
+                          </GenericError>
+                        )}
                         {isSuccess &&
                           data.map((content: CollectionType) => {
                             return (

@@ -7,6 +7,7 @@ import { queryKeys } from '../../cms/queries/keys'
 import { slugify } from '../../cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
 import matter from 'gray-matter'
+import React from 'react'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -26,14 +27,17 @@ export const useGetGithubCollection = (type: string) => {
 
   // we can't use `currentCollection` from `useCMS` because that's defined by which folder we've loaded
   // we need to get the correct folder per hook call
-  const currentCollection = collections.find((c) => c.folder === type)
+  const currentCollection = React.useMemo(
+    () => collections.find((c) => c.folder === type),
+    []
+  )
 
   // stop it here in case collection can't be found
   if (!currentCollection) {
     throw new Error(`Collection ${type} does not exist.`)
   }
 
-  const [owner, repo] = backend.repo.split('/')
+  const [owner, repo] = React.useMemo(() => backend.repo.split('/'), [])
   return useQuery({
     ...queryKeys.github.collection(type),
     context: defaultContext,
@@ -55,7 +59,9 @@ export const useGetGithubCollection = (type: string) => {
             tree_sha: `${backend.branch}:${type}`,
           }
         )
-      } catch (err) {}
+      } catch (err) {
+        throw new Error("Couldn't find files :(")
+      }
 
       // if the repo has no content, then the folder won't exist and cause a 404
       // this prevents that from happening by simply returning an empty array
@@ -155,7 +161,9 @@ export const useGetGithubImages = () => {
             tree_sha: `${backend.branch}:${media_folder}`,
           }
         )
-      } catch (err) {}
+      } catch (err) {
+        throw new Error("Couldn't find files :(")
+      }
 
       // if the repo has no content, then the folder won't exist and cause a 404
       // this prevents that from happening by simply returning an empty array
@@ -239,8 +247,8 @@ export const getGithubFileBase64 = async (
  * @returns
  */
 export const useGetContent = (type: string, slug: string) => {
-  const { data, isSuccess } = useGetGithubCollection(type)
-  return useQuery({
+  const { data, isSuccess, isError } = useGetGithubCollection(type)
+  const query = useQuery({
     ...queryKeys.github.content(type, slug),
     context: defaultContext,
     queryFn: async () => {
@@ -250,6 +258,8 @@ export const useGetContent = (type: string, slug: string) => {
     },
     enabled: isSuccess,
   })
+
+  return { ...query, collectionIsError: isError }
 }
 
 /**

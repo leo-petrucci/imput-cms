@@ -4,18 +4,18 @@ rawBody:
   - type: heading_one
     children:
       - text: Fields
-    id: 48a3cc1c-9981-42a4-a060-1769e8d97474
+    id: 634579bb-904d-4019-91c7-536332b4fbbf
   - type: paragraph
     children:
       - text: 'The '
       - code: true
         text: field
       - text: ' array in your collection configuration is used to define which inputs should appear when creating or modifying content in that specific collection. You can specify rules to validate or transform this input as well as which widget should be used to modify this input.'
-    id: f70d945c-18f8-4f0b-a17a-566346bf3ce3
+    id: 268115ab-6da1-4c42-a410-ff1facacbbe7
   - type: heading_two
     children:
       - text: Validation rules
-    id: ee09a938-c029-4e22-ac9e-11a3c1264543
+    id: 73383754-e153-439d-a3ad-573432bb9399
   - type: paragraph
     children:
       - text: 'Behind the scenes Meow uses the excellent '
@@ -37,18 +37,18 @@ rawBody:
         children:
           - text: react-hook-form register API
       - text: .
-    id: 322966f8-59af-48a4-ae82-48e63f15835b
+    id: 863ad83e-0a43-4c6f-b33f-a849c31bfb7c
   - type: heading_three
     children:
       - text: 'Example: Require a field'
-    id: fc06473a-94c9-458a-9c7f-0f3e52fd46c4
+    id: 259f2036-9656-4392-8dab-8d279f4bac58
   - type: paragraph
     children:
       - text: >-
           In case you want to ensure content can't be created or saved without a
           specific input you can force it to be required. This would look
           something like this:
-    id: 5ffff66b-788a-4e01-b47f-ce72ab0467d8
+    id: b838297a-53c2-4288-b4f3-b2a1ac4d1102
   - type: code_block
     language: js
     children:
@@ -79,18 +79,18 @@ rawBody:
               }`
             ]
           }
-    id: 866c45b6-4f69-495b-ba25-0bbfa1a13dad
+    id: ec837352-0fa0-4829-a80b-682d25bd1451
   - type: heading_two
     children:
       - text: Widgets
-    id: 3873ce7f-0300-4162-9919-1f1ad72274d3
+    id: 191d2c66-cf31-48b5-a9ac-ac963ab445ae
   - type: paragraph
     children:
       - text: >-
           Widgets are what Meow calls different types of input you can use for
           fields.
-    id: 05cf6b70-748b-4db4-a0fe-e4b85c36ee89
-  - id: 262027ac-b2e5-4fb4-acfe-0a6ada72da1e
+    id: 625c3bd3-71e1-43f2-aec1-1ff857ad8757
+  - id: 29867c9d-f98f-412b-9cc3-debe7f82e2d6
     name: Note
     type: mdxJsxFlowElement
     reactChildren:
@@ -103,11 +103,11 @@ rawBody:
     children:
       - text: ''
     attributes: []
-  - id: 4d52210c-9098-46e8-959e-a9a3f9124fa7
+  - id: 9f2f8d31-256c-4a44-b2fd-2ddabff80ccb
     name: TabsRoot
     type: mdxJsxFlowElement
     reactChildren:
-      - id: 913f00de-30b7-47f9-96b5-57e79ac55aa6
+      - id: 5a2fc3e5-6847-4112-9391-0e902f07e4b9
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -204,7 +204,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: string
-      - id: b068f882-256c-41b4-a50c-b3da436ad349
+      - id: b685922a-3be1-4d7f-925f-49ed79a482e7
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -299,7 +299,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: date
-      - id: ef3784da-82f2-486c-bad3-b281d13d1291
+      - id: 0411e9fe-e8f6-4340-b199-79da4ebc3f85
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -391,7 +391,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: dateTime
-      - id: 8f17d282-d62b-46f3-aa0d-58fd97ffd143
+      - id: 968d31b6-9e1c-4433-a4df-a4eb3e0c5805
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -489,7 +489,7 @@ rawBody:
           - type: mdxJsxAttribute
             name: value
             value: select
-      - id: 92cc58e5-1d31-45da-9829-7688302657d9
+      - id: 56b18f7e-6b7f-4765-93d3-3a1798d49452
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -532,7 +532,8 @@ rawBody:
                     children:
                       - bold: true
                         text: 'Example:'
-          - id: 79b8b93c-3d80-4819-8e76-cd85db3b5837
+          - type: code_block
+            language: js
             children:
               - text: |-
                   {
@@ -540,15 +541,20 @@ rawBody:
                     name: 'image',
                     widget: 'image',
                   }
-            type: code_block
-            language: js
+            code:
+              - text: |-
+                  {
+                    label: 'Image',
+                    name: 'image',
+                    widget: 'image',
+                  }
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: image
-      - id: 8aa1013d-eb0f-4fde-89ba-61a2b4aab678
+      - id: 504a936d-175d-4b54-a14c-6d0f823fe726
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
@@ -591,7 +597,8 @@ rawBody:
                     children:
                       - bold: true
                         text: 'Example:'
-          - id: 7708b0c6-c5a9-4921-a88d-eba094c69855
+          - type: code_block
+            language: js
             children:
               - text: |-
                   {
@@ -600,18 +607,42 @@ rawBody:
                     widget: 'boolean',
                     default: true
                   }
-            type: code_block
-            language: js
+            code:
+              - text: |-
+                  {
+                    label: 'Boolean',
+                    name: 'boolean',
+                    widget: 'boolean',
+                    default: true
+                  }
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: boolean
-      - id: 10517217-d4fd-4035-ad5b-3ec04da70e34
+      - id: b60f4c25-59ff-4f0d-b4fa-e38ad46c58db
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
+          - id: bf760b96-49e0-46eb-a844-736c7e1d2c48
+            type: mdxJsxFlowElement
+            attributes: []
+            reactChildren:
+              - type: paragraph
+                children:
+                  - text: 'MDX in the Markdown editor is only supported if the '
+                  - text: name
+                    code: true
+                  - text: ' is set to '
+                  - text: body
+                    code: true
+                  - text: >-
+                      . Anything written in that editor will be rendered as the
+                      main content of your MDX file!
+            children:
+              - text: ''
+            name: Note
           - type: ul_list
             children:
               - type: list_item
@@ -621,8 +652,8 @@ rawBody:
                       - bold: true
                         text: 'Name:'
                       - text: ' '
-                      - text: markdown
-                        code: true
+                      - code: true
+                        text: markdown
               - type: list_item
                 children:
                   - type: list_item_text
@@ -651,7 +682,8 @@ rawBody:
                     children:
                       - bold: true
                         text: 'Example:'
-          - id: fa6d6c3b-74c6-4e49-8bb5-f63e4e5504c3
+          - type: code_block
+            language: js
             children:
               - text: |-
                   {
@@ -660,21 +692,126 @@ rawBody:
                     widget: 'markdown',
                     default: 'My body content'
                   }
-            type: code_block
-            language: js
+            code:
+              - text: |-
+                  {
+                    label: 'Body',
+                    name: 'body',
+                    widget: 'markdown',
+                    default: 'My body content'
+                  }
         children:
           - text: ''
         attributes:
           - type: mdxJsxAttribute
             name: value
             value: markdown
-      - id: 9b8eb6a0-8d08-46fc-9e43-a5904a6621ff
+      - id: 1f6a0f8d-1b84-4ab0-b8cb-7e050fa95424
         name: TabsContent
         type: mdxJsxFlowElement
         reactChildren:
-          - type: paragraph
+          - type: ul_list
             children:
-              - text: Relation widget
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: relation
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' A select or multi-select'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: >-
+                                  : accepts a string or a number, must be a
+                                  value part of the available options
+                      - children:
+                          - children:
+                              - text: collection
+                                code: true
+                              - text: ': the name of another Meow collection'
+                            type: list_item_text
+                        type: list_item
+                      - children:
+                          - children:
+                              - text: display_field
+                                code: true
+                              - text: >-
+                                  : the value from the other collection's
+                                  frontmatter that will be displayed as an
+                                  option
+                            type: list_item_text
+                        type: list_item
+                      - children:
+                          - children:
+                              - text: value_field
+                                code: true
+                              - text: >-
+                                  : the value from the other collection's
+                                  frontmatter that will be saved as a value when
+                                  selected
+                            type: list_item_text
+                        type: list_item
+                      - children:
+                          - children:
+                              - text: ''
+                            type: list_item_text
+                        type: list_item
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - id: d0455eaa-1657-49f7-a6d2-74a8eb518b24
+            children:
+              - text: |-
+                  {
+                    label: 'Author',
+                    name: 'author',
+                    widget: 'relation',
+                    // get values from "authors" collection
+                    collection: 'authors',
+                    // value "1" or "2" will be saved to your document
+                    value_field: 'id',
+                    // the user will be able to select "John Smith" or "Jane Doe"
+                    display_fields: 'name',
+                  }
+            type: code_block
+            language: js
+          - id: 26dce371-74fd-4437-a92d-53cff841dac8
+            children:
+              - text: >-
+                  Relation widgets are special, they're essentially just Select
+                  widgets but they come pre-populated with values from your
+                  other collections.
+            type: paragraph
+          - id: 26dce371-74fd-4437-a92d-53cff841dac8
+            type: paragraph
+            children:
+              - text: >-
+                  They allow you to connect different collections with each
+                  other!
         children:
           - text: ''
         attributes:
@@ -1352,8 +1489,8 @@ rawBody:
                                   line: 57
                                   column: 17
                                   offset: 1472
-                              value: image
-                              raw: '''image'''
+                              value: Image
+                              raw: '''Image'''
                               range:
                                 - 1465
                                 - 1472
@@ -1988,6 +2125,12 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="markdown" >
 
+<Note>
+
+MDX in the Markdown editor is only supported if the `name` is set to `body`. Anything written in that editor will be rendered as the main content of your MDX file!
+
+</Note>
+
   - **Name:** `markdown`
   - **UI:** A text editor that accepts rich text
   - **Options:**
@@ -2007,7 +2150,32 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="relation" >
 
-Relation widget
+  - **Name:** `relation`
+  - **UI:** A select or multi-select
+  - **Options:**
+    - `default`: accepts a string or a number, must be a value part of the available options
+    - `collection`: the name of another Meow collection
+    - `display_field`: the value from the other collection's frontmatter that will be displayed as an option
+    - `value_field`: the value from the other collection's frontmatter that will be saved as a value when selected
+  - **Example:**
+
+```js
+{
+  label: 'Author',
+  name: 'author',
+  widget: 'relation',
+  // get values from "authors" collection
+  collection: 'authors',
+  // value "1" or "2" will be saved to your document
+  value_field: 'id',
+  // the user will be able to select "John Smith" or "Jane Doe"
+  display_fields: 'name',
+}
+```
+
+Relation widgets are special, they're essentially just Select widgets but they come pre-populated with values from your other collections.
+
+They allow you to connect different collections with each other!
 
 </TabsContent>
 

@@ -28,6 +28,7 @@ import omit from 'lodash/omit'
 import { Input } from '@meow/components/Input/Controlled'
 import { MdxRenderer } from '../../../MeowRenderer'
 import { Descendant } from 'slate'
+import { CaretLeft } from '@meow/components/Icon'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -173,7 +174,11 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     return (
       <Layout
         navbar={
-          <>
+          <div className="flex flex-1 justify-between">
+            <Button variant="secondary" className="gap-1">
+              <CaretLeft size={16} />
+              Back to {currentCollection.name}
+            </Button>
             <Button
               type="submit"
               form="content-form"
@@ -182,7 +187,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             >
               {isNewFile ? 'Publish' : 'Update'}
             </Button>
-          </>
+          </div>
         }
       >
         {({ navbarHeight }) => (

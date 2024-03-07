@@ -1,5 +1,1623 @@
 ---
 name: Fields
+rawBody:
+  - type: heading_one
+    children:
+      - text: Fields
+    id: 39286b15-ee9a-43ad-8feb-81586528c8d1
+  - type: paragraph
+    children:
+      - text: 'The '
+      - code: true
+        text: field
+      - text: ' array in your collection configuration is used to define which inputs should appear when creating or modifying content in that specific collection. You can specify rules to validate or transform this input as well as which widget should be used to modify this input.'
+    id: 7fc25d01-80f5-4090-b184-4ab0422b4179
+  - type: heading_two
+    children:
+      - text: Validation rules
+    id: 8cc65c12-a0fc-40da-b324-81bf6d0a8fa6
+  - type: paragraph
+    children:
+      - text: 'Behind the scenes Meow uses the excellent '
+      - type: link
+        url: 'https://react-hook-form.com/'
+        children:
+          - text: react-hook-form
+      - text: ' for input validation. On each '
+      - code: true
+        text: field
+      - text: ' object you can define '
+      - code: true
+        text: rules
+      - text: >-
+          . The shape of your rules object accepts all kinds of validation
+          options specified by the 
+      - type: link
+        url: 'https://react-hook-form.com/api/useform/register/'
+        children:
+          - text: react-hook-form register API
+      - text: .
+    id: 814562b4-1201-4c43-80b3-7966ce35b455
+  - type: heading_three
+    children:
+      - text: 'Example: Require a field'
+    id: 990a7ae3-89a7-48b4-84dd-7f858d570fd8
+  - type: paragraph
+    children:
+      - text: >-
+          In case you want to ensure content can't be created or saved without a
+          specific input you can force it to be required. This would look
+          something like this:
+    id: 6a5e7981-a07a-4d23-9788-24f02a17218a
+  - type: code_block
+    language: js
+    children:
+      - text: |-
+          {
+            fields: [
+              {
+                label: 'Name',
+                name: 'name',
+                widget: 'string',
+                rules: {
+                  required: 'This field is required',
+                },
+              }`
+            ]
+          }
+    code:
+      - text: |-
+          {
+            fields: [
+              {
+                label: 'Name',
+                name: 'name',
+                widget: 'string',
+                rules: {
+                  required: 'This field is required',
+                },
+              }`
+            ]
+          }
+    id: fe0e4826-b2a0-4afe-be94-c587a9fa5f05
+  - type: heading_two
+    children:
+      - text: Widgets
+    id: 1f835b42-1d7a-4ce5-ad3e-93260cdd6513
+  - type: paragraph
+    children:
+      - text: >-
+          Widgets are what Meow calls different types of input you can use for
+          fields.
+    id: 255d9782-0ceb-4b5c-a45f-682a58d89124
+  - id: e4619755-59fe-4f5b-9727-d295f3be1487
+    name: Note
+    type: mdxJsxFlowElement
+    reactChildren:
+      - type: paragraph
+        children:
+          - text: >-
+              Meow doesn't yet support custom widgets, however they are on the
+              roadmap. Hopefully the available widgets will cover most
+              use-cases.
+    children:
+      - text: ''
+    attributes: []
+  - id: ef88c16e-d30a-4a67-b4f4-208c0aabe7c6
+    name: TabsRoot
+    type: mdxJsxFlowElement
+    reactChildren:
+      - id: 90f6c02d-54f1-44ef-94d7-b41c25b79a43
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: heading_three
+            children:
+              - text: String
+          - type: paragraph
+            children:
+              - text: >-
+                  The string widget uses a simple text input which is then
+                  translated into a string.
+          - type: ul_list
+            children:
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: string
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' A text input'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: >-
+                                  : accepts a string and defaults to an empty
+                                  string
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: label
+                              - text: >-
+                                  : the descriptive label associated with the
+                                  input
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: rules
+                              - text: ': the input''s validation rules'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - type: code_block
+            language: javascript
+            children:
+              - text: |-
+                  {
+                    label: 'Name',
+                    name: 'name',
+                    widget: 'string',
+                    rules: {
+                      required: 'This field is required',
+                    },
+                  }
+            code:
+              - text: |-
+                  {
+                    label: 'Name',
+                    name: 'name',
+                    widget: 'string',
+                    rules: {
+                      required: 'This field is required',
+                    },
+                  }
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: string
+      - id: 745e1f0c-df17-4fb8-9702-72894ec39b7b
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: heading_three
+            children:
+              - text: Date
+          - type: paragraph
+            children:
+              - text: A simple date input. Outputs a date string.
+          - type: ul_list
+            children:
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: date
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' a date picker'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: >-
+                                  : accepts a string, defaults to an empty
+                                  string
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: label
+                              - text: >-
+                                  :  the descriptive label associated with the
+                                  input
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: rules
+                              - text: ': the input''s validation rules'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - type: code_block
+            language: javascript
+            children:
+              - text: |-
+                  {
+                    label: 'Date',
+                    name: 'date',
+                    widget: 'date',
+                    rules: {
+                      required: 'This field is required',
+                    },
+                  }
+            code:
+              - text: |-
+                  {
+                    label: 'Date',
+                    name: 'date',
+                    widget: 'date',
+                    rules: {
+                      required: 'This field is required',
+                    },
+                  }
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: date
+      - id: 3966ba14-d087-4266-975a-3bc53b209f65
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: heading_three
+            children:
+              - text: Datetime
+          - type: ul_list
+            children:
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: datetime
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI:'
+                      - text: ' a datetime picker'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: >-
+                                  : accepts a string, defaults to an empty
+                                  string
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: label
+                              - text: >-
+                                  :  the descriptive label associated with the
+                                  input
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: rules
+                              - text: ': the input''s validation rules'
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - type: code_block
+            language: javascript
+            children:
+              - text: |-
+                  {
+                    label: 'DateTime',
+                    name: 'datetime',
+                    widget: 'datetime',
+                    rules: {
+                      required: 'This field is required',
+                    },
+                  }
+            code:
+              - text: |-
+                  {
+                    label: 'DateTime',
+                    name: 'datetime',
+                    widget: 'datetime',
+                    rules: {
+                      required: 'This field is required',
+                    },
+                  }
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: dateTime
+      - id: 09168027-2579-4ff9-b706-ab67301c7ddc
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: heading_three
+            children:
+              - text: Select
+          - type: ul_list
+            children:
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Name:'
+                      - text: ' '
+                      - code: true
+                        text: select
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'UI: '
+                      - text: A searchable select
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Options:'
+                  - type: ul_list
+                    children:
+                      - type: list_item
+                        children:
+                          - type: list_item_text
+                            children:
+                              - code: true
+                                text: default
+                              - text: >-
+                                  : accepts a string or number, the default
+                                  value selected
+                      - children:
+                          - children:
+                              - text: options
+                                code: true
+                              - text: >-
+                                  : an array of strings or numbers, the options
+                                  to select from
+                            type: list_item_text
+                        type: list_item
+                      - children:
+                          - children:
+                              - text: multiple
+                                code: true
+                              - text: >-
+                                  : boolean, defines whether the user is able to
+                                  select more than one value
+                            type: list_item_text
+                        type: list_item
+              - type: list_item
+                children:
+                  - type: list_item_text
+                    children:
+                      - bold: true
+                        text: 'Example:'
+          - children:
+              - text: |-
+                  {
+                          name: 'select',
+                          label: 'Select',
+                          type: {
+                            options: ['Option 1', 'Option 2', 'Option 3'],
+                            default: 'Option 1',
+                            widget: 'select',
+                            multiple: false
+                          },
+                        }
+            type: code_block
+            language: javascript
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: select
+      - id: 9167d953-c5b7-4ae7-bd3f-f2ebd9cb4198
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: paragraph
+            children:
+              - text: Image widget
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: image
+      - id: 927c96df-3721-4cdf-9346-0ee10a61953b
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: paragraph
+            children:
+              - text: Boolean widget
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: boolean
+      - id: 284ad473-8d33-4d20-924e-f9a746d81320
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: paragraph
+            children:
+              - text: Markdown widget
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: markdown
+      - id: 82efd067-468b-4682-98aa-2bd9c751f071
+        name: TabsContent
+        type: mdxJsxFlowElement
+        reactChildren:
+          - type: paragraph
+            children:
+              - text: Relation widget
+        children:
+          - text: ''
+        attributes:
+          - type: mdxJsxAttribute
+            name: value
+            value: relation
+    children:
+      - text: ''
+    attributes:
+      - type: mdxJsxAttribute
+        name: triggers
+        value:
+          type: mdxJsxAttributeValueExpression
+          value: |-
+            [
+            {
+            value: 'string',
+            children: 'String',
+            },
+            {
+            value: 'date',
+            children: 'Date',
+            },
+            {
+            value: 'dateTime',
+            children: 'Datetime',
+            },
+            {
+            value: 'select',
+            children: 'Select',
+            },
+            {
+            value: 'image',
+            children: 'image',
+            },
+            {
+            value: 'boolean',
+            children: 'Boolean',
+            },
+            {
+            value: 'markdown',
+            children: 'Markdown',
+            },
+            {
+            value: 'relation',
+            children: 'Relation',
+            },
+            ]
+          data:
+            estree:
+              type: Program
+              start: 1267
+              end: 1614
+              body:
+                - type: ExpressionStatement
+                  expression:
+                    type: ArrayExpression
+                    start: 1267
+                    end: 1614
+                    loc:
+                      start:
+                        line: 38
+                        column: 20
+                        offset: 1267
+                      end:
+                        line: 71
+                        column: 1
+                        offset: 1614
+                    elements:
+                      - type: ObjectExpression
+                        start: 1269
+                        end: 1309
+                        loc:
+                          start:
+                            line: 39
+                            column: 0
+                            offset: 1269
+                          end:
+                            line: 42
+                            column: 1
+                            offset: 1309
+                        properties:
+                          - type: Property
+                            start: 1271
+                            end: 1286
+                            loc:
+                              start:
+                                line: 40
+                                column: 0
+                                offset: 1271
+                              end:
+                                line: 40
+                                column: 15
+                                offset: 1286
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1271
+                              end: 1276
+                              loc:
+                                start:
+                                  line: 40
+                                  column: 0
+                                  offset: 1271
+                                end:
+                                  line: 40
+                                  column: 5
+                                  offset: 1276
+                              name: value
+                              range:
+                                - 1271
+                                - 1276
+                            value:
+                              type: Literal
+                              start: 1278
+                              end: 1286
+                              loc:
+                                start:
+                                  line: 40
+                                  column: 7
+                                  offset: 1278
+                                end:
+                                  line: 40
+                                  column: 15
+                                  offset: 1286
+                              value: string
+                              raw: '''string'''
+                              range:
+                                - 1278
+                                - 1286
+                            kind: init
+                            range:
+                              - 1271
+                              - 1286
+                          - type: Property
+                            start: 1288
+                            end: 1306
+                            loc:
+                              start:
+                                line: 41
+                                column: 0
+                                offset: 1288
+                              end:
+                                line: 41
+                                column: 18
+                                offset: 1306
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1288
+                              end: 1296
+                              loc:
+                                start:
+                                  line: 41
+                                  column: 0
+                                  offset: 1288
+                                end:
+                                  line: 41
+                                  column: 8
+                                  offset: 1296
+                              name: children
+                              range:
+                                - 1288
+                                - 1296
+                            value:
+                              type: Literal
+                              start: 1298
+                              end: 1306
+                              loc:
+                                start:
+                                  line: 41
+                                  column: 10
+                                  offset: 1298
+                                end:
+                                  line: 41
+                                  column: 18
+                                  offset: 1306
+                              value: String
+                              raw: '''String'''
+                              range:
+                                - 1298
+                                - 1306
+                            kind: init
+                            range:
+                              - 1288
+                              - 1306
+                        range:
+                          - 1269
+                          - 1309
+                      - type: ObjectExpression
+                        start: 1311
+                        end: 1347
+                        loc:
+                          start:
+                            line: 43
+                            column: 0
+                            offset: 1311
+                          end:
+                            line: 46
+                            column: 1
+                            offset: 1347
+                        properties:
+                          - type: Property
+                            start: 1313
+                            end: 1326
+                            loc:
+                              start:
+                                line: 44
+                                column: 0
+                                offset: 1313
+                              end:
+                                line: 44
+                                column: 13
+                                offset: 1326
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1313
+                              end: 1318
+                              loc:
+                                start:
+                                  line: 44
+                                  column: 0
+                                  offset: 1313
+                                end:
+                                  line: 44
+                                  column: 5
+                                  offset: 1318
+                              name: value
+                              range:
+                                - 1313
+                                - 1318
+                            value:
+                              type: Literal
+                              start: 1320
+                              end: 1326
+                              loc:
+                                start:
+                                  line: 44
+                                  column: 7
+                                  offset: 1320
+                                end:
+                                  line: 44
+                                  column: 13
+                                  offset: 1326
+                              value: date
+                              raw: '''date'''
+                              range:
+                                - 1320
+                                - 1326
+                            kind: init
+                            range:
+                              - 1313
+                              - 1326
+                          - type: Property
+                            start: 1328
+                            end: 1344
+                            loc:
+                              start:
+                                line: 45
+                                column: 0
+                                offset: 1328
+                              end:
+                                line: 45
+                                column: 16
+                                offset: 1344
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1328
+                              end: 1336
+                              loc:
+                                start:
+                                  line: 45
+                                  column: 0
+                                  offset: 1328
+                                end:
+                                  line: 45
+                                  column: 8
+                                  offset: 1336
+                              name: children
+                              range:
+                                - 1328
+                                - 1336
+                            value:
+                              type: Literal
+                              start: 1338
+                              end: 1344
+                              loc:
+                                start:
+                                  line: 45
+                                  column: 10
+                                  offset: 1338
+                                end:
+                                  line: 45
+                                  column: 16
+                                  offset: 1344
+                              value: Date
+                              raw: '''Date'''
+                              range:
+                                - 1338
+                                - 1344
+                            kind: init
+                            range:
+                              - 1328
+                              - 1344
+                        range:
+                          - 1311
+                          - 1347
+                      - type: ObjectExpression
+                        start: 1349
+                        end: 1393
+                        loc:
+                          start:
+                            line: 47
+                            column: 0
+                            offset: 1349
+                          end:
+                            line: 50
+                            column: 1
+                            offset: 1393
+                        properties:
+                          - type: Property
+                            start: 1351
+                            end: 1368
+                            loc:
+                              start:
+                                line: 48
+                                column: 0
+                                offset: 1351
+                              end:
+                                line: 48
+                                column: 17
+                                offset: 1368
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1351
+                              end: 1356
+                              loc:
+                                start:
+                                  line: 48
+                                  column: 0
+                                  offset: 1351
+                                end:
+                                  line: 48
+                                  column: 5
+                                  offset: 1356
+                              name: value
+                              range:
+                                - 1351
+                                - 1356
+                            value:
+                              type: Literal
+                              start: 1358
+                              end: 1368
+                              loc:
+                                start:
+                                  line: 48
+                                  column: 7
+                                  offset: 1358
+                                end:
+                                  line: 48
+                                  column: 17
+                                  offset: 1368
+                              value: dateTime
+                              raw: '''dateTime'''
+                              range:
+                                - 1358
+                                - 1368
+                            kind: init
+                            range:
+                              - 1351
+                              - 1368
+                          - type: Property
+                            start: 1370
+                            end: 1390
+                            loc:
+                              start:
+                                line: 49
+                                column: 0
+                                offset: 1370
+                              end:
+                                line: 49
+                                column: 20
+                                offset: 1390
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1370
+                              end: 1378
+                              loc:
+                                start:
+                                  line: 49
+                                  column: 0
+                                  offset: 1370
+                                end:
+                                  line: 49
+                                  column: 8
+                                  offset: 1378
+                              name: children
+                              range:
+                                - 1370
+                                - 1378
+                            value:
+                              type: Literal
+                              start: 1380
+                              end: 1390
+                              loc:
+                                start:
+                                  line: 49
+                                  column: 10
+                                  offset: 1380
+                                end:
+                                  line: 49
+                                  column: 20
+                                  offset: 1390
+                              value: Datetime
+                              raw: '''Datetime'''
+                              range:
+                                - 1380
+                                - 1390
+                            kind: init
+                            range:
+                              - 1370
+                              - 1390
+                        range:
+                          - 1349
+                          - 1393
+                      - type: ObjectExpression
+                        start: 1395
+                        end: 1435
+                        loc:
+                          start:
+                            line: 51
+                            column: 0
+                            offset: 1395
+                          end:
+                            line: 54
+                            column: 1
+                            offset: 1435
+                        properties:
+                          - type: Property
+                            start: 1397
+                            end: 1412
+                            loc:
+                              start:
+                                line: 52
+                                column: 0
+                                offset: 1397
+                              end:
+                                line: 52
+                                column: 15
+                                offset: 1412
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1397
+                              end: 1402
+                              loc:
+                                start:
+                                  line: 52
+                                  column: 0
+                                  offset: 1397
+                                end:
+                                  line: 52
+                                  column: 5
+                                  offset: 1402
+                              name: value
+                              range:
+                                - 1397
+                                - 1402
+                            value:
+                              type: Literal
+                              start: 1404
+                              end: 1412
+                              loc:
+                                start:
+                                  line: 52
+                                  column: 7
+                                  offset: 1404
+                                end:
+                                  line: 52
+                                  column: 15
+                                  offset: 1412
+                              value: select
+                              raw: '''select'''
+                              range:
+                                - 1404
+                                - 1412
+                            kind: init
+                            range:
+                              - 1397
+                              - 1412
+                          - type: Property
+                            start: 1414
+                            end: 1432
+                            loc:
+                              start:
+                                line: 53
+                                column: 0
+                                offset: 1414
+                              end:
+                                line: 53
+                                column: 18
+                                offset: 1432
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1414
+                              end: 1422
+                              loc:
+                                start:
+                                  line: 53
+                                  column: 0
+                                  offset: 1414
+                                end:
+                                  line: 53
+                                  column: 8
+                                  offset: 1422
+                              name: children
+                              range:
+                                - 1414
+                                - 1422
+                            value:
+                              type: Literal
+                              start: 1424
+                              end: 1432
+                              loc:
+                                start:
+                                  line: 53
+                                  column: 10
+                                  offset: 1424
+                                end:
+                                  line: 53
+                                  column: 18
+                                  offset: 1432
+                              value: Select
+                              raw: '''Select'''
+                              range:
+                                - 1424
+                                - 1432
+                            kind: init
+                            range:
+                              - 1414
+                              - 1432
+                        range:
+                          - 1395
+                          - 1435
+                      - type: ObjectExpression
+                        start: 1437
+                        end: 1475
+                        loc:
+                          start:
+                            line: 55
+                            column: 0
+                            offset: 1437
+                          end:
+                            line: 58
+                            column: 1
+                            offset: 1475
+                        properties:
+                          - type: Property
+                            start: 1439
+                            end: 1453
+                            loc:
+                              start:
+                                line: 56
+                                column: 0
+                                offset: 1439
+                              end:
+                                line: 56
+                                column: 14
+                                offset: 1453
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1439
+                              end: 1444
+                              loc:
+                                start:
+                                  line: 56
+                                  column: 0
+                                  offset: 1439
+                                end:
+                                  line: 56
+                                  column: 5
+                                  offset: 1444
+                              name: value
+                              range:
+                                - 1439
+                                - 1444
+                            value:
+                              type: Literal
+                              start: 1446
+                              end: 1453
+                              loc:
+                                start:
+                                  line: 56
+                                  column: 7
+                                  offset: 1446
+                                end:
+                                  line: 56
+                                  column: 14
+                                  offset: 1453
+                              value: image
+                              raw: '''image'''
+                              range:
+                                - 1446
+                                - 1453
+                            kind: init
+                            range:
+                              - 1439
+                              - 1453
+                          - type: Property
+                            start: 1455
+                            end: 1472
+                            loc:
+                              start:
+                                line: 57
+                                column: 0
+                                offset: 1455
+                              end:
+                                line: 57
+                                column: 17
+                                offset: 1472
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1455
+                              end: 1463
+                              loc:
+                                start:
+                                  line: 57
+                                  column: 0
+                                  offset: 1455
+                                end:
+                                  line: 57
+                                  column: 8
+                                  offset: 1463
+                              name: children
+                              range:
+                                - 1455
+                                - 1463
+                            value:
+                              type: Literal
+                              start: 1465
+                              end: 1472
+                              loc:
+                                start:
+                                  line: 57
+                                  column: 10
+                                  offset: 1465
+                                end:
+                                  line: 57
+                                  column: 17
+                                  offset: 1472
+                              value: image
+                              raw: '''image'''
+                              range:
+                                - 1465
+                                - 1472
+                            kind: init
+                            range:
+                              - 1455
+                              - 1472
+                        range:
+                          - 1437
+                          - 1475
+                      - type: ObjectExpression
+                        start: 1477
+                        end: 1519
+                        loc:
+                          start:
+                            line: 59
+                            column: 0
+                            offset: 1477
+                          end:
+                            line: 62
+                            column: 1
+                            offset: 1519
+                        properties:
+                          - type: Property
+                            start: 1479
+                            end: 1495
+                            loc:
+                              start:
+                                line: 60
+                                column: 0
+                                offset: 1479
+                              end:
+                                line: 60
+                                column: 16
+                                offset: 1495
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1479
+                              end: 1484
+                              loc:
+                                start:
+                                  line: 60
+                                  column: 0
+                                  offset: 1479
+                                end:
+                                  line: 60
+                                  column: 5
+                                  offset: 1484
+                              name: value
+                              range:
+                                - 1479
+                                - 1484
+                            value:
+                              type: Literal
+                              start: 1486
+                              end: 1495
+                              loc:
+                                start:
+                                  line: 60
+                                  column: 7
+                                  offset: 1486
+                                end:
+                                  line: 60
+                                  column: 16
+                                  offset: 1495
+                              value: boolean
+                              raw: '''boolean'''
+                              range:
+                                - 1486
+                                - 1495
+                            kind: init
+                            range:
+                              - 1479
+                              - 1495
+                          - type: Property
+                            start: 1497
+                            end: 1516
+                            loc:
+                              start:
+                                line: 61
+                                column: 0
+                                offset: 1497
+                              end:
+                                line: 61
+                                column: 19
+                                offset: 1516
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1497
+                              end: 1505
+                              loc:
+                                start:
+                                  line: 61
+                                  column: 0
+                                  offset: 1497
+                                end:
+                                  line: 61
+                                  column: 8
+                                  offset: 1505
+                              name: children
+                              range:
+                                - 1497
+                                - 1505
+                            value:
+                              type: Literal
+                              start: 1507
+                              end: 1516
+                              loc:
+                                start:
+                                  line: 61
+                                  column: 10
+                                  offset: 1507
+                                end:
+                                  line: 61
+                                  column: 19
+                                  offset: 1516
+                              value: Boolean
+                              raw: '''Boolean'''
+                              range:
+                                - 1507
+                                - 1516
+                            kind: init
+                            range:
+                              - 1497
+                              - 1516
+                        range:
+                          - 1477
+                          - 1519
+                      - type: ObjectExpression
+                        start: 1521
+                        end: 1565
+                        loc:
+                          start:
+                            line: 63
+                            column: 0
+                            offset: 1521
+                          end:
+                            line: 66
+                            column: 1
+                            offset: 1565
+                        properties:
+                          - type: Property
+                            start: 1523
+                            end: 1540
+                            loc:
+                              start:
+                                line: 64
+                                column: 0
+                                offset: 1523
+                              end:
+                                line: 64
+                                column: 17
+                                offset: 1540
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1523
+                              end: 1528
+                              loc:
+                                start:
+                                  line: 64
+                                  column: 0
+                                  offset: 1523
+                                end:
+                                  line: 64
+                                  column: 5
+                                  offset: 1528
+                              name: value
+                              range:
+                                - 1523
+                                - 1528
+                            value:
+                              type: Literal
+                              start: 1530
+                              end: 1540
+                              loc:
+                                start:
+                                  line: 64
+                                  column: 7
+                                  offset: 1530
+                                end:
+                                  line: 64
+                                  column: 17
+                                  offset: 1540
+                              value: markdown
+                              raw: '''markdown'''
+                              range:
+                                - 1530
+                                - 1540
+                            kind: init
+                            range:
+                              - 1523
+                              - 1540
+                          - type: Property
+                            start: 1542
+                            end: 1562
+                            loc:
+                              start:
+                                line: 65
+                                column: 0
+                                offset: 1542
+                              end:
+                                line: 65
+                                column: 20
+                                offset: 1562
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1542
+                              end: 1550
+                              loc:
+                                start:
+                                  line: 65
+                                  column: 0
+                                  offset: 1542
+                                end:
+                                  line: 65
+                                  column: 8
+                                  offset: 1550
+                              name: children
+                              range:
+                                - 1542
+                                - 1550
+                            value:
+                              type: Literal
+                              start: 1552
+                              end: 1562
+                              loc:
+                                start:
+                                  line: 65
+                                  column: 10
+                                  offset: 1552
+                                end:
+                                  line: 65
+                                  column: 20
+                                  offset: 1562
+                              value: Markdown
+                              raw: '''Markdown'''
+                              range:
+                                - 1552
+                                - 1562
+                            kind: init
+                            range:
+                              - 1542
+                              - 1562
+                        range:
+                          - 1521
+                          - 1565
+                      - type: ObjectExpression
+                        start: 1567
+                        end: 1611
+                        loc:
+                          start:
+                            line: 67
+                            column: 0
+                            offset: 1567
+                          end:
+                            line: 70
+                            column: 1
+                            offset: 1611
+                        properties:
+                          - type: Property
+                            start: 1569
+                            end: 1586
+                            loc:
+                              start:
+                                line: 68
+                                column: 0
+                                offset: 1569
+                              end:
+                                line: 68
+                                column: 17
+                                offset: 1586
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1569
+                              end: 1574
+                              loc:
+                                start:
+                                  line: 68
+                                  column: 0
+                                  offset: 1569
+                                end:
+                                  line: 68
+                                  column: 5
+                                  offset: 1574
+                              name: value
+                              range:
+                                - 1569
+                                - 1574
+                            value:
+                              type: Literal
+                              start: 1576
+                              end: 1586
+                              loc:
+                                start:
+                                  line: 68
+                                  column: 7
+                                  offset: 1576
+                                end:
+                                  line: 68
+                                  column: 17
+                                  offset: 1586
+                              value: relation
+                              raw: '''relation'''
+                              range:
+                                - 1576
+                                - 1586
+                            kind: init
+                            range:
+                              - 1569
+                              - 1586
+                          - type: Property
+                            start: 1588
+                            end: 1608
+                            loc:
+                              start:
+                                line: 69
+                                column: 0
+                                offset: 1588
+                              end:
+                                line: 69
+                                column: 20
+                                offset: 1608
+                            method: false
+                            shorthand: false
+                            computed: false
+                            key:
+                              type: Identifier
+                              start: 1588
+                              end: 1596
+                              loc:
+                                start:
+                                  line: 69
+                                  column: 0
+                                  offset: 1588
+                                end:
+                                  line: 69
+                                  column: 8
+                                  offset: 1596
+                              name: children
+                              range:
+                                - 1588
+                                - 1596
+                            value:
+                              type: Literal
+                              start: 1598
+                              end: 1608
+                              loc:
+                                start:
+                                  line: 69
+                                  column: 10
+                                  offset: 1598
+                                end:
+                                  line: 69
+                                  column: 20
+                                  offset: 1608
+                              value: Relation
+                              raw: '''Relation'''
+                              range:
+                                - 1598
+                                - 1608
+                            kind: init
+                            range:
+                              - 1588
+                              - 1608
+                        range:
+                          - 1567
+                          - 1611
+                    range:
+                      - 1267
+                      - 1614
+                  start: 1267
+                  end: 1614
+                  loc:
+                    start:
+                      line: 38
+                      column: 20
+                      offset: 1267
+                    end:
+                      line: 71
+                      column: 1
+                      offset: 1614
+                  range:
+                    - 1267
+                    - 1614
+              sourceType: module
+              comments: []
+              loc:
+                start:
+                  line: 38
+                  column: 20
+                  offset: 1267
+                end:
+                  line: 71
+                  column: 1
+                  offset: 1614
+              range:
+                - 1267
+                - 1614
+      - type: mdxJsxAttribute
+        name: defaultValue
+        value: string
 ---
 # Fields
 
@@ -154,7 +1772,28 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="select" >
 
-Select description
+### Select
+
+  - **Name:** `select`
+  - **UI:** A searchable select
+  - **Options:**
+    - `default`: accepts a string or number, the default value selected
+    - `options`: an array of strings or numbers, the options to select from
+    - `multiple`: boolean, defines whether the user is able to select more than one value
+  - **Example:**
+
+```javascript
+{
+        name: 'select',
+        label: 'Select',
+        type: {
+          options: ['Option 1', 'Option 2', 'Option 3'],
+          default: 'Option 1',
+          widget: 'select',
+          multiple: false
+        },
+      }
+```
 
 </TabsContent>
 

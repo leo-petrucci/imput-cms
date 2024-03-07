@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@meow/components/Tooltip'
+import ErrorBoundary from '@meow/components/errorBoundary'
 
 const MdxRenderer = ({
   descendants,
@@ -90,7 +91,9 @@ const InternalRenderer = ({ descendant }: { descendant: Descendant }) => {
           </Tooltip>
         </TooltipProvider>
       )}
-      <Content />
+      <ErrorBoundary>
+        <Content />
+      </ErrorBoundary>
     </div>
   )
 }

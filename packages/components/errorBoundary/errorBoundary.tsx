@@ -9,7 +9,7 @@ const ErrorFallback = ({ error }: FallbackProps) => {
   return (
     <div
       role="alert"
-      className="px-1 py-3 rounded-md bg-destructive/10 text-destructive"
+      className="px-2 py-2 rounded-md bg-destructive/10 text-destructive not-prose"
     >
       <p className="text-sm font-medium">Something went wrong:</p>
       <pre className="text-sm whitespace-normal leading-[140%]">

@@ -4,21 +4,21 @@ rawBody:
   - type: heading_one
     children:
       - text: Customising previews
-    id: b1290ea7-a089-4640-81f4-61fb35ef6b30
-  - id: 42addc32-b9ce-4cbd-b2ec-4b6254244f45
+    id: 553684ca-2834-4233-978e-963fb0661b7a
+  - type: paragraph
     children:
       - text: >-
           One of the best features of Meow is the ability of viewing how the
           text in your page is going to look as you write it, including React
           components! Meow handles all of the MDX and compilation logic so you
           don't need to do it yourself.
-    type: paragraph
-  - id: 42addc32-b9ce-4cbd-b2ec-4b6254244f45
-    type: paragraph
+    id: c8a1af01-f55f-4cff-bf6a-503b62163b89
+  - type: paragraph
     children:
       - text: 'Let''s start from a basic configuration:'
-  - id: 42addc32-b9ce-4cbd-b2ec-4b6254244f45
-    type: code_block
+    id: a3ecc2b4-2173-4cc0-8a3a-708f45e398b6
+  - type: code_block
+    language: tsx
     children:
       - text: |-
           const CMS = () => (
@@ -47,20 +47,48 @@ rawBody:
               }}
             />
           )
-    language: tsx
-  - id: 9fe9fb3d-0b0a-4267-8d71-9fecd7bf9240
+    code:
+      - text: |-
+          const CMS = () => (
+            <NextCMS
+              {...{
+                settings: {
+                  // more settings here !
+                  collections: [
+                    {
+                      name: 'docs',
+                      label: 'Docs',
+                      folder: 'apps/docs/pages/docs',
+                      create: true,
+                      slug: '{{name}}',
+                      extension: 'mdx',
+                      fields: [
+                        { label: 'Name', name: 'name', widget: 'string' },
+                        { label: 'Content', name: 'body', widget: 'markdown' },
+                      ],
+                      // the preview object is what we'll use to configure 
+                      // our CMS preview
+                      preview: {}
+                    },
+                  ],
+                },
+              }}
+            />
+          )
+    id: 74d9130e-8029-40b3-a648-0294f1b91d28
+  - type: heading_one
     children:
       - text: HTML Preview
-    type: heading_one
-  - id: 3c9042c8-efe4-4cb3-b11a-5f3366a7f174
+    id: 7414704f-f855-49f2-aeee-4ce5fc1b8bb0
+  - type: paragraph
     children:
       - text: 'The easiest way to start is to add an empty '
-      - text: preview.components
-        code: true
+      - code: true
+        text: preview.components
       - text: ' object:'
-    type: paragraph
-  - id: 3c9042c8-efe4-4cb3-b11a-5f3366a7f174
-    type: code_block
+    id: 1a629cfd-6092-47db-9622-ee498c45cba7
+  - type: code_block
+    language: js
     children:
       - text: |-
           {
@@ -68,27 +96,34 @@ rawBody:
               components: {},
             },
           }
-    language: js
-  - id: 9fe9fb3d-0b0a-4267-8d71-9fecd7bf9240
-    type: paragraph
+    code:
+      - text: |-
+          {
+            preview: {
+              components: {},
+            },
+          }
+    id: b6827eee-50d4-4d5f-bb5c-795c51a26086
+  - type: paragraph
     children:
       - text: >-
           This will tell Meow to convert your Markdown into HTML, even though it
           will be unstyled. To add styles you can use another 
-      - text: preview
-        code: true
+      - code: true
+        text: preview
       - text: ' configuration: '
-      - text: wrapper
-        code: true
+      - code: true
+        text: wrapper
       - text: >-
           . Wrapper renders an React component around your preview! You can use
           it to render a CSS-in-JS component that targets your preview or for a
           utility class like 
-      - text: tailwind-prose
-        code: true
+      - code: true
+        text: tailwind-prose
       - text: .
-  - id: 9fe9fb3d-0b0a-4267-8d71-9fecd7bf9240
-    type: code_block
+    id: b8b6217f-ea4c-4b37-ae84-41583768ccd4
+  - type: code_block
+    language: js
     children:
       - text: |-
           {
@@ -97,26 +132,30 @@ rawBody:
               wrapper: ({ children }) => <div className="prose">{children}</div>
             },
           }
-    language: js
-  - id: 9fe9fb3d-0b0a-4267-8d71-9fecd7bf9240
-    type: heading_one
+    code:
+      - text: |-
+          {
+            preview: {
+              components: {},
+              wrapper: ({ children }) => <div className="prose">{children}</div>
+            },
+          }
+    id: 70691d79-5cf9-48e4-943d-04f6aea07bf0
+  - type: heading_one
     children:
       - text: React Preview
-  - id: 9fe9fb3d-0b0a-4267-8d71-9fecd7bf9240
-    type: paragraph
+    id: 25107b8c-b76d-4a0c-b9b3-7806e3d771c9
+  - type: paragraph
     children:
-      - text: 'To this you''ll want to add a '
-      - text: preview
-        code: true
-      - text: ' object. Within '
-      - text: preview
-        code: true
-      - text: ' you can set your '
-      - text: components
-        code: true
-      - text: ' object, this is a key-value configuration for each of the React components you''ll want to use'
-  - id: 2a052452-46ac-45c9-9be1-f05e7949c6b0
+      - text: >-
+          Meow is also able to render React components added with the "Block"
+          feature in real-time.
+    id: 38d5b1af-b8ed-441a-9c65-af9befc98995
+  - type: code_block
+    language: tsx
     children:
+      - text: "{\n  preview: {\n    // Any component defined here will be automatically rendered\n    components: {\n      // Meow will now render this component instead of the text \"<Note>\"\n      Note: ({ children }: any) => {\n        return (\n          <div>\n            <div>\U0001F4A1</div>\n            <div>{children}</div>\n          </div>\n        )\n      }\n    },\n  },\n  // This will add the option to add a <Note> component\n  // into the editor\n  blocks: [\n    {\n      name: 'Note',\n      label: 'Note',\n      fields: [\n        {\n          name: 'children',\n          label: 'Children',\n          type: {\n            widget: 'markdown',\n          },\n        },\n      ],\n    },\n  ],\n}"
+    code:
       - text: |-
           const CMS = () => (
             <NextCMS
@@ -144,8 +183,7 @@ rawBody:
               }}
             />
           )
-    type: code_block
-    language: tsx
+    id: 61c77dbd-2764-4d6c-880f-40595061f148
 ---
 # Customising previews
 
@@ -207,34 +245,41 @@ This will tell Meow to convert your Markdown into HTML, even though it will be u
 
 # React Preview
 
-To this you'll want to add a `preview` object. Within `preview` you can set your `components` object, this is a key-value configuration for each of the React components you'll want to use
+Meow is also able to render React components added with the "Block" feature in real-time.
 
 ```tsx
-const CMS = () => (
-  <NextCMS
-    {...{
-      settings: {
-        collections: [
-          {
-            name: 'docs',
-            label: 'Docs',
-            folder: 'apps/docs/pages/docs',
-            create: true,
-            slug: '{{name}}',
-            extension: 'mdx',
-            fields: [
-              { label: 'Name', name: 'name', widget: 'string' },
-              { label: 'Content', name: 'body', widget: 'markdown' },
-            ],
-            preview: {
-              components: Components,
-            },
-            blocks,
+{
+  preview: {
+    // Any component defined here will be automatically rendered
+    components: {
+      // Meow will now render this component instead of the text "<Note>"
+      Note: ({ children }: any) => {
+        return (
+          <div>
+            <div>💡</div>
+            <div>{children}</div>
+          </div>
+        )
+      }
+    },
+  },
+  // This will add the option to add a <Note> component
+  // into the editor
+  blocks: [
+    {
+      name: 'Note',
+      label: 'Note',
+      fields: [
+        {
+          name: 'children',
+          label: 'Children',
+          type: {
+            widget: 'markdown',
           },
-        ],
-      },
-    }}
-  />
-)
+        },
+      ],
+    },
+  ],
+}
 ```
 

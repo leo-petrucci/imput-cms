@@ -19,7 +19,6 @@ const Panel = ({ depthOfType, lengthOfType, ...props }: PanelProps) => {
         transform: `scale(${
           1 - depthOfType * (0.2 / lengthOfType)
         }) translateX(0%) translateX(${depthOfType * (100 / lengthOfType)}px)`,
-        filter: props.depth > 0 ? 'blur(2px)' : 'blur(0px)',
       }}
       exit={{
         opacity: 0,

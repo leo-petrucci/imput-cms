@@ -69,7 +69,7 @@ const CMS = () => (
               {
                 label: 'Publish Date',
                 name: 'date',
-                widget: 'datetime',
+                widget: 'date',
               },
               {
                 label: 'Featured Image',

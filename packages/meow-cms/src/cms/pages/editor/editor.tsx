@@ -164,7 +164,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             components={currentCollection.preview?.components}
           />
         ) : (
-          markdown
+          <div className="whitespace-break-spaces">{markdown}</div>
         )}
       </>
     )
@@ -176,7 +176,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
         navbar={
           <div className="flex flex-1 justify-between">
             <Button
-              variant="secondary"
+              variant="outline"
               className="gap-1"
               onClick={() => {
                 navigate(-1)
@@ -197,7 +197,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
         }
       >
         {({ navbarHeight }) => (
-          <div className="flex flex-row items-stretch gap-4">
+          <div className="flex flex-row items-stretch gap-4 flex-1">
             <div
               className="overflow-y-auto p-4 flex-1"
               style={{
@@ -207,11 +207,17 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               <Form
                 id="content-form"
                 form={form}
+                // 72287133
                 debug
                 onSubmit={() => {
                   const id = toast.loading('Saving content...')
-                  const { body, ...rest } = getCorrectedFormValues()
+                  const {
+                    body,
+                    rawBody: _rawBody,
+                    ...rest
+                  } = getCorrectedFormValues()
                   const content = matter.stringify(body, rest)
+                  console.log(content)
                   mutate(
                     {
                       markdown: {

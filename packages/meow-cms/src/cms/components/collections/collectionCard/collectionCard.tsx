@@ -29,7 +29,7 @@ const CollectionCard = (props: CollectionCardProps) => {
 
   return (
     <Link key={props.slug} to={`${props.baseUrl}/${props.slug}`}>
-      <Card className="hover:bg-accent hover:text-accent-foreground">
+      <Card className="hover:bg-primary-foreground transition-colors hover:text-accent-foreground overflow-hidden">
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <Image path={image} />
         <CardHeader>{title}</CardHeader>

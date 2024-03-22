@@ -175,7 +175,13 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
       <Layout
         navbar={
           <div className="flex flex-1 justify-between">
-            <Button variant="secondary" className="gap-1">
+            <Button
+              variant="secondary"
+              className="gap-1"
+              onClick={() => {
+                navigate(-1)
+              }}
+            >
               <CaretLeft size={16} />
               Back to {currentCollection.name}
             </Button>

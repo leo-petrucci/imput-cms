@@ -1,6 +1,6 @@
 ---
 published: true
-title: Testing slug generation Edited 3
+title: Completely different title
 select: ''
 multiSelect: []
 categories: []

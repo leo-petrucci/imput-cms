@@ -1,6 +1,6 @@
 ---
 published: true
-title: Testing slug generation Edited
+title: Testing slug generation Edited 2
 select: ''
 multiSelect: []
 categories: []

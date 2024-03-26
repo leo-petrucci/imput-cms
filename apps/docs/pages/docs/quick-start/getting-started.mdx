@@ -11,27 +11,34 @@ npm install meow-cms
 
 You can then use it in your Next.js app by creating a new page:
 
-```
+```plain
 my-nextjs-app/
-├─ pages/
+├─ app/
 │  ├─ admin/
-│  │  ├─ [[...meow]].jsx 
+│  │  ├─ [[...imput]]
+│  │  │  ├─ page.jsx or page.tsx
 
 ```
 
-Create a folder inside your `pages` directory (`admin` in our case) and then add a catch-all route within it `[[...meow]].jsx`.
+Create a folder inside your `app` directory (`admin` in our case), then add a catch-all route within it `[[...imput]]` finally add a `page.tsx` or `page.jsx`.
 
-Then you just need to import the main Meow component to render your new CMS:
+<Note>
+
+At the moment Imput only supports the `app` directory because of the way Next.js handles css imports.
+
+</Note>
+
+Then you just need to import the main Imput component to render your new CMS:
 
 ```jsx
 import dynamic from 'next/dynamic'
 
-const NextCMS = dynamic(() => import('meow-cms'), {
+const ImputCMS = dynamic(() => import('imput-cms'), {
   ssr: false,
 })
 
 const CMS = () => (
-  <NextCMS
+  <ImputCMS
     {...{
       // your settings will go here!
     }}

@@ -199,7 +199,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
         {({ navbarHeight }) => (
           <div className="flex flex-row items-stretch gap-4 flex-1">
             <div
-              className="overflow-y-auto p-4 flex-1"
+              className="overflow-y-auto p-4 flex-1 border-r border-border"
               style={{
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
@@ -232,10 +232,12 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                         })
 
                         // We can get a big UX win here by upating the cache with the data we get back
-                        queryClient.removeQueries(
-                          queryKeys.github.collection(currentCollection.folder)
-                            .queryKey
-                        )
+                        queryClient.removeQueries({
+                          queryKey: queryKeys.github.collection(
+                            currentCollection.folder
+                          ).queryKey,
+                          exact: false,
+                        })
 
                         // redirect to the file we've just created
                         if (isNewFile) {

@@ -186,10 +186,16 @@ const CMS = () => (
                   required: 'This field is required',
                 },
               },
+              {
+                label: 'Order',
+                name: 'order',
+                widget: 'string',
+              },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
             preview: {
               components: Components,
+              wrapper: PreviewWrapper,
             },
             blocks,
           },

@@ -1087,6 +1087,10 @@ video {
   pointer-events: none;
 }
 
+.\!visible {
+  visibility: visible !important;
+}
+
 .visible {
   visibility: visible;
 }
@@ -1175,18 +1179,21 @@ video {
   grid-column: span 4 / span 4;
 }
 
+.col-start-9 {
+  grid-column-start: 9;
+}
+
 .m-0 {
   margin: 0px;
+}
+
+.m-auto {
+  margin: auto;
 }
 
 .-mx-1 {
   margin-left: -0.25rem;
   margin-right: -0.25rem;
-}
-
-.mx-2 {
-  margin-left: 0.5rem;
-  margin-right: 0.5rem;
 }
 
 .my-1 {
@@ -1417,6 +1424,10 @@ video {
 
 .min-w-full {
   min-width: 100%;
+}
+
+.max-w-\[1920px\] {
+  max-width: 1920px;
 }
 
 .max-w-full {

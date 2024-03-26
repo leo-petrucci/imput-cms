@@ -19,14 +19,11 @@ const Layout = ({ children, navbar }: LayoutProps) => {
       }}
     >
       <div className="flex flex-col min-h-screen max-h-screen">
-        <div
-          ref={ref}
-          className="py-2 px-4 mt-2 mx-2 bg-accent rounded-lg border border-border flex"
-        >
-          {navbar}
+        <div ref={ref} className="border-b border-border flex">
+          <div className="max-w-[1920px] m-auto w-full py-2 px-4">{navbar}</div>
         </div>
         <div
-          className="overflow-y-auto flex-1 flex pt-2"
+          className="overflow-y-auto flex-1 flex max-w-[1920px] w-full m-auto"
           style={{
             maxHeight: `calc(100vh - ${height}px)`,
           }}

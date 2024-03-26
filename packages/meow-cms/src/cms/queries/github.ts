@@ -8,6 +8,7 @@ import { slugify } from '../../cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
 import matter from 'gray-matter'
 import React from 'react'
+import get from 'lodash/get'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -23,6 +24,11 @@ type FilesWithDate =
  * @param type the name of the folder we want to load
  */
 export const useGetGithubCollection = (type: string) => {
+  const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>(
+    'desc'
+  )
+  const [sortBy, setSortBy] = React.useState('date')
+
   const { backend, collections } = useCMS()
 
   // we can't use `currentCollection` from `useCMS` because that's defined by which folder we've loaded
@@ -38,8 +44,9 @@ export const useGetGithubCollection = (type: string) => {
   }
 
   const [owner, repo] = React.useMemo(() => backend.repo.split('/'), [])
-  return useQuery({
-    ...queryKeys.github.collection(type),
+
+  const query = useQuery({
+    queryKey: queryKeys.github.collection(type, sortBy, sortDirection).queryKey,
     context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({
@@ -121,7 +128,40 @@ export const useGetGithubCollection = (type: string) => {
       ).then((d) =>
         d
           .sort((a, b) => {
-            return +new Date(b.updatedAt) - +new Date(a.updatedAt)
+            switch (sortBy) {
+              case 'updatedAt':
+                const aTime = new Date(get(a, sortBy)).getTime()
+                const bTime = new Date(get(b, sortBy)).getTime()
+                if (sortDirection === 'desc') return bTime - aTime
+                return aTime - bTime
+              default:
+                // this will access data from gray matter
+                const key = `data.${sortBy}`
+
+                // get what type of widget the collection is
+                const keyType = currentCollection.fields.find(
+                  (f) => f.name === sortBy
+                )
+
+                // then depending on the widget we switch how we sort it
+                if (keyType?.widget) {
+                  switch (keyType.widget) {
+                    case 'date':
+                    case 'datetime':
+                      const aTime = new Date(get(a, key)).getTime()
+                      const bTime = new Date(get(b, key)).getTime()
+                      if (sortDirection === 'desc') return bTime - aTime
+                      return aTime - bTime
+                    case 'string':
+                      if (sortDirection === 'desc') {
+                        return get(a, key) > get(b, key) ? -1 : 1
+                      }
+                      return get(b, key) > get(a, key) ? -1 : 1
+                  }
+                }
+
+                return get(b, key) - get(a, key)
+            }
           })
           // remove any files that don't match our filetype
           .filter((c) =>
@@ -132,6 +172,24 @@ export const useGetGithubCollection = (type: string) => {
       return decodedFiles
     },
   })
+
+  return {
+    ...query,
+    sorting: {
+      // return values that we can filter for
+      options: [
+        // reserved word
+        'updatedAt',
+        ...currentCollection.fields
+          .filter((f) => ['date', 'datetime', 'string'].includes(f.widget))
+          .map((o) => o.name),
+      ],
+      sortBy,
+      setSortBy,
+      sortDirection,
+      setSortDirection,
+    },
+  }
 }
 /**
  * Fetch all image data from the connected repo.
@@ -140,8 +198,9 @@ export const useGetGithubCollection = (type: string) => {
 export const useGetGithubImages = () => {
   const { backend, media_folder } = useCMS()
   const [owner, repo] = backend.repo.split('/')
+
   return useQuery({
-    ...queryKeys.github.collection(media_folder),
+    queryKey: queryKeys.github.collection(media_folder).queryKey,
     context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({

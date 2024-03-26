@@ -1,4 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { NextCMSContext } from '../../cms/contexts/cmsContext/context'
 import { CMSProvider } from '../../cms/contexts/cmsContext/useCMSContext'
 import { UserProvider } from '../../cms/contexts/userContext/userContext'
@@ -66,6 +67,7 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
             </ImagesProvider>
           </UserProvider>
         </CMSProvider>
+        {false && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </Router>
   )

@@ -4,9 +4,9 @@ import { useGetGithubCollection } from '../../../cms/queries/github'
 import {
   Route,
   Routes,
-  useNavigate,
   useParams,
   useLocation,
+  useNavigate,
 } from 'react-router-dom'
 import ContentPage from '../../../cms/pages/content'
 import CollectionCard from '../../../cms/components/collections/collectionCard'
@@ -24,8 +24,13 @@ import {
 // @ts-expect-error
 import logo from '../../../assets/imput-logo.svg'
 import { FolderNotch, FolderNotchOpen } from '@meow/components/Icon'
+import { H5 } from '@meow/components/Typography'
+import { SortBy } from '../../components/molecules/SortBy'
+import { Card, CardContent } from '@meow/components/Card'
 
 const CollectionPage = () => {
+  const navigate = useNavigate()
+  const params = useParams<{ cms: string }>()
   const [isOpen, setIsOpen] = React.useState(true)
   const { collection } = useParams<{
     collection: string
@@ -33,11 +38,13 @@ const CollectionPage = () => {
   const location = useLocation()
   const { collections } = useCMS()
   const thisCollection = collections.find((c) => c.name === collection)
-  const { isSuccess, data, isError, isLoading } = useGetGithubCollection(
-    thisCollection!.folder || collections[0].folder
-  )
-
-  console.log({ data })
+  const {
+    isSuccess,
+    data,
+    isError,
+    isLoading,
+    sorting: { sortBy, setSortBy, options, sortDirection, setSortDirection },
+  } = useGetGithubCollection(thisCollection!.folder || collections[0].folder)
 
   return (
     <React.Fragment>
@@ -57,7 +64,7 @@ const CollectionPage = () => {
               >
                 <div className="grid grid-cols-12 flex-1 gap-2">
                   <div className="col-span-2 pl-2 pb-2 flex flex-col">
-                    <div className="sticky top-0">
+                    <div className="sticky top-0 pt-2">
                       <Collapsible
                         className="space-y-1"
                         open={isOpen}
@@ -89,7 +96,10 @@ const CollectionPage = () => {
                             <Button
                               key={c.name}
                               variant="ghost"
-                              className="w-full justify-start"
+                              className={`w-full justify-start ${location.pathname === `/${params.cms}/${c.name}` ? 'bg-accent' : ''}`}
+                              onClick={() => {
+                                navigate(`/${params.cms}/${c.name}`)
+                              }}
                             >
                               {c.label}
                             </Button>
@@ -98,13 +108,36 @@ const CollectionPage = () => {
                       </Collapsible>
                     </div>
                   </div>
-                  <div className="col-span-10 p-2 bg-accent border border-border rounded-lg mb-2 mr-2">
+                  <div className="col-span-10 p-2 border-l border-border gap-4 flex flex-col bg-accent">
                     {isError && (
                       <GenericError title="Could not find collection.">
                         Are you sure your settings are correct?
                       </GenericError>
                     )}
-
+                    <Card className="p-2">
+                      <div className="grid grid-cols-12">
+                        <div className="col-span-2 flex items-center">
+                          {isSuccess && (
+                            <H5 className="text-sm font-medium leading-none">
+                              {data.length} posts found
+                            </H5>
+                          )}
+                        </div>
+                        <div className="col-span-4 col-start-9 flex justify-end">
+                          <SortBy
+                            values={{
+                              sortBy,
+                              direction: sortDirection,
+                            }}
+                            options={options}
+                            onChange={(val) => {
+                              if (val.sortBy) setSortBy(val.sortBy)
+                              if (val.direction) setSortDirection(val.direction)
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </Card>
                     <div className="grid gap-2 grid-cols-3">
                       {isSuccess &&
                         data.map((content: CollectionType) => {

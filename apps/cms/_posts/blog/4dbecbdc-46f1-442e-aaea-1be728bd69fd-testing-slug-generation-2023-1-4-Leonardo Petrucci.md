@@ -1,6 +1,6 @@
 ---
 published: true
-title: Testing slug generation
+title: Testing slug generation Edited
 select: ''
 multiSelect: []
 categories: []
@@ -11,11 +11,6 @@ datetime: '2023-02-04T23:03'
 category:
   - Design
   - Quick Tips
-rawBody:
-  - type: paragraph
-    children:
-      - text: My markdown content
-    id: 6b50de52-723f-463c-96bd-59d8fb97f73d
 ---
 My markdown content 
 

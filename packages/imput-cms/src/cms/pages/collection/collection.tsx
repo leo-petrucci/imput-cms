@@ -27,6 +27,7 @@ import { FolderNotch, FolderNotchOpen } from '@imput/components/Icon'
 import { H5 } from '@imput/components/Typography'
 import { SortBy } from '../../components/molecules/SortBy'
 import { Card, CardContent } from '@imput/components/Card'
+import { Logo } from 'src/cms/components/atoms/Logo'
 
 const CollectionPage = () => {
   const navigate = useNavigate()
@@ -58,7 +59,7 @@ const CollectionPage = () => {
               <Layout
                 navbar={
                   <div className="flex flex-1 justify-between">
-                    <img {...logo} />
+                    <Logo />
                   </div>
                 }
               >

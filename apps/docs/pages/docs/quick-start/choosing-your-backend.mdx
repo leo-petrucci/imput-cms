@@ -2,7 +2,6 @@
 name: Choosing your backend
 order: '10'
 ---
-
 <Note>
 
 At the moment Imput only supports Github as a backend, but other Git providers are planned for the future. Sorry! 😺
@@ -136,12 +135,14 @@ const auth = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log("host", host);
   console.log("provider", provider);
 
+  // this will get us an auth url from github
   const authorizationUri = client.authorizeURL({
     redirect_uri: `https://${host}/api/callback?provider=${provider}`,
     scope: "repo,user",
     state: randomString(),
   });
 
+  // and this will ensure the user logging in is redirected to it
   res.writeHead(301, { Location: authorizationUri });
   res.end();
 };
@@ -173,12 +174,14 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   try {
+    // we exchange our parameters for a token
     const accessToken = await client.getToken(tokenParams)
     const token = accessToken.token['access_token']
 
     res.statusCode = 200
 
     res.setHeader('Content-Type', 'text/html')
+    // and then send a message back to the cms to login
     res.end(`
         <script type="text/javascript">
           if (window.opener) {
@@ -216,3 +219,4 @@ export default callback
 Once these two endpoints are in place you should be able to visit your CMS page (the one you created in "[Getting Started](/docs/getting-started)" and use the Login button to login.
 
 Next, we'll set up your content categories 👉
+

@@ -1,4 +1,4 @@
-# Meow-cms
+# Imput-cms
 
 Example config:
 
@@ -194,4 +194,3 @@ const CMS = () => (
 
 export default CMS
 ```
-

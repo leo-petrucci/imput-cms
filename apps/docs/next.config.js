@@ -9,10 +9,4 @@ module.exports = withNextra({
   experimental: {
     externalDir: true,
   },
-  webpack: (
-    config,
-    { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
-  ) => {
-    return config
-  },
 })

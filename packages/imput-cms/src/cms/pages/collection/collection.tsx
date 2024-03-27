@@ -21,7 +21,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@imput/components/Collapsible'
-import { FolderNotch, FolderNotchOpen } from '@imput/components/Icon'
+import {
+  FolderNotch,
+  FolderNotchOpen,
+  PlusCircle,
+} from '@imput/components/Icon'
 import { H5 } from '@imput/components/Typography'
 import { SortBy } from '../../components/molecules/SortBy'
 import { Card } from '@imput/components/Card'
@@ -58,6 +62,14 @@ const CollectionPage = () => {
                 navbar={
                   <div className="flex flex-1 justify-between">
                     <Logo />
+                    <Button
+                      onClick={() => {
+                        navigate(`/${params.cms}/${thisCollection?.name}/new`)
+                      }}
+                    >
+                      <PlusCircle size={16} className="w-4 h-4 mr-1" />
+                      New {thisCollection?.label}
+                    </Button>
                   </div>
                 }
               >

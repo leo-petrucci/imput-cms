@@ -2,7 +2,7 @@ import * as React from 'react'
 import * as DialogPrimitive from '@radix-ui/react-dialog'
 import { AnimatePresence, HTMLMotionProps, motion } from 'framer-motion'
 import { SpuntareProps } from '@ironeko/spuntare'
-import { useMeasure } from '@meow/utils'
+import { useMeasure } from '@imput/utils'
 
 import { cn } from '../lib/utils'
 

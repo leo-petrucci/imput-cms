@@ -1,5 +1,5 @@
 import PropsTable from '../PropsTable'
-import Tabs from '@meow/components/tabs'
+import Tabs from '@imput/components/tabs'
 
 export const Components = {
   Note: ({ children }: any) => {

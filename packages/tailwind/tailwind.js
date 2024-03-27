@@ -16,7 +16,7 @@ const tailwind = {
     './utils/**/*.{ts,tsx}',
     './theme.config.jsx',
     '../../packages/components/**/*.{ts,tsx}',
-    '../../packages/meow-cms/**/*.{ts,tsx}',
+    '../../packages/imput-cms/**/*.{ts,tsx}',
   ],
   theme: {
     container: {
@@ -29,6 +29,19 @@ const tailwind = {
     extend: {
       colors: {
         ...colors,
+        scarlet: {
+          50: '#fff4ec',
+          100: '#ffe7d3',
+          200: '#ffcaa6',
+          300: '#ffa56d',
+          400: '#ff7433',
+          500: '#ff4e0b',
+          600: '#fb3301',
+          700: '#cb2103',
+          800: '#a11c0b',
+          900: '#81190d',
+          950: '#460904',
+        },
         border: 'hsl(214.3 31.8% 91.4%)',
         input: 'hsl(214.3 31.8% 91.4%)',
         ring: 'hsl(215 20.2% 65.1%)',

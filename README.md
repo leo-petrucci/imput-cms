@@ -1,4 +1,4 @@
-# Meow-cms
+# Imput-cms
 
 Example config:
 
@@ -11,7 +11,7 @@ const CMS = () => (
       settings: {
         backend: {
           name: 'github',
-          repo: 'creativiii/meow-cms',
+          repo: 'creativiii/imput-cms',
           branch: 'main',
           base_url: 'https://sqlite-experiment.vercel.app/',
           auth_endpoint: 'api/auth',
@@ -194,4 +194,3 @@ const CMS = () => (
 
 export default CMS
 ```
-

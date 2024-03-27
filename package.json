@@ -1,5 +1,5 @@
 {
-  "name": "meow-cms-monorepo",
+  "name": "imput-cms-monorepo",
   "version": "0.0.0",
   "workspaces": [
     "apps/*",
@@ -7,13 +7,13 @@
   ],
   "scripts": {
     "docs:build": "turbo run docs:build",
-    "build": "turbo run meow:build",
-    "test": "turbo run meow:test",
-    "release": "turbo run meow:release",
+    "build": "turbo run imput:build",
+    "test": "turbo run imput:test",
+    "release": "turbo run imput:release",
     "dev": "turbo run docs:dev"
   },
   "devDependencies": {
-    "local-meow-cms": "workspace:*",
+    "local-imput-cms": "workspace:*",
     "prettier": "latest",
     "process": "^0.11.10",
     "turbo": "latest"

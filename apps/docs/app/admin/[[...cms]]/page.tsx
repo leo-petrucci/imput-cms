@@ -1,12 +1,12 @@
 'use client'
 
-import { BlockType } from 'local-meow-cms'
+import { BlockType } from 'local-imput-cms'
 import dynamic from 'next/dynamic'
 import { Components } from '@/components/MdxComponents'
 import { PreviewWrapper } from '@/components/PreviewWrapper'
 import '../../../styles/tailwind.css'
 
-const NextCMS = dynamic(() => import('local-meow-cms'), {
+const NextCMS = dynamic(() => import('local-imput-cms'), {
   ssr: false,
 })
 
@@ -159,11 +159,11 @@ const CMS = () => (
       settings: {
         backend: {
           name: 'github',
-          repo: 'leo-petrucci/meow-cms',
+          repo: 'leo-petrucci/imput-cms',
           branch: 'main',
           base_url:
             process.env.NODE_ENV === 'production'
-              ? 'https://meow.petruc.ci'
+              ? 'https://imput.computer'
               : 'http://localhost:3000/',
           auth_endpoint: 'api/authorize',
         },
@@ -186,10 +186,16 @@ const CMS = () => (
                   required: 'This field is required',
                 },
               },
+              {
+                label: 'Order',
+                name: 'order',
+                widget: 'string',
+              },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
             preview: {
               components: Components,
+              wrapper: PreviewWrapper,
             },
             blocks,
           },

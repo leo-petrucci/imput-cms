@@ -7,6 +7,6 @@
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
   ],
   "search.exclude": {
-    "**/local-meow-cms": true
+    "**/local-imput-cms": true
   }
 }

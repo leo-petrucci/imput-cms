@@ -2,25 +2,26 @@
 name: Choosing your backend
 order: '10'
 ---
+
 <Note>
 
-At the moment Meow only supports Github as a backend, but other Git providers are planned for the future. Sorry! 😺
+At the moment Imput only supports Github as a backend, but other Git providers are planned for the future. Sorry! 😺
 
 </Note>
 
 # Choosing your backend
 
-In Meow terms a backend is the git provider you'll save your content to. Github, Gitlab, Bitbucket, etc. all have public APIs that all work slightly differently which requires completely new implementations on our side.
+In Imput terms a backend is the git provider you'll save your content to. Github, Gitlab, Bitbucket, etc. all have public APIs that all work slightly differently which requires completely new implementations on our side.
 
-Each time you save a piece of content or upload media, Meow will use your provider's API to sync the changes to your git provider. Think of it as setting up a database and an API, but without the hassle.
+Each time you save a piece of content or upload media, Imput will use your provider's API to sync the changes to your git provider. Think of it as setting up a database and an API, but without the hassle.
 
 ## Setting up Github as your backend
 
-If you've been following along with the documentation, your Meow config should look something like this right now:
+If you've been following along with the documentation, your Imput config should look something like this right now:
 
 ```tsx
 const CMS = () => (
-  <MeowCMS
+  <ImputCMS
     {
       ...{
         // your settings will go here!
@@ -34,7 +35,7 @@ Your configuration should follow this shape:
 
 ```tsx
 const CMS = () => (
-  <MeowCMS
+  <ImputCMS
     {...{
       settings: {
         backend: {
@@ -52,7 +53,7 @@ const CMS = () => (
 
 ### Getting your oAuth secrets
 
-Meow leaves the authentication up to you, which means you need to set up an oAuth endpoint that will set a cookie to allow you to access your repo. First of all you'll need to create a new oAuth application and get your secret tokens. Go to [your Github settings](https://github.com/settings/profile) and follow along with the video.
+Imput leaves the authentication up to you, which means you need to set up an oAuth endpoint that will set a cookie to allow you to access your repo. First of all you'll need to create a new oAuth application and get your secret tokens. Go to [your Github settings](https://github.com/settings/profile) and follow along with the video.
 
 <Video src="/images/screen-recording-2023-03-11-at-135222.mov" />
 
@@ -69,7 +70,7 @@ OAUTH_GITHUB_CLIENT_SECRET={your github client secret}
 
 The endpoints here are specific to Next.js, but the logic should be exactly the same for any other API framework. The only difference will be how you get certain headers.
 
-If you're having trouble [open an issue on Github](https://github.com/creativiii/meow-cms/issues/new) and we'll add it to the docs.
+If you're having trouble [open an issue on Github](https://github.com/creativiii/imput-cms/issues/new) and we'll add it to the docs.
 
 </Note>
 
@@ -149,7 +150,7 @@ export default auth;
 
 ```
 
-Then you'll need to set up your callback endpoint, this one will receive the token from Github and send it back to Meow:
+Then you'll need to set up your callback endpoint, this one will receive the token from Github and send it back to Imput:
 
 ```javascript
 // pages/api/callback.ts
@@ -215,4 +216,3 @@ export default callback
 Once these two endpoints are in place you should be able to visit your CMS page (the one you created in "[Getting Started](/docs/getting-started)" and use the Login button to login.
 
 Next, we'll set up your content categories 👉
-

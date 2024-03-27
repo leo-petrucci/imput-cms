@@ -1,4 +1,4 @@
-name: Build and Test Meow Package
+name: Build and Test Imput Package
 on:
   pull_request:
     branches:

@@ -1,5 +1,5 @@
 # .github/workflows/release.yml
-name: Release Meow Package
+name: Release Imput Package
 on:
   workflow_dispatch:
   push:

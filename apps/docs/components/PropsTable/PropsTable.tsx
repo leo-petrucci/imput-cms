@@ -3,7 +3,7 @@ import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@meow/components/Popover'
+} from '@imput/components/Popover'
 
 const Code = (props: React.HTMLAttributes<HTMLElement>) => (
   <code

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic'
 
-const NextCMS = dynamic(() => import('local-meow-cms'), {
+const NextCMS = dynamic(() => import('local-imput-cms'), {
   ssr: false,
 })
 
@@ -10,7 +10,7 @@ const CMS = () => (
       settings: {
         backend: {
           name: 'github',
-          repo: 'leo-petrucci/meow-cms',
+          repo: 'leo-petrucci/imput-cms',
           branch: 'main',
           base_url: 'http://localhost:3000/',
           auth_endpoint: 'api/authorize',

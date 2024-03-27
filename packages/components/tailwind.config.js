@@ -1,3 +1,3 @@
-const { tailwind } = require('@meow/tailwind')
+const { tailwind } = require('@imput/tailwind')
 
 module.exports = tailwind

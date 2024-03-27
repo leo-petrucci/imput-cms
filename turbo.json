@@ -1,9 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "meow:tailwind": {
+    "imput:tailwind": {
       "cache": false,
-      "inputs": ["meow-cms"]
+      "inputs": ["imput-cms"]
     },
     "docs:dev": {
       "cache": true,
@@ -14,19 +14,19 @@
       "inputs": ["apps/cms"]
     },
     "docs": {
-      "dependsOn": ["meow:tailwind", "docs:dev"]
+      "dependsOn": ["imput:tailwind", "docs:dev"]
     },
     "test": {
-      "dependsOn": ["meow:tailwind", "test:dev"]
+      "dependsOn": ["imput:tailwind", "test:dev"]
     },
     "docs:build": {
       "cache": false
     },
-    "meow:release": {},
-    "meow:build": {},
-    "meow:test": {
+    "imput:release": {},
+    "imput:build": {},
+    "imput:test": {
       "cache": false,
-      "inputs": ["meow-cms"]
+      "inputs": ["imput-cms"]
     }
   }
 }

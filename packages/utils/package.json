@@ -1,6 +1,6 @@
 {
   "version": "0.3.10",
-  "name": "@meow/utils",
+  "name": "@imput/utils",
   "main": "src/index.tsx",
   "dependencies": {
     "@juggle/resize-observer": "^3.4.0",

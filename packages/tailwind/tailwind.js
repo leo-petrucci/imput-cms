@@ -16,7 +16,7 @@ const tailwind = {
     './utils/**/*.{ts,tsx}',
     './theme.config.jsx',
     '../../packages/components/**/*.{ts,tsx}',
-    '../../packages/meow-cms/**/*.{ts,tsx}',
+    '../../packages/imput-cms/**/*.{ts,tsx}',
   ],
   theme: {
     container: {

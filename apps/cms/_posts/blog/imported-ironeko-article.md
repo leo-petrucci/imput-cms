@@ -3,7 +3,7 @@ published: false
 title: The do's and dont's of Skeleton Loading in React
 categories: ''
 author: Leonardo Petrucci
-date: 2022-10-13T15:07:02.026Z
+date: '2023-02-04'
 thumbnail: /images/frame-142.png
 layout: blog
 category:

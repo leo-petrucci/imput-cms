@@ -4,7 +4,7 @@ order: '20'
 ---
 # Collections
 
-A collection in Meow is an assortment of content that all shares the same shape.
+A collection in Imput is an assortment of content that all shares the same shape.
 
 - All `posts` have both a title and an author
 - All `authors` have an email and an email address
@@ -16,7 +16,7 @@ Collections are added to cms' settings like everything else, you can define coll
 
 ```tsx
 const CMS = () => (
-  <MeowCMS
+  <ImputCMS
     {...{
       settings: {
         // your collections go in here!
@@ -31,7 +31,7 @@ Let's add the most bare-bones configuration for adding new pages. Your config wi
 
 ```tsx
 const CMS = () => (
-  <MeowCMS
+  <ImputCMS
     {...{
       settings: {
         collections: [
@@ -58,8 +58,8 @@ const CMS = () => (
 - `label` should be a readable string that describes your collection (e.g. "Blog", "Pages", etc.)
 - `folder` is where your files will be saved and updated in your repository
 - `create` whether new content can be created for this collection
-- `slug` is how Meow will generate your new content's filename (add link to slug page here)
-- `extension` either "md" or "mdx", the file extension Meow will create your new content in
+- `slug` is how Imput will generate your new content's filename (add link to slug page here)
+- `extension` either "md" or "mdx", the file extension Imput will create your new content in
 - `fields` this is your collection schema, in the example above our content will have a `title` and a `body` value
 
 That's the bare minimum config! There's a lot more to collections but we'll go over it later. Next up, handling media uploads.

@@ -8,8 +8,8 @@ multiSelect:
 categories:
   - Design
 author: Evie Dillon-Riley
-date: '2024-03-07T17:17'
-thumbnail: images/screenshot-2023-01-24-at-14.22.56.png
+date: '2023-02-04'
+thumbnail: images/screenshot-2023-03-04-at-17.14.53.png
 datetime: '2023-01-28T15:13'
 category:
   - Design
@@ -27,5 +27,5 @@ Test
 
 </ReactComponent>
 
-Updating this to be sure
+Updating this to be sure 
 

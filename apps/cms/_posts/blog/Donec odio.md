@@ -3,7 +3,7 @@ published: true
 title: Test
 categories: ''
 author: ''
-date: ''
+date: '2023-02-04'
 thumbnail: ''
 layout: blog
 ---

@@ -21,13 +21,11 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@imput/components/Collapsible'
-// @ts-expect-error
-import logo from '../../../assets/imput-logo.svg'
 import { FolderNotch, FolderNotchOpen } from '@imput/components/Icon'
 import { H5 } from '@imput/components/Typography'
 import { SortBy } from '../../components/molecules/SortBy'
-import { Card, CardContent } from '@imput/components/Card'
-import { Logo } from 'src/cms/components/atoms/Logo'
+import { Card } from '@imput/components/Card'
+import { Logo } from '../../components/atoms/Logo'
 
 const CollectionPage = () => {
   const navigate = useNavigate()

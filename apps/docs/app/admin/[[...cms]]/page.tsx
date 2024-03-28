@@ -79,7 +79,7 @@ const blocks: BlockType[] = [
         name: 'src',
         label: 'Source',
         type: {
-          widget: 'string',
+          widget: 'image',
         },
       },
     ],

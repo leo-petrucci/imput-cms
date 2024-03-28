@@ -22,6 +22,7 @@ import {
 } from '../../../../cms/components/editor/lib/mdx'
 import React from 'react'
 import { generateComponentProp } from '../lib/generateComponentProp'
+import ImagePicker from '../../imagePicker'
 
 /**
  *
@@ -165,7 +166,6 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                     name={`string-prop-${c.name}`}
                     defaultValue={value}
                     onChange={(e) => {
-                      console.log('change', e.target.value)
                       var newObj = cloneDeep(prop)
                       set(newObj, 'value', e.target.value)
                       editAttributes(path, mdxElement, newObj, editor)
@@ -281,6 +281,21 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                         ],
                         code
                       )
+                      editAttributes(path, mdxElement, newObj, editor)
+                    }}
+                  />
+                </div>
+              )
+            case 'image':
+              return (
+                <div className="flex flex-col gap-1" key={c.name}>
+                  <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
+                  <ImagePicker
+                    image={value}
+                    onImageChange={(src) => {
+                      console.log('newImage', src)
+                      var newObj = cloneDeep(prop)
+                      set(newObj, 'value', src)
                       editAttributes(path, mdxElement, newObj, editor)
                     }}
                   />

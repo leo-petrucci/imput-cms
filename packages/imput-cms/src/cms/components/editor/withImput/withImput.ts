@@ -51,7 +51,6 @@ export const withImput = (editor: ReactEditor) => {
    */
   editor.isInline = (element) => {
     const customElement: CustomElement = element as any
-    console.log('customElement', customElement)
     return (
       ['link', 'code_snippet'].includes(customElement.type) || isInline(element)
     )

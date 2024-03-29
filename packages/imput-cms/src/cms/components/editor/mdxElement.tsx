@@ -63,7 +63,7 @@ const MdxElement = (props: CustomRenderElementProps) => {
   const selected = useSelected()
 
   return (
-    <div {...attributes}>
+    <div>
       {children}
       <Panel
         id="component"

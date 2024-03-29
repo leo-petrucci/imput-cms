@@ -6,7 +6,10 @@ import { scopes } from '../../lib/scopes'
 export const randomString = () => randomBytes(4).toString('hex')
 
 const auth = async (req: any, res: any) => {
+  console.log(req.headers)
   const { host } = req.headers
+  const protocol =
+    process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
   const url = new URL(`https://${host}/${req.url}`)
   const urlParams = url.searchParams
   const provider = urlParams.get('provider') as 'github' | 'gitlab'
@@ -16,10 +19,10 @@ const auth = async (req: any, res: any) => {
   console.log('host', host)
   console.log('provider', provider)
 
-  console.log(`http://${host}/api/callback?provider=${provider}`)
+  console.log(`${protocol}${host}/api/callback?provider=${provider}`)
 
   const authorizationUri = client.authorizeURL({
-    redirect_uri: `http://${host}/api/callback?provider=${provider}`,
+    redirect_uri: `${protocol}${host}/api/callback?provider=${provider}`,
     scope: scopes[provider],
     state: randomString(),
   })

@@ -6,6 +6,7 @@ import {
   BaseEditor,
   Editor,
   Element,
+  Range,
   Element as SlateElement,
   Transforms,
 } from 'slate'
@@ -18,6 +19,8 @@ import {
   TooltipTrigger,
 } from '@imput/components/Tooltip'
 import Toggle from '@imput/components/Toggle'
+import { CustomElement } from '../../../../cms/types/slate'
+import { CodeSimple } from '@imput/components/Icon'
 
 const LIST_TYPES = ['ul_list', 'ol_list']
 
@@ -158,6 +161,69 @@ export const LinkButton = () => {
       ) : (
         <Link size={16} weight="bold" />
       )}
+    </Toggle>
+  )
+}
+
+/**
+ * A button that wraps selected text into an inline code_snippet
+ */
+export const CodeSnippetButton = () => {
+  const editor = useSlate()
+
+  const isCodeSnippetActive = (editor: BaseEditor) => {
+    const [button] = Editor.nodes(editor, {
+      match: (n) =>
+        !Editor.isEditor(n) &&
+        SlateElement.isElement(n) &&
+        // @ts-expect-error
+        n.type === 'code_snippet',
+    })
+    return !!button
+  }
+
+  const unwrapCodeSnippet = (editor: BaseEditor) => {
+    Transforms.unwrapNodes(editor, {
+      match: (n) =>
+        !Editor.isEditor(n) &&
+        SlateElement.isElement(n) &&
+        // @ts-expect-error
+        n.type === 'code_snippet',
+    })
+  }
+
+  const wrapCodeSnippet = (editor: BaseEditor) => {
+    if (isCodeSnippetActive(editor)) {
+      unwrapCodeSnippet(editor)
+    }
+
+    const { selection } = editor
+    const isCollapsed = selection && Range.isCollapsed(selection)
+    const button = {
+      type: 'code_snippet',
+      children: isCollapsed ? [{ text: 'Edit me!' }] : [],
+    }
+
+    if (isCollapsed) {
+      Transforms.insertNodes(editor, button)
+    } else {
+      Transforms.wrapNodes(editor, button, { split: true })
+      Transforms.collapse(editor, { edge: 'end' })
+    }
+  }
+
+  return (
+    <Toggle
+      pressed={isCodeSnippetActive(editor)}
+      onPressedChange={() => {
+        if (isCodeSnippetActive(editor)) {
+          unwrapCodeSnippet(editor)
+        } else {
+          wrapCodeSnippet(editor)
+        }
+      }}
+    >
+      <CodeSimple size={16} />
     </Toggle>
   )
 }

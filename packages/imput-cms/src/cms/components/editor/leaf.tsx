@@ -7,14 +7,6 @@ export const Leaf = (props: any) => {
     children = <strong>{children}</strong>
   }
 
-  if (leaf.code) {
-    children = (
-      <code className="px-[0.2em] py-[0.4em] m-0 text-[85%] whitespace-break-spaces bg-secondary rounded text-red-500">
-        {children}
-      </code>
-    )
-  }
-
   if (leaf.italic) {
     children = <em>{children}</em>
   }

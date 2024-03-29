@@ -2,6 +2,7 @@ export interface NodeTypes {
   paragraph: 'paragraph'
   block_quote: 'block_quote'
   code_block: 'code_block'
+  code_snippet: 'code_snippet'
   link: 'link'
   ul_list: 'ul_list'
   ol_list: 'ol_list'
@@ -47,6 +48,7 @@ export const defaultNodeTypes: NodeTypes = {
   paragraph: 'paragraph',
   block_quote: 'block_quote',
   code_block: 'code_block',
+  code_snippet: 'code_snippet',
   link: 'link',
   ul_list: 'ul_list',
   ol_list: 'ol_list',
@@ -94,6 +96,7 @@ export interface InputNodeTypes {
   paragraph: string
   block_quote: string
   code_block: string
+  code_snippet: string
   link: string
   ul_list: string
   ol_list: string
@@ -203,6 +206,11 @@ export type LinkNode<T extends InputNodeTypes> = {
   [urlKey: string]: string | undefined | Array<DeserializedNode<T>>
 }
 
+export type CodeSnippetNode<T extends InputNodeTypes> = {
+  type: T['code_snippet']
+  children: Array<DeserializedNode<T>>
+}
+
 export type ImageNode<T extends InputNodeTypes> = {
   type: T['image']
   children: Array<DeserializedNode<T>>
@@ -254,6 +262,7 @@ export type DeserializedNode<T extends InputNodeTypes> =
   | ParagraphNode<T>
   | MdxNode<T>
   | LinkNode<T>
+  | CodeSnippetNode<T>
   | ImageNode<T>
   | BlockQuoteNode<T>
   | InlineCodeMarkNode<T>

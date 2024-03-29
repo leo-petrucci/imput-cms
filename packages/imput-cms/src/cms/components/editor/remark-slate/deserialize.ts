@@ -1,6 +1,7 @@
 import {
   BlockQuoteNode,
   CodeBlockNode,
+  CodeSnippetNode,
   defaultNodeTypes,
   DeserializedNode,
   HeadingNode,
@@ -168,10 +169,9 @@ export default function deserialize<T extends InputNodeTypes>(
       }
     case 'inlineCode':
       return {
-        [types.inline_code_mark as string]: true,
-        text: node.value,
-        ...persistLeafFormats(children as Array<MdastNode>),
-      }
+        type: types.code_snippet,
+        children: [{ text: node.value }],
+      } as CodeSnippetNode<T>
     case 'thematicBreak':
       return {
         type: types.thematic_break,

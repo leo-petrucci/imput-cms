@@ -1,5 +1,5 @@
-import { BlockType } from 'src/cms/contexts/cmsContext/context'
-import { MDXNode } from 'src/cms/types/mdxNode'
+import { BlockType } from '../../../contexts/cmsContext/context'
+import { MDXNode } from '../../../types/mdxNode'
 
 /**
  * Receives a component prop and verifies if its default value is what we expect

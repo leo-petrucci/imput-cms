@@ -83,9 +83,25 @@ export default function serialize(
         // }
         let childrenHasLink = false
 
+        // Code snippets have the following shape
+        // In which case we don't want to surround
+        // with break tags
+        // {
+        //  type: 'paragraph',
+        //  children: [
+        //    { text: '' },
+        //    { type: 'code_snippet', children: [{ text: "mycode" }]}
+        //    { text: '' }
+        //  ]
+        // }
+        let childrenHasCode = false
+
         if (!isLeafNode(chunk) && Array.isArray(chunk.children)) {
           childrenHasLink = chunk.children.some(
             (f) => !isLeafNode(f) && f.type === nodeTypes.link
+          )
+          childrenHasCode = chunk.children.some(
+            (f) => !isLeafNode(f) && f.type === nodeTypes.code_snippet
           )
         }
 
@@ -112,7 +128,8 @@ export default function serialize(
               (ignoreParagraphNewline ||
                 isList ||
                 selfIsList ||
-                childrenHasLink) &&
+                childrenHasLink ||
+                childrenHasCode) &&
               // if we have c.break, never ignore empty paragraph new line
               !(c as BlockType).break,
 
@@ -246,22 +263,38 @@ export default function serialize(
               mdxElement.type || ''
             )
 
-            // Links can have the following shape
+            // Links have the following shape
             // In which case we don't want to surround
             // with break tags
             // {
             //  type: 'paragraph',
             //  children: [
             //    { text: '' },
-            //    { type: 'link', children: [{ text: foo.com }]}
+            //    { type: 'link', children: [{ text: "foo.com" }]}
             //    { text: '' }
             //  ]
             // }
             let childrenHasLink = false
 
+            // Code snippets have the following shape
+            // In which case we don't want to surround
+            // with break tags
+            // {
+            //  type: 'paragraph',
+            //  children: [
+            //    { text: '' },
+            //    { type: 'code_snippet', children: [{ text: "mycode" }]}
+            //    { text: '' }
+            //  ]
+            // }
+            let childrenHasCode = false
+
             if (!isLeafNode(chunk) && Array.isArray(chunk.children)) {
               childrenHasLink = chunk.children.some(
                 (f) => !isLeafNode(f) && f.type === nodeTypes.link
+              )
+              childrenHasCode = chunk.children.some(
+                (f) => !isLeafNode(f) && f.type === nodeTypes.code_snippet
               )
             }
 
@@ -280,7 +313,8 @@ export default function serialize(
                   (ignoreParagraphNewline ||
                     isList ||
                     selfIsList ||
-                    childrenHasLink) &&
+                    childrenHasLink ||
+                    childrenHasCode) &&
                   // if we have c.break, never ignore empty paragraph new line
                   !(c as BlockType).break,
 
@@ -328,6 +362,9 @@ export default function serialize(
 
     case nodeTypes.link:
       return `[${children}](${(chunk as BlockType).url || ''})`
+
+    case nodeTypes.code_snippet:
+      return `\`${children}\``
     case nodeTypes.image:
       return `![${(chunk as BlockType).caption}](${
         (chunk as BlockType).link || ''

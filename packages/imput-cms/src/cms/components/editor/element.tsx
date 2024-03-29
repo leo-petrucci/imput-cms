@@ -4,7 +4,7 @@ import CodeblockElement from '../../../cms/components/editor/codeblockElement/co
 import Image from '../../../cms/components/editor/images/imageElement'
 import MdxElement from '../../../cms/components/editor/mdxElement'
 import { CustomElement } from '../../types/slate'
-import LinkElement from './linkElement/linkElement'
+import LinkElement, { InlineChromiumBugfix } from './linkElement/linkElement'
 import { defaultNodeTypes } from './remark-slate'
 
 export interface CustomRenderElementProps
@@ -19,6 +19,17 @@ export const Element = (props: CustomRenderElementProps) => {
   switch (element.type) {
     case defaultNodeTypes.link:
       return <LinkElement {...props} />
+    case defaultNodeTypes.code_snippet:
+      return (
+        <code
+          className="px-[0.2em] py-[0.4em] m-0 text-[85%] whitespace-break-spaces bg-secondary rounded text-red-500"
+          {...props.attributes}
+        >
+          <InlineChromiumBugfix />
+          {props.children}
+          <InlineChromiumBugfix />
+        </code>
+      )
     case defaultNodeTypes.image:
       // @ts-ignore
       // eslint-disable-next-line jsx-a11y/alt-text

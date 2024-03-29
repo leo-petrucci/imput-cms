@@ -3,7 +3,7 @@ import { useSlateSelection } from 'slate-react'
 import { Portal } from '@imput/components/Portal'
 import { useTextSelection } from '../../../utils/useTextSelection'
 import { MarkButton } from '../button'
-import { BlockButton, LinkButton } from '../button/button'
+import { BlockButton, CodeSnippetButton, LinkButton } from '../button/button'
 import {
   Popover,
   PopoverAnchor,
@@ -108,7 +108,8 @@ const FloatingToolbar = () => {
         <div className="flex">
           <MarkButton format="bold" icon={<TextBolder size={16} />} />
           <MarkButton format="italic" icon={<TextItalic size={16} />} />
-          <MarkButton format="code" icon={<CodeSimple size={16} />} />
+          <CodeSnippetButton />
+          {/* <MarkButton format="code" icon={<CodeSimple size={16} />} /> */}
           <LinkButton />
           <BlockButton format="code_block" icon={<Code size={16} />} />
           <BlockButton format="heading_one" icon={<TextHOne size={16} />} />

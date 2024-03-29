@@ -48,6 +48,8 @@ const Login = () => {
     // by building the url like this we ensure it always has a trailing slash
     const url = new URL(backend.base_url)
 
+    console.log(`${url.href}${backend.auth_endpoint}?provider=github`)
+
     window.open(
       `${url.href}${backend.auth_endpoint}?provider=github`,
       'Login',

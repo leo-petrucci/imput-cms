@@ -38,3 +38,5 @@ next-env.d.ts
 # yarn
 .yarn/cache
 .yarn/install-state.gz
+
+.env

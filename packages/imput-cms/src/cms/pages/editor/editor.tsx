@@ -207,7 +207,6 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               <Form
                 id="content-form"
                 form={form}
-                // 72287133
                 debug
                 onSubmit={() => {
                   const id = toast.loading('Saving content...')

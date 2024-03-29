@@ -24,6 +24,7 @@ import {
 import { withInlines } from './button/link'
 import { onKeyDownOffset } from './lib/keyDownOffset'
 import { FloatingToolbar } from './floatingToolbar'
+import { withImput } from './withImput'
 
 export const deserialize = (
   src: string
@@ -70,28 +71,6 @@ export const deserialize = (
 
 export const serialize = remarkSerialize
 
-/**
- * A void is an element with text that can't be edited
- * Here we use them as buttons, so they can be clicked and
- * you can interact with them (images and components)
- */
-const withEditableVoids = (editor: ReactEditor) => {
-  const { isVoid } = editor
-
-  editor.isVoid = (element) => {
-    // @ts-ignore
-    return element.type === 'mdxJsxFlowElement' ||
-      // @ts-ignore
-      element.type === 'image'
-      ? // @ts-ignore
-        //  || element.type === 'code_block'
-        true
-      : isVoid(element)
-  }
-
-  return editor
-}
-
 export interface EditorProps {
   value: Descendant[]
   onChange?: (value: Descendant[]) => void
@@ -105,7 +84,11 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
     // a level of 2 means it's a root element
     const displayControls = Path.levels(path).length === 2
 
-    if (props.element.type === defaultNodeTypes.link) {
+    // this renders links and code_snippets as an inline element
+    if (
+      props.element.type === defaultNodeTypes.link ||
+      props.element.type === defaultNodeTypes.code_snippet
+    ) {
       return <Element {...props} />
     }
 
@@ -125,7 +108,7 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
   const [editor] = React.useState(
     () =>
       withInlines(
-        withEditableVoids(
+        withImput(
           withListsReact(
             withListsPlugin(withReact(withHistory(createEditor())))
           )

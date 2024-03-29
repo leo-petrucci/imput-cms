@@ -2,6 +2,10 @@ import { isKeyHotkey } from 'is-hotkey'
 import { Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
+/**
+ * Workaround for not being able to exit inline nodes (just links so far)
+ * by pressing right on the keyboard.
+ */
 export const onKeyDownOffset = (
   editor: ReactEditor,
   event: React.KeyboardEvent<HTMLInputElement>

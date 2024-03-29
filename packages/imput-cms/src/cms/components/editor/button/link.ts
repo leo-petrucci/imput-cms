@@ -67,12 +67,7 @@ export const isLinkActive = (editor: BaseEditor) => {
 }
 
 export const withInlines = (editor: ReactEditor) => {
-  const { insertData, insertText, isInline } = editor
-
-  editor.isInline = (element) => {
-    const customElement: CustomElement = element as any
-    return ['link'].includes(customElement.type) || isInline(element)
-  }
+  const { insertData, insertText } = editor
 
   editor.insertText = (text) => {
     if (text && isUrl(text)) {

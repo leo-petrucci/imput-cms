@@ -9,6 +9,8 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   })
 
   const { host } = req.headers
+  const protocol =
+    process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
   const url = new URL(`https://${host}/${req.url}`)
   const urlParams = url.searchParams
   const code = urlParams.get('code') as string
@@ -17,7 +19,7 @@ const callback = async (req: NextApiRequest, res: NextApiResponse) => {
   const client = new AuthorizationCode(config(provider))
   const tokenParams = {
     code,
-    redirect_uri: `http://${host}/api/callback?provider=${provider}`,
+    redirect_uri: `${protocol}${host}/api/callback?provider=${provider}`,
   }
 
   try {
@@ -56,8 +58,8 @@ function renderBody(status: any, content: any) {
     <script>
         event.source.postMessage(
             'authorization:${content.provider}:${status}:${JSON.stringify(
-    content
-  )}',
+              content
+            )}',
             message.origin
         );
     </script>

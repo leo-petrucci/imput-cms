@@ -163,7 +163,7 @@ const CMS = () => (
           branch: 'main',
           base_url:
             process.env.NODE_ENV === 'production'
-              ? 'https://imput.computer'
+              ? 'https://www.imput.computer'
               : 'http://localhost:3000/',
           auth_endpoint: 'api/authorize',
         },

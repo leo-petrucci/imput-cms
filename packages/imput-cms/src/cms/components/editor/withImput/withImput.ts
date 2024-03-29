@@ -1,7 +1,7 @@
 import { ReactEditor } from 'slate-react'
 import { Transforms } from 'slate'
 import { v4 as uuidv4 } from 'uuid'
-import { CustomElement } from 'src/cms/types/slate'
+import { CustomElement } from '../../../../cms/types/slate'
 
 /**
  * Adds custom Imput functions for the slate editor

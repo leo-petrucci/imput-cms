@@ -1,0 +1,85 @@
+---
+name: slug
+---
+# Slug
+
+The `slug` option in your collection allows you to decide how your filenames are generated when creating new content. `slug` accepts a [handlebars string](https://handlebarsjs.com/guide/) as a configuration, you can use as many or as few values as you want.
+
+```javascript
+collections: [
+  {
+    // the rest of your config here
+    slug: '{{uuid}}', // will result in "e3749707-85dd-4353-94a0-7ec3ff92e61e"
+  }
+]
+```
+
+Or:
+
+```javascript
+collections: [
+  {
+    // the rest of your config here
+    slug: '{{year}}-{{month}}', // will result in "2024-03"
+  }
+]
+```
+
+## Changing filenames
+
+At the moment Imput doesn't support changing filenames within the editor. However the feature is on the roadmap. You can track the feature here: [#112](https://github.com/leo-petrucci/imput-cms/issues/112).
+
+## Using your own fields
+
+The `slug` option accepts any `fields` you have configured for the current collection. These will be automatically slugified for you so no need to worry about doing that yourself.
+
+```plain
+collections: [
+  {
+    slug: '{{name}}', // if you type "my new article" in the field this will be "my-new-article"
+    fields: [
+      {
+        label: 'Name',
+        name: 'name',
+        widget: 'string',
+        rules: {
+          required: 'This field is required',
+        },
+      },
+    ],
+  },
+]
+```
+
+## Built-in values
+
+Imput offers some often-used options to define your new filenames.
+
+### `{{year}}` option
+
+Using `{{year}}` as an option will set your filename to the current year at time of creation.
+
+### `{{month}}` option
+
+Using `{{month}}` as an option will set your filename to the current month at time of creation.
+
+### `{{day}}` option
+
+Using `{{day}}` as an option will set your filename to the current day at time of creation.
+
+### `{{hour}}` option
+
+Using `{{hour}}` as an option will set your filename to the current hour at time of creation.
+
+### `{{minute}}` option
+
+Using `{{minute}}` as an option will set your filename to the current minute at time of creation.
+
+### `{{seconds}}` option
+
+Using `{{seconds}}` as an option will set your filename to the current hour at time of creation.
+
+### `{{uuid}}` option
+
+Using `{{uuid}}` as an option will set your filename to a randomly generated [UUID value](https://en.wikipedia.org/wiki/Universally_unique_identifier).
+

@@ -366,7 +366,23 @@ const CreateEditor = () => {
 
   return (
     <DepthProvider>
-      <Editor value={rawBody} onChange={(value) => handleChange(value)} />
+      <Editor
+        value={
+          rawBody.length > 0
+            ? rawBody
+            : [
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      text: '',
+                    },
+                  ],
+                },
+              ]
+        }
+        onChange={(value) => handleChange(value)}
+      />
     </DepthProvider>
   )
 }

@@ -238,6 +238,15 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                           exact: false,
                         })
 
+                        // We can get a big UX win here by upating the cache with the data we get back
+                        queryClient.removeQueries({
+                          queryKey: queryKeys.github.content(
+                            currentCollection.folder,
+                            filename
+                          ).queryKey,
+                          exact: false,
+                        })
+
                         // redirect to the file we've just created
                         if (isNewFile) {
                           navigate(`/${cms}/${collection}/${filename}`, {

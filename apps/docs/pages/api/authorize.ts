@@ -6,7 +6,6 @@ import { scopes } from '../../lib/scopes'
 export const randomString = () => randomBytes(4).toString('hex')
 
 const auth = async (req: any, res: any) => {
-  console.log(req.headers)
   const { host } = req.headers
   const protocol =
     process.env.NODE_ENV === 'production' ? 'https://' : 'http://'

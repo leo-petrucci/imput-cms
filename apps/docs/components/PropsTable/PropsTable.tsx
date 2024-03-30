@@ -95,17 +95,17 @@ const PropsTable = ({
                                 r="96"
                                 fill="none"
                                 stroke="#000000"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="16"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="16"
                               ></circle>
                               <polyline
                                 points="120 120 128 120 128 176 136 176"
                                 fill="none"
                                 stroke="#000000"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="16"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="16"
                               ></polyline>
                               <circle cx="126" cy="84" r="12"></circle>
                             </svg>
@@ -141,17 +141,17 @@ const PropsTable = ({
                                 r="96"
                                 fill="none"
                                 stroke="#000000"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="16"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="16"
                               ></circle>
                               <polyline
                                 points="120 120 128 120 128 176 136 176"
                                 fill="none"
                                 stroke="#000000"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="16"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="16"
                               ></polyline>
                               <circle cx="126" cy="84" r="12"></circle>
                             </svg>

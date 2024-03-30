@@ -207,7 +207,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               <Form
                 id="content-form"
                 form={form}
-                debug
+                // debug
                 onSubmit={() => {
                   const id = toast.loading('Saving content...')
                   const {
@@ -340,7 +340,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
 const CreateEditor = () => {
   const { name, rules } = useFormItem()
-  const { control, setValue } = useFormContext()
+  const { control, setValue, watch } = useFormContext()
 
   const { field } = useController({
     name,
@@ -348,7 +348,7 @@ const CreateEditor = () => {
     rules,
   })
 
-  const { content } = matter(field.value)
+  const rawBody = watch('rawBody')
 
   const handleChange = React.useCallback(
     (nextValue: any[]) => {
@@ -364,19 +364,9 @@ const CreateEditor = () => {
     [field]
   )
 
-  const value = React.useMemo(
-    () => {
-      const deserialized = deserialize(content || 'My markdown content')
-
-      return deserialized.result
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
-  )
-
   return (
     <DepthProvider>
-      <Editor value={value} onChange={(value) => handleChange(value)} />
+      <Editor value={rawBody} onChange={(value) => handleChange(value)} />
     </DepthProvider>
   )
 }

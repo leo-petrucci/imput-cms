@@ -69,9 +69,14 @@ description: "An array of objects that define the inputs to display when creatin
 {
 name: "blocks",
 required: false,
-typeSimple: "array",
-type: "BlockType[]",
+type: "array",
 description: "An array of objects that define which MDX components this collection is allowed to use.",
+},
+{
+name: "preview",
+required: false,
+type: "object",
+description: "An object that allows customising the content preview within the editor.",
 },
 ]} />
 
@@ -86,4 +91,10 @@ The `field` array in your collection configuration is used to define which input
 The `blocks` array in your collection is used to specify which MDX components the collection will be able to create in the editor. This array allows you to define a specific schema for each component.
 
 <ContentLink title="Blocks documentation" href="/docs/blocks" />
+
+## Preview
+
+The `preview` object can be used to render HTML and JSX in the preview panel next to the editor instead of plain markdown.
+
+<ContentLink title="Preview documentation" href="" />
 

@@ -17,5 +17,5 @@ Test
 
 </Component>
 
-More Testing
+More
 

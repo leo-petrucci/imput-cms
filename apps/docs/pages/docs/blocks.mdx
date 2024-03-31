@@ -1,0 +1,14 @@
+---
+name: Blocks
+---
+# Blocks
+
+In Imput `blocks` are synonymous with MDX components, but we call them "blocks" to be more palatable for non-technical writers. Imput allows you to configure different blocks for each of your collections, meaning different parts of your site are able to use completely different kinds of components. 
+
+Your configuration is only aware of the composition of your MDX components, which leaves the freedom of how to display them on your site up to you.
+
+## Tips and Tricks
+
+In its current version Imput is mostly designed to be used with [`next-mdx-remote`](https://github.com/hashicorp/next-mdx-remote) on the front-end. Imput works great with setups that use `[<MdxProvider/>](https://mdxjs.com/docs/using-mdx/#mdx-provider)` since it helps automatically replacing JSX components in your MDX without having to manually import them.
+
+

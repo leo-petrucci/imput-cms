@@ -274,3 +274,26 @@ They allow you to connect different collections with each other!
 
 </TabsRoot>
 
+## Arrays of widgets
+
+Certain widgets also accept a `multiple` option. If set to to `true` the Imput editor will allow users to add multiple inputs of the type selected and they'll be saved to your markdown as an array.
+
+For example the following config:
+
+```js
+{
+  fields: [
+    {
+      label: 'Ingredients',
+      name: 'ingredients',
+      multiple: true, 
+      widget: 'string',
+    }`
+  ]
+}
+```
+
+Will result in:
+
+<Video src="/images/widget-array-example.mov" />
+

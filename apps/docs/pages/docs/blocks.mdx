@@ -79,3 +79,29 @@ The above configuration will allow Imput to output a component with this shape:
 
 From here you can go as simple or as complex as you want. You can even nest components within components (within reason 👀) thanks to our nested editors.
 
+## Blocks Widgets
+
+Just like the editor fields, blocks support a variety of widgets to help with composition. All widgets supported by fields are available for blocks as well (aside from the relational widget!).
+
+<ContentLink title="Field Widgets" href="/docs/fields#widgets" />
+
+## Good to know
+
+There's some quirks that are good to know about working with Blocks within Imput.
+
+### Children and Markdown
+
+If your block configuration specifies a component's `children` prop it will always be displayed as a Markdown in the block interface. 
+
+This decision was made because it's difficult to predict how markdown in props is handled by MDX, especially if that markdown contains JSX components.
+
+### Writing array and object props
+
+While with a considerable amount of effort it would probably be possible to support nested widgets to construct objects, this was not something Imput is planning to support from the get go.
+
+In its stead you can make use of the `json` widget, which allows you to write Javascript objects directly into your Markdown.
+
+### There are probably bugs (sorry)
+
+Imput is still in alpha! It's likely I've got some stuff wrong or I haven't considered some edge cases. If you find a bug please [open an issue over on Github](https://github.com/leo-petrucci/imput-cms/issues).
+

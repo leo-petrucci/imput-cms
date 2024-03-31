@@ -5,6 +5,7 @@ export type Widgets =
   | {
       widget: 'boolean'
       default?: true | false
+      multiple?: boolean
     }
   | {
       widget: 'select'
@@ -32,19 +33,18 @@ export type Widgets =
     }
   | {
       widget: 'date'
+      multiple?: boolean
       default?: string
     }
   | {
       widget: 'datetime'
-      default?: string
-    }
-  | {
-      widget: 'date'
+      multiple?: boolean
       default?: string
     }
   | {
       widget: 'image'
       default?: string
+      multiple?: boolean
       allow_multiple?: boolean
     }
   | {
@@ -53,6 +53,7 @@ export type Widgets =
     }
   | {
       widget: 'string'
+      multiple?: boolean
       default?: string
     }
   | { widget: 'markdown'; default?: string }
@@ -109,10 +110,6 @@ export type FieldType = {
       | 'relation'
   }
 >
-
-type PickByType<T, Value> = {
-  [P in keyof T as T[P] extends Value | undefined ? P : never]: T[P]
-}
 
 // Define a type for a React functional component
 type ReactComponent<P = {}> = React.FunctionComponent<P>

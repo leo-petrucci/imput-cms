@@ -1,18 +1,13 @@
 import { useCMS } from '../../../cms/contexts/cmsContext/useCMSContext'
 import { useGetContent, useSaveMarkdown } from '../../../cms/queries/github'
-import { DepthProvider } from '../../../cms/components/editor/depthContext'
-import Editor, { deserialize, serialize } from '../../../cms/components/editor'
+import { deserialize } from '../../../cms/components/editor'
 import React, { useEffect } from 'react'
 import matter from 'gray-matter'
-import { useController, useForm, useFormContext } from 'react-hook-form'
-import { useFormItem, Form, ErrorBoundary } from '@imput/components'
-import { SwitchControlled } from '@imput/components/Switch'
-import { ComboBox } from '@imput/components/Combobox/Controlled'
+import { useForm } from 'react-hook-form'
+import Form from '@imput/components/form'
 import { Button } from '@imput/components/Button'
 import toast from 'react-hot-toast'
-import ImagePicker from '../../components/imagePicker'
 import { Widgets } from '../../../cms/contexts/cmsContext/context'
-import Relation from '../../components/relation'
 import merge from 'lodash/merge'
 // @ts-expect-error
 import * as Handlebars from 'handlebars/dist/handlebars'
@@ -25,10 +20,10 @@ import Loader from '../../components/loader'
 import { Layout } from '../../components/atoms/Layout'
 import cloneDeep from 'lodash/cloneDeep'
 import omit from 'lodash/omit'
-import { Input } from '@imput/components/Input/Controlled'
 import { MdxRenderer } from '../../../ImputRenderer'
 import { Descendant } from 'slate'
 import { CaretLeft } from '@imput/components/Icon'
+import { EditorFields } from '../../components/editor/fields'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -259,66 +254,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                 }}
               >
                 <div className="flex flex-col gap-2">
-                  {currentCollection.fields.map((f) => {
-                    const renderControl = () => {
-                      switch (f.widget) {
-                        case 'string':
-                          return <Input />
-                        case 'date':
-                          return <Input type="date" />
-                        case 'datetime':
-                          return <Input type="datetime-local" />
-                        case 'markdown':
-                          return <CreateEditor />
-                        case 'image':
-                          return <ImagePicker.Controlled />
-                        case 'boolean':
-                          return <SwitchControlled />
-                        case 'select':
-                          if (f.multiple) {
-                            return (
-                              <ComboBox.Multi
-                                options={f.options.map((o) => ({
-                                  value: o,
-                                  label: o,
-                                }))}
-                              />
-                            )
-                          }
-
-                          return (
-                            <ComboBox
-                              options={f.options.map((o) => ({
-                                value: o,
-                                label: o,
-                              }))}
-                            />
-                          )
-                        case 'relation':
-                          return (
-                            <ErrorBoundary>
-                              <Relation.Controlled
-                                collection={f.collection}
-                                value_field={f.value_field}
-                                display_fields={f.display_fields}
-                                isMulti={f.multiple || false}
-                              />
-                            </ErrorBoundary>
-                          )
-                      }
-                    }
-
-                    return (
-                      <Form.Item
-                        key={f.name}
-                        name={f.name}
-                        label={f.label}
-                        rules={f.rules}
-                      >
-                        {renderControl()}
-                      </Form.Item>
-                    )
-                  })}
+                  <EditorFields fields={currentCollection.fields} />
                 </div>
               </Form>
             </div>
@@ -346,57 +282,5 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
   return <Loader />
 }
-
-const CreateEditor = () => {
-  const { name, rules } = useFormItem()
-  const { control, setValue, watch } = useFormContext()
-
-  const { field } = useController({
-    name,
-    control,
-    rules,
-  })
-
-  const rawBody = watch('rawBody')
-
-  const handleChange = React.useCallback(
-    (nextValue: any[]) => {
-      // serialize slate state to a markdown string
-      const serialized = nextValue.map((v) => serialize(v)).join('')
-      field.onChange(serialized)
-
-      // if this is the main body we save the raw slate array to form
-      if (name === 'body') {
-        setValue('rawBody', nextValue)
-      }
-    },
-    [field]
-  )
-
-  return (
-    <DepthProvider>
-      <Editor
-        value={
-          rawBody.length > 0
-            ? rawBody
-            : [
-                {
-                  type: 'paragraph',
-                  children: [
-                    {
-                      text: '',
-                    },
-                  ],
-                },
-              ]
-        }
-        onChange={(value) => handleChange(value)}
-      />
-    </DepthProvider>
-  )
-}
-
-type ExcludeExceptionKey<T extends string | number | symbol> =
-  `${string & {}}` extends `${infer U}` ? (U extends T ? never : U) : never
 
 export default EditorPage

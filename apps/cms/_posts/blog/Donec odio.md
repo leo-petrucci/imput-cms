@@ -1,6 +1,9 @@
 ---
 published: true
-title: Test
+title:
+  - ''
+select: ''
+multiSelect: ''
 categories: ''
 author: ''
 date: '2023-02-04'

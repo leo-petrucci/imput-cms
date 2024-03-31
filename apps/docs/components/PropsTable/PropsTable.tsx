@@ -79,7 +79,7 @@ const PropsTable = ({
                         <PopoverContent>
                           <>{description}</>
                         </PopoverContent>
-                        <PopoverTrigger>
+                        <PopoverTrigger asChild>
                           <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
@@ -125,7 +125,7 @@ const PropsTable = ({
                         <PopoverContent>
                           <Code>{type}</Code>
                         </PopoverContent>
-                        <PopoverTrigger>
+                        <PopoverTrigger asChild>
                           <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"

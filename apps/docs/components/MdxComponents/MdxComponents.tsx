@@ -1,5 +1,8 @@
 import PropsTable from '../PropsTable'
 import Tabs from '@imput/components/tabs'
+import { Card, CardHeader, CardTitle } from '@imput/components/Card'
+import Link from 'next/link'
+import { ArrowRight, Book } from '@imput/components/Icon'
 
 export const Components = {
   Note: ({ children }: any) => {
@@ -16,5 +19,18 @@ export const Components = {
   },
   TabsRoot: Tabs,
   TabsContent: Tabs.Content,
-  ContentLink: () => <></>,
+  ContentLink: ({ title, href }: { title: string; href: string }) => (
+    <Link href={href} className="mt-4 block">
+      <Card className="group hover:bg-accent transition-colors">
+        <CardHeader className="flex gap-2 items-center flex-row relative">
+          <CardTitle className="!mt-0">{title}</CardTitle>
+          <ArrowRight
+            size={24}
+            weight="bold"
+            className="text-primary/20 absolute right-8 group-hover:text-primary group-hover:translate-x-2 transition-all"
+          />
+        </CardHeader>
+      </Card>
+    </Link>
+  ),
 }

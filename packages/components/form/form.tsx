@@ -5,12 +5,15 @@ import {
   FormProvider,
   RegisterOptions,
   SubmitHandler,
+  useFieldArray,
   useForm,
   useFormContext,
   UseFormReturn,
 } from 'react-hook-form'
 import ctxt from './context'
 import { Label } from '../Label'
+import { Button } from '../Button'
+import { Minus, Plus } from '../Icon'
 
 export type FormProps<T extends FieldValues> = {
   form?: UseFormReturn<T, any>
@@ -82,7 +85,8 @@ export const FormItemProvider = ({
  */
 export const useFormItem = () => useContext(ctxt)
 
-export interface FormItemProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FormItemProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   children: React.ReactNode
   /**
    * Label text, can either be a string or a custom component.
@@ -123,7 +127,7 @@ const Item = ({
     <FormItemProvider rules={rules} name={name} setValueAs={setValueAs}>
       <div className="flex flex-col gap-1" {...rest}>
         {typeof label === 'string' ? (
-          <Label htmlFor={name}>{label}</Label>
+          <Label htmlFor={`input-${name}`}>{label}</Label>
         ) : (
           label
         )}
@@ -142,5 +146,81 @@ const Item = ({
 }
 
 Form.Item = Item
+
+/**
+ * Used to wrap array inputs.
+ */
+const ItemField = ({
+  name,
+  children,
+  label,
+  rules = {},
+  setValueAs = (val: string) => val,
+  ...rest
+}: FormItemProps) => {
+  const methods = useFormContext()
+  const fieldArray = useFieldArray({
+    control: methods.control,
+    name,
+  })
+
+  /**
+   * Initialise to at least one item
+   */
+  React.useEffect(() => {
+    if (fieldArray.fields.length === 0) {
+      fieldArray.append('')
+    }
+  }, [])
+
+  return (
+    <div className="flex flex-col gap-1" {...rest}>
+      {typeof label === 'string' ? (
+        <Label htmlFor={`input-${name}`}>{label}</Label>
+      ) : (
+        label
+      )}
+      {fieldArray.fields.map((field, index) => (
+        <FormItemProvider
+          key={field.id}
+          rules={rules}
+          name={`${name}.${index}`}
+          setValueAs={setValueAs}
+        >
+          <div className="flex flex-1 gap-1">
+            <div className="flex-1">{children}</div>
+            <Button
+              type="button"
+              className="self-center"
+              size="icon"
+              onClick={() => {
+                fieldArray.remove(index)
+              }}
+            >
+              <Minus className="w-4 h-4" />
+            </Button>
+          </div>
+        </FormItemProvider>
+      ))}
+      <div className="flex flex-col flex-1 mt-1">
+        <Button
+          type="button"
+          className="self-center"
+          size="sm"
+          onClick={() => {
+            fieldArray.append('')
+          }}
+        >
+          <Plus className="w-4 h-4 mr-1" /> Add item
+        </Button>
+      </div>
+      <div className="text-destructive">
+        {get(methods.formState.errors, `${name}.message`) as unknown as string}
+      </div>
+    </div>
+  )
+}
+
+Form.ItemField = ItemField
 
 export default Form

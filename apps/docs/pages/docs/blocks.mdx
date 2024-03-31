@@ -22,51 +22,51 @@ That's not to say Imput won't support JSX imports in the future! While live-prev
 Getting Imput to recognise your components is pretty straight forward:
 
 ```jsx
-  <NextCMS
-    {...{
-      settings: {
-        collections: [
-          {
-            // the rest of your collection configuration
-            blocks: [
-              // this is where your components config will go
-            ],
-          },
-        ],
-      },
-    }}
-  />
+<NextCMS
+  {...{
+    settings: {
+      collections: [
+        {
+          // the rest of your collection configuration
+          blocks: [
+            // this is where your components config will go
+          ],
+        },
+      ],
+    },
+  }}
+/>
 ```
 
 The next step is to match your component's composition: its name, its props, its types.
 
 ```jsx
-  <NextCMS
-    {...{
-      settings: {
-        collections: [
-          {
-            // the rest of your collection configuration
-            blocks: [
-              {
-                name: 'Note',
-                label: 'Note',
-                fields: [
-                  {
-                    name: 'children',
-                    label: 'Children',
-                    type: {
-                      widget: 'markdown',
-                    },
+<NextCMS
+  {...{
+    settings: {
+      collections: [
+        {
+          // the rest of your collection configuration
+          blocks: [
+            {
+              name: 'Note',
+              label: 'Note',
+              fields: [
+                {
+                  name: 'children',
+                  label: 'Children',
+                  type: {
+                    widget: 'markdown',
                   },
-                ],
-              },
-            ],
-          },
-        ],
-      },
-    }}
-  />
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  }}
+/>
 ```
 
 The above configuration will allow Imput to output a component with this shape:
@@ -77,4 +77,5 @@ The above configuration will allow Imput to output a component with this shape:
 </Note>
 ```
 
+From here you can go as simple or as complex as you want. You can even nest components within components (within reason 👀) thanks to our nested editors.
 

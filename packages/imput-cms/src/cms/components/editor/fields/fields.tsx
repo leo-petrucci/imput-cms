@@ -1,3 +1,4 @@
+import React from 'react'
 import { FieldType } from '../../../contexts/cmsContext/context'
 import ImagePicker from '../../../components/imagePicker'
 import { SwitchControlled } from '@imput/components/Switch'

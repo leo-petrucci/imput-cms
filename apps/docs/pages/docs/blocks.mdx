@@ -11,3 +11,70 @@ Your configuration is only aware of the composition of your MDX components, whic
 
 In its current version Imput is mostly designed to be used with [`next-mdx-remote`](https://github.com/hashicorp/next-mdx-remote) on the front-end. Imput works great with setups that uses [`<MDXProvider/>`](https://mdxjs.com/docs/using-mdx/#mdx-provider) since it helps automatically replacing JSX components in your MDX without having to manually import them.
 
+<Note>
+
+That's not to say Imput won't support JSX imports in the future! While live-previewing these imports is most likely impossible, that doesn't mean Imput should stop you from writing them.
+
+</Note>
+
+## Configuring blocks
+
+Getting Imput to recognise your components is pretty straight forward:
+
+```jsx
+  <NextCMS
+    {...{
+      settings: {
+        collections: [
+          {
+            // the rest of your collection configuration
+            blocks: [
+              // this is where your components config will go
+            ],
+          },
+        ],
+      },
+    }}
+  />
+```
+
+The next step is to match your component's composition: its name, its props, its types.
+
+```jsx
+  <NextCMS
+    {...{
+      settings: {
+        collections: [
+          {
+            // the rest of your collection configuration
+            blocks: [
+              {
+                name: 'Note',
+                label: 'Note',
+                fields: [
+                  {
+                    name: 'children',
+                    label: 'Children',
+                    type: {
+                      widget: 'markdown',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    }}
+  />
+```
+
+The above configuration will allow Imput to output a component with this shape:
+
+```jsx
+<Note>
+  Any **markdown** text here
+</Note>
+```
+
+

@@ -2,7 +2,8 @@ import PropsTable from '../PropsTable'
 import Tabs from '@imput/components/tabs'
 import { Card, CardHeader, CardTitle } from '@imput/components/Card'
 import Link from 'next/link'
-import { ArrowRight, Book } from '@imput/components/Icon'
+import { ArrowRight } from '@imput/components/Icon'
+import { NavBar } from '../Homepage/Navbar'
 
 export const Components = {
   Note: ({ children }: any) => {
@@ -33,4 +34,5 @@ export const Components = {
       </Card>
     </Link>
   ),
+  Navbar: NavBar,
 }

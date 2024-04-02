@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Button } from '@imput/components/button'
+import { Button } from '@imput/components/Button'
 import { Book, GithubLogo } from '@imput/components/Icon'
 
 export const Navbar = () => {

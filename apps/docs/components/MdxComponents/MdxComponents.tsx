@@ -40,9 +40,6 @@ export const Components = {
       </Card>
     </Link>
   ),
-  Navbar: React.lazy(() =>
-    import('../Homepage/Navbar').then((module) => ({ default: module.Navbar }))
-  ),
   Header: React.lazy(() =>
     import('../Homepage/Header').then((module) => ({ default: module.Header }))
   ),
@@ -50,6 +47,9 @@ export const Components = {
     import('../Homepage/VideoHeading').then((module) => ({
       default: module.VideoHeading,
     }))
+  ),
+  Navbar: React.lazy(() =>
+    import('../Homepage/Navbar').then((module) => ({ default: module.Navbar }))
   ),
   ImageTextSection: React.lazy(() =>
     import('../Homepage/ImageTextSection').then((module) => ({

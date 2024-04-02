@@ -11,7 +11,6 @@ import {
   PopoverTrigger,
   PopoverAnchor,
 } from './Popover'
-import Tabs from './tabs'
 
 export {
   Button,
@@ -26,7 +25,6 @@ export {
   PopoverContent,
   PopoverTrigger,
   PopoverAnchor,
-  Tabs,
 }
 
 export type { ModalProps }

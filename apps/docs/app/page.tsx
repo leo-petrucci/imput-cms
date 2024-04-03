@@ -23,6 +23,8 @@ export async function generateMetadata(): Promise<Metadata> {
     title: serialized.frontmatter.title,
     description: serialized.frontmatter.description,
     openGraph: {
+      title: serialized.frontmatter.title,
+      description: serialized.frontmatter.description,
       images: ['/homepage-open-graph.png'],
     },
   }

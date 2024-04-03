@@ -1,8 +1,7 @@
-import PropsTable from '../PropsTable'
-import Tabs from '@imput/components/tabs'
 import { Card, CardHeader, CardTitle } from '@imput/components/Card'
 import Link from 'next/link'
-import { ArrowRight, Book } from '@imput/components/Icon'
+import { ArrowRight } from '@imput/components/Icon'
+import React from 'react'
 
 export const Components = {
   Note: ({ children }: any) => {
@@ -13,12 +12,20 @@ export const Components = {
       </div>
     )
   },
-  PropsTable,
+  PropsTable: React.lazy(() => import('../PropsTable')),
   Video: ({ src }: any) => {
     return <video controls src={src}></video>
   },
-  TabsRoot: Tabs,
-  TabsContent: Tabs.Content,
+  TabsRoot: React.lazy(() =>
+    import('@imput/components/tabs').then((module) => ({
+      default: module.Tabs,
+    }))
+  ),
+  TabsContent: React.lazy(() =>
+    import('@imput/components/tabs').then((module) => ({
+      default: module.Content,
+    }))
+  ),
   ContentLink: ({ title, href }: { title: string; href: string }) => (
     <Link href={href} className="mt-4 block">
       <Card className="group hover:bg-accent transition-colors">
@@ -32,5 +39,24 @@ export const Components = {
         </CardHeader>
       </Card>
     </Link>
+  ),
+  Header: React.lazy(() =>
+    import('../Homepage/Header').then((module) => ({ default: module.Header }))
+  ),
+  VideoHeading: React.lazy(() =>
+    import('../Homepage/VideoHeading').then((module) => ({
+      default: module.VideoHeading,
+    }))
+  ),
+  Navbar: React.lazy(() =>
+    import('../Homepage/Navbar').then((module) => ({ default: module.Navbar }))
+  ),
+  ImageTextSection: React.lazy(() =>
+    import('../Homepage/ImageTextSection').then((module) => ({
+      default: module.ImageTextSection,
+    }))
+  ),
+  Footer: React.lazy(() =>
+    import('../Homepage/Footer').then((module) => ({ default: module.Footer }))
   ),
 }

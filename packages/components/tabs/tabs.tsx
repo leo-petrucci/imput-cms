@@ -12,7 +12,7 @@ export interface ITabsProps extends TabsPrimitive.TabsProps {
  * Create a Tabs component. Uses RadixUI Tabs component.
  * https://www.radix-ui.com/docs/primitives/components/tabs
  */
-const Tabs = (props: ITabsProps): JSX.Element => (
+export const Tabs = (props: ITabsProps): JSX.Element => (
   <TabsPrimitive.Root {...omit(props, 'listProps', 'triggers', 'children')}>
     <TabsPrimitive.List
       className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"
@@ -32,13 +32,9 @@ const Tabs = (props: ITabsProps): JSX.Element => (
 
 export interface ITabsContentProps extends TabsPrimitive.TabsContentProps {}
 
-const Content = (props: ITabsContentProps) => (
+export const Content = (props: ITabsContentProps) => (
   <TabsPrimitive.Content
     className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
     {...props}
   />
 )
-
-Tabs.Content = Content
-
-export default Tabs

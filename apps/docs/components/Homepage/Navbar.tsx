@@ -5,7 +5,7 @@ import { Book, GithubLogo } from '@imput/components/Icon'
 export const Navbar = () => {
   return (
     <div className="flex justify-center">
-      <nav className="flex justify-between max-w-5xl w-full py-4">
+      <nav className="flex justify-between max-w-5xl w-full py-4 px-4 md:px-0">
         <Link href={`/`}>
           <img src={`/logo-with-text.svg`} />
         </Link>

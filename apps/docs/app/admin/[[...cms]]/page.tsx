@@ -216,6 +216,127 @@ const CMS = () => (
             },
             blocks,
           },
+          {
+            name: 'pages',
+            label: 'Pages',
+            folder: 'apps/docs/public/content',
+            create: true,
+            slug: '{{name}}',
+            extension: 'mdx',
+            fields: [
+              {
+                label: 'Title',
+                name: 'title',
+                widget: 'string',
+                rules: {
+                  required: 'This field is required',
+                },
+              },
+              {
+                label: 'Description',
+                name: 'description',
+                widget: 'string',
+              },
+              { label: 'Content', name: 'body', widget: 'markdown' },
+            ],
+            preview: {
+              components: Components,
+            },
+            blocks: [
+              {
+                name: 'Navbar',
+                label: 'HomepageNavbar',
+              },
+              {
+                name: 'Header',
+                label: 'HomepageHeader',
+                fields: [
+                  {
+                    name: 'title',
+                    label: 'Title',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                  {
+                    name: 'subtitle',
+                    label: 'Subtitle',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'VideoHeading',
+                label: 'HomepageVideoHeading',
+                fields: [
+                  {
+                    name: 'heading',
+                    label: 'Heading',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                  {
+                    name: 'videoSrc',
+                    label: 'Source',
+                    type: {
+                      widget: 'image',
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'ImageTextSection',
+                label: 'HomepageImageTextSection',
+                fields: [
+                  {
+                    name: 'title',
+                    label: 'Title',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                  {
+                    name: 'imageSrc',
+                    label: 'Source',
+                    type: {
+                      widget: 'image',
+                    },
+                  },
+                  {
+                    name: 'direction',
+                    label: 'Direction',
+                    type: {
+                      widget: 'select',
+                      options: ['ltr', 'rtl'],
+                    },
+                  },
+                  {
+                    name: 'children',
+                    label: 'Content',
+                    type: {
+                      widget: 'markdown',
+                    },
+                  },
+                ],
+              },
+              {
+                name: 'Footer',
+                label: 'HomepageFooter',
+                fields: [
+                  {
+                    name: 'copyright',
+                    label: 'Copyright',
+                    type: {
+                      widget: 'string',
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         ],
       },
     }}

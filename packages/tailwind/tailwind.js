@@ -104,6 +104,7 @@ const tailwind = {
     animate,
     typography,
     require('tailwindcss-animate'),
+    require('@tailwindcss/container-queries'),
     plugin(({ addVariant }) => {
       addVariant('children', '& > *'), addVariant('textarea', '& textarea')
     }),

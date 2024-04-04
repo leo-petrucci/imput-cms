@@ -22,7 +22,7 @@ const ImageTextSection = ({
         }}
       >
         <div
-          className={`flex flex-col justify-center py-4 px-4 md:px-0 max-w-[100%] md:max-w-[50%] flex-1 w-full ${direction === 'ltr' ? `self-start` : `self-end`} bg-white/90 md:bg-transparent`}
+          className={`@container flex flex-col justify-center py-4 px-4 @md:px-0 max-w-[100%] @md:max-w-[50%] flex-1 w-full ${direction === 'ltr' ? `self-start` : `self-end`} bg-white/90 @md:bg-transparent`}
         >
           <H3 className="text-foreground">{title}</H3>
           <FakeP className="text-slate-700">{children}</FakeP>

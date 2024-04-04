@@ -200,7 +200,7 @@ export interface NextCMSContext {
          * Components to render within the mdx preview
          */
         components?: {
-          [key: string]: ReactComponent<any>
+          [key: string]: ReactComponent<any> | React.ComponentType<any>
         }
         /**
          * An element that wraps the preview

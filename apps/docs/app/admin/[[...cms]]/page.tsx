@@ -154,7 +154,6 @@ const blocks: BlockType[] = [
 ]
 
 const CMS = () => (
-  // @ts-ignore
   <NextCMS
     {...{
       settings: {

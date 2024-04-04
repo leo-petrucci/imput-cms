@@ -42,7 +42,7 @@ const CMS = () => (
           repo: '{your github username}/{your repo name}',
           branch: 'main', // the branch you want to edit, usually main or master
           base_url: 'https://mysite.com/', // the root address of your site
-          auth_endpoint: 'api/auth', // where your auth endpoint is located
+          auth_endpoint: 'api/authorize', // where your auth endpoint is located
         },
       },
     }}
@@ -115,104 +115,118 @@ npm install simple-oauth2
 Then create the auth endpoint, this will generate your Github login link and send you to it:
 
 ```javascript
-// pages/api/auth.ts
+// app/api/authorize/route.ts
 
-import { AuthorizationCode } from "simple-oauth2";
-import { randomBytes } from "crypto";
-import { config } from "../../lib/config";
-import { NextApiRequest, NextApiResponse } from "next";
+import { AuthorizationCode } from 'simple-oauth2'
+import { randomBytes } from 'crypto'
+import { config } from '../../../lib/config'
+import { scopes } from '../../../lib/scopes'
 
-export const randomString = () => randomBytes(4).toString("hex");
+const randomString = () => randomBytes(4).toString('hex')
 
-const auth = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { host } = req.headers;
-  const url = new URL(`https://${host}/${req.url}`);
-  const urlParams = url.searchParams;
-  const provider = urlParams.get("provider") as "github";
+export async function GET(request: Request) {
+  const host = request.headers.get('host')
+  // this switches protocol depending on env
+  const protocol =
+    process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
+  const url = new URL(`https://${host}/${request.url}`)
+  const urlParams = url.searchParams
+  const provider = urlParams.get('provider') as 'github' | 'gitlab'
 
-  const client = new AuthorizationCode(config(provider));
+  const client = new AuthorizationCode(config(provider))
 
-  console.log("host", host);
-  console.log("provider", provider);
+  console.log('host', host)
+  console.log('provider', provider)
 
-  // this will get us an auth url from github
+  console.log(`${protocol}${host}/api/callback?provider=${provider}`)
+
   const authorizationUri = client.authorizeURL({
-    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
-    scope: "repo,user",
+    redirect_uri: `${protocol}${host}/api/callback?provider=${provider}`,
+    scope: scopes[provider],
     state: randomString(),
-  });
+  })
 
-  // and this will ensure the user logging in is redirected to it
-  res.writeHead(301, { Location: authorizationUri });
-  res.end();
-};
+  return Response.redirect(authorizationUri)
+}
 
-export default auth;
 
 ```
 
 Then you'll need to set up your callback endpoint, this one will receive the token from Github and send it back to Imput:
 
 ```javascript
-// pages/api/callback.ts
+// pages/api/callback/route.ts
 
-import { NextApiRequest, NextApiResponse } from 'next'
 import { AuthorizationCode } from 'simple-oauth2'
-import { config } from '../../lib/config'
+import { randomBytes } from 'crypto'
+import { config } from '../../../lib/config'
 
-const callback = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { host } = req.headers
-  const url = new URL(`https://${host}/${req.url}`)
+export async function GET(request: Request) {
+  const host = request.headers.get('host')
+  const protocol =
+    process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
+  const url = new URL(`https://${host}/${request.url}`)
   const urlParams = url.searchParams
+
   const code = urlParams.get('code') as string
 
   const provider = urlParams.get('provider') as 'github' | 'gitlab'
   const client = new AuthorizationCode(config(provider))
   const tokenParams = {
     code,
-    redirect_uri: `https://${host}/api/callback?provider=${provider}`,
+    redirect_uri: `${protocol}${host}/api/callback?provider=${provider}`,
   }
 
   try {
-    // we exchange our parameters for a token
     const accessToken = await client.getToken(tokenParams)
     const token = accessToken.token['access_token']
 
-    res.statusCode = 200
+    console.log({
+      url: request.url,
+      code,
+      token,
+      provider,
+    })
 
-    res.setHeader('Content-Type', 'text/html')
-    // and then send a message back to the cms to login
-    res.end(`
+    return new Response(
+      `
         <script type="text/javascript">
-          if (window.opener) {
-              window.opener.postMessage('${JSON.stringify({
-                token,
-                provider,
-              })}', "*");
-          }
-          window.close();
+        if (window.opener) {
+            window.opener.postMessage('${JSON.stringify({
+              token,
+              provider,
+            })}', "*");
+        }
+        window.close();
         </script>
-    `)
+    `,
+      {
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      }
+    )
   } catch (e) {
-    res.statusCode = 200
-    res.end(renderBody('error', e))
+    const error = e as any
+    return new Response(
+      `
+        <script>
+            event.source.postMessage(
+                'authorization:${error.provider}:error:${JSON.stringify(
+                  error
+                )}',
+                message.origin
+            );
+        </script>
+      `,
+      {
+        headers: {
+          'Content-Type': 'text/html',
+        },
+      }
+    )
   }
 }
-
-function renderBody(status: string, content: any) {
-  return `
-    <script>
-        event.source.postMessage(
-            'authorization:${content.provider}:${status}:${JSON.stringify(
-              content
-            )}',
-            message.origin
-        );
-    </script>
-  `
-}
-
-export default callback
 
 ```
 
@@ -221,6 +235,8 @@ Once these two endpoints are in place you should be able to visit your CMS page 
 <Note>
 
 If you want to login on localhost you're going to have to make sure you swap `https://` for `http://` where appropriate.
+
+The examples above handle it for you!
 
 </Note>
 

@@ -32,6 +32,8 @@ At the moment Imput only supports the `app` directory because of the way Next.js
 Then you just need to import the main Imput component to render your new CMS:
 
 ```jsx
+'use client'
+
 import dynamic from 'next/dynamic'
 
 const ImputCMS = dynamic(() => import('imput-cms'), {

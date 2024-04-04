@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { Card, CardHeader, CardTitle } from '@imput/components/Card'
 import Link from 'next/link'
 import { ArrowRight } from '@imput/components/Icon'
@@ -12,16 +13,16 @@ export const Components = {
       </div>
     )
   },
-  PropsTable: React.lazy(() => import('../PropsTable')),
+  PropsTable: dynamic(() => import('../PropsTable')),
   Video: ({ src }: any) => {
     return <video controls src={src}></video>
   },
-  TabsRoot: React.lazy(() =>
+  TabsRoot: dynamic(() =>
     import('@imput/components/tabs').then((module) => ({
       default: module.Tabs,
     }))
   ),
-  TabsContent: React.lazy(() =>
+  TabsContent: dynamic(() =>
     import('@imput/components/tabs').then((module) => ({
       default: module.Content,
     }))
@@ -40,23 +41,23 @@ export const Components = {
       </Card>
     </Link>
   ),
-  Header: React.lazy(() =>
+  Header: dynamic(() =>
     import('../Homepage/Header').then((module) => ({ default: module.Header }))
   ),
-  VideoHeading: React.lazy(() =>
+  VideoHeading: dynamic(() =>
     import('../Homepage/VideoHeading').then((module) => ({
       default: module.VideoHeading,
     }))
   ),
-  Navbar: React.lazy(() =>
+  Navbar: dynamic(() =>
     import('../Homepage/Navbar').then((module) => ({ default: module.Navbar }))
   ),
-  ImageTextSection: React.lazy(() =>
+  ImageTextSection: dynamic(() =>
     import('../Homepage/ImageTextSection').then((module) => ({
       default: module.ImageTextSection,
     }))
   ),
-  Footer: React.lazy(() =>
+  Footer: dynamic(() =>
     import('../Homepage/Footer').then((module) => ({ default: module.Footer }))
   ),
 }

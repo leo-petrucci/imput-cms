@@ -13,7 +13,7 @@ export interface ITabsProps extends TabsPrimitive.TabsProps {
  * https://www.radix-ui.com/docs/primitives/components/tabs
  */
 export const Tabs = (props: ITabsProps): JSX.Element => (
-  <div suppressHydrationWarning>
+  <div>
     <TabsPrimitive.Root {...omit(props, 'listProps', 'triggers', 'children')}>
       <TabsPrimitive.List
         className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"

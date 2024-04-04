@@ -37,7 +37,6 @@ const PropsTable = ({
   const hasAriaLabel = !!(ariaLabel || ariaLabelledBy)
   return (
     <div
-      suppressHydrationWarning
       aria-label={hasAriaLabel ? ariaLabel : 'Component Props'}
       aria-labelledby={ariaLabelledBy}
     >

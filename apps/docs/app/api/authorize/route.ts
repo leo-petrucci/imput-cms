@@ -1,15 +1,15 @@
 import { AuthorizationCode } from 'simple-oauth2'
 import { randomBytes } from 'crypto'
-import { config } from '../../lib/config'
-import { scopes } from '../../lib/scopes'
+import { config } from '../../../lib/config'
+import { scopes } from '../../../lib/scopes'
 
-export const randomString = () => randomBytes(4).toString('hex')
+const randomString = () => randomBytes(4).toString('hex')
 
-const auth = async (req: any, res: any) => {
-  const { host } = req.headers
+export async function GET(request: Request) {
+  const host = request.headers.get('host')
   const protocol =
     process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
-  const url = new URL(`https://${host}/${req.url}`)
+  const url = new URL(`https://${host}/${request.url}`)
   const urlParams = url.searchParams
   const provider = urlParams.get('provider') as 'github' | 'gitlab'
 
@@ -26,8 +26,5 @@ const auth = async (req: any, res: any) => {
     state: randomString(),
   })
 
-  res.writeHead(302, { Location: authorizationUri })
-  res.end()
+  return Response.redirect(authorizationUri)
 }
-
-export default auth

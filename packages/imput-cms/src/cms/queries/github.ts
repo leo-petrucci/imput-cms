@@ -24,24 +24,27 @@ type FilesWithDate =
  * @param type the name of the folder we want to load
  */
 export const useGetGithubCollection = (type: string) => {
-  const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>(
-    'desc'
-  )
-  const [sortBy, setSortBy] = React.useState('date')
-
   const { backend, collections } = useCMS()
 
   // we can't use `currentCollection` from `useCMS` because that's defined by which folder we've loaded
   // we need to get the correct folder per hook call
   const currentCollection = React.useMemo(
     () => collections.find((c) => c.folder === type),
-    []
+    [type]
   )
 
   // stop it here in case collection can't be found
   if (!currentCollection) {
     throw new Error(`Collection ${type} does not exist.`)
   }
+
+  const [sortDirection, setSortDirection] = React.useState<'asc' | 'desc'>(
+    currentCollection.orderBy?.direction || 'asc'
+  )
+
+  const [sortBy, setSortBy] = React.useState(
+    currentCollection.orderBy?.value || currentCollection.fields[0].name
+  )
 
   const [owner, repo] = React.useMemo(() => backend.repo.split('/'), [])
 
@@ -76,32 +79,38 @@ export const useGetGithubCollection = (type: string) => {
         return []
       }
 
-      // these will all get fetched at the same time, saving us a ton of time
-      const commits = await Promise.all(
-        files.data.tree.map((file) =>
-          octokit.request('GET /repos/{owner}/{repo}/commits', {
-            owner,
-            repo,
-            sha: backend.branch,
-            path: `${type}/${file.path}`,
-            page: 1,
-            per_page: 1,
-          })
-        )
-      )
+      /**
+       * This code fetches last update data from Github, but it's horribly slow and expesive.
+       * Effectively this is replaced by custom sorting per-collection, might look in the future to
+       * enabling it again.
+       */
 
-      // need to get commit info for each file to get when they were last updated
-      for (const [i, file] of files.data.tree.entries()) {
-        // @ts-ignore
-        // assign the date to the original object
-        file.date = commits[i].data[0].commit.author?.date
-      }
+      // // these will all get fetched at the same time, saving us a ton of time
+      // const commits = await Promise.all(
+      //   files.data.tree.map((file) =>
+      //     octokit.request('GET /repos/{owner}/{repo}/commits', {
+      //       owner,
+      //       repo,
+      //       sha: backend.branch,
+      //       path: `${type}/${file.path}`,
+      //       page: 1,
+      //       per_page: 1,
+      //     })
+      //   )
+      // )
 
-      // this tells typescript that we've added a `date` to the object
-      const filesWithDate = files as unknown as FilesWithDate
+      // // need to get commit info for each file to get when they were last updated
+      // for (const [i, file] of files.data.tree.entries()) {
+      //   // @ts-ignore
+      //   // assign the date to the original object
+      //   file.date = commits[i].data[0].commit.author?.date
+      // }
+
+      // // this tells typescript that we've added a `date` to the object
+      // const filesWithDate = files as unknown as FilesWithDate
 
       const decodedFiles = await Promise.all(
-        filesWithDate.data.tree
+        files.data.tree
           // this will filter out non-files from the results
           .filter((t) => t.mode === '100644')
           .map(async (file) => {
@@ -120,7 +129,7 @@ export const useGetGithubCollection = (type: string) => {
             return {
               ...decoded,
               filename: file.path,
-              updatedAt: file.date,
+              // updatedAt: file.date,
               slug: file.path?.split(`.${currentCollection.extension}`)[0],
               markdown: buf.toString('utf-8'),
             }
@@ -129,11 +138,11 @@ export const useGetGithubCollection = (type: string) => {
         d
           .sort((a, b) => {
             switch (sortBy) {
-              case 'updatedAt':
-                const aTime = new Date(get(a, sortBy)).getTime()
-                const bTime = new Date(get(b, sortBy)).getTime()
-                if (sortDirection === 'desc') return bTime - aTime
-                return aTime - bTime
+              // case 'updatedAt':
+              //   const aTime = new Date(get(a, sortBy)).getTime()
+              //   const bTime = new Date(get(b, sortBy)).getTime()
+              //   if (sortDirection === 'desc') return bTime - aTime
+              //   return aTime - bTime
               default:
                 // this will access data from gray matter
                 const key = `data.${sortBy}`
@@ -179,7 +188,7 @@ export const useGetGithubCollection = (type: string) => {
       // return values that we can filter for
       options: [
         // reserved word
-        'updatedAt',
+        // 'updatedAt',
         ...currentCollection.fields
           .filter((f) => ['date', 'datetime', 'string'].includes(f.widget))
           .map((o) => o.name),

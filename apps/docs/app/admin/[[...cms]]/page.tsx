@@ -177,6 +177,10 @@ const CMS = () => (
             create: true,
             slug: '{{name}}',
             extension: 'mdx',
+            orderBy: {
+              value: 'order',
+              direction: 'asc',
+            },
             fields: [
               {
                 label: 'Name',

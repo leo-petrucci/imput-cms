@@ -1,1 +1,1 @@
-export { default } from './collectionCard'
+export * from './collectionCard'

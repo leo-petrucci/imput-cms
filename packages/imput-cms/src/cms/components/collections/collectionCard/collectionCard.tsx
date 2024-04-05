@@ -3,13 +3,17 @@ import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import { CollectionType } from '../../../../cms/types/collection'
 import { Link } from 'react-router-dom'
 import { Card, CardHeader } from '@imput/components/Card'
+import { Skeleton } from '@imput/components/Skeleton'
 import React from 'react'
 
 export interface CollectionCardProps extends CollectionType {
   baseUrl: string
 }
 
-const CollectionCard = (props: CollectionCardProps) => {
+/**
+ * Render a clickable content card
+ */
+export const CollectionCard = (props: CollectionCardProps) => {
   const { currentCollection } = useCMS()
 
   // find the first string field in config
@@ -17,6 +21,8 @@ const CollectionCard = (props: CollectionCardProps) => {
     (f) => f.widget === 'string'
   )
 
+  // title is first string field
+  // falls back to file slug if not defined
   const title = firstStringField
     ? props.data[firstStringField.name]
     : props.slug
@@ -31,11 +37,27 @@ const CollectionCard = (props: CollectionCardProps) => {
     <Link key={props.slug} to={`${props.baseUrl}/${props.slug}`}>
       <Card className="hover:bg-primary-foreground transition-colors hover:text-accent-foreground overflow-hidden">
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <Image path={image} />
+        {image && <Image path={image} />}
         <CardHeader>{title}</CardHeader>
       </Card>
     </Link>
   )
 }
 
-export default CollectionCard
+export const CollectionCardSkeleton = () => {
+  const { currentCollection } = useCMS()
+
+  // if collection doesn't have images we don't bother showing a skeleton
+  const firstImageField = currentCollection.fields.find(
+    (f) => f.widget === 'image'
+  )
+
+  return (
+    <Card className="hover:bg-primary-foreground transition-colors hover:text-accent-foreground overflow-hidden">
+      {firstImageField && <Skeleton className="w-full h-48" />}
+      <CardHeader>
+        <Skeleton className="w-full h-6" />
+      </CardHeader>
+    </Card>
+  )
+}

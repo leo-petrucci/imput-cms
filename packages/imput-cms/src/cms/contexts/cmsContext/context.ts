@@ -176,13 +176,26 @@ export interface NextCMSContext {
        */
       create: boolean
       /**
+       * Default sorting for posts
+       */
+      orderBy?: {
+        /**
+         * The `name` of a field
+         */
+        value: string
+        /**
+         * Either `asc` or `desc`
+         */
+        direction: 'asc' | 'desc'
+      }
+      /**
        * A slug-ified string which will become the filename of the resource created
        */
       slug: string
       /**
        * File that will be created when adding new content to this collection
        */
-      extension: 'md' | 'mdx'
+      extension: 'md' | 'mdx' | 'json'
       /**
        * This will dictate the
        * inputs displayed when editing or creating content.

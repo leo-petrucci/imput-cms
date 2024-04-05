@@ -5,7 +5,7 @@
   "module": "dist/imput.esm.js",
   "typings": "dist/index.d.ts",
   "scripts": {
-    "imput:build": "tsc -v && tsc && tsup src/index.tsx --format cjs,esm --dts",
+    "imput:build": "tsc -v && tsc && tsup src/index.tsx --format cjs,esm --dts --minify",
     "imput:release": "release publish",
     "imput:tailwind": "pnpm dlx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch=always",
     "imput:test": "vitest run",

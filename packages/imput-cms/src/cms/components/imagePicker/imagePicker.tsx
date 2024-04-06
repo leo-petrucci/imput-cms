@@ -95,10 +95,10 @@ const ImagePicker = ({
           <div className="flex flex-col gap-2">
             {imageTitle !== false && (
               <div className="flex flex-col gap-1">
-                <Label htmlFor={`image-title`}>Image title</Label>
+                <Label htmlFor={`input-image-title`}>Image title</Label>
                 <Input
                   name="image-title"
-                  defaultValue={imageTitle?.defaultValue}
+                  value={imageTitle?.defaultValue}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const value = e.target.value
                     imageTitle?.onImageTitleChange(value)
@@ -108,10 +108,10 @@ const ImagePicker = ({
             )}
             {imageAltText !== false && (
               <div className="flex flex-col gap-1">
-                <Label htmlFor={`image-alt`}>Image alt text</Label>
+                <Label htmlFor={`input-image-alt`}>Image alt text</Label>
                 <Input
                   name="image-alt"
-                  defaultValue={imageAltText.defaultValue}
+                  value={imageAltText.defaultValue}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     const value = e.target.value
                     imageAltText?.onImageAltTextChange(value)
@@ -119,8 +119,8 @@ const ImagePicker = ({
                 />
               </div>
             )}
-            <div className="flex flex-col gap-1">
-              <Label htmlFor={`image-file`}>Upload image</Label>
+            <div className="flex flex-col gap-2">
+              <Label htmlFor={`input-image-file`}>Upload image</Label>
               <Modal
                 title={'Select media'}
                 className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
@@ -142,6 +142,32 @@ const ImagePicker = ({
               >
                 <Button type="button">Select image</Button>
               </Modal>
+
+              <div className="flex flex-col gap-1">
+                <Label htmlFor={`input-image-src`}>Image src</Label>
+                <Input
+                  name="image-src"
+                  value={image || ''}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    const value = e.target.value
+                    onImageChange?.(value)
+                  }}
+                />
+              </div>
+
+              {Boolean(image) && (
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => {
+                    onImageChange?.('')
+                    if (imageTitle) imageTitle?.onImageTitleChange('')
+                    if (imageAltText) imageAltText?.onImageAltTextChange('')
+                  }}
+                >
+                  Remove image
+                </Button>
+              )}
             </div>
           </div>
         </div>

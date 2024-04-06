@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import '../styles/tailwind.css'
 
 export const metadata = {
@@ -12,6 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Analytics />
       <body>{children}</body>
     </html>
   )

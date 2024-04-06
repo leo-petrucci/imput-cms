@@ -9,15 +9,7 @@ const VideoHeading = ({ heading, videoSrc }: VideoHeadingProps) => {
   return (
     <div className="relative flex justify-center h-96 items-center border-b border-border overflow-hidden">
       <div className="relative flex flex-col max-w-5xl w-full py-4 text-center gap-2">
-        <video
-          playsInline
-          autoPlay
-          muted
-          loop
-          poster="polina.jpg"
-          id="bgvid"
-          className="-mt-32"
-        >
+        <video playsInline autoPlay muted loop id="bgvid" className="mt-24">
           <source src={videoSrc} />
         </video>
       </div>

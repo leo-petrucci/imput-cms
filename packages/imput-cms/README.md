@@ -2,7 +2,7 @@
     <img src="https://www.imput.computer/logo-with-text.svg" alt="logo" />
 </p>
 
-https://github.com/leo-petrucci/imput-cms/raw/main/apps/docs/public/live-editing-screen-studio-mp4-full.mp4
+https://github.com/leo-petrucci/imput-cms/assets/23533178/3174d8be-7114-4f96-ac03-c571602ea002
 
 # Imput CMS
 

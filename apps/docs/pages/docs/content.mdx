@@ -1,0 +1,64 @@
+---
+name: Content
+---
+# Content view
+
+When you first open Imput you'll get automatically redirected to the first `collection` you defined in your configuration. There's some extra options you can set to make your collections easier to browse.
+
+## Preview cards
+
+![](/images/screenshot-2024-04-06-at-091417.png "")
+
+Imput attempts to generate preview cards from the `fields` configuration for your collection. For example:
+
+1. The first `image` field found in your fields list will be used as a thumbnail
+   1. If none are defined, no thumbnail is displayed
+1. The first `string` field found in your fields list will be used as a post title
+   1. If none are found Imput will fallback on using the post's filename
+
+```js
+collections: [
+  {
+    fields: [
+      // this will be used as a title in the preview
+      { label: 'Name', name: 'name', widget: 'string' },
+      // this will be used as a thumbnail
+      { label: 'Thumbnail', name: 'thumbnail', widget: 'image' },
+      // this will be ignored
+      { label: 'Subtitle', name: 'subtitle', widget: 'string' },
+      { label: 'Content', name: 'body', widget: 'markdown' },
+    ],
+  },
+]
+```
+
+To change what `field` is used you simply have to re-order your fields!
+
+## Default order
+
+Imput doesn't make any assumptions about what fields your content has, so there's options to set default sort depending on whichever `fields` you have defined.
+
+```js
+collections: [
+  {
+    // content in this collection will be ordered with the createdAt field
+    // make sure the field here actually exists!
+    orderBy: {
+      value: 'createdAt',
+      direction: 'desc',
+    },
+    fields: [
+      { label: 'Name', name: 'name', widget: 'string' },
+      { label: 'Created at', name: 'createdAt', widget: 'datetime' },
+      { label: 'Content', name: 'body', widget: 'markdown' },
+    ],
+  },
+```
+
+<Note>
+
+At the moment Imput supports sorting on `string`, `date` and `datetime` fields.
+
+</Note>
+
+

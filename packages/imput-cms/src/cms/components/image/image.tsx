@@ -7,6 +7,7 @@ import React from 'react'
  */
 const Image = ({ path }: { path: string | undefined }) => {
   const { images, loadImage, setImages } = useImages()
+
   const imageBlobUrl = path
     ? images.find((i) => i.filename.includes(path))?.blobUrl
     : undefined

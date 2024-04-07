@@ -11,6 +11,7 @@ import { Octokit } from 'octokit'
 import { getToken } from '../../cms/queries/auth'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { FilesPage } from '../pages/files'
 
 /**
  * Central routing point for all of our private CMS pages
@@ -19,6 +20,7 @@ const NextCMSPrivateRoutes = () => {
   return (
     <Routes>
       <Route path="/:cms/:collection/*" element={<CollectionPage />} />
+      <Route path="/:cms/files/*" element={<FilesPage />} />
       <Route path="/:cms" element={<HomePage />} />
     </Routes>
   )

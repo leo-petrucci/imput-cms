@@ -12,32 +12,22 @@ import ContentPage from '../../../cms/pages/content'
 import {
   CollectionCard,
   CollectionCardSkeleton,
-} from '../../../cms/components/collections/collectionCard'
+} from '../../../cms/components/molecules/CollectionCard'
 import { CollectionType } from '../../../cms/types/collection'
 import { Button } from '@imput/components/Button'
 import NewPage from '../../../cms/pages/new'
-import Loader from '../../components/loader'
 import { GenericError } from '../../components/atoms/GenericError'
 import { Layout } from '../../components/atoms/Layout'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@imput/components/Collapsible'
-import {
-  FolderNotch,
-  FolderNotchOpen,
-  PlusCircle,
-} from '@imput/components/Icon'
+import { PlusCircle } from '@imput/components/Icon'
 import { H5 } from '@imput/components/Typography'
 import { SortBy } from '../../components/molecules/SortBy'
 import { Card } from '@imput/components/Card'
 import { Logo } from '../../components/atoms/Logo'
+import { Sidebar } from '../../components/organisms/Sidebar'
 
 const CollectionPage = () => {
   const navigate = useNavigate()
   const params = useParams<{ cms: string }>()
-  const [isOpen, setIsOpen] = React.useState(true)
   const { collection } = useParams<{
     collection: string
   }>()
@@ -77,49 +67,7 @@ const CollectionPage = () => {
             >
               <div className="grid grid-cols-12 flex-1 gap-2">
                 <div className="col-span-2 pl-2 pb-2 flex flex-col">
-                  <div className="sticky top-0 pt-2">
-                    <Collapsible
-                      className="space-y-1"
-                      open={isOpen}
-                      onOpenChange={setIsOpen}
-                    >
-                      <div className="flex items-center justify-between">
-                        <CollapsibleTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            className="w-full justify-start"
-                          >
-                            {isOpen ? (
-                              <FolderNotchOpen
-                                className="mr-2 h-4 w-4"
-                                weight="bold"
-                              />
-                            ) : (
-                              <FolderNotch
-                                className="mr-2 h-4 w-4"
-                                weight="bold"
-                              />
-                            )}
-                            Collections
-                          </Button>
-                        </CollapsibleTrigger>
-                      </div>
-                      <CollapsibleContent className="flex flex-col gap-1 ml-2">
-                        {collections.map((c) => (
-                          <Button
-                            key={c.name}
-                            variant="ghost"
-                            className={`w-full justify-start ${location.pathname === `/${params.cms}/${c.name}` ? 'bg-accent' : ''}`}
-                            onClick={() => {
-                              navigate(`/${params.cms}/${c.name}`)
-                            }}
-                          >
-                            {c.label}
-                          </Button>
-                        ))}
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </div>
+                  <Sidebar />
                 </div>
                 <div className="col-span-10 p-2 border-l border-border gap-4 flex flex-col bg-accent">
                   {isError && (

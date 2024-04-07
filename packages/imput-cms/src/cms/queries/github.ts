@@ -1,6 +1,11 @@
 import { Octokit } from 'octokit'
 import { Buffer } from 'buffer'
-import { useMutation, useQuery, defaultContext } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQuery,
+  defaultContext,
+  useQueryClient,
+} from '@tanstack/react-query'
 import { useCMS } from '../../cms/contexts/cmsContext/useCMSContext'
 import { getToken } from '../../cms/queries/auth'
 import { queryKeys } from '../../cms/queries/keys'
@@ -9,6 +14,7 @@ import { Endpoints } from '@octokit/types'
 import matter from 'gray-matter'
 import React from 'react'
 import get from 'lodash/get'
+import { useImages } from '../contexts/imageContext/useImageContext'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -538,6 +544,83 @@ export const useUploadFile = () => {
         path: `${slugifiedFilename}.${reExt}`,
         sha: res.sha,
       }
+    },
+  })
+}
+
+/**
+ * Deletes a file from github
+ */
+const deleteFromGithub = async (
+  { owner, repo }: { owner: string; repo: string },
+  filename: string,
+  sha: string
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+
+  await octokit.request('DELETE /repos/{owner}/{repo}/contents/{path}', {
+    owner,
+    repo,
+    path: filename,
+    message: `Deleted "${filename}" from ImputCMS`,
+    sha,
+  })
+}
+
+/**
+ * Delete a file from Github
+ */
+export const useDeleteFileFromGithub = (
+  /**
+   * File being deleted, used for nice commit messages
+   */
+  path: string
+) => {
+  const client = useQueryClient()
+
+  const { data } = useGetGithubImages()
+
+  const { backend, media_folder } = useCMS()
+
+  const imageSha = data?.data.tree.find((i) => i.path?.includes(path))?.sha
+
+  const [owner, repo] = backend.repo.split('/')
+  return useMutation({
+    mutationFn: async () => {
+      if (!imageSha) {
+        throw new Error('Could not find image sha.')
+      }
+
+      await deleteFromGithub(
+        {
+          owner,
+          repo,
+        },
+        `${media_folder}/${path}`,
+        imageSha
+      )
+
+      // instead of re-fetching images we just remove the image we just deleted from the old data
+      client.setQueryData(
+        queryKeys.github.collection(media_folder).queryKey,
+        // @ts-ignore
+        (
+          oldData: Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
+        ) => {
+          // new data will be old data minus the image deleted
+          const uniqueTree = oldData.data.tree.filter((t) => t.path !== path)
+
+          return {
+            ...oldData,
+            data: {
+              ...oldData.data,
+              tree: uniqueTree,
+            },
+          }
+        }
+      )
     },
   })
 }

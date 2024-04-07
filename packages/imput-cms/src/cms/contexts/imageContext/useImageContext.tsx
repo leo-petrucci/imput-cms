@@ -35,13 +35,16 @@ export const useImages = () => {
      * then load the base64's to state.
      */
     const foundImage = imageTree.find((i) => filename.includes(i.path!))
+    const splitPath = foundImage?.path?.split('.')
+    const extension = splitPath?.pop()
     const blob =
       /**
        * TODO: handle remote images
        */
       foundImage
         ? await base64ToBlob(
-            await getGithubFileBase64(owner, repo, foundImage.sha!)
+            await getGithubFileBase64(owner, repo, foundImage.sha!),
+            extension || 'png'
           )
         : undefined
     return {

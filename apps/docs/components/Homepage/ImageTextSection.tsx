@@ -14,18 +14,18 @@ const ImageTextSection = ({
   direction,
 }: ImageTextSectionProps) => {
   return (
-    <div className="relative flex justify-center h-64 items-stretch border-b border-border overflow-hidden">
+    <div className="imp-relative imp-flex imp-justify-center imp-h-64 imp-items-stretch imp-border-b imp-border-border imp-overflow-hidden">
       <div
-        className={`@container relative flex flex-col justify-center max-w-5xl w-full gap-2 bg-no-repeat ${direction === 'ltr' ? `bg-right` : `bg-left`}`}
+        className={`imp-@container imp-relative imp-flex imp-flex-col imp-justify-center imp-max-w-5xl imp-w-full imp-gap-2 imp-bg-no-repeat ${direction === 'ltr' ? `imp-bg-right` : `imp-bg-left`}`}
         style={{
           backgroundImage: `url(${imageSrc})`,
         }}
       >
         <div
-          className={` flex flex-col justify-center py-4 px-4 @3xl:px-0 max-w-[100%] @3xl:max-w-[50%] flex-1 w-full ${direction === 'ltr' ? `self-start` : `self-end`} bg-white/50 @3xl:bg-transparent`}
+          className={` imp-flex imp-flex-col imp-justify-center imp-py-4 imp-px-4 @3xl:imp-px-0 imp-max-w-[100%] @3xl:imp-max-w-[50%] imp-flex-1 imp-w-full ${direction === 'ltr' ? `imp-self-start` : `imp-self-end`} imp-bg-white/50 @3xl:imp-bg-transparent`}
         >
-          <H3 className="text-foreground">{title}</H3>
-          <FakeP className="text-slate-700">{children}</FakeP>
+          <H3 className="imp-text-foreground">{title}</H3>
+          <FakeP className="imp-text-slate-700">{children}</FakeP>
         </div>
       </div>
     </div>

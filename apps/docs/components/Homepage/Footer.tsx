@@ -6,11 +6,11 @@ type FooterProps = {
 
 const Footer = ({ copyright }: FooterProps) => {
   return (
-    <div className="relative flex justify-center items-stretch border-b border-border overflow-hidden px-4 md:px-0">
+    <div className="imp-relative imp-flex imp-justify-center imp-items-stretch imp-border-b imp-border-border imp-overflow-hidden imp-px-4 md:imp-px-0">
       <div
-        className={`relative flex flex-col justify-center max-w-5xl w-full py-4 gap-2 bg-no-repeat`}
+        className={`imp-relative imp-flex imp-flex-col imp-justify-center imp-max-w-5xl imp-w-full imp-py-4 imp-gap-2 imp-bg-no-repeat`}
       >
-        <FakeP className="text-slate-700">{copyright}</FakeP>
+        <FakeP className="imp-text-slate-700">{copyright}</FakeP>
       </div>
     </div>
   )

@@ -125,14 +125,14 @@ const Item = ({
 
   return (
     <FormItemProvider rules={rules} name={name} setValueAs={setValueAs}>
-      <div className="flex flex-col gap-1" {...rest}>
+      <div className="imp-flex imp-flex-col imp-gap-1" {...rest}>
         {typeof label === 'string' ? (
           <Label htmlFor={`input-${name}`}>{label}</Label>
         ) : (
           label
         )}
         <div>{children}</div>
-        <div className="text-destructive">
+        <div className="imp-text-destructive">
           {
             get(
               methods.formState.errors,
@@ -174,7 +174,7 @@ const ItemField = ({
   }, [])
 
   return (
-    <div className="flex flex-col gap-1" {...rest}>
+    <div className="imp-flex imp-flex-col imp-gap-1" {...rest}>
       {typeof label === 'string' ? (
         <Label htmlFor={`input-${name}`}>{label}</Label>
       ) : (
@@ -187,34 +187,34 @@ const ItemField = ({
           name={`${name}.${index}`}
           setValueAs={setValueAs}
         >
-          <div className="flex flex-1 gap-1">
+          <div className="imp-flex imp-flex-1 imp-gap-1">
             <div className="flex-1">{children}</div>
             <Button
               type="button"
-              className="self-center"
+              className="imp-self-center"
               size="icon"
               onClick={() => {
                 fieldArray.remove(index)
               }}
             >
-              <Minus className="w-4 h-4" />
+              <Minus className="imp-w-4 imp-h-4" />
             </Button>
           </div>
         </FormItemProvider>
       ))}
-      <div className="flex flex-col flex-1 mt-1">
+      <div className="imp-flex imp-flex-col imp-flex-1 imp-mt-1">
         <Button
           type="button"
-          className="self-center"
+          className="imp-self-center"
           size="sm"
           onClick={() => {
             fieldArray.append('')
           }}
         >
-          <Plus className="w-4 h-4 mr-1" /> Add item
+          <Plus className="imp-w-4 imp-h-4 imp-mr-1" /> Add item
         </Button>
       </div>
-      <div className="text-destructive">
+      <div className="imp-text-destructive">
         {get(methods.formState.errors, `${name}.message`) as unknown as string}
       </div>
     </div>

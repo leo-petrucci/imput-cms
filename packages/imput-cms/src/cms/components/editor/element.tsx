@@ -22,7 +22,7 @@ export const Element = (props: CustomRenderElementProps) => {
     case defaultNodeTypes.code_snippet:
       return (
         <code
-          className="px-[0.2em] py-[0.4em] m-0 text-[85%] whitespace-break-spaces bg-secondary rounded text-red-500"
+          className="imp-px-[0.2em] imp-py-[0.4em] imp-m-0 imp-text-[85%] imp-whitespace-break-spaces imp-bg-secondary imp-rounded imp-text-red-500"
           {...props.attributes}
         >
           <InlineChromiumBugfix />
@@ -41,7 +41,7 @@ export const Element = (props: CustomRenderElementProps) => {
     case defaultNodeTypes.block_quote:
       return (
         <blockquote
-          className="border-l-4 pl-4 border-primary"
+          className="imp-border-l-4 imp-pl-4 imp-border-primary"
           style={style}
           {...attributes}
         >
@@ -50,56 +50,60 @@ export const Element = (props: CustomRenderElementProps) => {
       )
     case defaultNodeTypes.ul_list:
       return (
-        <ul className="ml-4 flex-1" style={style} {...attributes}>
+        <ul className="imp-ml-4 imp-flex-1" style={style} {...attributes}>
           {children}
         </ul>
       )
     case defaultNodeTypes.heading[1]:
       return (
-        <h1 className="text-4xl" {...attributes}>
+        <h1 className="imp-text-4xl" {...attributes}>
           {children}
         </h1>
       )
     case defaultNodeTypes.heading[2]:
       return (
-        <h2 className="text-3xl" {...attributes}>
+        <h2 className="imp-text-3xl" {...attributes}>
           {children}
         </h2>
       )
     case defaultNodeTypes.heading[3]:
       return (
-        <h3 className="text-2xl" {...attributes}>
+        <h3 className="imp-text-2xl" {...attributes}>
           {children}
         </h3>
       )
     case defaultNodeTypes.heading[4]:
       return (
-        <h4 className="text-xl" {...attributes}>
+        <h4 className="imp-text-xl" {...attributes}>
           {children}
         </h4>
       )
     case defaultNodeTypes.heading[5]:
       return (
-        <h5 className="lg" {...attributes}>
+        <h5 className="imp-text-lg" {...attributes}>
           {children}
         </h5>
       )
     case defaultNodeTypes.heading[6]:
       return (
-        <h6 className="base" {...attributes}>
+        <h6 className="imp-text-base" {...attributes}>
           {children}
         </h6>
       )
 
     case defaultNodeTypes.listItem:
       return (
-        <li className="flex-1" style={style} {...attributes}>
+        <li className="imp-flex-1" style={style} {...attributes}>
           {children}
         </li>
       )
     case defaultNodeTypes.ol_list:
       return (
-        <ol className="ml-4 flex-1" style={{ ...style }} {...attributes}>
+        <ol
+          className="imp-ml-4 imp-flex-1"
+          style={{ ...style }}
+          {...attributes}
+        >
           {children}
         </ol>
       )

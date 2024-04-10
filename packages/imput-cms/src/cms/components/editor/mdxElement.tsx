@@ -84,7 +84,7 @@ const MdxElement = (props: CustomRenderElementProps) => {
         title={'Edit component'}
         description={() => (
           <ErrorBoundary>
-            <div className="p-4">
+            <div className="imp-p-4">
               <ComponentEditor {...props} />
             </div>
           </ErrorBoundary>
@@ -95,8 +95,8 @@ const MdxElement = (props: CustomRenderElementProps) => {
           className={StyledMdxButton({ selected })}
           contentEditable={false}
         >
-          <div className="p-4">
-            <div className="flex flex-row gap-2 items-center">
+          <div className="imp-p-4">
+            <div className="imp-flex imp-flex-row imp-gap-2 imp-items-center">
               <BracketsSquare size={16} weight="bold" />
               <FakeP>{mdxElement.name} Block</FakeP>
             </div>

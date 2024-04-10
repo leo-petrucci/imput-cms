@@ -29,14 +29,14 @@ const SortBy = (
   }, [form.watch()])
 
   return (
-    <Form form={form} onSubmit={() => {}} className="w-full flex gap-2">
-      <Form.Item label="Direction" name="direction" className="flex-1">
+    <Form form={form} onSubmit={() => {}} className="imp-w-full imp-flex gap-2">
+      <Form.Item label="Direction" name="direction" className="imp-flex-1">
         <Select>
           <option value={'asc'}>Ascending</option>
           <option value={'desc'}>Descending</option>
         </Select>
       </Form.Item>
-      <Form.Item label="Sort by" name="sortBy" className="flex-1">
+      <Form.Item label="Sort by" name="sortBy" className="imp-flex-1">
         <Select>
           {options?.map((o) => (
             <option value={o} key={o}>

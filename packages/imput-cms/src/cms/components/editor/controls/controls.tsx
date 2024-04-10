@@ -5,8 +5,8 @@ import RemoveElement from '../../../../cms/components/editor/controls/removeElem
 
 const Controls = ({ element }: { element: Element }) => {
   return (
-    <div className="-mt-1 relative">
-      <div className="flex items-center justify-center gap-2">
+    <div className="-imp-mt-1 relative">
+      <div className="imp-flex imp-items-center imp-justify-center imp-gap-2">
         <AddSpace element={element} />
         <RemoveElement element={element} />
       </div>

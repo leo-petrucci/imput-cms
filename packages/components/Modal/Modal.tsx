@@ -71,7 +71,7 @@ export const Modal = ({
               <></>
             ) : (
               <AnimatedOverlay
-                className="fixed inset-0 bg-black/80"
+                className="imp-fixed imp-inset-0 imp-bg-black/80"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -80,7 +80,7 @@ export const Modal = ({
             )}
             <AnimatedContent
               className={cn(
-                'fixed top-1/2 left-1/2 w-full max-w-lg border bg-background shadow-lg sm:rounded-lg origin-center flex flex-col',
+                'imp-fixed imp-top-1/2 imp-left-1/2 imp-w-full imp-max-w-lg imp-border imp-bg-background imp-shadow-lg sm:imp-rounded-lg imp-origin-center imp-flex imp-flex-col',
                 className
               )}
               style={{
@@ -102,12 +102,12 @@ export const Modal = ({
             >
               <div
                 ref={headingRef}
-                className="flex flex-col space-y-1.5 text-center sm:text-left"
+                className="imp-flex imp-flex-col imp-space-y-1.5 imp-text-center sm:imp-text-left"
               >
-                <DialogPrimitive.Title className="text-lg font-semibold leading-none tracking-tight pt-6 px-4">
+                <DialogPrimitive.Title className="imp-text-lg imp-font-semibold imp-leading-none imp-tracking-tight imp-pt-6 imp-px-4">
                   {title}
                 </DialogPrimitive.Title>
-                <DialogPrimitive.Description className="text-sm text-muted-foreground">
+                <DialogPrimitive.Description className="imp-text-sm imp-text-muted-foreground">
                   {headingContent}
                 </DialogPrimitive.Description>
               </div>{' '}
@@ -121,7 +121,7 @@ export const Modal = ({
               </div>
               <DialogPrimitive.Close asChild>
                 <button
-                  className="absolute w-4 h-4 right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                  className="imp-absolute imp-w-4 imp-h-4 imp-right-4 imp-top-4 imp-rounded-sm imp-opacity-70 imp-ring-offset-background imp-transition-opacity hover:imp-opacity-100 focus:imp-outline-none focus:imp-ring-2 focus:imp-ring-ring focus:imp-ring-offset-2 disabled:imp-pointer-events-none data-[state=open]:imp-bg-accent data-[state=open]:imp-text-muted-foreground"
                   onClick={() => {
                     setOpen(false)
                   }}
@@ -138,7 +138,7 @@ export const Modal = ({
                     />
                   </svg>
 
-                  <span className="sr-only">Close</span>
+                  <span className="imp-sr-only">Close</span>
                 </button>
               </DialogPrimitive.Close>
             </AnimatedContent>

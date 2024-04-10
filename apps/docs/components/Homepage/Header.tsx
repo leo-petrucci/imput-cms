@@ -22,25 +22,25 @@ const Header = ({ title, subtitle }: HeaderProps) => {
   }
 
   return (
-    <div className="flex justify-center h-80 items-center border-b border-border">
-      <div className="flex flex-col max-w-5xl w-full py-4 text-center gap-2 px-4 md:px-0">
-        <H1 className="text-foreground">{title}</H1>
+    <div className="imp-flex imp-justify-center imp-h-80 imp-items-center imp-border-b imp-border-border">
+      <div className="imp-flex imp-flex-col imp-max-w-5xl imp-w-full imp-py-4 imp-text-center imp-gap-2 imp-px-4 md:imp-px-0">
+        <H1 className="imp-text-foreground">{title}</H1>
         <Lead>{subtitle}</Lead>
-        <div className="self-center relative mt-8">
+        <div className="imp-self-center imp-relative imp-mt-8">
           <button
-            className="bg-primary-foreground border border-border px-2 py-1 rounded"
+            className="imp-bg-primary-foreground imp-border imp-border-border imp-px-2 imp-py-1 imp-rounded"
             onClick={copyToClipboard}
           >
             <code>npm install imput-cms</code>
           </button>
-          <span className="text-xs font-medium rounded bg-blue-50 text-blue-700 p-1 absolute -right-4 -top-4">
+          <span className="imp-text-xs imp-font-medium imp-rounded imp-bg-blue-50 imp-text-blue-700 imp-p-1 imp-absolute -imp-right-4 -imp-top-4">
             Alpha
           </span>
-          <div className="absolute right-0 left-0 flex justify-center items-center p-2">
+          <div className="imp-absolute imp-right-0 imp-left-0 imp-flex imp-justify-center imp-items-center imp-p-2">
             {success && (
               <div
                 data-state={success ? 'open' : 'closed'}
-                className="px-2 py-1 text-sm rounded bg-primary text-primary-foreground shadow duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 "
+                className="imp-px-2 imp-py-1 text-sm imp-rounded imp-bg-primary imp-text-primary-foreground imp-shadow imp-duration-200 data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 "
               >
                 Copied!
               </div>

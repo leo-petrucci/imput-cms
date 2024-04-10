@@ -35,7 +35,7 @@ export const CollectionCard = (props: CollectionCardProps) => {
 
   return (
     <Link key={props.slug} to={`${props.baseUrl}/${props.slug}`}>
-      <Card className="hover:bg-primary-foreground transition-colors hover:text-accent-foreground overflow-hidden">
+      <Card className="hover:imp-bg-primary-foreground imp-transition-colors hover:imp-text-accent-foreground imp-overflow-hidden">
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
         {image && <Image path={image} />}
         <CardHeader>{title}</CardHeader>
@@ -53,10 +53,10 @@ export const CollectionCardSkeleton = () => {
   )
 
   return (
-    <Card className="hover:bg-primary-foreground transition-colors hover:text-accent-foreground overflow-hidden">
-      {firstImageField && <Skeleton className="w-full h-48" />}
+    <Card className="hover:imp-bg-primary-foreground imp-transition-colors hover:imp-text-accent-foreground imp-overflow-hidden">
+      {firstImageField && <Skeleton className="imp-w-full imp-h-48" />}
       <CardHeader>
-        <Skeleton className="w-full h-6" />
+        <Skeleton className="imp-w-full imp-h-6" />
       </CardHeader>
     </Card>
   )

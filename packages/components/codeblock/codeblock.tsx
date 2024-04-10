@@ -49,10 +49,10 @@ const Codeblock = ({
   )
 
   return (
-    <div className="bg-[#1e1e1e] rounded p-2 textarea:caret-[#adbac7]">
+    <div className="imp-bg-[#1e1e1e] imp-rounded imp-p-2 imp-textarea:caret-[#adbac7]">
       {!hideLanguageSelect && (
         <select
-          className="inline-flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md text-xs font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-secondary text-secondary-foreground hover:bg-secondary/80 px-2 py-2"
+          className="imp-inline-flex imp-cursor-pointer imp-items-center imp-justify-center imp-whitespace-nowrap imp-rounded-md imp-text-xs imp-font-medium imp-ring-offset-background imp-transition-colors focus-visible:imp-outline-none focus-visible:imp-ring-2 focus-visible:imp-ring-ring focus-visible:imp-ring-offset-2 disabled:imp-pointer-events-none disabled:opacity-50 imp-imp-bg-secondary imp-text-secondary-foreground hover:imp-bg-secondary/80 imp-px-2 imp-py-2"
           name="languages"
           id="language-select"
           defaultValue={language}

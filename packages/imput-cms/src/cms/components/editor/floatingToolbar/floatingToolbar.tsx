@@ -87,7 +87,7 @@ const FloatingToolbar = () => {
       <Portal.Root>
         <PopoverAnchor asChild>
           <div
-            className="pointer-events-none"
+            className="imp-pointer-events-none"
             style={{
               height: clientRect.height,
               width: clientRect.width,
@@ -103,9 +103,9 @@ const FloatingToolbar = () => {
         ref={popoverRef}
         side="top"
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="p-0 w-auto"
+        className="!imp-p-0 imp-w-auto"
       >
-        <div className="flex">
+        <div className="imp-flex">
           <MarkButton format="bold" icon={<TextBolder size={16} />} />
           <MarkButton format="italic" icon={<TextItalic size={16} />} />
           <CodeSnippetButton />

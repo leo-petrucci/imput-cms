@@ -7,9 +7,9 @@ import React from 'react'
 export const Components = {
   Note: ({ children }: any) => {
     return (
-      <div className="callout mb-6 overflow-x-auto mt-6 flex rounded-lg border py-2 ltr:pr-4 rtl:pl-4 contrast-more:border-current contrast-more:dark:border-current border-orange-100 bg-orange-50 text-orange-800 dark:border-orange-400/30 dark:bg-orange-400/20 dark:text-orange-300">
-        <div className="select-none text-xl pl-3 pr-2">💡</div>
-        <div className="w-full min-w-0 leading-7">{children}</div>
+      <div className="imp-callout imp-mb-6 imp-overflow-x-auto imp-mt-6 imp-flex imp-rounded-lg imp-border imp-py-2 ltr:imp-pr-4 rtl:imp-pl-4 contrast-more:imp-border-current contrast-more:dark:imp-border-current imp-border-orange-100 imp-bg-orange-50 imp-text-orange-800 dark:imp-border-orange-400/30 dark:imp-bg-orange-400/20 dark:imp-text-orange-300">
+        <div className="imp-select-none imp-text-xl imp-pl-3 imp-pr-2">💡</div>
+        <div className="imp-w-full imp-min-w-0 imp-leading-7">{children}</div>
       </div>
     )
   },
@@ -28,14 +28,14 @@ export const Components = {
     }))
   ),
   ContentLink: ({ title, href }: { title: string; href: string }) => (
-    <Link href={href} className="mt-4 block">
-      <Card className="group hover:bg-accent transition-colors">
-        <CardHeader className="flex gap-2 items-center flex-row relative">
-          <CardTitle className="!mt-0">{title}</CardTitle>
+    <Link href={href} className="imp-mt-4 imp-block">
+      <Card className="imp-group hover:imp-bg-accent imp-transition-colors">
+        <CardHeader className="imp-flex imp-gap-2 imp-items-center imp-flex-row imp-relative">
+          <CardTitle className="!imp-mt-0">{title}</CardTitle>
           <ArrowRight
             size={24}
             weight="bold"
-            className="text-primary/20 absolute right-8 group-hover:text-primary group-hover:translate-x-2 transition-all"
+            className="imp-text-primary/20 imp-absolute imp-right-8 group-hover:imp-text-primary group-hover:imp-translate-x-2 imp-transition-all"
           />
         </CardHeader>
       </Card>

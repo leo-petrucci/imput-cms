@@ -12,11 +12,11 @@ import { CustomElement } from '../../types/slate'
 import { FakeP } from '@imput/components/Typography'
 
 const StyledMdxButton = cva(
-  'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',
+  'imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-my-1 imp-cursor-pointer imp-p-0 imp-overflow-hidden imp-relative',
   {
     variants: {
       selected: {
-        true: 'outline outline-2 outline-offset-4 outline-primary/80',
+        true: 'imp-outline imp-outline-2 imp-outline-offset-4 imp-outline-primary/80',
       },
     },
   }

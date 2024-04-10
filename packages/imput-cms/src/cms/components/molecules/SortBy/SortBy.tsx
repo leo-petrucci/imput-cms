@@ -29,7 +29,11 @@ const SortBy = (
   }, [form.watch()])
 
   return (
-    <Form form={form} onSubmit={() => {}} className="imp-w-full imp-flex gap-2">
+    <Form
+      form={form}
+      onSubmit={() => {}}
+      className="imp-w-full imp-flex imp-gap-2"
+    >
       <Form.Item label="Direction" name="direction" className="imp-flex-1">
         <Select>
           <option value={'asc'}>Ascending</option>

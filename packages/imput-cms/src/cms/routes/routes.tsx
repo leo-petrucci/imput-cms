@@ -58,7 +58,7 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
           <UserProvider>
             {/* All images to be used in the CMS */}
             <ImagesProvider>
-              <div className="text-base">
+              <div className="imp-text-base">
                 <Toaster
                   containerStyle={{
                     zIndex: 99999,

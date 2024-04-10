@@ -62,41 +62,44 @@ const CollectionPage = () => {
           element={
             <Layout
               navbar={
-                <div className="flex flex-1 justify-between">
+                <div className="imp-flex imp-flex-1 imp-justify-between">
                   <Logo />
                   <Button
                     onClick={() => {
                       navigate(`/${params.cms}/${thisCollection?.name}/new`)
                     }}
                   >
-                    <PlusCircle size={16} className="w-4 h-4 mr-1" />
+                    <PlusCircle
+                      size={16}
+                      className="imp-w-4 imp-h-4 imp-mr-1"
+                    />
                     New {thisCollection?.label}
                   </Button>
                 </div>
               }
             >
-              <div className="grid grid-cols-12 flex-1 gap-2">
-                <div className="col-span-2 pl-2 pb-2 flex flex-col">
-                  <div className="sticky top-0 pt-2">
+              <div className="imp-grid imp-grid-cols-12 imp-flex-1 imp-gap-2">
+                <div className="imp-col-span-2 imp-pl-2 imp-pb-2 imp-flex imp-flex-col">
+                  <div className="imp-sticky imp-top-0 imp-pt-2">
                     <Collapsible
-                      className="space-y-1"
+                      className="imp-space-y-1"
                       open={isOpen}
                       onOpenChange={setIsOpen}
                     >
-                      <div className="flex items-center justify-between">
+                      <div className="imp-flex imp-items-center imp-justify-between">
                         <CollapsibleTrigger asChild>
                           <Button
                             variant="ghost"
-                            className="w-full justify-start"
+                            className="imp-w-full !imp-justify-start"
                           >
                             {isOpen ? (
                               <FolderNotchOpen
-                                className="mr-2 h-4 w-4"
+                                className="imp-mr-2 imp-h-4 imp-w-4"
                                 weight="bold"
                               />
                             ) : (
                               <FolderNotch
-                                className="mr-2 h-4 w-4"
+                                className="imp-mr-2 imp-h-4 imp-w-4"
                                 weight="bold"
                               />
                             )}
@@ -104,12 +107,12 @@ const CollectionPage = () => {
                           </Button>
                         </CollapsibleTrigger>
                       </div>
-                      <CollapsibleContent className="flex flex-col gap-1 ml-2">
+                      <CollapsibleContent className="imp-flex imp-flex-col imp-gap-1 imp-ml-2">
                         {collections.map((c) => (
                           <Button
                             key={c.name}
                             variant="ghost"
-                            className={`w-full justify-start ${location.pathname === `/${params.cms}/${c.name}` ? 'bg-accent' : ''}`}
+                            className={`imp-w-full !imp-justify-start ${location.pathname === `/${params.cms}/${c.name}` ? 'imp-bg-accent' : ''}`}
                             onClick={() => {
                               navigate(`/${params.cms}/${c.name}`)
                             }}
@@ -121,22 +124,22 @@ const CollectionPage = () => {
                     </Collapsible>
                   </div>
                 </div>
-                <div className="col-span-10 p-2 border-l border-border gap-4 flex flex-col bg-accent">
+                <div className="imp-col-span-10 imp-p-2 imp-border-l imp-border-border imp-gap-4 imp-flex imp-flex-col imp-bg-accent">
                   {isError && (
                     <GenericError title="Could not find collection.">
                       Are you sure your settings are correct?
                     </GenericError>
                   )}
-                  <Card className="p-2">
-                    <div className="grid grid-cols-12">
-                      <div className="col-span-2 flex items-center">
+                  <Card className="imp-p-2">
+                    <div className="imp-grid imp-grid-cols-12">
+                      <div className="imp-col-span-2 imp-flex imp-items-center">
                         {isSuccess && (
-                          <H5 className="text-sm font-medium leading-none">
+                          <H5 className="imp-text-sm imp-font-medium imp-leading-none">
                             {data.length} posts found
                           </H5>
                         )}
                       </div>
-                      <div className="col-span-4 col-start-9 flex justify-end">
+                      <div className="imp-col-span-4 imp-col-start-9 imp-flex imp-justify-end">
                         <SortBy
                           values={{
                             sortBy,
@@ -151,7 +154,7 @@ const CollectionPage = () => {
                       </div>
                     </div>
                   </Card>
-                  <div className="grid gap-2 grid-cols-3">
+                  <div className="imp-grid imp-gap-2 imp-grid-cols-3">
                     {isSuccess &&
                       data.map((content: CollectionType) => {
                         return (

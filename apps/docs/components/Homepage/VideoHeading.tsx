@@ -7,15 +7,15 @@ type VideoHeadingProps = {
 
 const VideoHeading = ({ heading, videoSrc }: VideoHeadingProps) => {
   return (
-    <div className="relative flex justify-center h-96 items-center border-b border-border overflow-hidden">
-      <div className="relative flex flex-col max-w-5xl w-full py-4 text-center gap-2">
+    <div className="imp-relative imp-flex imp-justify-center imp-h-96 imp-items-center imp-border-b imp-border-border imp-overflow-hidden">
+      <div className="imp-relative imp-flex imp-flex-col imp-max-w-5xl imp-w-full imp-py-4 imp-text-center imp-gap-2">
         <video playsInline autoPlay muted loop id="bgvid" className="mt-24">
           <source src={videoSrc} />
         </video>
       </div>
-      <div className="absolute right-0 left-0 bottom-0 flex items-end justify-center py-4 h-72 bg-gradient-to-b to-white from-white/0">
-        <div className="flex flex-col max-w-5xl w-full text-center gap-2">
-          <H2 className="text-foreground">{heading}</H2>
+      <div className="imp-absolute imp-right-0 imp-left-0 imp-bottom-0 imp-flex imp-items-end imp-justify-center imp-py-4 imp-h-72 imp-bg-gradient-to-b imp-to-white imp-from-white/0">
+        <div className="imp-flex imp-flex-col imp-max-w-5xl imp-w-full imp-text-center imp-gap-2">
+          <H2 className="imp-text-foreground">{heading}</H2>
         </div>
       </div>
     </div>

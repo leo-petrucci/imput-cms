@@ -16,7 +16,8 @@
     "local-imput-cms": "workspace:*",
     "prettier": "latest",
     "process": "^0.11.10",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "5.4.3"
   },
   "engines": {
     "node": ">=16.0.0"

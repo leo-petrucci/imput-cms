@@ -148,7 +148,7 @@ export const ImagesProvider = ({
 
   if (isError)
     return (
-      <div className="w-screen h-screen flex items-center justify-center">
+      <div className="imp-w-screen imp-h-screen imp-flex imp-items-center imp-justify-center">
         <GenericError title="Could not load content from Github.">
           Are you sure your configuration is correct?
         </GenericError>

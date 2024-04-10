@@ -7,9 +7,9 @@ export interface LoaderProps {
 
 const Loader = ({ children }: LoaderProps) => {
   return (
-    <div className="h-screen w-full flex items-center justify-center text-primary">
-      <div className="flex flex-col items-center gap-4">
-        <CircleNotch size={24} weight="bold" className="animate-spin	" />
+    <div className="imp-h-screen imp-w-full imp-flex imp-items-center imp-justify-center imp-text-primary">
+      <div className="imp-flex imp-flex-col imp-items-center imp-gap-4">
+        <CircleNotch size={24} weight="bold" className="imp-animate-spin	" />
         {children || 'Getting your content ready...'}
       </div>
     </div>

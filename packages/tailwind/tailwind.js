@@ -7,6 +7,7 @@ const typography = require('@tailwindcss/typography')
 /** @type {import('tailwindcss').Config} */
 const tailwind = {
   darkMode: ['class'],
+  prefix: 'imp-',
   content: [
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',

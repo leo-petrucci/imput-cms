@@ -14,12 +14,12 @@ const MoveElement = (props: CustomRenderElementProps) => {
       style={{
         flex: 0,
       }}
-      className="flex self-center flex-col justify-between gap-1"
+      className="imp-flex imp-self-center imp-flex-col imp-justify-between imp-gap-1"
     >
       <Button
         type="button"
         variant="ghost"
-        className="p-1 h-auto"
+        className="!imp-p-1 imp-h-auto"
         onClick={() => {
           if (path > 0) {
             Transforms.moveNodes(editor, {
@@ -34,7 +34,7 @@ const MoveElement = (props: CustomRenderElementProps) => {
       <Button
         type="button"
         variant="ghost"
-        className="p-1 h-auto"
+        className="!imp-p-1 imp-h-auto"
         onClick={() => {
           if (path < editor.children.length - 1) {
             Transforms.moveNodes(editor, {

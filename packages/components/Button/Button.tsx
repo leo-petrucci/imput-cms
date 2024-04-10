@@ -5,26 +5,26 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '../lib/utils'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+  'imp-inline-flex imp-items-center imp-justify-center imp-whitespace-nowrap imp-rounded-md imp-text-sm imp-font-medium imp-transition-colors focus-visible:imp-outline-none focus-visible:imp-ring-1 focus-visible:imp-ring-ring disabled:imp-pointer-events-none disabled:imp-opacity-50',
   {
     variants: {
       variant: {
         default:
-          'bg-primary text-primary-foreground shadow hover:bg-primary/90',
+          'imp-bg-primary imp-text-primary-foreground imp-shadow hover:imp-bg-primary/90',
         destructive:
-          'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
+          'imp-bg-destructive imp-text-destructive-foreground imp-shadow-sm hover:imp-bg-destructive/90',
         outline:
-          'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
+          'imp-border imp-border-input imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground',
         secondary:
-          'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
-        ghost: 'hover:bg-accent hover:text-accent-foreground',
-        link: 'text-primary underline-offset-4 hover:underline',
+          'imp-bg-secondary imp-text-secondary-foreground imp-shadow-sm hover:imp-bg-secondary/80',
+        ghost: 'hover:imp-bg-accent hover:imp-text-accent-foreground',
+        link: 'imp-text-primary imp-underline-offset-4 hover:imp-underline',
       },
       size: {
-        default: 'h-9 px-4 py-2',
-        sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-10 rounded-md px-8',
-        icon: 'h-9 w-9',
+        default: 'imp-h-9 imp-px-4 imp-py-2',
+        sm: 'imp-h-8 imp-rounded-md imp-px-3 imp-text-xs',
+        lg: 'imp-h-10 imp-rounded-md imp-px-8',
+        icon: 'imp-h-9 imp-w-9',
       },
     },
     defaultVariants: {

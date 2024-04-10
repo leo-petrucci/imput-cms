@@ -38,7 +38,7 @@ const Text = (props: any) => {
 const StyledText = cva('', {
   variants: {
     text: {
-      true: 'pl-[0.1px]',
+      true: 'imp-pl-[0.1px]',
     },
   },
 })

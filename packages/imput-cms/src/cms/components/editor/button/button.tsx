@@ -242,12 +242,12 @@ export const ComponentButton = ({ element }: { element: Element }) => {
         <Tooltip>
           <Modal
             title={'Select a block to add'}
-            className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
+            className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"
             description={(_open, setOpen) => (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 p-4">
+              <div className="imp-grid imp-grid-cols-1 md:imp-grid-cols-3 imp-gap-2 imp-p-4">
                 {components?.map((c) => (
                   <button
-                    className="inline-flex p-4 items-start w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer overflow-hidden relative"
+                    className="imp-inline-flex imp-p-4 imp-items-start imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-cursor-pointer imp-overflow-hidden imp-relative"
                     key={c.name}
                     onClick={() => {
                       const component = createComponent(c.name)
@@ -272,7 +272,9 @@ export const ComponentButton = ({ element }: { element: Element }) => {
               </Toggle>
             </TooltipTrigger>
           </Modal>
-          <TooltipContent className="max-w-sm">Component Block</TooltipContent>
+          <TooltipContent className="imp-max-w-sm">
+            Component Block
+          </TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </>

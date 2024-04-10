@@ -93,8 +93,8 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
     }
 
     return (
-      <div className="flex flex-col gap-2 children:flex-1">
-        <div className="flex gap-2 children:flex-1">
+      <div className="imp-flex imp-flex-col imp-gap-2 children:imp-flex-1">
+        <div className="imp-flex imp-gap-2 children:imp-flex-1">
           {displayControls && <MoveElement {...props} />}
           <Element {...props} />
         </div>
@@ -139,7 +139,7 @@ const Editor = ({ value, onChange, debug }: EditorProps) => {
     <>
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
         <FloatingToolbar />
-        <div className="children:p-2">
+        <div className="children:imp-p-2">
           <Editable
             data-testid="slate-content-editable"
             renderElement={renderElement}

@@ -30,8 +30,8 @@ const LinkElement = ({
   return (
     <Popover>
       <PopoverContent>
-        <div className="flex flex-1">
-          <div className="flex flex-col gap-1 flex-1">
+        <div className="imp-flex imp-flex-1">
+          <div className="imp-flex imp-flex-col imp-gap-1 imp-flex-1">
             <Label htmlFor={`image-title`}>Url</Label>
             <Input
               name="image-title"
@@ -71,16 +71,16 @@ const LinkElement = ({
 // https://bugs.chromium.org/p/chromium/issues/detail?id=1249405
 export const InlineChromiumBugfix = () => {
   return (
-    <span className="text-[0px]">
+    <span className="imp-text-[0px]">
       ${String.fromCodePoint(160) /* Non-breaking space */}
     </span>
   )
 }
 
-const StyledLink = cva('font-medium text-blue-500', {
+const StyledLink = cva('imp-font-medium imp-text-blue-500', {
   variants: {
     selected: {
-      true: 'outline-none ring border-blue-500 rounded',
+      true: 'imp-outline-none imp-ring imp-border-blue-500 imp-rounded',
     },
   },
 })

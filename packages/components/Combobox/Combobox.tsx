@@ -253,9 +253,9 @@ const ComboboxMulti = React.forwardRef<
       buttonRender={
         <>
           {value.length > 0 ? (
-            <div className="flex flex-wrap gap-[2px]">
+            <div className="imp-flex imp-flex-wrap imp-gap-[2px]">
               {value.map((v) => (
-                <span key={v.value} className="text-sm p-2">
+                <span key={v.value} className="imp-text-sm imp-p-2">
                   {v.label}
                 </span>
               ))}
@@ -319,7 +319,7 @@ export const ComboboxPrimtive = React.forwardRef<
           ref={ref}
           variant="outline"
           data-testid="combobox"
-          className="min-w-full flex justify-between"
+          className="imp-min-w-full imp-flex imp-justify-between"
           role="combobox"
           aria-expanded={open}
           disabled={disabled}
@@ -360,27 +360,27 @@ export const ComboboxPrimtive = React.forwardRef<
       </PopoverTrigger>
       <PopoverPortal>
         <PopoverContent
-          className="rounded-md border bg-popover text-popover-foreground shadow-md outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
+          className="imp-rounded-md imp-border imp-bg-popover imp-text-popover-foreground imp-shadow-md imp-outline-none data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[side=bottom]:imp-slide-in-from-top-2 data-[side=left]:imp-slide-in-from-right-2 data-[side=right]:imp-slide-in-from-left-2 data-[side=top]:imp-slide-in-from-bottom-2"
           style={{
             width: buttonWidth,
           }}
         >
           <Command
-            className="flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground"
+            className="imp-flex imp-h-full imp-w-full imp-flex-col imp-overflow-hidden imp-rounded-md imp-bg-popover imp-text-popover-foreground"
             value={value}
             onValueChange={(v) => setValue(v)}
           >
             <CommandInput
               placeholder="Type to search options"
-              className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+              className="imp-flex imp-h-11 imp-w-full imp-rounded-md imp-bg-transparent imp-py-3 imp-text-sm imp-outline-none placeholder:imp-text-muted-foreground disabled:imp-cursor-not-allowed disabled:imp-opacity-50"
             />
             <CommandList>
               <CommandEmpty>No results.</CommandEmpty>
-              <CommandGroup className="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground">
+              <CommandGroup className="imp-overflow-hidden imp-p-1 imp-text-foreground [&_[cmdk-group-heading]]:imp-px-2 [&_[cmdk-group-heading]]:imp-py-1.5 [&_[cmdk-group-heading]]:imp-text-xs [&_[cmdk-group-heading]]:imp-font-medium [&_[cmdk-group-heading]]:imp-text-muted-foreground">
                 {options.map((option) => (
                   <CommandItem
                     value={option.label}
-                    className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none aria-selected:bg-accent aria-selected:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
+                    className="imp-relative imp-flex imp-cursor-default imp-select-none imp-items-center imp-rounded-sm imp-px-2 imp-py-1.5 imp-text-sm imp-outline-none aria-selected:imp-bg-accent aria-selected:imp-text-accent-foreground data-[disabled]:imp-pointer-events-none data-[disabled]:imp-opacity-50"
                     key={option.value}
                     onSelect={() => {
                       handleSelect(option)
@@ -419,7 +419,7 @@ export const ComboboxPrimtive = React.forwardRef<
   )
 })
 
-const StyledIcon = cva('h-4 w-4')
+const StyledIcon = cva('imp-h-4 imp-w-4')
 
 const Combobox = Object.assign(ComboboxSingle, { Multi: ComboboxMulti })
 

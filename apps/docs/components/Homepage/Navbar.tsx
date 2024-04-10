@@ -4,13 +4,13 @@ import { Book, GithubLogo } from '@imput/components/Icon'
 
 export const Navbar = () => {
   return (
-    <div className="flex justify-center">
-      <nav className="flex justify-between max-w-5xl w-full py-4 px-4 md:px-0">
+    <div className="imp-flex imp-justify-center">
+      <nav className="imp-flex imp-justify-between imp-max-w-5xl imp-w-full imp-py-4 imp-px-4 md:imp-px-0">
         <Link href={`/`}>
           <img src={`/logo-with-text.svg`} />
         </Link>
 
-        <ul className="flex flex-row gap-2">
+        <ul className="imp-flex imp-flex-row imp-gap-2">
           <li>
             <Button
               variant="ghost"
@@ -18,7 +18,7 @@ export const Navbar = () => {
                 window.location.href = '/docs'
               }}
             >
-              <Book className="w-5 h-5 mr-2" />
+              <Book className="imp-w-5 imp-h-5 imp-mr-2" />
               Docs
             </Button>
           </li>
@@ -30,7 +30,7 @@ export const Navbar = () => {
                   'https://github.com/leo-petrucci/imput-cms'
               }}
             >
-              <GithubLogo className="w-5 h-5 mr-2" />
+              <GithubLogo className="imp-w-5 imp-h-5 imp-mr-2" />
               Github
             </Button>
           </li>

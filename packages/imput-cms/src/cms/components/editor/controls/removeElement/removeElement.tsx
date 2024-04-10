@@ -14,7 +14,7 @@ const RemoveElement = ({ element }: { element: Element }) => {
   return (
     <button
       type="button"
-      className="flex justify-center items-center p-1 rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer"
+      className="imp-flex imp-justify-center imp-items-center imp-p-1 imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-cursor-pointer"
       disabled={editor.children.length === 1}
       onClick={() => {
         removeElement(editor, [path[0]])

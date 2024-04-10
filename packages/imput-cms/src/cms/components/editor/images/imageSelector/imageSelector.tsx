@@ -17,7 +17,7 @@ const ImageSelector = ({ onImageSelect }: ImageSelectorProps) => {
 
   return (
     <>
-      <div className="relative grid gap-2 grid-cols-1 md:grid-cols-3">
+      <div className="imp-relative imp-grid imp-gap-2 imp-grid-cols-1 md:imp-grid-cols-3">
         {imageTree.map((i) => (
           <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
         ))}
@@ -38,15 +38,15 @@ const ImageCard = ({
   return (
     <Button
       variant="outline"
-      className="h-auto flex flex-col truncate !items-start"
+      className="imp-h-auto imp-flex imp-flex-col imp-truncate !imp-items-start"
       onClick={() => {
         // return the full path to the public image
         onImageSelect?.(`${public_folder}/${image.path!}`)
       }}
     >
       <Image path={image.path!} />
-      <div className="truncate max-w-full px-1 py-2">
-        <h2 className="text-lg font-medium max-w-full truncate">
+      <div className="imp-truncate imp-max-w-full imp-px-1 imp-py-2">
+        <h2 className="imp-text-lg imp-font-medium imp-max-w-full timp-runcate">
           {image.path}
         </h2>
       </div>

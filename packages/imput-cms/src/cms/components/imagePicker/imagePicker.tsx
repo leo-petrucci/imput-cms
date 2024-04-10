@@ -21,11 +21,11 @@ import {
 import { Input } from '@imput/components/Input'
 
 const StyledImageButton = cva(
-  'w-full rounded-md border border-input transition-colors bg-background shadow-sm hover:bg-accent hover:text-accent-foreground my-1 cursor-pointer p-0 overflow-hidden relative',
+  'imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-my-1 imp-cursor-pointer imp-p-0 imp-overflow-hidden imp-relative',
   {
     variants: {
       selected: {
-        true: 'outline outline-2 outline-offset-4 outline-primary/80',
+        true: 'imp-outline imp-outline-2 imp-outline-offset-4 imp-outline-primary/80',
       },
     },
   }
@@ -91,10 +91,10 @@ const ImagePicker = ({
   return (
     <Popover>
       <PopoverContent>
-        <div className="relative mb-2">
-          <div className="flex flex-col gap-2">
+        <div className="imp-relative imp-mb-2">
+          <div className="imp-flex imp-flex-col imp-gap-2">
             {imageTitle !== false && (
-              <div className="flex flex-col gap-1">
+              <div className="imp-flex imp-flex-col imp-gap-1">
                 <Label htmlFor={`input-image-title`}>Image title</Label>
                 <Input
                   name="image-title"
@@ -107,7 +107,7 @@ const ImagePicker = ({
               </div>
             )}
             {imageAltText !== false && (
-              <div className="flex flex-col gap-1">
+              <div className="imp-flex imp-flex-col imp-gap-1">
                 <Label htmlFor={`input-image-alt`}>Image alt text</Label>
                 <Input
                   name="image-alt"
@@ -123,14 +123,14 @@ const ImagePicker = ({
               <Label htmlFor={`input-image-file`}>Upload image</Label>
               <Modal
                 title={'Select media'}
-                className="min-w-screen min-h-screen md:min-w-[968px] md:min-h-[524px]"
+                className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"
                 headingContent={
-                  <div className="relative flex-1 flex justify-end border-b border-border mb-2 pb-2">
+                  <div className="imp-relative imp-flex-1 imp-flex imp-justify-end imp-border-b imp-border-border imp-mb-2 imp-pb-2">
                     <ImageUploadButton />
                   </div>
                 }
                 description={(_open, setOpen) => (
-                  <div className="p-4">
+                  <div className="imp-p-4">
                     <ImageSelector
                       onImageSelect={(filename: string) => {
                         setOpen(false)
@@ -143,7 +143,7 @@ const ImagePicker = ({
                 <Button type="button">Select image</Button>
               </Modal>
 
-              <div className="flex flex-col gap-1">
+              <div className="imp-imp-flex imp-imp-flex-col imp-imp-gap-1">
                 <Label htmlFor={`input-image-src`}>Image src</Label>
                 <Input
                   name="image-src"
@@ -191,7 +191,7 @@ const ImagePicker = ({
           />
           {image ? (
             <div
-              className="block max-w-full min-h-80 bg-cover bg-center"
+              className="imp-block imp-max-w-full imp-min-h-80 imp-bg-cover imp-bg-center"
               style={{
                 backgroundImage: `url(${
                   image
@@ -205,8 +205,8 @@ const ImagePicker = ({
               }}
             />
           ) : (
-            <div className="p-4">
-              <div className="flex flex-row gap-2 items-center">
+            <div className="imp-p-4">
+              <div className="imp-flex imp-flex-row imp-gap-2 imp-items-center">
                 <ImageSquare size={16} weight="bold" />
                 <FakeP>Add an image</FakeP>
               </div>

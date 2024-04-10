@@ -13,10 +13,12 @@ const GenericError = ({
   return (
     <div
       role="alert"
-      className="px-2 py-2 rounded-md bg-destructive/10 text-destructive not-prose"
+      className="imp-px-2 py-2 imp-rounded-md imp-bg-destructive/10 imp-text-destructive imp-not-prose"
     >
-      <p className="text-sm font-medium">{title}</p>
-      <p className="text-sm whitespace-normal leading-[140%]">{children}</p>
+      <p className="imp-text-sm imp-font-medium">{title}</p>
+      <p className="imp-text-sm imp-whitespace-normal imp-leading-[140%]">
+        {children}
+      </p>
     </div>
   )
 }

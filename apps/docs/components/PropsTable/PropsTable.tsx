@@ -8,12 +8,15 @@ import {
 const Code = (props: React.HTMLAttributes<HTMLElement>) => (
   <code
     {...props}
-    className="nx-color-slate-800 nx-bg-slate-100 nx-font-mono	nx-whitespace-nowrap nx-p-0.5 nx-rounded-sm"
+    className="imp-color-slate-800 imp-bg-slate-100 imp-font-mono	imp-whitespace-nowrap imp-p-0.5 imp-rounded-sm"
   />
 )
 
 const Th = (props: React.HTMLAttributes<HTMLElement>) => (
-  <th {...props} className="nx-border-b nx-border-slate-300 nx-px-3 nx-py-4" />
+  <th
+    {...props}
+    className="imp-border-b imp-border-slate-300 imp-px-3 imp-py-4"
+  />
 )
 
 type PropDef = {
@@ -40,7 +43,7 @@ const PropsTable = ({
       aria-label={hasAriaLabel ? ariaLabel : 'Component Props'}
       aria-labelledby={ariaLabelledBy}
     >
-      <table className="nx-w-full nx-text-left	nx-border-collapse nx-table">
+      <table className="imp-w-full imp-text-left	imp-border-collapse imp-table">
         <thead>
           <tr>
             <Th>
@@ -68,8 +71,8 @@ const PropsTable = ({
               i
             ) => (
               <tr key={`${name}-${i}`}>
-                <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3 nx-whitespace-nowrap">
-                  <div className="nx-flex nx-gap-2">
+                <td className="imp-border-b imp-border-gray-200 imp-p-4 imp-p-3 imp-whitespace-nowrap">
+                  <div className="imp-flex imp-gap-2">
                     <Code>
                       {name}
                       {required ? '*' : null}
@@ -80,7 +83,7 @@ const PropsTable = ({
                           <>{description}</>
                         </PopoverContent>
                         <PopoverTrigger asChild>
-                          <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
+                          <button className="imp-bg-none imp-border-0 imp-p-0 imp-cursor-pointer imp-flex imp-items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -115,9 +118,9 @@ const PropsTable = ({
                     )}
                   </div>
                 </td>
-                <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3">
-                  <div className="nx-flex nx-gap-2">
-                    <Code className="nx-text-gray-900">
+                <td className="imp-border-b imp-border-gray-200 imp-p-4 imp-p-3">
+                  <div className="imp-flex imp-gap-2">
+                    <Code className="imp-text-gray-900">
                       {Boolean(typeSimple) ? typeSimple : type}
                     </Code>
                     {Boolean(typeSimple) && (
@@ -126,7 +129,7 @@ const PropsTable = ({
                           <Code>{type}</Code>
                         </PopoverContent>
                         <PopoverTrigger asChild>
-                          <button className="nx-bg-none nx-border-0 nx-p-0 nx-cursor-pointer nx-flex nx-items-center">
+                          <button className="imp-bg-none imp-border-0 imp-p-0 imp-cursor-pointer imp-flex imp-items-center">
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
                               width="16"
@@ -161,11 +164,11 @@ const PropsTable = ({
                     )}
                   </div>
                 </td>
-                <td className="nx-border-b nx-border-gray-200 nx-p-4 nx-p-3">
+                <td className="imp-border-b imp-border-gray-200 imp-p-4 imp-p-3">
                   {Boolean(defaultValue) ? (
                     <Code>{defaultValue}</Code>
                   ) : (
-                    <div className="nx-color-slate-700">-</div>
+                    <div className="imp-color-slate-700">-</div>
                   )}
                 </td>
               </tr>

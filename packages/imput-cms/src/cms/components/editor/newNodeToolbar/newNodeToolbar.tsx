@@ -36,8 +36,8 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
 
   return (
     <Popover>
-      <PopoverContent side="top" className="p-0 w-auto">
-        <div className="flex">
+      <PopoverContent side="top" className="!imp-p-0 imp-w-auto">
+        <div className="imp-flex">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
@@ -50,7 +50,9 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
                   <Paragraph size={16} />
                 </Toggle>
               </TooltipTrigger>
-              <TooltipContent className="max-w-sm">Paragraph</TooltipContent>
+              <TooltipContent className="imp-max-w-sm">
+                Paragraph
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
@@ -76,7 +78,9 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
                   <Code size={16} />
                 </Toggle>
               </TooltipTrigger>
-              <TooltipContent className="max-w-sm">Code Block</TooltipContent>
+              <TooltipContent className="imp-max-w-sm">
+                Code Block
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
 
@@ -103,7 +107,9 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
                   <Image size={16} />
                 </Toggle>{' '}
               </TooltipTrigger>{' '}
-              <TooltipContent className="max-w-sm">Image Block</TooltipContent>
+              <TooltipContent className="imp-max-w-sm">
+                Image Block
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
           <ComponentButton element={element} />

@@ -159,7 +159,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
             components={currentCollection.preview?.components}
           />
         ) : (
-          <div className="whitespace-break-spaces">{markdown}</div>
+          <div className="imp-whitespace-break-spaces">{markdown}</div>
         )}
       </>
     )
@@ -169,10 +169,10 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     return (
       <Layout
         navbar={
-          <div className="flex flex-1 justify-between">
+          <div className="imp-flex imp-flex-1 imp-justify-between">
             <Button
               variant="outline"
-              className="gap-1"
+              className="imp-gap-1"
               onClick={() => {
                 navigate(-1)
               }}
@@ -192,9 +192,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
         }
       >
         {({ navbarHeight }) => (
-          <div className="flex flex-row items-stretch gap-4 flex-1">
+          <div className="imp-flex imp-flex-row imp-items-stretch imp-gap-4 imp-flex-1">
             <div
-              className="overflow-y-auto p-4 flex-1 border-r border-border"
+              className="imp-overflow-y-auto imp-p-4 imp-flex-1 imp-border-r imp-border-border"
               style={{
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
@@ -253,13 +253,13 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                   )
                 }}
               >
-                <div className="flex flex-col gap-2">
+                <div className="imp-flex imp-flex-col imp-gap-2">
                   <EditorFields fields={currentCollection.fields} />
                 </div>
               </Form>
             </div>
             <div
-              className="overflow-y-auto flex-1"
+              className="imp-overflow-y-auto imp-flex-1"
               style={{
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}

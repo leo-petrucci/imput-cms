@@ -78,7 +78,10 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
   return (
     <>
-      <div className="flex flex-col gap-2" data-testid="component-editor">
+      <div
+        className="imp-flex imp-flex-col imp-gap-2"
+        data-testid="component-editor"
+      >
         {componentSchema?.map((c) => {
           // children are handled differently
           // markdown can only be used for children
@@ -98,7 +101,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
             return (
               <div
                 key={c.name}
-                className="bg-destructive/10 p-2 rounded text-destructive text-sm"
+                className="imp-bg-destructive/10 imp-p-2 imp-rounded imp-text-destructive imp-text-sm"
               >
                 There was an error with your schema and a control for {c.name}{' '}
                 could not be rendered.
@@ -157,7 +160,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                 }
               }
               return (
-                <div className="flex flex-col gap-1" key={c.name}>
+                <div className="imp-flex imp-flex-col imp-gap-1" key={c.name}>
                   <Label htmlFor={`input-string-prop-${c.name}`}>
                     {c.label}
                   </Label>
@@ -175,7 +178,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
               )
             case 'boolean':
               return (
-                <div className="flex flex-col gap-1" key={c.name}>
+                <div className="imp-flex imp-flex-col imp-gap-1" key={c.name}>
                   <Label htmlFor={`switch-boolean-prop-${c.name}`}>
                     {c.label}
                   </Label>
@@ -208,7 +211,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                   value?.includes(o.value)
                 )
                 return (
-                  <div className="flex flex-col gap-1" key={c.name}>
+                  <div className="imp-flex imp-flex-col imp-gap-1" key={c.name}>
                     <Label htmlFor={`combobox-select-prop-${c.name}`}>
                       {c.label}
                     </Label>
@@ -239,7 +242,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
                 const selectVal = options.find((o) => o.value === value)
 
                 return (
-                  <div className="flex flex-col gap-1" key={c.name}>
+                  <div className="imp-flex imp-flex-col imp-gap-1" key={c.name}>
                     <Label htmlFor={`combobox-select-prop-${c.name}`}>
                       {c.label}
                     </Label>
@@ -266,7 +269,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
 
             case 'json':
               return (
-                <div className="flex flex-col gap-1" key={c.name}>
+                <div className="imp-flex imp-flex-col imp-gap-1" key={c.name}>
                   <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
                   <Codeblock
                     defaultValue={value}
@@ -288,7 +291,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
               )
             case 'image':
               return (
-                <div className="flex flex-col gap-1" key={c.name}>
+                <div className="imp-flex imp-flex-col imp-gap-1" key={c.name}>
                   <Label htmlFor={`select-prop-${c.name}`}>{c.label}</Label>
                   <ImagePicker
                     image={value}
@@ -305,7 +308,7 @@ const ComponentEditor = (props: CustomRenderElementProps) => {
         })}
 
         {hasChildren && (
-          <div className="flex flex-col gap-1">
+          <div className="imp-flex imp-flex-col imp-gap-1">
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
               value={reactChildren!}

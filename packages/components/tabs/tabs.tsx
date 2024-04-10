@@ -16,12 +16,12 @@ export const Tabs = (props: ITabsProps): JSX.Element => (
   <div>
     <TabsPrimitive.Root {...omit(props, 'listProps', 'triggers', 'children')}>
       <TabsPrimitive.List
-        className="inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground"
+        className="imp-inline-flex imp-h-10 imp-items-center imp-justify-center imp-rounded-md imp-bg-muted p-1 imp-text-muted-foreground"
         {...props.listProps}
       >
         {props.triggers.map((triggerProps, index) => (
           <TabsPrimitive.Trigger
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+            className="imp-inline-flex imp-items-center imp-justify-center imp-whitespace-nowrap imp-rounded-sm imp-px-3 imp-py-1.5 imp-text-sm imp-font-medium imp-ring-offset-background imp-transition-all focus-visible:imp-outline-none focus-visible:imp-ring-2 focus-visible:imp-ring-ring focus-visible:imp-ring-offset-2 disabled:imp-pointer-events-none disabled:imp-opacity-50 data-[state=active]:imp-bg-background data-[state=active]:imp-text-foreground data-[state=active]:imp-shadow-sm"
             key={index}
             {...triggerProps}
           />
@@ -36,7 +36,7 @@ export interface ITabsContentProps extends TabsPrimitive.TabsContentProps {}
 
 export const Content = (props: ITabsContentProps) => (
   <TabsPrimitive.Content
-    className="mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+    className="imp-mt-2 imp-ring-offset-background focus-visible:imp-outline-none focus-visible:imp-ring-2 focus-visible:imp-ring-ring imp-focus-visible:imp-ring-offset-2"
     {...props}
   />
 )

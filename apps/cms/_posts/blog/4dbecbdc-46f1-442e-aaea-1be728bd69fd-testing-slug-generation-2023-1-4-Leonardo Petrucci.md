@@ -14,3 +14,4 @@ category:
 ---
 My `markdown` `contentsdsd` Something else 
 
+<ReactComponent name={} date={} datetime={} boolean="" variant={} padding="" object="" array="" numberArray="" />

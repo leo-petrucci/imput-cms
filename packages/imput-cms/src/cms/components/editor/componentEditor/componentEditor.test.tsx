@@ -197,4 +197,100 @@ describe('Component editor', () => {
       )
     })
   })
+  describe('Date input', () => {
+    it('Does not correct undefined ', async () => {
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Date',
+          type: {
+            widget: 'date',
+          },
+        },
+      ])
+      const { getByTestId } = setup({
+        element: mockedElement([getUndefinedAttribute()]),
+      })
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  value: 'undefined',
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: undefined,
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+    it('Can be edited', async () => {
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Date',
+          type: {
+            widget: 'date',
+          },
+        },
+      ])
+      const { getByLabelText, type, clear } = setup({
+        element: mockedElement([getUndefinedAttribute()]),
+      })
+
+      const input = getByLabelText('Date') as HTMLInputElement
+
+      await clear(input)
+      await type(input, '2020-01-01')
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  // we don't use this so it's okay
+                  value: 'undefined',
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: '2020-01-01',
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+  })
 })

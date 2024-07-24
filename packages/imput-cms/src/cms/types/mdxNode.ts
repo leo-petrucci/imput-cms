@@ -38,7 +38,7 @@ export interface MdxArrowunctionExpression {
  * Used in other properties
  */
 export interface MdxIdentifier {
-  type: 'identifier'
+  type: 'Identifier'
   name: string
 }
 
@@ -61,6 +61,7 @@ export interface MDXNode {
             | MdxArrayExpression
             | MdxObjectExpression
             | MdxArrowunctionExpression
+            | MdxIdentifier
         }[]
       }
     }

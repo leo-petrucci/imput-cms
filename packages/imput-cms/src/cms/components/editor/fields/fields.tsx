@@ -8,6 +8,7 @@ import { Input } from '@imput/components/Input/Controlled'
 import ErrorBoundary from '@imput/components/errorBoundary'
 import Form from '@imput/components/form'
 import { CreateEditor } from '../createEditor'
+import { Codeblock } from '@imput/components/codeblock/Controlled'
 
 /**
  * Renders the correct fields for the currently loaded collection
@@ -30,6 +31,9 @@ const EditorFields = ({ fields }: { fields: FieldType[] }) => {
               return <ImagePicker.Controlled />
             case 'boolean':
               return <SwitchControlled />
+            // @ts-expect-error fix this later
+            case 'json':
+              return <Codeblock hideLanguageSelect language="js" />
             case 'select':
               if (f.multiple) {
                 return (

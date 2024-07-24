@@ -77,7 +77,7 @@ export interface EditorProps {
   debug?: boolean
 }
 
-const Editor = ({ value, onChange, debug }: EditorProps) => {
+export const Editor = ({ value, onChange, debug }: EditorProps) => {
   const renderElement = React.useCallback((props: any) => {
     const path = ReactEditor.findPath(editor, props.element)
 

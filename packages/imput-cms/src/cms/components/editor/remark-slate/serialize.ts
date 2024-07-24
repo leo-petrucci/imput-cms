@@ -217,8 +217,9 @@ export default function serialize(
               let v = get(prop, mdxAccessors[expressionType])
 
               switch (expressionType) {
-                // special case for literals because they can be strings
+                // special case for literals and identifiers because they can be strings
                 case 'Literal':
+                case 'Identifier':
                   if (isString(v)) {
                     return `${prop.name}="${escapeDoubleQuotes(v)}"`
                   } else {

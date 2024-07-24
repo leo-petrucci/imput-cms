@@ -34,7 +34,7 @@ export const CreateEditor = () => {
     <DepthProvider>
       <Editor
         value={
-          rawBody.length > 0
+          rawBody && rawBody.length > 0
             ? rawBody
             : [
                 {

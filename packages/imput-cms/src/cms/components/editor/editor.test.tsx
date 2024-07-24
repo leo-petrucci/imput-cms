@@ -134,7 +134,7 @@ const setup = (props: Omit<EditorProps, 'onChange'>) => {
   }
 }
 
-describe('MDX Editor', () => {
+describe.only('MDX Editor', () => {
   describe('deserialization', () => {
     test('Correctly deserializes string', () => {
       const { onChange, editor } = setup({
@@ -451,7 +451,7 @@ describe('MDX Editor', () => {
       await waitFor(() => {
         expect(onChange).toHaveBeenLastCalledWith(
           expectSlateObject([
-            expectSlateAtributesObject([expectProp('option1')]),
+            expectSlateAtributesObject([expectDeeplyNestedProp('option1')]),
           ])
         )
       })

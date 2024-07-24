@@ -88,6 +88,7 @@ const CMS = () => (
                     label: 'Name',
                     type: {
                       widget: 'string',
+                      multiple: true,
                     },
                   },
                   {

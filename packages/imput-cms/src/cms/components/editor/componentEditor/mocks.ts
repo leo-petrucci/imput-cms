@@ -110,3 +110,47 @@ export const getEmptyStringAttribute = (name: string = 'attribute') => ({
   name,
   value: '',
 })
+
+/**
+ * Returns a false attribute value
+ */
+export const getFalseAttribute = (name: string = 'attribute') => ({
+  type: 'mdxJsxAttribute',
+  name,
+  value: {
+    data: {
+      estree: {
+        body: [
+          {
+            expression: {
+              value: false,
+              type: 'Literal',
+            },
+          },
+        ],
+      },
+    },
+  },
+})
+
+/**
+ * Returns a simpler undefined attribute value ?
+ */
+export const getSimplerUndefinedAttribute = (name: string = 'attribute') => ({
+  type: 'mdxJsxAttribute',
+  name,
+  value: {
+    data: {
+      estree: {
+        body: [
+          {
+            expression: {
+              value: undefined,
+              type: 'Literal',
+            },
+          },
+        ],
+      },
+    },
+  },
+})

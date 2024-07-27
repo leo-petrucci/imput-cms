@@ -9,6 +9,8 @@ import React from 'react'
 import { ComponentEditor } from './componentEditor'
 import {
   getEmptyStringAttribute,
+  getFalseAttribute,
+  getSimplerUndefinedAttribute,
   getUndefinedAttribute,
   mockedElement,
 } from './mocks'
@@ -279,6 +281,307 @@ describe('Component editor', () => {
                           expression: expect.objectContaining({
                             type: 'Literal',
                             value: '2020-01-01',
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+  })
+
+  describe('Boolean input', () => {
+    it('Corrects empty string to undefined', async () => {
+      mockedSetNode.mockClear()
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Boolean',
+          type: {
+            widget: 'boolean',
+          },
+        },
+      ])
+      const {} = setup({
+        element: mockedElement([getEmptyStringAttribute()]),
+      })
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: undefined,
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+    it('Can be edited', async () => {
+      mockedSetNode.mockClear()
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Boolean',
+          type: {
+            widget: 'boolean',
+          },
+        },
+      ])
+      const { getByTestId, click } = setup({
+        element: mockedElement([getFalseAttribute()]),
+      })
+
+      const switchInput = getByTestId('input-attribute')
+
+      await click(switchInput)
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: true,
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+
+      await click(switchInput)
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: false,
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+  })
+
+  describe('Select input', () => {
+    it('Can be edited (string)', async () => {
+      mockedSetNode.mockClear()
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Attribute',
+          type: {
+            widget: 'select',
+            options: ['option1', 'option2'],
+          },
+        },
+      ])
+      const { getByTestId, click, getByText } = setup({
+        element: mockedElement([getUndefinedAttribute()]),
+      })
+
+      const combobox = getByTestId('attribute-combobox')
+
+      await click(combobox)
+
+      await waitFor(async () => {
+        const option1 = getByText('option1')
+        expect(option1).toBeInTheDocument()
+        await click(option1)
+      })
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: 'option1',
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+
+    it('Can be edited (int)', async () => {
+      mockedSetNode.mockClear()
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Attribute',
+          type: {
+            widget: 'select',
+            options: [4, 8, 16],
+          },
+        },
+      ])
+      const { getByTestId, click, getByText } = setup({
+        element: mockedElement([getUndefinedAttribute()]),
+      })
+
+      const combobox = getByTestId('attribute-combobox')
+
+      await click(combobox)
+
+      await waitFor(async () => {
+        const eight = getByText(8)
+        expect(eight).toBeInTheDocument()
+        await click(eight)
+      })
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'Literal',
+                            value: 8,
+                          }),
+                        }),
+                      ]),
+                    }),
+                  }),
+                }),
+              }),
+            ]),
+          }),
+          { at: [0, 0] }
+        )
+      })
+    })
+
+    it('Can be edited (multiselect)', async () => {
+      mockedSetNode.mockClear()
+      mockSchema.mockImplementation(() => [
+        {
+          name: 'attribute',
+          label: 'Attribute',
+          type: {
+            options: ['Option 1', 'Option 2', 'Option 3'],
+            widget: 'select',
+            multiple: true,
+          },
+        },
+      ])
+      const { getByTestId, click, getByText } = setup({
+        element: mockedElement([getUndefinedAttribute()]),
+      })
+
+      const combobox = getByTestId('attribute-combobox')
+
+      await click(combobox)
+
+      await waitFor(async () => {
+        const option1 = getByText('Option 1')
+        const option3 = getByText('Option 3')
+        expect(option1).toBeInTheDocument()
+        expect(getByText('Option 2')).toBeInTheDocument()
+        expect(option3).toBeInTheDocument()
+        await click(option1)
+        await click(option3)
+      })
+
+      await waitFor(() => {
+        expect(mockedSetNode).toHaveBeenLastCalledWith(
+          undefined,
+          expect.objectContaining({
+            attributes: expect.arrayContaining([
+              expect.objectContaining({
+                name: 'attribute',
+                type: 'mdxJsxAttribute',
+                value: expect.objectContaining({
+                  value: '["Option 1","Option 3"]',
+                  data: expect.objectContaining({
+                    estree: expect.objectContaining({
+                      body: expect.arrayContaining([
+                        expect.objectContaining({
+                          expression: expect.objectContaining({
+                            type: 'ArrayExpression',
                           }),
                         }),
                       ]),

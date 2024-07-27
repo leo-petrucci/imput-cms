@@ -21,6 +21,7 @@ import { EditorFields } from '../fields'
 import { FieldType } from '../../../contexts/cmsContext/context'
 import { useForm } from 'react-hook-form'
 import isArray from 'lodash/isArray'
+import { isEmpty } from 'lodash'
 
 /**
  *
@@ -30,6 +31,8 @@ export const ComponentEditor = ({
 }: Pick<CustomRenderElementProps, 'element'>) => {
   const editor = useSlateStatic() as ReactEditor
   const mdxElement = element as MdxElementShape
+
+  console.log(mdxElement)
 
   const path = ReactEditor.findPath(editor, element as unknown as Node)
 
@@ -149,6 +152,8 @@ export const ComponentEditor = ({
     return Object.fromEntries(values)
   }, [element])
 
+  console.log('defaultValues', defaultValues)
+
   const form = useForm({ defaultValues })
 
   const propValues = form.watch()
@@ -162,6 +167,12 @@ export const ComponentEditor = ({
   React.useEffect(() => {
     const clonedMdxElement = cloneDeep(mdxElement)
     for (const [name, value] of Object.entries(propValues)) {
+      // skip if the attribute is children, it's handled somewhere else
+      if (name === 'children') continue
+      const bool = name === 'image'
+      if (bool) {
+        console.log(name, value)
+      }
       const propSchema = componentSchema!.find((c) => c.name === name)!
       // match prop to schema from settings
       let prop = {
@@ -169,6 +180,15 @@ export const ComponentEditor = ({
           (a) => a.name === name
         ) as MDXNode),
       }
+
+      if (isEmpty(prop)) {
+        prop = {
+          type: 'mdxJsxAttribute',
+          name,
+          value: '',
+        }
+      }
+
       // deeply clone the attribute to edit it
       var newObj = prop
       // if the value is an array
@@ -186,12 +206,17 @@ export const ComponentEditor = ({
         const newAttributes = setAttributeToMdxElement(clonedMdxElement, newObj)
         clonedMdxElement.attributes = newAttributes
       } else {
+        if (bool) console.log('before change', newObj)
         // everything else we consider it a literal
         setAttribute(newObj, 'Literal', value)
+        if (bool) console.log('after change', newObj)
         const newAttributes = setAttributeToMdxElement(clonedMdxElement, newObj)
+        if (bool) console.log('attribute array', newAttributes)
         clonedMdxElement.attributes = newAttributes
       }
     }
+
+    console.log('attributes to commit', clonedMdxElement.attributes)
 
     Transforms.setNodes<MdxElementShape>(
       editor,

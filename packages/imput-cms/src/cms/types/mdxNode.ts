@@ -45,25 +45,27 @@ export interface MdxIdentifier {
 export interface MDXNode {
   type: 'mdxJsxAttribute'
   name: string
-  value?: {
-    type: 'mdxJsxAttributeValueExpression'
-    value: string
-    data: {
-      estree: {
-        type: 'program'
-        start: number
-        end: number
-        sourcetype: 'module'
-        body: {
-          type: 'ExpressionStatement'
-          expression:
-            | MdxLiteral
-            | MdxArrayExpression
-            | MdxObjectExpression
-            | MdxArrowunctionExpression
-            | MdxIdentifier
-        }[]
+  value?:
+    | {
+        type: 'mdxJsxAttributeValueExpression'
+        value: string
+        data: {
+          estree: {
+            type: 'program'
+            start: number
+            end: number
+            sourcetype: 'module'
+            body: {
+              type: 'ExpressionStatement'
+              expression:
+                | MdxLiteral
+                | MdxArrayExpression
+                | MdxObjectExpression
+                | MdxArrowunctionExpression
+                | MdxIdentifier
+            }[]
+          }
+        }
       }
-    }
-  }
+    | string
 }

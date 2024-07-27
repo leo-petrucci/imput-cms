@@ -136,6 +136,13 @@ const CMS = () => (
                     },
                   },
                   {
+                    name: 'image',
+                    label: 'Image',
+                    type: {
+                      widget: 'image',
+                    },
+                  },
+                  {
                     name: 'array',
                     label: 'Array',
                     type: {

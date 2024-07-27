@@ -56,7 +56,7 @@ const Codeblock = React.forwardRef<Editor, CodeblockProps>(
       <div className="imp-bg-[#1e1e1e] imp-rounded imp-p-2 imp-textarea:caret-[#adbac7]">
         {!hideLanguageSelect && (
           <select
-            className="imp-inline-flex imp-cursor-pointer imp-items-center imp-justify-center imp-whitespace-nowrap imp-rounded-md imp-text-xs imp-font-medium imp-ring-offset-background imp-transition-colors focus-visible:imp-outline-none focus-visible:imp-ring-2 focus-visible:imp-ring-ring focus-visible:imp-ring-offset-2 disabled:imp-pointer-events-none disabled:opacity-50 imp-imp-bg-secondary imp-text-secondary-foreground hover:imp-bg-secondary/80 imp-px-2 imp-py-2"
+            className="imp-inline-flex imp-cursor-pointer imp-items-center imp-justify-center imp-whitespace-nowrap imp-rounded-md imp-text-xs imp-font-medium imp-ring-offset-background imp-transition-colors focus-visible:imp-outline-none focus-visible:imp-ring-2 focus-visible:imp-ring-ring focus-visible:imp-ring-offset-2 disabled:imp-pointer-events-none disabled:opacity-50 imp-bg-secondary imp-text-secondary-foreground hover:imp-bg-secondary/80 imp-px-2 imp-py-2"
             name="languages"
             id="language-select"
             defaultValue={language}

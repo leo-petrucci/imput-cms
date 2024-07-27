@@ -119,31 +119,33 @@ const ImagePicker = ({
                 />
               </div>
             )}
-            <div className="flex flex-col gap-2">
-              <Label htmlFor={`input-image-file`}>Upload image</Label>
-              <Modal
-                title={'Select media'}
-                className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"
-                headingContent={
-                  <div className="imp-relative imp-flex-1 imp-flex imp-justify-end imp-border-b imp-border-border imp-mb-2 imp-pb-2">
-                    <ImageUploadButton />
-                  </div>
-                }
-                description={(_open, setOpen) => (
-                  <div className="imp-p-4">
-                    <ImageSelector
-                      onImageSelect={(filename: string) => {
-                        setOpen(false)
-                        onImageChange?.(filename)
-                      }}
-                    />
-                  </div>
-                )}
-              >
-                <Button type="button">Select image</Button>
-              </Modal>
+            <div className="imp-flex imp-flex-col imp-gap-2">
+              <div className="imp-flex imp-flex-col imp-gap-1">
+                <Label htmlFor={`input-image-file`}>Upload image</Label>
+                <Modal
+                  title={'Select media'}
+                  className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"
+                  headingContent={
+                    <div className="imp-relative imp-flex-1 imp-flex imp-justify-end imp-border-b imp-border-border imp-mb-2 imp-pb-2">
+                      <ImageUploadButton />
+                    </div>
+                  }
+                  description={(_open, setOpen) => (
+                    <div className="imp-p-4">
+                      <ImageSelector
+                        onImageSelect={(filename: string) => {
+                          setOpen(false)
+                          onImageChange?.(filename)
+                        }}
+                      />
+                    </div>
+                  )}
+                >
+                  <Button type="button">Select image</Button>
+                </Modal>
+              </div>
 
-              <div className="imp-imp-flex imp-imp-flex-col imp-imp-gap-1">
+              <div className="imp-flex imp-flex-col imp-gap-1">
                 <Label htmlFor={`input-image-src`}>Image src</Label>
                 <Input
                   name="image-src"

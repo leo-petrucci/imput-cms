@@ -2,6 +2,8 @@ import set from 'lodash/set'
 import get from 'lodash/get'
 import { MDXNode } from '../../../types/mdxNode'
 import isString from 'lodash/isString'
+import isArray from 'lodash/isArray'
+import isObject from 'lodash/isObject'
 import { BlockType } from '../../../contexts/cmsContext/context'
 
 /**
@@ -81,6 +83,24 @@ export const getAttributeType = (attribute: MDXNode) => {
     }
   }
   return AttributeType.Other
+}
+
+/**
+ * Returns the attribute type for a specific value
+ * we use this to identify default types
+ */
+export const returnValueAttributeType = (value: any) => {
+  if (isString(value)) {
+    return AttributeType.String
+  } else if (isArray(value)) {
+    return AttributeType.Array
+  } else if (isObject(value)) {
+    return AttributeType.Object
+  } else if (value === undefined) {
+    return AttributeType.Undefined
+  } else {
+    return AttributeType.Literal
+  }
 }
 
 /**

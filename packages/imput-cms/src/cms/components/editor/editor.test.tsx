@@ -766,11 +766,237 @@ Children
         ]
       ) as any
 
-      console.log(result[0])
-
       expect(result[0].type).toBe('mdxJsxFlowElement')
       expect(result[0].reactChildren.length).toBe(1)
-      expect(result[0].reactAttributes.length).toBe(9)
+      expect(result[0].reactAttributes.length).toBe(10)
+    })
+
+    it('initialises missing props ', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'string',
+                type: {
+                  widget: 'string',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'string',
+          type: AttributeType.Literal,
+          value: undefined,
+        },
+      ])
+    })
+
+    it('initialises missing props with default (string)', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'string',
+                type: {
+                  widget: 'string',
+                  default: 'test',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'string',
+          type: AttributeType.String,
+          value: 'test',
+        },
+      ])
+    })
+
+    it('initialises missing props with default (literal)', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'literal',
+                type: {
+                  widget: 'boolean',
+                  default: true,
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'literal',
+          type: AttributeType.Literal,
+          value: true,
+        },
+      ])
+    })
+
+    it('initialises missing props with default (array)', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'array',
+                type: {
+                  widget: 'string',
+                  multiple: true,
+                  default: ['string', 'string2'],
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'array',
+          type: AttributeType.Array,
+          value: ['string', 'string2'],
+        },
+      ])
+    })
+
+    it('initialises missing props with default (object)', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'array',
+                type: {
+                  widget: 'json',
+                  default: {
+                    key: 'value',
+                  },
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'array',
+          type: AttributeType.Object,
+          value: {
+            key: 'value',
+          },
+        },
+      ])
+    })
+
+    it('initialises missing props with default (component)', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'component',
+                type: {
+                  widget: 'markdown',
+                  default: '<SubComponent />',
+                },
+              },
+            ],
+          },
+          {
+            label: 'Component',
+            name: 'SubComponent',
+            fields: [],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'component',
+          type: AttributeType.Component,
+          value: expect.objectContaining({
+            name: 'SubComponent',
+            type: 'mdxJsxFlowElement',
+          }),
+        },
+      ])
     })
   })
   /**

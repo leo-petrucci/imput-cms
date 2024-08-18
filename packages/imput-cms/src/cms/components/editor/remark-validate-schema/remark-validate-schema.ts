@@ -2,7 +2,11 @@ import { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
 import { MdxElementShape } from '../mdxElement'
 import { BlockType } from '../../../contexts/cmsContext/context'
-import { AttributeType, getAttributeType } from '../lib/mdx'
+import {
+  AttributeType,
+  getAttributeType,
+  returnValueAttributeType,
+} from '../lib/mdx'
 import { UnistParent } from 'unist-util-visit/lib'
 import { unified } from 'unified'
 import remarkParse from 'remark-parse'
@@ -141,6 +145,43 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
                   }
                   break
               }
+            }
+          }
+
+          // we parsed all the existing attributes, but there might still be
+          // a drift between the component and the schema
+          // in that case we initialise the missing values here
+          for (const field of componentSchema.fields || []) {
+            if (field.name === 'children') continue
+
+            const reactAttributeIndex = jsxNode.reactAttributes.findIndex(
+              (a) => a.attributeName === field.name
+            )
+
+            if (reactAttributeIndex < 0) {
+              let defaultValue: any | undefined = field.type.default
+              let defaultType = field.type.default
+                ? returnValueAttributeType(field.type.default)
+                : AttributeType.Literal
+
+              // special edge case for component props
+              if (field.type.widget === 'markdown' && defaultValue) {
+                // default value should be a stringified component
+                // so we deserialise it first
+                const { result } = deserialize(
+                  formatComponentWithChildenAndNoNewLines(defaultValue),
+                  schema
+                )
+                // then we set the new values here
+                defaultValue = result[0]
+                defaultType = AttributeType.Component
+              }
+
+              jsxNode.reactAttributes.push({
+                attributeName: field.name,
+                type: defaultType,
+                value: defaultValue,
+              })
             }
           }
         }

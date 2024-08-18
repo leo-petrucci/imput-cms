@@ -8,23 +8,27 @@ import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import isObject from 'lodash/isObject'
 import isString from 'lodash/isString'
 import get from 'lodash/get'
-import { mdxAccessors } from '../../../../cms/components/editor/lib/mdx'
+import {
+  AttributeType,
+  mdxAccessors,
+} from '../../../../cms/components/editor/lib/mdx'
+import {
+  isLeafNode,
+  isMdxElement,
+  recursivelyStringifyArray,
+  recursivelyStringifyObject,
+  serializeMdxChildren,
+} from './utils'
 
-interface Options {
+export interface Options {
   nodeTypes: NodeTypes
   listDepth?: number
   ignoreParagraphNewline?: boolean
-}
-
-/**
- * Quickly check if type is `mdxJsxFlowElement`
- */
-const isMdxElement = (type: BlockType['type']) => {
-  return type === 'mdxJsxFlowElement'
-}
-
-const isLeafNode = (node: BlockType | LeafType): node is LeafType => {
-  return typeof (node as LeafType).text === 'string'
+  /**
+   * Allows us to skip adding an ugly newline when a component
+   * is used as a prop
+   */
+  ignoreSpaceAfterMdx?: boolean
 }
 
 const VOID_ELEMENTS: Array<keyof NodeTypes> = ['thematic_break', 'image']
@@ -37,7 +41,7 @@ const BREAK_TAG = '\n'
  */
 export default function serialize(
   chunk: BlockType | LeafType,
-  opts: Options = { nodeTypes: defaultNodeTypes }
+  opts: Options = { nodeTypes: defaultNodeTypes, ignoreSpaceAfterMdx: false }
 ) {
   const {
     nodeTypes: userNodeTypes = defaultNodeTypes,
@@ -205,29 +209,39 @@ export default function serialize(
       const mdxElement = chunk as MdxElementShape
       let props: string | undefined
 
-      if (mdxElement.attributes.length > 0) {
-        props = mdxElement.attributes
-          .map((prop) => {
-            if (!isObject(prop.value)) {
-              return `${prop.name}="${prop.value}"`
-            }
-            if (isObject(prop.value)) {
-              const expressionType =
-                prop.value.data.estree.body[0].expression.type
-              let v = get(prop, mdxAccessors[expressionType])
+      if (mdxElement.reactAttributes.length > 0) {
+        props = mdxElement.reactAttributes
+          .map((attribute): string => {
+            if (attribute.type === AttributeType.String) {
+              return `${attribute.attributeName}="${attribute.value}"`
+            } else {
+              switch (attribute.type) {
+                case AttributeType.Literal:
+                case AttributeType.Undefined:
+                  return `${attribute.attributeName}={${attribute.value}}`
+                case AttributeType.Array:
+                  return `${attribute.attributeName}={${recursivelyStringifyArray(attribute.value)}}`
+                case AttributeType.Object:
+                  return `${attribute.attributeName}={${recursivelyStringifyObject(attribute.value)}}`
+                case AttributeType.Component:
+                  let serializedChild = serialize(attribute.value, {
+                    ignoreSpaceAfterMdx: true,
+                    nodeTypes,
+                  })
 
-              switch (expressionType) {
-                // special case for literals and identifiers because they can be strings
-                case 'Literal':
-                case 'Identifier':
-                  if (isString(v)) {
-                    return `${prop.name}="${escapeDoubleQuotes(v)}"`
-                  } else {
-                    return `${prop.name}={${v === undefined ? 'undefined' : v}}`
+                  // the user might just write plain markdown in the prop
+                  // for it to be valid for react it needs to be wrapped
+                  // in fragments
+                  if (
+                    !serializedChild?.startsWith(`<${attribute.value.name}`) &&
+                    !serializedChild?.startsWith(`<>`)
+                  ) {
+                    serializedChild = `<>${serializedChild}</>`
                   }
-                default:
-                  return `${prop.name}={${v === undefined ? 'undefined' : v}}`
+
+                  return `${attribute.attributeName}={${serializedChild}}`
               }
+              return ``
             }
           })
           .join(' ')
@@ -254,87 +268,15 @@ export default function serialize(
       const hasChildren = checkForChildren(mdxElement.reactChildren)
 
       if (hasChildren) {
-        children = mdxElement.reactChildren
-          .map((c: any) => {
-            const isList = !isLeafNode(c)
-              ? (LIST_TYPES as string[]).includes(c.type || '')
-              : false
-
-            const selfIsList = (LIST_TYPES as string[]).includes(
-              mdxElement.type || ''
-            )
-
-            // Links have the following shape
-            // In which case we don't want to surround
-            // with break tags
-            // {
-            //  type: 'paragraph',
-            //  children: [
-            //    { text: '' },
-            //    { type: 'link', children: [{ text: "foo.com" }]}
-            //    { text: '' }
-            //  ]
-            // }
-            let childrenHasLink = false
-
-            // Code snippets have the following shape
-            // In which case we don't want to surround
-            // with break tags
-            // {
-            //  type: 'paragraph',
-            //  children: [
-            //    { text: '' },
-            //    { type: 'code_snippet', children: [{ text: "mycode" }]}
-            //    { text: '' }
-            //  ]
-            // }
-            let childrenHasCode = false
-
-            if (!isLeafNode(chunk) && Array.isArray(chunk.children)) {
-              childrenHasLink = chunk.children.some(
-                (f) => !isLeafNode(f) && f.type === nodeTypes.link
-              )
-              childrenHasCode = chunk.children.some(
-                (f) => !isLeafNode(f) && f.type === nodeTypes.code_snippet
-              )
-            }
-
-            return serialize(
-              { ...c, parentType: type },
-              {
-                nodeTypes,
-                // WOAH.
-                // what we're doing here is pretty tricky, it relates to the block below where
-                // we check for ignoreParagraphNewline and set type to paragraph.
-                // We want to strip out empty paragraphs sometimes, but other times we don't.
-                // If we're the descendant of a list, we know we don't want a bunch
-                // of whitespace. If we're parallel to a link we also don't want
-                // to respect neighboring paragraphs
-                ignoreParagraphNewline:
-                  (ignoreParagraphNewline ||
-                    isList ||
-                    selfIsList ||
-                    childrenHasLink ||
-                    childrenHasCode) &&
-                  // if we have c.break, never ignore empty paragraph new line
-                  !(c as BlockType).break,
-
-                // track depth of nested lists so we can add proper spacing
-                listDepth: (LIST_TYPES as string[]).includes(
-                  (c as BlockType).type || ''
-                )
-                  ? listDepth + 1
-                  : listDepth,
-              }
-            )
-          })
-          .join('')
+        children = serializeMdxChildren(mdxElement)
       }
 
       return `<${mdxElement.name}${props ? ` ${props} ` : ''}${
         hasChildren ? '' : '/'
-      }>\n${BREAK_TAG}${hasChildren ? `${children}` : ''}${
-        hasChildren ? `</${mdxElement.name}>\n${BREAK_TAG}` : ''
+      }>${!opts.ignoreSpaceAfterMdx || hasChildren ? `\n${BREAK_TAG}` : ''}${hasChildren ? `${children}` : ''}${
+        hasChildren
+          ? `</${mdxElement.name}>${opts.ignoreSpaceAfterMdx ? '' : `\n${BREAK_TAG}`}`
+          : ''
       }`
     case nodeTypes.heading[1]:
       return `# ${children}\n${BREAK_TAG}`

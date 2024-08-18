@@ -13,13 +13,32 @@ export const generateComponentProp = (
     case 'datetime':
     case 'image':
     case 'string':
-    default:
+      const isMultiple = fieldType.type.multiple || false
+      if (isMultiple) {
+        return {
+          name: fieldType.name,
+          type: 'mdxJsxAttribute',
+          value: {
+            value: JSON.stringify(fieldType.type.default),
+            data: {
+              estree: {
+                body: [
+                  {
+                    expression: {
+                      type: 'ArrayExpression',
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        } as unknown as MDXNode
+      }
       return {
         name: fieldType.name,
         type: 'mdxJsxAttribute',
         value: fieldType.type.default || '',
       } as unknown as MDXNode
-      break
     case 'select':
     case 'boolean':
       if (fieldType.type.widget === 'select' && fieldType.type.multiple) {
@@ -29,6 +48,7 @@ export const generateComponentProp = (
           value: {
             type: 'mdxJsxAttributeValueExpression',
             value: '',
+            // value: JSON.stringify(fieldType.type.default),
             data: {
               estree: {
                 type: 'program',
@@ -106,6 +126,12 @@ export const generateComponentProp = (
         },
       }
       return jsonNode
-      break
+
+    default:
+      return {
+        name: fieldType.name,
+        type: 'mdxJsxAttribute',
+        value: fieldType.type.default || '',
+      } as unknown as MDXNode
   }
 }

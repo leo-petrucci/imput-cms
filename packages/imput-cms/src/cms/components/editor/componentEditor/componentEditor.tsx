@@ -100,59 +100,12 @@ export const ComponentEditor = ({
 
   // generate defaultvalues in a way that they'll be readable by the form
   const defaultValues = React.useMemo(() => {
-    const values = componentSchema!.map((c) => {
-      // match prop to schema from settings
-      let prop = {
-        ...(mdxElement.attributes.find((a) => a.name === c.name) as MDXNode),
-      }
-
-      // if the user has changed their schema since the last time this component was written
-      // `prop` will be `{}`
-      // we catch this edge case by generating the attribute on the fly
-      if (!prop.value) {
-        prop = generateComponentProp(c)
-      }
-
-      let value: any
-
-      /**
-       * Here we convert deserialized values to values we can use in our components
-       */
-      if (isString(prop.value)) {
-        // if the value is a string, then it's easy
-        value = prop.value
-      } else {
-        // if it's not a string then it'll be a bit more complex
-        try {
-          const expressionType = prop.value?.data.estree.body[0].expression.type
-          if (expressionType === 'ArrayExpression') {
-            // if it's an array, a number, a boolean then we can just JSON.parse it
-            value = JSON.parse(prop.value?.value || '')
-          } else {
-            value = getAttribute(
-              prop,
-              prop.value?.data.estree.body[0].expression.type
-            )
-          }
-        } catch (err) {
-          // however in some cases it can be a JS object
-          // {
-          //   Test: "something"
-          // }
-          // which fails when parsed
-          // in that case we just take the object as-is
-          // since it'll most likely just be edited by a code block
-          value = prop.value?.value
-        }
-      }
-
-      return [c.name, value]
-    })
-
-    return Object.fromEntries(values)
+    return Object.fromEntries(
+      mdxElement.reactAttributes.map((a) => {
+        return [a.attributeName, a.value]
+      })
+    )
   }, [element])
-
-  console.log('defaultValues', defaultValues)
 
   const form = useForm({ defaultValues })
 
@@ -169,59 +122,20 @@ export const ComponentEditor = ({
     for (const [name, value] of Object.entries(propValues)) {
       // skip if the attribute is children, it's handled somewhere else
       if (name === 'children') continue
-      const bool = name === 'image'
-      if (bool) {
-        console.log(name, value)
-      }
-      const propSchema = componentSchema!.find((c) => c.name === name)!
-      // match prop to schema from settings
-      let prop = {
-        ...(clonedMdxElement.attributes.find(
-          (a) => a.name === name
-        ) as MDXNode),
-      }
 
-      if (isEmpty(prop)) {
-        prop = {
-          type: 'mdxJsxAttribute',
-          name,
-          value: '',
-        }
-      }
+      const attributeIndex = clonedMdxElement.reactAttributes.findIndex(
+        (a) => a.attributeName === name
+      )
 
-      // deeply clone the attribute to edit it
-      var newObj = prop
-      // if the value is an array
-      if (isArray(value)) {
-        setAttribute(
-          newObj,
-          'ArrayExpression',
-          JSON.stringify(value.map((v) => v)).replaceAll('\\', '')
-        )
-        const newAttributes = setAttributeToMdxElement(clonedMdxElement, newObj)
-        clonedMdxElement.attributes = newAttributes
-        // if we use the json widget then we need to parse it differently
-      } else if (propSchema && propSchema.type.widget === 'json') {
-        setAttribute(newObj, 'ObjectExpression', value)
-        const newAttributes = setAttributeToMdxElement(clonedMdxElement, newObj)
-        clonedMdxElement.attributes = newAttributes
-      } else {
-        if (bool) console.log('before change', newObj)
-        // everything else we consider it a literal
-        setAttribute(newObj, 'Literal', value)
-        if (bool) console.log('after change', newObj)
-        const newAttributes = setAttributeToMdxElement(clonedMdxElement, newObj)
-        if (bool) console.log('attribute array', newAttributes)
-        clonedMdxElement.attributes = newAttributes
+      if (attributeIndex > -1) {
+        clonedMdxElement.reactAttributes[attributeIndex].value = value
       }
     }
-
-    console.log('attributes to commit', clonedMdxElement.attributes)
 
     Transforms.setNodes<MdxElementShape>(
       editor,
       {
-        attributes: clonedMdxElement.attributes,
+        reactAttributes: clonedMdxElement.reactAttributes,
       },
       {
         at: path,

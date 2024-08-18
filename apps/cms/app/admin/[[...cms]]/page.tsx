@@ -89,6 +89,7 @@ const CMS = () => (
                     type: {
                       widget: 'string',
                       multiple: true,
+                      default: ['Leo', 'Evie', 'Lucio'],
                     },
                   },
                   {
@@ -96,6 +97,7 @@ const CMS = () => (
                     label: 'Date',
                     type: {
                       widget: 'date',
+                      default: '2020-01-01',
                     },
                   },
                   {
@@ -110,6 +112,7 @@ const CMS = () => (
                     label: 'Boolean',
                     type: {
                       widget: 'boolean',
+                      default: true,
                     },
                   },
                   {
@@ -118,6 +121,7 @@ const CMS = () => (
                     type: {
                       widget: 'select',
                       options: ['option1', 'option2'],
+                      default: 'option2',
                     },
                   },
                   {
@@ -126,6 +130,7 @@ const CMS = () => (
                     type: {
                       widget: 'select',
                       options: [4, 8, 12],
+                      default: 8,
                     },
                   },
                   {
@@ -133,6 +138,7 @@ const CMS = () => (
                     label: 'Object',
                     type: {
                       widget: 'json',
+                      default: `{}`,
                     },
                   },
                   {
@@ -140,6 +146,7 @@ const CMS = () => (
                     label: 'Image',
                     type: {
                       widget: 'image',
+                      default: 'images/screenshot-2023-01-24-at-14.24.01.png',
                     },
                   },
                   {
@@ -149,6 +156,7 @@ const CMS = () => (
                       options: ['Option 1', 'Option 2', 'Option 3'],
                       widget: 'select',
                       multiple: true,
+                      default: ['Option 1', 'Option 2'],
                     },
                   },
                   {
@@ -158,6 +166,7 @@ const CMS = () => (
                       options: [8, 12, 16],
                       widget: 'select',
                       multiple: true,
+                      default: [8, 16],
                     },
                   },
                   {

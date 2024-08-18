@@ -20,6 +20,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { cloneDeep } from 'lodash'
+import { MdxElementShape } from '../mdxElement'
 
 /**
  * Markdown to Slate deserialization.
@@ -105,14 +106,15 @@ export default function deserialize<T extends InputNodeTypes>(
     case 'paragraph':
       return { type: types.paragraph, children } as ParagraphNode<T>
     case 'mdxJsxFlowElement':
-      const mdxNodes = node.attributes as unknown as MDXNode[]
+      const mdxNode = node as unknown as MdxElementShape
       return {
         id,
         name: node.name,
         type: types.mdxJsxFlowElement,
         reactChildren: children,
         children: [{ text: '' }],
-        attributes: mdxNodes,
+        attributes: mdxNode.attributes,
+        reactAttributes: mdxNode.reactAttributes,
       }
     case 'link':
       return {

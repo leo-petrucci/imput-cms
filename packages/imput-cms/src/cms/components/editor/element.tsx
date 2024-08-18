@@ -16,6 +16,8 @@ export const Element = (props: CustomRenderElementProps) => {
   const { attributes, children, element } = props
   const style = {} as React.CSSProperties
 
+  console.log('element', element)
+
   switch (element.type) {
     case defaultNodeTypes.link:
       return <LinkElement {...props} />

@@ -25,9 +25,12 @@ import { withInlines } from './button/link'
 import { onKeyDownOffset } from './lib/keyDownOffset'
 import { FloatingToolbar } from './floatingToolbar'
 import { withImput } from './withImput'
+import { remarkValidateSchema } from './remark-validate-schema'
+import { BlockType } from '../../contexts/cmsContext/context'
 
 export const deserialize = (
-  src: string
+  src: string,
+  schema: BlockType[]
 ): {
   result: Descendant[]
   response: { status: 'ok' | 'error'; error?: Error }
@@ -42,6 +45,7 @@ export const deserialize = (
     const parsed = unified()
       .use(remarkParse)
       .use(remarkMdx)
+      .use(remarkValidateSchema, { schema })
       .use(remarkSlate)
       .processSync(src)
 

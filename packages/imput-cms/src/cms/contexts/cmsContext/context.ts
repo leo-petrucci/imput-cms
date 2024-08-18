@@ -54,7 +54,7 @@ export type Widgets =
   | {
       widget: 'string'
       multiple?: boolean
-      default?: string
+      default?: string | string[]
     }
   | { widget: 'markdown'; default?: string }
 

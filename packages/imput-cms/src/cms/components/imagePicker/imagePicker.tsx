@@ -39,6 +39,7 @@ export interface ImageElement extends Element {
 }
 
 interface ImagePickerProps {
+  name?: string
   /**
    * Adds a selection outline to the image picker
    */
@@ -68,6 +69,7 @@ const ImagePicker = ({
   onImageChange,
   imageAltText = false,
   imageTitle = false,
+  name = 'imagepicker',
 }: ImagePickerProps) => {
   const { images, loadImage, setImages } = useImages()
   const { public_folder } = useCMS()
@@ -178,6 +180,7 @@ const ImagePicker = ({
         <button
           className={StyledImageButton({ selected })}
           contentEditable={false}
+          data-testid={`${name}-input`}
         >
           <PopoverAnchor
             style={{
@@ -227,14 +230,21 @@ const Controlled = (props: ControlledImagePickerProps) => {
   const { rules, name } = useFormItem()
 
   const {
-    field: { onChange: formOnchange, value },
+    field: { onChange: formOnchange, value, ...rest },
   } = useController({
     name: name,
     control: form.control,
     rules,
   })
 
-  return <ImagePicker {...props} onImageChange={formOnchange} image={value} />
+  return (
+    <ImagePicker
+      {...props}
+      {...rest}
+      onImageChange={formOnchange}
+      image={value}
+    />
+  )
 }
 
 ImagePicker.Controlled = Controlled

@@ -31,7 +31,7 @@ interface EditorPageProps {
 }
 
 const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
-  const { currentCollection, currentFile } = useCMS()
+  const { currentCollection, currentFile, components } = useCMS()
 
   // used to correctly initialize the form values
   const returnDefaultValue = (widgetType: Widgets['widget']) => {
@@ -68,7 +68,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   useEffect(() => {
     if (document) {
       const { content: body, data: grayMatterObj } = matter(document.markdown)
-      const rawBody = deserialize(body)
+      const rawBody = deserialize(body, components || [])
       form.reset({
         ...grayMatterObj,
         body,

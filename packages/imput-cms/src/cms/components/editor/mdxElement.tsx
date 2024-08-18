@@ -10,6 +10,7 @@ import React from 'react'
 import { cva } from 'class-variance-authority'
 import { CustomElement } from '../../types/slate'
 import { FakeP } from '@imput/components/Typography'
+import { AttributeType } from './lib/mdx'
 
 const StyledMdxButton = cva(
   'imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-my-1 imp-cursor-pointer imp-p-0 imp-overflow-hidden imp-relative',
@@ -21,6 +22,15 @@ const StyledMdxButton = cva(
     },
   }
 )
+
+/**
+ * The shape of an attribute after having been parsed
+ */
+export type ReactAttribute = {
+  type: AttributeType
+  value: any
+  attributeName: string
+}
 
 /**
  * Interface for custom MDX element
@@ -44,6 +54,7 @@ export interface MdxElementShape extends CustomElement {
    * Component props
    */
   attributes: MDXNode[]
+  reactAttributes: ReactAttribute[]
   /**
    * Component children
    */

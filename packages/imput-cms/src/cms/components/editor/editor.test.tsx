@@ -215,8 +215,6 @@ describe('MDX Editor', () => {
         ]
       ) as any
 
-      console.log(result[0])
-
       const attributes = result[0].reactAttributes as ReactAttribute[]
 
       expect(attributes).not.toBe(undefined)
@@ -356,7 +354,7 @@ describe('MDX Editor', () => {
                 label: 'Attribute',
                 name: 'object',
                 type: {
-                  widget: 'json',
+                  widget: 'object',
                 },
               },
             ],
@@ -379,6 +377,53 @@ describe('MDX Editor', () => {
               literal: 0,
             },
           },
+        },
+      ])
+    })
+
+    it('correctly parses an object prop to json', () => {
+      const { result } = deserialize(
+        `
+          <Component object={{
+            literal: 0,
+            array: [12, "16", () => null, {property: "value"}],
+            object: {
+              literal: 0
+            }
+          }} />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'object',
+                type: {
+                  widget: 'json',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'object',
+          type: AttributeType.Object,
+          value: JSON.stringify({
+            literal: 0,
+            array: [12, '16', undefined, { property: 'value' }],
+            object: {
+              literal: 0,
+            },
+          }),
         },
       ])
     })
@@ -452,7 +497,7 @@ describe('MDX Editor', () => {
                 label: 'Attribute',
                 name: 'componentProp',
                 type: {
-                  widget: 'json',
+                  widget: 'markdown',
                 },
               },
             ],
@@ -489,7 +534,6 @@ describe('MDX Editor', () => {
                 value: 'string',
               },
             ],
-            attributes: expect.anything(),
             reactChildren: [
               {
                 type: 'paragraph',
@@ -519,7 +563,7 @@ describe('MDX Editor', () => {
                 label: 'Attribute',
                 name: 'componentProp',
                 type: {
-                  widget: 'json',
+                  widget: 'markdown',
                 },
               },
             ],
@@ -556,7 +600,6 @@ describe('MDX Editor', () => {
                 value: 'string',
               },
             ],
-            attributes: expect.anything(),
             reactChildren: [
               {
                 type: 'paragraph',
@@ -591,7 +634,7 @@ describe('MDX Editor', () => {
                 label: 'Attribute',
                 name: 'componentProp',
                 type: {
-                  widget: 'json',
+                  widget: 'markdown',
                 },
               },
             ],
@@ -628,7 +671,6 @@ describe('MDX Editor', () => {
                 value: 'string',
               },
             ],
-            attributes: expect.anything(),
             reactChildren: [
               {
                 type: 'paragraph',
@@ -842,6 +884,43 @@ Children
       ])
     })
 
+    it('initialises missing props with default (string array)', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'string',
+                type: {
+                  widget: 'string',
+                  default: 'test',
+                  multiple: true,
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'string',
+          type: AttributeType.Array,
+          value: ['test'],
+        },
+      ])
+    })
+
     it('initialises missing props with default (literal)', () => {
       const { result } = deserialize(
         `
@@ -995,6 +1074,114 @@ Children
             name: 'SubComponent',
             type: 'mdxJsxFlowElement',
           }),
+        },
+      ])
+    })
+
+    it('correctly transforms string to string array', () => {
+      const { result } = deserialize(
+        `
+          <Component string="12434" />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'string',
+                type: {
+                  widget: 'string',
+                  multiple: true,
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'string',
+          type: AttributeType.Array,
+          value: [],
+        },
+      ])
+    })
+
+    it('correctly transforms string to select array', () => {
+      const { result } = deserialize(
+        `
+          <Component select="12434" />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'select',
+                type: {
+                  widget: 'select',
+                  options: ['one', 'two'],
+                  multiple: true,
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'select',
+          type: AttributeType.Array,
+          value: [],
+        },
+      ])
+    })
+
+    it('correctly transforms array string to undefined', () => {
+      const { result } = deserialize(
+        `
+          <Component string={["12434"]} />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'string',
+                type: {
+                  widget: 'string',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'string',
+          type: AttributeType.Literal,
+          value: undefined,
         },
       ])
     })

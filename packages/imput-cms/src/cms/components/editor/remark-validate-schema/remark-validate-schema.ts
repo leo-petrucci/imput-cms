@@ -25,6 +25,7 @@ import {
   returnObjectValues,
 } from './utils'
 import { deserialize } from '../editor'
+import isArray from 'lodash/isArray'
 
 interface ValidateSchemaOptions {
   schema: BlockType[]
@@ -69,7 +70,39 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
             } else {
               // attribute has a schema so we parse it
 
-              const currentAttributeType = getAttributeType(attribute)
+              let currentAttributeType = getAttributeType(attribute)
+
+              // if the schema expects this to be an array but the value isn't
+              // we override it here and skip the parsing altogether
+              // we could probably transform the existin value into an array but
+              // it's kind of not worth it
+              if (
+                // @ts-expect-error falsy either way
+                foundAttributeSchema.type.multiple &&
+                currentAttributeType !== AttributeType.Array
+              ) {
+                jsxNode.reactAttributes.push({
+                  attributeName: foundAttributeSchema.name,
+                  type: AttributeType.Array,
+                  value: [],
+                })
+                continue
+              }
+
+              // on the other side, if something is an array and it shouldn't be
+              // we unset the value
+              if (
+                // @ts-expect-error falsy either way
+                !foundAttributeSchema.type.multiple &&
+                currentAttributeType === AttributeType.Array
+              ) {
+                jsxNode.reactAttributes.push({
+                  attributeName: foundAttributeSchema.name,
+                  type: AttributeType.Literal,
+                  value: undefined,
+                })
+                continue
+              }
 
               switch (currentAttributeType) {
                 case AttributeType.String:
@@ -109,13 +142,23 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
                   })
                   break
                 case AttributeType.Object:
+                  const objectValue = returnObjectValues(
+                    (attribute.value as ComplexAttribute | undefined)?.data
+                      .estree.body[0].expression as MdxObjectExpression
+                  )
+                  // if the object is going to be edited as JSON then it has to be stringified
+                  // or it will cause issues later on
+                  //
+                  // that said we still want to support objects in case we want to do some
+                  // fancy stuff in the future
+                  const value =
+                    foundAttributeSchema.type.widget === 'json'
+                      ? JSON.stringify(objectValue)
+                      : objectValue
                   jsxNode.reactAttributes.push({
                     attributeName: foundAttributeSchema.name,
                     type: currentAttributeType,
-                    value: returnObjectValues(
-                      (attribute.value as ComplexAttribute | undefined)?.data
-                        .estree.body[0].expression as MdxObjectExpression
-                    ),
+                    value: value,
                   })
                   break
                 case AttributeType.Component:
@@ -175,6 +218,12 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
                 // then we set the new values here
                 defaultValue = result[0]
                 defaultType = AttributeType.Component
+              }
+
+              // @ts-expect-error
+              if (field.type.multiple && !isArray(defaultValue)) {
+                defaultValue = [defaultValue]
+                defaultType = AttributeType.Array
               }
 
               jsxNode.reactAttributes.push({

@@ -15,6 +15,7 @@ import {
   mockedElement,
 } from './mocks'
 import { CustomElement } from '../../../types/slate'
+import { deserialize } from '../editor'
 
 const mockedSetNode = vi.fn()
 
@@ -66,96 +67,11 @@ const setup = ({ element }: { element: CustomElement }) => {
 }
 
 describe('Component editor', () => {
-  describe('Typable array of strings', () => {
-    it('Corrects undefined to array of strings', () => {
+  describe('strings', () => {
+    it('Can edit array values', async () => {
       mockSchema.mockImplementation(() => [
         {
-          name: 'attribute',
-          label: 'Attribute',
-          type: {
-            widget: 'string',
-            multiple: true,
-          },
-        },
-      ])
-      const { getByTestId } = setup({
-        element: mockedElement([getUndefinedAttribute()]),
-      })
-
-      expect(mockedSetNode).toHaveBeenLastCalledWith(
-        undefined,
-        expect.objectContaining({
-          attributes: expect.arrayContaining([
-            expect.objectContaining({
-              name: 'attribute',
-              type: 'mdxJsxAttribute',
-              value: expect.objectContaining({
-                value: '[""]',
-                data: expect.objectContaining({
-                  estree: expect.objectContaining({
-                    body: expect.arrayContaining([
-                      expect.objectContaining({
-                        expression: expect.objectContaining({
-                          type: 'ArrayExpression',
-                        }),
-                      }),
-                    ]),
-                  }),
-                }),
-              }),
-            }),
-          ]),
-        }),
-        { at: [0, 0] }
-      )
-    })
-    it('Corrects empty string to array of strings', () => {
-      mockSchema.mockImplementation(() => [
-        {
-          name: 'attribute',
-          label: 'Attribute',
-          type: {
-            widget: 'string',
-            multiple: true,
-          },
-        },
-      ])
-      const { getByTestId } = setup({
-        element: mockedElement([getEmptyStringAttribute()]),
-      })
-
-      expect(mockedSetNode).toHaveBeenLastCalledWith(
-        undefined,
-        expect.objectContaining({
-          attributes: expect.arrayContaining([
-            expect.objectContaining({
-              name: 'attribute',
-              type: 'mdxJsxAttribute',
-              value: expect.objectContaining({
-                value: '[""]',
-                data: expect.objectContaining({
-                  estree: expect.objectContaining({
-                    body: expect.arrayContaining([
-                      expect.objectContaining({
-                        expression: expect.objectContaining({
-                          type: 'ArrayExpression',
-                        }),
-                      }),
-                    ]),
-                  }),
-                }),
-              }),
-            }),
-          ]),
-        }),
-        { at: [0, 0] }
-      )
-    })
-
-    it('Can edit values', async () => {
-      mockSchema.mockImplementation(() => [
-        {
-          name: 'attribute',
+          name: 'string',
           label: 'Attribute',
           type: {
             widget: 'string',
@@ -164,183 +80,105 @@ describe('Component editor', () => {
         },
       ])
       const { getByTestId, type } = setup({
-        element: mockedElement([getEmptyStringAttribute()]),
+        element: deserialize(
+          `
+            <Component string={["12434"]} />
+            `,
+          [
+            {
+              label: 'Component',
+              name: 'Component',
+              fields: [
+                {
+                  label: 'Attribute',
+                  name: 'string',
+                  type: {
+                    widget: 'string',
+                    multiple: true,
+                  },
+                },
+              ],
+            },
+          ]
+        ).result[0] as any,
       })
 
-      const input = getByTestId('input-attribute.0') as HTMLInputElement
+      const input = getByTestId('input-string.0') as HTMLInputElement
 
       await type(input, 'Testing')
 
-      expect(mockedSetNode).toHaveBeenLastCalledWith(
-        undefined,
-        expect.objectContaining({
-          attributes: expect.arrayContaining([
-            expect.objectContaining({
-              name: 'attribute',
-              type: 'mdxJsxAttribute',
-              value: expect.objectContaining({
-                value: '["Testing"]',
-                data: expect.objectContaining({
-                  estree: expect.objectContaining({
-                    body: expect.arrayContaining([
-                      expect.objectContaining({
-                        expression: expect.objectContaining({
-                          type: 'ArrayExpression',
-                        }),
-                      }),
-                    ]),
-                  }),
-                }),
-              }),
-            }),
-          ]),
-        }),
-        { at: [0, 0] }
-      )
-    })
-  })
-  describe('Date input', () => {
-    it('Does not correct undefined ', async () => {
-      mockSchema.mockImplementation(() => [
-        {
-          name: 'attribute',
-          label: 'Date',
-          type: {
-            widget: 'date',
-          },
-        },
-      ])
-      const { getByTestId } = setup({
-        element: mockedElement([getUndefinedAttribute()]),
-      })
-
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  value: 'undefined',
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: undefined,
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
-          { at: [0, 0] }
+          {
+            reactAttributes: [
+              {
+                attributeName: 'string',
+                type: 'Array',
+                value: ['12434Testing'],
+              },
+            ],
+          },
+          expect.anything()
         )
       })
     })
-    it('Can be edited', async () => {
+    it('Can edit values', async () => {
       mockSchema.mockImplementation(() => [
         {
-          name: 'attribute',
-          label: 'Date',
+          name: 'string',
+          label: 'Attribute',
           type: {
-            widget: 'date',
+            widget: 'string',
           },
         },
       ])
-      const { getByLabelText, type, clear } = setup({
-        element: mockedElement([getUndefinedAttribute()]),
+      const { getByTestId, type } = setup({
+        element: deserialize(
+          `
+            <Component string="12434" />
+            `,
+          [
+            {
+              label: 'Component',
+              name: 'Component',
+              fields: [
+                {
+                  label: 'Attribute',
+                  name: 'string',
+                  type: {
+                    widget: 'string',
+                  },
+                },
+              ],
+            },
+          ]
+        ).result[0] as any,
       })
 
-      const input = getByLabelText('Date') as HTMLInputElement
+      const input = getByTestId('input-string') as HTMLInputElement
 
-      await clear(input)
-      await type(input, '2020-01-01')
+      await type(input, 'Testing')
 
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  // we don't use this so it's okay
-                  value: 'undefined',
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: '2020-01-01',
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
-          { at: [0, 0] }
+          {
+            reactAttributes: [
+              {
+                attributeName: 'string',
+                type: 'String',
+                value: '12434Testing',
+              },
+            ],
+          },
+          expect.anything()
         )
       })
     })
   })
 
   describe('Boolean input', () => {
-    it('Corrects empty string to undefined', async () => {
-      mockedSetNode.mockClear()
-      mockSchema.mockImplementation(() => [
-        {
-          name: 'attribute',
-          label: 'Boolean',
-          type: {
-            widget: 'boolean',
-          },
-        },
-      ])
-      const {} = setup({
-        element: mockedElement([getEmptyStringAttribute()]),
-      })
-
-      await waitFor(() => {
-        expect(mockedSetNode).toHaveBeenLastCalledWith(
-          undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: undefined,
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
-          { at: [0, 0] }
-        )
-      })
-    })
     it('Can be edited', async () => {
       mockedSetNode.mockClear()
       mockSchema.mockImplementation(() => [
@@ -353,7 +191,26 @@ describe('Component editor', () => {
         },
       ])
       const { getByTestId, click } = setup({
-        element: mockedElement([getFalseAttribute()]),
+        element: deserialize(
+          `
+            <Component attribute={false} />
+            `,
+          [
+            {
+              label: 'Component',
+              name: 'Component',
+              fields: [
+                {
+                  label: 'Attribute',
+                  name: 'attribute',
+                  type: {
+                    widget: 'boolean',
+                  },
+                },
+              ],
+            },
+          ]
+        ).result[0] as any,
       })
 
       const switchInput = getByTestId('input-attribute')
@@ -363,28 +220,15 @@ describe('Component editor', () => {
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: true,
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
+          {
+            reactAttributes: [
+              {
+                attributeName: 'attribute',
+                type: 'Literal',
+                value: true,
+              },
+            ],
+          },
           { at: [0, 0] }
         )
       })
@@ -394,28 +238,15 @@ describe('Component editor', () => {
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: false,
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
+          {
+            reactAttributes: [
+              {
+                attributeName: 'attribute',
+                type: 'Literal',
+                value: false,
+              },
+            ],
+          },
           { at: [0, 0] }
         )
       })
@@ -436,7 +267,27 @@ describe('Component editor', () => {
         },
       ])
       const { getByTestId, click, getByText } = setup({
-        element: mockedElement([getUndefinedAttribute()]),
+        element: deserialize(
+          `
+            <Component attribute={"option2"} />
+            `,
+          [
+            {
+              label: 'Component',
+              name: 'Component',
+              fields: [
+                {
+                  name: 'attribute',
+                  label: 'Attribute',
+                  type: {
+                    widget: 'select',
+                    options: ['option1', 'option2'],
+                  },
+                },
+              ],
+            },
+          ]
+        ).result[0] as any,
       })
 
       const combobox = getByTestId('attribute-combobox')
@@ -452,28 +303,15 @@ describe('Component editor', () => {
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: 'option1',
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
+          {
+            reactAttributes: [
+              {
+                attributeName: 'attribute',
+                type: 'Literal',
+                value: 'option1',
+              },
+            ],
+          },
           { at: [0, 0] }
         )
       })
@@ -492,7 +330,27 @@ describe('Component editor', () => {
         },
       ])
       const { getByTestId, click, getByText } = setup({
-        element: mockedElement([getUndefinedAttribute()]),
+        element: deserialize(
+          `
+            <Component attribute={4} />
+            `,
+          [
+            {
+              label: 'Component',
+              name: 'Component',
+              fields: [
+                {
+                  name: 'attribute',
+                  label: 'Attribute',
+                  type: {
+                    widget: 'select',
+                    options: [4, 8, 16],
+                  },
+                },
+              ],
+            },
+          ]
+        ).result[0] as any,
       })
 
       const combobox = getByTestId('attribute-combobox')
@@ -508,28 +366,15 @@ describe('Component editor', () => {
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'Literal',
-                            value: 8,
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
+          {
+            reactAttributes: [
+              {
+                attributeName: 'attribute',
+                type: 'Literal',
+                value: 8,
+              },
+            ],
+          },
           { at: [0, 0] }
         )
       })
@@ -549,7 +394,28 @@ describe('Component editor', () => {
         },
       ])
       const { getByTestId, click, getByText } = setup({
-        element: mockedElement([getUndefinedAttribute()]),
+        element: deserialize(
+          `
+            <Component attribute={4} />
+            `,
+          [
+            {
+              label: 'Component',
+              name: 'Component',
+              fields: [
+                {
+                  name: 'attribute',
+                  label: 'Attribute',
+                  type: {
+                    options: ['Option 1', 'Option 2', 'Option 3'],
+                    widget: 'select',
+                    multiple: true,
+                  },
+                },
+              ],
+            },
+          ]
+        ).result[0] as any,
       })
 
       const combobox = getByTestId('attribute-combobox')
@@ -569,28 +435,15 @@ describe('Component editor', () => {
       await waitFor(() => {
         expect(mockedSetNode).toHaveBeenLastCalledWith(
           undefined,
-          expect.objectContaining({
-            attributes: expect.arrayContaining([
-              expect.objectContaining({
-                name: 'attribute',
-                type: 'mdxJsxAttribute',
-                value: expect.objectContaining({
-                  value: '["Option 1","Option 3"]',
-                  data: expect.objectContaining({
-                    estree: expect.objectContaining({
-                      body: expect.arrayContaining([
-                        expect.objectContaining({
-                          expression: expect.objectContaining({
-                            type: 'ArrayExpression',
-                          }),
-                        }),
-                      ]),
-                    }),
-                  }),
-                }),
-              }),
-            ]),
-          }),
+          {
+            reactAttributes: [
+              {
+                attributeName: 'attribute',
+                type: 'Array',
+                value: ['Option 1', 'Option 3'],
+              },
+            ],
+          },
           { at: [0, 0] }
         )
       })

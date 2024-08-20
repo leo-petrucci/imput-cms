@@ -32,8 +32,8 @@ const EditorFields = ({ fields }: { fields: FieldType[] }) => {
             case 'boolean':
               return <SwitchControlled />
             // @ts-expect-error fix this later
-            // case 'json':
-            //   return <Codeblock hideLanguageSelect language="js" />
+            case 'json':
+              return <Codeblock hideLanguageSelect language="js" />
             case 'select':
               if (f.multiple) {
                 return (

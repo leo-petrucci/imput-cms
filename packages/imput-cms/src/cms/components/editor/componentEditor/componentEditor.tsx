@@ -1,27 +1,14 @@
-import isString from 'lodash/isString'
 import cloneDeep from 'lodash/cloneDeep'
 import { ReactEditor, useSlateStatic } from 'slate-react'
-import { Editor } from '../../../../cms/components/editor'
 import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
-import { setAttributeToMdxElement } from '../../../../cms/components/editor/lib/editAttributes'
-import { editReactChildren } from '../../../../cms/components/editor/lib/editReactChildren'
 import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
 import { Descendant, Node, Transforms } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import { Label } from '@imput/components/Label'
 import Form from '@imput/components/form'
-import { MDXNode } from '../../../../cms/types/mdxNode'
-import {
-  getAttribute,
-  setAttribute,
-} from '../../../../cms/components/editor/lib/mdx'
-import React from 'react'
-import { generateComponentProp } from '../lib/generateComponentProp'
+import React, { useMemo, useRef } from 'react'
 import { EditorFields } from '../fields'
 import { FieldType } from '../../../contexts/cmsContext/context'
 import { useForm } from 'react-hook-form'
-import isArray from 'lodash/isArray'
-import { isEmpty } from 'lodash'
 
 /**
  *
@@ -30,15 +17,17 @@ export const ComponentEditor = ({
   element,
 }: Pick<CustomRenderElementProps, 'element'>) => {
   const editor = useSlateStatic() as ReactEditor
-  const mdxElement = element as MdxElementShape
-
-  console.log(mdxElement)
+  // const mdxElement = element as MdxElementShape
+  const mdxElementRef = useRef<MdxElementShape>(element as MdxElementShape)
+  const mdxElement = mdxElementRef.current
 
   const path = ReactEditor.findPath(editor, element as unknown as Node)
 
   const { getSchema } = useCMS()
 
-  const componentSchema = getSchema(mdxElement.name)
+  const componentSchema = useMemo(() => {
+    return getSchema(mdxElement.name)
+  }, [])
 
   const hasChildren = Boolean(
     componentSchema?.find((c) => c.name === 'children')
@@ -105,7 +94,7 @@ export const ComponentEditor = ({
         return [a.attributeName, a.value]
       })
     )
-  }, [element])
+  }, [])
 
   const form = useForm({ defaultValues })
 
@@ -119,7 +108,8 @@ export const ComponentEditor = ({
    */
   React.useEffect(() => {
     const clonedMdxElement = cloneDeep(mdxElement)
-    for (const [name, value] of Object.entries(propValues)) {
+    const clonedPropValues = cloneDeep(propValues)
+    for (const [name, value] of Object.entries(clonedPropValues)) {
       // skip if the attribute is children, it's handled somewhere else
       if (name === 'children') continue
 
@@ -153,7 +143,7 @@ export const ComponentEditor = ({
           <EditorFields fields={componentsToFields} />
         </Form>
 
-        {hasChildren && (
+        {/* {hasChildren && (
           <div className="imp-flex imp-flex-col imp-gap-1">
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
@@ -163,7 +153,7 @@ export const ComponentEditor = ({
               }}
             />
           </div>
-        )}
+        )} */}
       </div>
     </>
   )

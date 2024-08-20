@@ -52,6 +52,11 @@ export type Widgets =
       default?: any
     }
   | {
+      widget: 'object'
+      default?: any
+      multiple?: boolean
+    }
+  | {
       widget: 'string'
       multiple?: boolean
       default?: string | string[]

@@ -94,7 +94,8 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
               if (
                 // @ts-expect-error falsy either way
                 !foundAttributeSchema.type.multiple &&
-                currentAttributeType === AttributeType.Array
+                currentAttributeType === AttributeType.Array &&
+                foundAttributeSchema.type.widget !== 'json'
               ) {
                 jsxNode.reactAttributes.push({
                   attributeName: foundAttributeSchema.name,
@@ -147,7 +148,8 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
                       .estree.body[0].expression as MdxObjectExpression
                   )
                   // if the object is going to be edited as JSON then it has to be stringified
-                  // or it will cause issues later on
+                  // or it will cause issues later on. It also has its own type for serializing
+                  // correctly later.
                   //
                   // that said we still want to support objects in case we want to do some
                   // fancy stuff in the future
@@ -157,7 +159,10 @@ export const remarkValidateSchema: Plugin<[ValidateSchemaOptions]> = ({
                       : objectValue
                   jsxNode.reactAttributes.push({
                     attributeName: foundAttributeSchema.name,
-                    type: currentAttributeType,
+                    type:
+                      foundAttributeSchema.type.widget === 'json'
+                        ? AttributeType.Json
+                        : currentAttributeType,
                     value: value,
                   })
                   break

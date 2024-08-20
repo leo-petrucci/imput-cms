@@ -50,6 +50,7 @@ export enum AttributeType {
   Undefined = 'Undefined',
   Component = 'Component',
   Literal = 'Literal',
+  Json = 'Json',
   Other = 'Other',
 }
 

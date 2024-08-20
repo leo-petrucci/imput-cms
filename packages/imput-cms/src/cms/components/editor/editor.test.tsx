@@ -187,9 +187,15 @@ describe('MDX Editor', () => {
         ]
       ) as any
 
-      const attributes = result[0].attributes as MDXNode[]
+      const attributes = result[0].reactAttributes as ReactAttribute[]
 
-      expect(attributes).toStrictEqual([])
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'notstring',
+          type: 'Literal',
+          value: undefined,
+        },
+      ])
     })
   })
   describe('deserialization', () => {
@@ -381,6 +387,53 @@ describe('MDX Editor', () => {
       ])
     })
 
+    it('correctly parses an object prop to object', () => {
+      const { result } = deserialize(
+        `
+          <Component object={{
+            literal: 0,
+            array: [12, "16", () => null, {property: "value"}],
+            object: {
+              literal: 0
+            }
+          }} />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'object',
+                type: {
+                  widget: 'object',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'object',
+          type: AttributeType.Object,
+          value: {
+            literal: 0,
+            array: [12, '16', undefined, { property: 'value' }],
+            object: {
+              literal: 0,
+            },
+          },
+        },
+      ])
+    })
+
     it('correctly parses an object prop to json', () => {
       const { result } = deserialize(
         `
@@ -416,7 +469,7 @@ describe('MDX Editor', () => {
       expect(attributes).toStrictEqual([
         {
           attributeName: 'object',
-          type: AttributeType.Object,
+          type: AttributeType.Json,
           value: JSON.stringify({
             literal: 0,
             array: [12, '16', undefined, { property: 'value' }],
@@ -1493,7 +1546,39 @@ Children
       )
     })
 
-    it('serializes component with nested object prop', () => {
+    it('serializes component with nested object prop (object)', () => {
+      const { result } = deserialize(
+        `<Component object={{
+          test: "string",
+          object: {
+            another: "test"
+          }
+        }} />`,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'object',
+                type: {
+                  widget: 'object',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const serialized = result.map((r: any) => serialize(r)).join('')
+
+      expect(serialized).toContain(
+        `<Component object={{test: "string", object: {another: "test"}}} />`
+      )
+    })
+
+    it('serializes component with nested object prop (json)', () => {
       const { result } = deserialize(
         `<Component object={{
           test: "string",
@@ -1521,7 +1606,7 @@ Children
       const serialized = result.map((r: any) => serialize(r)).join('')
 
       expect(serialized).toContain(
-        `<Component object={{test: "string", object: {another: "test"}}} />`
+        `<Component object={{"test":"string","object":{"another":"test"}}} />`
       )
     })
 

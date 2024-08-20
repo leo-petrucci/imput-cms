@@ -223,6 +223,8 @@ export default function serialize(
                   return `${attribute.attributeName}={${recursivelyStringifyArray(attribute.value)}}`
                 case AttributeType.Object:
                   return `${attribute.attributeName}={${recursivelyStringifyObject(attribute.value)}}`
+                case AttributeType.Json:
+                  return `${attribute.attributeName}={${attribute.value}}`
                 case AttributeType.Component:
                   let serializedChild = serialize(attribute.value, {
                     ignoreSpaceAfterMdx: true,

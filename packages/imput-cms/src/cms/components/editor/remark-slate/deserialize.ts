@@ -113,7 +113,7 @@ export default function deserialize<T extends InputNodeTypes>(
         type: types.mdxJsxFlowElement,
         reactChildren: children,
         children: [{ text: '' }],
-        // attributes: mdxNode.attributes,
+        attributes: mdxNode.attributes,
         reactAttributes: mdxNode.reactAttributes,
       }
     case 'link':

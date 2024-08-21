@@ -176,7 +176,10 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               variant="outline"
               className="imp-gap-1"
               onClick={() => {
-                navigate(-1)
+                const pathParts = window.location.pathname.split('/')
+                pathParts.pop()
+                const newPath = pathParts.join('/')
+                navigate(newPath)
               }}
             >
               <CaretLeft size={16} />

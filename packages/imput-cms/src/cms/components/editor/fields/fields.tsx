@@ -13,10 +13,10 @@ import { Codeblock } from '@imput/components/codeblock/Controlled'
 /**
  * Renders the correct fields for the currently loaded collection
  */
-const EditorFields = ({ fields }: { fields: FieldType[] }) => {
+const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
   return (
     <>
-      {fields.map((f) => {
+      {fields?.map((f) => {
         const renderControl = () => {
           switch (f.widget) {
             case 'string':

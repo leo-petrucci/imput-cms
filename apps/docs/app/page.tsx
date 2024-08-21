@@ -47,9 +47,6 @@ const Page = async () => {
     console.log('mdx found', mdx.data)
     const serialized = await serialize(mdx.data, {
       parseFrontmatter: true,
-      mdxOptions: {
-        development: process.env.NODE_ENV === 'development',
-      },
     })
     console.log('successfully serialized')
 

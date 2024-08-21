@@ -38,40 +38,7 @@ Imput doesn't yet support custom widgets, however they are on the roadmap. Hopef
 
 </Note>
 
-<TabsRoot triggers={[
-{
-value: 'string',
-children: 'String',
-},
-{
-value: 'date',
-children: 'Date',
-},
-{
-value: 'dateTime',
-children: 'Datetime',
-},
-{
-value: 'select',
-children: 'Select',
-},
-{
-value: 'image',
-children: 'Image',
-},
-{
-value: 'boolean',
-children: 'Boolean',
-},
-{
-value: 'markdown',
-children: 'Markdown',
-},
-{
-value: 'relation',
-children: 'Relation',
-},
-]} defaultValue="string" >
+<TabsRoot triggers={[{"value":"string","children":"String"},{"value":"date","children":"Date"},{"value":"dateTime","children":"Datetime"},{"value":"select","children":"Select"},{"value":"image","children":"Image"},{"value":"boolean","children":"Boolean"},{"value":"markdown","children":"Markdown"},{"value":"relation","children":"Relation"}]} defaultValue="string" >
 
 <TabsContent value="string" >
 
@@ -79,13 +46,13 @@ children: 'Relation',
 
 The string widget uses a simple text input which is then translated into a string.
 
-  - **Name:** `string`
-  - **UI:** A text input
-  - **Options:**
-    - `default`: accepts a string and defaults to an empty string
-    - `label`: the descriptive label associated with the input
-    - `rules`: the input's validation rules
-  - **Example:**
+- **Name:** `string`
+- **UI:** A text input
+- **Options:**
+  - `default`: accepts a string and defaults to an empty string
+  - `label`: the descriptive label associated with the input
+  - `rules`: the input's validation rules
+- **Example:**
 
 ```javascript
 {
@@ -106,13 +73,13 @@ The string widget uses a simple text input which is then translated into a strin
 
 A simple date input. Outputs a date string.
 
-  - **Name:** `date`
-  - **UI:** a date picker
-  - **Options:**
-    - `default`: accepts a string, defaults to an empty string
-    - `label`:  the descriptive label associated with the input
-    - `rules`: the input's validation rules
-  - **Example:**
+- **Name:** `date`
+- **UI:** a date picker
+- **Options:**
+  - `default`: accepts a string, defaults to an empty string
+  - `label`:  the descriptive label associated with the input
+  - `rules`: the input's validation rules
+- **Example:**
 
 ```javascript
 {
@@ -131,13 +98,13 @@ A simple date input. Outputs a date string.
 
 ### Datetime
 
-  - **Name:** `datetime`
-  - **UI:** a datetime picker
-  - **Options:**
-    - `default`: accepts a string, defaults to an empty string
-    - `label`:  the descriptive label associated with the input
-    - `rules`: the input's validation rules
-  - **Example:**
+- **Name:** `datetime`
+- **UI:** a datetime picker
+- **Options:**
+  - `default`: accepts a string, defaults to an empty string
+  - `label`:  the descriptive label associated with the input
+  - `rules`: the input's validation rules
+- **Example:**
 
 ```javascript
 {
@@ -156,13 +123,13 @@ A simple date input. Outputs a date string.
 
 ### Select
 
-  - **Name:** `select`
-  - **UI:** A searchable select
-  - **Options:**
-    - `default`: accepts a string or number, the default value selected
-    - `options`: an array of strings or numbers, the options to select from
-    - `multiple`: boolean, defines whether the user is able to select more than one value
-  - **Example:**
+- **Name:** `select`
+- **UI:** A searchable select
+- **Options:**
+  - `default`: accepts a string or number, the default value selected
+  - `options`: an array of strings or numbers, the options to select from
+  - `multiple`: boolean, defines whether the user is able to select more than one value
+- **Example:**
 
 ```javascript
 {
@@ -181,11 +148,11 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="image" >
 
-  - **Name:** `image`
-  - **UI:** An image selector
-  - **Options:**
-    - `default`: accepts a string
-  - **Example:**
+- **Name:** `image`
+- **UI:** An image selector
+- **Options:**
+  - `default`: accepts a string
+- **Example:**
 
 ```js
 {
@@ -199,11 +166,11 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="boolean" >
 
-  - **Name:** `boolean`
-  - **UI:** A switch
-  - **Options:**
-    - `default`: accepts a boolean
-  - **Example:**
+- **Name:** `boolean`
+- **UI:** A switch
+- **Options:**
+  - `default`: accepts a boolean
+- **Example:**
 
 ```js
 {
@@ -218,17 +185,11 @@ A simple date input. Outputs a date string.
 
 <TabsContent value="markdown" >
 
-<Note>
-
-MDX in the Markdown editor is only supported if the `name` is set to `body`. Anything written in that editor will be rendered as the main content of your MDX file!
-
-</Note>
-
-  - **Name:** `markdown`
-  - **UI:** A text editor that accepts rich text
-  - **Options:**
-    - `default`: accepts a string
-  - **Example:**
+- **Name:** `markdown`
+- **UI:** A text editor that accepts rich text
+- **Options:**
+  - `default`: accepts a string
+- **Example:**
 
 ```js
 {
@@ -243,14 +204,14 @@ MDX in the Markdown editor is only supported if the `name` is set to `body`. Any
 
 <TabsContent value="relation" >
 
-  - **Name:** `relation`
-  - **UI:** A select or multi-select
-  - **Options:**
-    - `default`: accepts a string or a number, must be a value part of the available options
-    - `collection`: the name of another Imput collection
-    - `display_field`: the value from the other collection's frontmatter that will be displayed as an option
-    - `value_field`: the value from the other collection's frontmatter that will be saved as a value when selected
-  - **Example:**
+- **Name:** `relation`
+- **UI:** A select or multi-select
+- **Options:**
+  - `default`: accepts a string or a number, must be a value part of the available options
+  - `collection`: the name of another Imput collection
+  - `display_field`: the value from the other collection's frontmatter that will be displayed as an option
+  - `value_field`: the value from the other collection's frontmatter that will be saved as a value when selected
+- **Example:**
 
 ```js
 {

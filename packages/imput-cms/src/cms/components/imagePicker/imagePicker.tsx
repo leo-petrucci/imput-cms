@@ -119,7 +119,7 @@ const ImagePicker = ({
                 />
               </div>
             )}
-            <div className="flex flex-col gap-2">
+            <div className="imp-flex imp-flex-col imp-gap-2">
               <Label htmlFor={`input-image-file`}>Upload image</Label>
               <Modal
                 title={'Select media'}
@@ -143,7 +143,7 @@ const ImagePicker = ({
                 <Button type="button">Select image</Button>
               </Modal>
 
-              <div className="imp-imp-flex imp-imp-flex-col imp-imp-gap-1">
+              <div className="imp-flex imp-flex-col imp-gap-1">
                 <Label htmlFor={`input-image-src`}>Image src</Label>
                 <Input
                   name="image-src"

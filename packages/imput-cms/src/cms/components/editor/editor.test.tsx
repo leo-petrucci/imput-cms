@@ -1643,6 +1643,11 @@ Children
               },
             ],
           },
+          {
+            label: 'Test',
+            name: 'Test',
+            fields: [],
+          },
         ]
       ) as any
 

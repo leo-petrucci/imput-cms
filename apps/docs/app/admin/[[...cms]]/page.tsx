@@ -202,10 +202,10 @@ const CMS = () => (
               { label: 'Name', name: 'name', widget: 'string' },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
-            // preview: {
-            //   components: Components,
-            //   wrapper: PreviewWrapper,
-            // },
+            preview: {
+              components: Components,
+              wrapper: PreviewWrapper,
+            },
             blocks,
           },
           {

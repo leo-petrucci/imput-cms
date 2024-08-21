@@ -24,6 +24,7 @@ export async function generateMetadata(): Promise<Metadata> {
     console.log('returning metadata')
 
     return {
+      metadataBase: new URL('https://imput.computer'),
       title: serialized.frontmatter.title,
       description: serialized.frontmatter.description,
       openGraph: {

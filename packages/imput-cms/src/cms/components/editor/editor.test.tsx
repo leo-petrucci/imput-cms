@@ -480,7 +480,7 @@ describe('MDX Editor', () => {
       ])
     })
 
-    it.only('correctly parses an array prop to json', () => {
+    it('correctly parses an array prop to json', () => {
       const { result } = deserialize(
         `
           <Component array={[12, "16", () => null, {property: "value"}]} />

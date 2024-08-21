@@ -137,7 +137,7 @@ const CMS = () => (
                     type: {
                       widget: 'select',
                       options: [4, 8, 12],
-                      default: 8,
+                      default: 'test',
                     },
                   },
                   {

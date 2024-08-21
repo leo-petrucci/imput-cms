@@ -1,3 +1,4 @@
+import isArray from 'lodash/isArray'
 import { BlockType } from '../../../contexts/cmsContext/context'
 import { MDXNode } from '../../../types/mdxNode'
 import { ReactAttribute } from '../mdxElement'
@@ -17,37 +18,75 @@ export const generateComponentProp = (
     case 'string':
       const isMultiple = fieldType.type.multiple || false
       if (isMultiple) {
+        let value: any[] = []
+        if (isArray(fieldType.type.default)) {
+          value = fieldType.type.default
+        }
         return {
           attributeName: fieldType.name,
           type: AttributeType.Array,
-          value: [],
+          value,
         }
       }
       return {
         attributeName: fieldType.name,
         type: AttributeType.String,
-        value: [],
+        value: fieldType.type.default?.toString() || '',
       }
     case 'select':
-    case 'boolean':
-      if (fieldType.type.widget === 'select' && fieldType.type.multiple) {
+      if (fieldType.type.multiple) {
+        let value: any[] = []
+        if (
+          fieldType.type.default &&
+          isArray(fieldType.type.default) &&
+          fieldType.type.default.every((value) =>
+            // @ts-expect-error
+            fieldType.type.options.includes(value)
+          )
+        ) {
+          value = fieldType.type.default
+        }
         return {
           attributeName: fieldType.name,
-          type: AttributeType.Literal,
-          value: [],
+          type: AttributeType.Array,
+          value,
         }
       } else {
+        let value = undefined
+        if (
+          fieldType.type.default &&
+          !isArray(fieldType.type.default) &&
+          fieldType.type.options.includes(fieldType.type.default)
+        ) {
+          value = fieldType.type.default
+        }
         return {
           attributeName: fieldType.name,
           type: AttributeType.Literal,
-          value: fieldType.type.default || undefined,
+          value,
         }
       }
+    case 'boolean':
+      let boolValue = undefined
+      if (typeof fieldType.type.default === 'boolean') {
+        boolValue = fieldType.type.default
+      }
+      return {
+        attributeName: fieldType.name,
+        type: AttributeType.Literal,
+        value: boolValue,
+      }
     case 'json':
+      let value = ''
+
+      try {
+        value = JSON.stringify(fieldType.type.default)
+      } catch (err) {}
+
       return {
         attributeName: fieldType.name,
         type: AttributeType.Json,
-        value: '',
+        value,
       }
     case 'markdown':
       return {
@@ -61,10 +100,14 @@ export const generateComponentProp = (
         ],
       }
     case 'object':
+      let objValue = {}
+      if (typeof fieldType.type.default === 'object') {
+        objValue = fieldType.type.default
+      }
       return {
         attributeName: fieldType.name,
         type: AttributeType.Object,
-        value: {},
+        value: objValue,
       }
     default:
       return {

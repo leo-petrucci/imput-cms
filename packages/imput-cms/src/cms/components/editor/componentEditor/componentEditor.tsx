@@ -34,7 +34,8 @@ const debouncedUpdateAttributes = (
 }
 
 /**
- *
+ * This is the central component responsible for editing
+ * component props.
  */
 export const ComponentEditor = ({
   element,

@@ -1,8 +1,11 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
-import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
-import { Descendant, Node, Transforms } from 'slate'
+import {
+  MdxElementShape,
+  ReactAttribute,
+} from '../../../../cms/components/editor/mdxElement'
+import { Descendant, Node, Path, Transforms } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import Form from '@imput/components/form'
 import React, { useMemo, useRef } from 'react'
@@ -12,6 +15,23 @@ import { useForm } from 'react-hook-form'
 import { editReactChildren } from '../lib/editReactChildren'
 import Editor from '../editor'
 import { Label } from '@imput/components/Label'
+import debounce from 'lodash/debounce'
+
+const debouncedUpdateAttributes = (
+  editor: ReactEditor,
+  reactAttributes: ReactAttribute[],
+  path: Path
+) => {
+  Transforms.setNodes<MdxElementShape>(
+    editor,
+    {
+      reactAttributes,
+    },
+    {
+      at: path,
+    }
+  )
+}
 
 /**
  *
@@ -125,16 +145,7 @@ export const ComponentEditor = ({
         clonedMdxElement.reactAttributes[attributeIndex].value = value
       }
     }
-
-    Transforms.setNodes<MdxElementShape>(
-      editor,
-      {
-        reactAttributes: clonedMdxElement.reactAttributes,
-      },
-      {
-        at: path,
-      }
-    )
+    debouncedUpdateAttributes(editor, clonedMdxElement.reactAttributes, path)
   }, [JSON.stringify(propValues)])
 
   return (

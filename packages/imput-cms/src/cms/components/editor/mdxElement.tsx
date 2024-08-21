@@ -43,9 +43,9 @@ export interface MdxElementShape extends CustomElement {
    */
   id: string
   /**
-   * The component's name
+   * The component's name, null if a fragment
    */
-  name: string
+  name: string | null
   /**
    * An array of slate elements
    */

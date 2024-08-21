@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import ctxt, { BlockType, NextCMSContext } from './context'
 import { generateComponentProp } from '../../components/editor/lib/generateComponentProp'
+import { ReactAttribute } from '../../components/editor/mdxElement'
 
 /**
  * Returns the CMS settings object
@@ -39,17 +40,17 @@ export const useCMS = () => {
 
     if (!component) return undefined
 
-    let attributes: any[] = []
+    let reactAttributes: ReactAttribute[] = []
 
     component?.fields?.forEach((f) => {
       // children is a special prop, handled differently
-      if (f.name !== 'children') attributes.push(generateComponentProp(f))
+      if (f.name !== 'children') reactAttributes.push(generateComponentProp(f))
     })
 
     const c = {
       id: uuidv4(),
       type: 'mdxJsxFlowElement',
-      attributes,
+      reactAttributes,
       reactChildren: [
         {
           type: 'paragraph',

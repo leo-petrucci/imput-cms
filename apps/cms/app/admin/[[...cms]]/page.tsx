@@ -84,6 +84,13 @@ const CMS = () => (
                 label: 'My first block',
                 fields: [
                   {
+                    name: 'componentProp',
+                    label: 'Component',
+                    type: {
+                      widget: 'markdown',
+                    },
+                  },
+                  {
                     name: 'name',
                     label: 'Name',
                     type: {
@@ -147,6 +154,15 @@ const CMS = () => (
                     type: {
                       widget: 'image',
                       default: 'images/screenshot-2023-01-24-at-14.24.01.png',
+                    },
+                  },
+                  {
+                    name: 'imageArray',
+                    label: 'Image Array',
+                    type: {
+                      widget: 'image',
+                      default: 'images/screenshot-2023-01-24-at-14.24.01.png',
+                      multiple: true,
                     },
                   },
                   {

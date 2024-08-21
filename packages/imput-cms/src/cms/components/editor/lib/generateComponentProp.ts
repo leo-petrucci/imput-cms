@@ -1,5 +1,7 @@
 import { BlockType } from '../../../contexts/cmsContext/context'
 import { MDXNode } from '../../../types/mdxNode'
+import { ReactAttribute } from '../mdxElement'
+import { AttributeType } from './mdx'
 
 /**
  * Generates an empty attribute for the specific type of field and block
@@ -7,7 +9,7 @@ import { MDXNode } from '../../../types/mdxNode'
  */
 export const generateComponentProp = (
   fieldType: NonNullable<BlockType['fields']>[0]
-) => {
+): ReactAttribute => {
   switch (fieldType.type.widget) {
     case 'date':
     case 'datetime':
@@ -16,122 +18,59 @@ export const generateComponentProp = (
       const isMultiple = fieldType.type.multiple || false
       if (isMultiple) {
         return {
-          name: fieldType.name,
-          type: 'mdxJsxAttribute',
-          value: {
-            value: JSON.stringify(fieldType.type.default),
-            data: {
-              estree: {
-                body: [
-                  {
-                    expression: {
-                      type: 'ArrayExpression',
-                    },
-                  },
-                ],
-              },
-            },
-          },
-        } as unknown as MDXNode
+          attributeName: fieldType.name,
+          type: AttributeType.Array,
+          value: [],
+        }
       }
       return {
-        name: fieldType.name,
-        type: 'mdxJsxAttribute',
-        value: fieldType.type.default || '',
-      } as unknown as MDXNode
+        attributeName: fieldType.name,
+        type: AttributeType.String,
+        value: [],
+      }
     case 'select':
     case 'boolean':
       if (fieldType.type.widget === 'select' && fieldType.type.multiple) {
-        const jsonNode: MDXNode = {
-          type: 'mdxJsxAttribute',
-          name: fieldType.name,
-          value: {
-            type: 'mdxJsxAttributeValueExpression',
-            value: '',
-            // value: JSON.stringify(fieldType.type.default),
-            data: {
-              estree: {
-                type: 'program',
-                start: 0,
-                end: 1,
-                sourcetype: 'module',
-                body: [
-                  {
-                    type: 'ExpressionStatement',
-                    expression: {
-                      type: 'ObjectExpression',
-                      properties: [],
-                    },
-                  },
-                ],
-              },
-            },
-          },
+        return {
+          attributeName: fieldType.name,
+          type: AttributeType.Literal,
+          value: [],
         }
-        return jsonNode
       } else {
-        const literalNode: MDXNode = {
-          type: 'mdxJsxAttribute',
-          name: fieldType.name,
-          value: {
-            type: 'mdxJsxAttributeValueExpression',
-            value: '',
-            data: {
-              estree: {
-                type: 'program',
-                start: 0,
-                end: 1,
-                sourcetype: 'module',
-                body: [
-                  {
-                    type: 'ExpressionStatement',
-                    expression: {
-                      type: 'Literal',
-                      raw: `${fieldType.type.default}`,
-                      // @ts-expect-error the error isn't actually applicable here, it won't be an array
-                      value: fieldType.type.default || undefined,
-                    },
-                  },
-                ],
-              },
-            },
-          },
+        return {
+          attributeName: fieldType.name,
+          type: AttributeType.Literal,
+          value: fieldType.type.default || undefined,
         }
-        return literalNode
       }
     case 'json':
-      const jsonNode: MDXNode = {
-        type: 'mdxJsxAttribute',
-        name: fieldType.name,
-        value: {
-          type: 'mdxJsxAttributeValueExpression',
-          value: '',
-          data: {
-            estree: {
-              type: 'program',
-              start: 0,
-              end: 1,
-              sourcetype: 'module',
-              body: [
-                {
-                  type: 'ExpressionStatement',
-                  expression: {
-                    type: 'ObjectExpression',
-                    properties: [],
-                  },
-                },
-              ],
-            },
-          },
-        },
+      return {
+        attributeName: fieldType.name,
+        type: AttributeType.Json,
+        value: '',
       }
-      return jsonNode
-
+    case 'markdown':
+      return {
+        attributeName: fieldType.name,
+        type: AttributeType.Component,
+        value: [
+          {
+            type: 'paragraph',
+            children: [{ text: '' }],
+          },
+        ],
+      }
+    case 'object':
+      return {
+        attributeName: fieldType.name,
+        type: AttributeType.Object,
+        value: {},
+      }
     default:
       return {
-        name: fieldType.name,
-        type: 'mdxJsxAttribute',
-        value: fieldType.type.default || '',
-      } as unknown as MDXNode
+        attributeName: fieldType.name,
+        type: AttributeType.Literal,
+        value: undefined,
+      }
   }
 }

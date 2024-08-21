@@ -210,6 +210,7 @@ export default function serialize(
       let props: string | undefined
 
       if (mdxElement.reactAttributes.length > 0) {
+        // console.log('reactAttributes', mdxElement.reactAttributes)
         props = mdxElement.reactAttributes
           .map((attribute): string => {
             if (attribute.type === AttributeType.String) {
@@ -226,22 +227,23 @@ export default function serialize(
                 case AttributeType.Json:
                   return `${attribute.attributeName}={${attribute.value}}`
                 case AttributeType.Component:
-                  let serializedChild = serialize(attribute.value, {
-                    ignoreSpaceAfterMdx: true,
-                    nodeTypes,
-                  })
+                  let serializedChildren = attribute.value
+                    .map((r: any) =>
+                      serialize(r, {
+                        ignoreSpaceAfterMdx: true,
+                        nodeTypes,
+                      })
+                    )
+                    .join('')
 
                   // the user might just write plain markdown in the prop
                   // for it to be valid for react it needs to be wrapped
                   // in fragments
-                  if (
-                    !serializedChild?.startsWith(`<${attribute.value.name}`) &&
-                    !serializedChild?.startsWith(`<>`)
-                  ) {
-                    serializedChild = `<>${serializedChild}</>`
+                  if (!serializedChildren?.startsWith(`<`)) {
+                    serializedChildren = `<>${serializedChildren}</>`
                   }
 
-                  return `${attribute.attributeName}={${serializedChild}}`
+                  return `${attribute.attributeName}={${serializedChildren}}`
               }
               return ``
             }
@@ -271,6 +273,13 @@ export default function serialize(
 
       if (hasChildren) {
         children = serializeMdxChildren(mdxElement)
+      }
+
+      // edge case for react fragments
+      // they'll never have a name, and we always want to render them as <></> even
+      // if they have no children
+      if (mdxElement.name === null) {
+        return `<>${!opts.ignoreSpaceAfterMdx || hasChildren ? `\n${BREAK_TAG}` : ''}${hasChildren ? `${children}` : ''}</>${opts.ignoreSpaceAfterMdx ? '' : `\n${BREAK_TAG}`}`
       }
 
       return `<${mdxElement.name}${props ? ` ${props} ` : ''}${

@@ -13,7 +13,6 @@ import noop from 'lodash/noop'
 import userEvent from '@testing-library/user-event'
 import { MDXNode } from '../../types/mdxNode'
 import { AttributeType, getAttributeType } from './lib/mdx'
-import { safeDeserialize } from './remark-validate-schema'
 import { MdxElementShape, ReactAttribute } from './mdxElement'
 import { Descendant } from 'slate'
 
@@ -481,6 +480,41 @@ describe('MDX Editor', () => {
       ])
     })
 
+    it.only('correctly parses an array prop to json', () => {
+      const { result } = deserialize(
+        `
+          <Component array={[12, "16", () => null, {property: "value"}]} />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'array',
+                type: {
+                  widget: 'json',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'array',
+          type: AttributeType.Json,
+          value: JSON.stringify([12, '16', undefined, { property: 'value' }]),
+        },
+      ])
+    })
+
     // We need to correct an edge case where
     // components as props with children on a single line
     // aren't parsed by the mdx plugin correctly
@@ -520,19 +554,21 @@ describe('MDX Editor', () => {
         {
           attributeName: 'componentProp',
           type: AttributeType.Component,
-          value: expect.objectContaining({
-            reactAttributes: [],
-            reactChildren: [
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    text: 'Test',
-                  },
-                ],
-              },
-            ],
-          }),
+          value: [
+            expect.objectContaining({
+              reactAttributes: [],
+              reactChildren: [
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      text: 'Test',
+                    },
+                  ],
+                },
+              ],
+            }),
+          ],
         },
       ])
     })
@@ -579,25 +615,27 @@ describe('MDX Editor', () => {
         {
           attributeName: 'componentProp',
           type: AttributeType.Component,
-          value: expect.objectContaining({
-            reactAttributes: [
-              {
-                attributeName: 'string',
-                type: AttributeType.String,
-                value: 'string',
-              },
-            ],
-            reactChildren: [
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    text: 'Test',
-                  },
-                ],
-              },
-            ],
-          }),
+          value: [
+            expect.objectContaining({
+              reactAttributes: [
+                {
+                  attributeName: 'string',
+                  type: AttributeType.String,
+                  value: 'string',
+                },
+              ],
+              reactChildren: [
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      text: 'Test',
+                    },
+                  ],
+                },
+              ],
+            }),
+          ],
         },
       ])
     })
@@ -645,25 +683,27 @@ describe('MDX Editor', () => {
         {
           attributeName: 'componentProp',
           type: AttributeType.Component,
-          value: expect.objectContaining({
-            reactAttributes: [
-              {
-                attributeName: 'string',
-                type: AttributeType.String,
-                value: 'string',
-              },
-            ],
-            reactChildren: [
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    text: 'Test',
-                  },
-                ],
-              },
-            ],
-          }),
+          value: [
+            expect.objectContaining({
+              reactAttributes: [
+                {
+                  attributeName: 'string',
+                  type: AttributeType.String,
+                  value: 'string',
+                },
+              ],
+              reactChildren: [
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      text: 'Test',
+                    },
+                  ],
+                },
+              ],
+            }),
+          ],
         },
       ])
     })
@@ -716,33 +756,35 @@ describe('MDX Editor', () => {
         {
           attributeName: 'componentProp',
           type: AttributeType.Component,
-          value: expect.objectContaining({
-            reactAttributes: [
-              {
-                attributeName: 'string',
-                type: AttributeType.String,
-                value: 'string',
-              },
-            ],
-            reactChildren: [
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    text: 'Test',
-                  },
-                ],
-              },
-              {
-                type: 'paragraph',
-                children: [
-                  {
-                    text: 'Test2',
-                  },
-                ],
-              },
-            ],
-          }),
+          value: [
+            expect.objectContaining({
+              reactAttributes: [
+                {
+                  attributeName: 'string',
+                  type: AttributeType.String,
+                  value: 'string',
+                },
+              ],
+              reactChildren: [
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      text: 'Test',
+                    },
+                  ],
+                },
+                {
+                  type: 'paragraph',
+                  children: [
+                    {
+                      text: 'Test2',
+                    },
+                  ],
+                },
+              ],
+            }),
+          ],
         },
       ])
     })
@@ -1238,6 +1280,147 @@ Children
         },
       ])
     })
+
+    it('correctly initializes component prop from empty', () => {
+      const { result } = deserialize(
+        `
+          <Component />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'component',
+                type: {
+                  widget: 'markdown',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes[0]).toStrictEqual({
+        attributeName: 'component',
+        type: AttributeType.Component,
+        value: [
+          {
+            children: [
+              {
+                text: '',
+              },
+            ],
+            type: 'paragraph',
+          },
+        ],
+      })
+    })
+
+    it('correctly deserializes a fragment component', () => {
+      const { result } = deserialize(
+        `<>\nText\n\n- listitem\n  - subitem\n- listitem2\n\n Paragraph with a [link](https://google.com)\n</> 
+          `,
+        []
+      ) as any
+
+      const children = result[0].reactChildren as Descendant[]
+
+      expect(children).not.toBe(undefined)
+
+      expect(children).toStrictEqual([
+        { type: 'paragraph', children: [{ text: 'Text' }] },
+        {
+          type: 'ul_list',
+          children: [
+            {
+              type: 'list_item',
+              children: [
+                { type: 'list_item_text', children: [{ text: 'listitem' }] },
+                {
+                  type: 'ul_list',
+                  children: [
+                    {
+                      type: 'list_item',
+                      children: [
+                        {
+                          type: 'list_item_text',
+                          children: [{ text: 'subitem' }],
+                        },
+                      ],
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              type: 'list_item',
+              children: [
+                { type: 'list_item_text', children: [{ text: 'listitem2' }] },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'paragraph',
+          children: [
+            { text: 'Paragraph with a ' },
+            {
+              type: 'link',
+              url: 'https://google.com',
+              children: [{ text: 'link' }],
+            },
+          ],
+        },
+      ])
+    })
+
+    /**
+     * Write a test that deserializes an array into a JSON array if
+     * the widget is set to "json". It also needs to check that the attribute
+     * type is JSON
+     */
+
+    it('deserializes an array into a json array', () => {
+      const { result } = deserialize(
+        `
+          <Component array={["item", "item"]} />
+          `,
+        [
+          {
+            label: 'Component',
+            name: 'Component',
+            fields: [
+              {
+                label: 'Attribute',
+                name: 'array',
+                type: {
+                  widget: 'json',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'array',
+          type: AttributeType.Json,
+          value: JSON.stringify(['item', 'item']),
+        },
+      ])
+    })
   })
   /**
    * These check that we can correctly identify the type
@@ -1541,8 +1724,8 @@ Children
 
       const serialized = result.map((r: any) => serialize(r)).join('')
 
-      expect(serialized).toContain(
-        `<Component array={[1, 2, 3, ["Test", "Test"]]} />`
+      expect(serialized).toBe(
+        `<Component array={[1,2,3,["Test","Test"]]} />\n\n`
       )
     })
 
@@ -1622,7 +1805,8 @@ Children
                 label: 'Attribute',
                 name: 'array',
                 type: {
-                  widget: 'json',
+                  widget: 'string',
+                  multiple: true,
                 },
               },
             ],
@@ -1826,6 +2010,41 @@ Children
       expect(serialized).toBe(
         `<Component componentProp={<>Testing\nTesting\n</>\n\n} />\n\n`
       )
+    })
+
+    it('serializes component with component prop with just fragments', () => {
+      const { result } = deserialize(`<Component componentProp={<></>} />`, [
+        {
+          label: 'Component',
+          name: 'Component',
+          fields: [
+            {
+              label: 'Attribute',
+              name: 'componentProp',
+              type: {
+                widget: 'json',
+              },
+            },
+          ],
+        },
+        {
+          label: 'SubComponent',
+          name: 'SubComponent',
+          fields: [
+            {
+              label: 'Children',
+              name: 'children',
+              type: {
+                widget: 'markdown',
+              },
+            },
+          ],
+        },
+      ]) as any
+
+      const serialized = result.map((r: any) => serialize(r)).join('')
+
+      expect(serialized).toBe(`<Component componentProp={<>\n</>} />\n\n`)
     })
   })
 })

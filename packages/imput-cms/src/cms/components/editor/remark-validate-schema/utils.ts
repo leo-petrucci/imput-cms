@@ -3,6 +3,7 @@ import {
   MdxLiteral,
   MdxObjectExpression,
 } from '../../../types/mdxNode'
+import { MdxElementShape } from '../mdxElement'
 
 /**
  * These functions are used to extract and simplify values
@@ -87,3 +88,21 @@ export const formatComponentWithChildenAndNoNewLines = (
     return componentString
   }
 }
+
+export const isEmptyFragment = (element: MdxElementShape) => {
+  if (
+    element.name === null &&
+    element.reactChildren.length === 1 &&
+    // @ts-expect-error
+    element.reactChildren[0].text === ''
+  )
+    return true
+  return false
+}
+
+export const returnEmtpyParagraph = () => [
+  {
+    type: 'paragraph',
+    children: [{ text: '' }],
+  },
+]

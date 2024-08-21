@@ -58,8 +58,8 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   const form = useForm({
     // define body explicitly here even if it's going to be overwritten later for types
     defaultValues: {
-      body: '',
-      rawBody: [] as (Descendant & { id: string })[],
+      serializedBody: '',
+      body: [] as (Descendant & { id: string })[],
       ...defaultValues(),
     },
   })
@@ -67,12 +67,14 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   // initialize default values to the form
   useEffect(() => {
     if (document) {
-      const { content: body, data: grayMatterObj } = matter(document.markdown)
-      const rawBody = deserialize(body, components || [])
+      const { content: serializedBody, data: grayMatterObj } = matter(
+        document.markdown
+      )
+      const rawBody = deserialize(serializedBody, components || [])
       form.reset({
         ...grayMatterObj,
-        body,
-        rawBody: rawBody.result,
+        body: rawBody.result,
+        serializedBody: serializedBody,
       })
       setMarkdown(document.markdown)
     }
@@ -135,8 +137,8 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   // we parse form values into a graymatter string so we can display it
   React.useEffect(() => {
     const mergedValues = getCorrectedFormValues()
-    const { body, rawBody, ...rest } = mergedValues
-    const content = matter.stringify(body, {
+    const { body, serializedBody, ...rest } = mergedValues
+    const content = matter.stringify(serializedBody, {
       ...rest,
     })
     setMarkdown(content)
@@ -155,7 +157,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
       <>
         {currentCollection.preview?.components ? (
           <MdxRenderer
-            descendants={formValues.rawBody}
+            descendants={formValues.body}
             components={currentCollection.preview?.components}
           />
         ) : (
@@ -205,12 +207,9 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                 // debug
                 onSubmit={() => {
                   const id = toast.loading('Saving content...')
-                  const {
-                    body,
-                    rawBody: _rawBody,
-                    ...rest
-                  } = getCorrectedFormValues()
-                  const content = matter.stringify(body, rest)
+                  const { body, serializedBody, ...rest } =
+                    getCorrectedFormValues()
+                  const content = matter.stringify(serializedBody, rest)
                   console.log(content)
                   mutate(
                     {
@@ -265,13 +264,13 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               }}
             >
               {currentCollection.preview?.header?.({
-                ...omit(formValues, ['rawBody']),
+                ...omit(formValues, ['body']),
               })}
               {currentCollection.preview?.wrapper?.({
                 children: renderPreview(),
               }) || renderPreview()}
               {currentCollection.preview?.footer?.({
-                ...omit(formValues, ['rawBody']),
+                ...omit(formValues, ['body']),
               })}
             </div>
           </div>

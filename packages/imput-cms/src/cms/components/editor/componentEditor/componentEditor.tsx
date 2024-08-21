@@ -9,6 +9,9 @@ import React, { useMemo, useRef } from 'react'
 import { EditorFields } from '../fields'
 import { FieldType } from '../../../contexts/cmsContext/context'
 import { useForm } from 'react-hook-form'
+import { editReactChildren } from '../lib/editReactChildren'
+import Editor from '../editor'
+import { Label } from '@imput/components/Label'
 
 /**
  *
@@ -26,7 +29,8 @@ export const ComponentEditor = ({
   const { getSchema } = useCMS()
 
   const componentSchema = useMemo(() => {
-    return getSchema(mdxElement.name)
+    if (mdxElement.name) return getSchema(mdxElement.name)
+    return undefined
   }, [])
 
   const hasChildren = Boolean(
@@ -143,7 +147,7 @@ export const ComponentEditor = ({
           <EditorFields fields={componentsToFields} />
         </Form>
 
-        {/* {hasChildren && (
+        {hasChildren && (
           <div className="imp-flex imp-flex-col imp-gap-1">
             <Label htmlFor={`component-children`}>Children</Label>
             <Editor
@@ -153,7 +157,7 @@ export const ComponentEditor = ({
               }}
             />
           </div>
-        )} */}
+        )}
       </div>
     </>
   )

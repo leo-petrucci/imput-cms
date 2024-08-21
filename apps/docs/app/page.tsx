@@ -48,6 +48,7 @@ const Page = async () => {
 
     return <MDXRemote serialized={serialized} />
   } catch (err) {
+    console.log('Error rendering homepage', err)
     return <></>
   }
 }

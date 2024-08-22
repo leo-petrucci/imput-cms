@@ -26,6 +26,7 @@ const ComboboxControlled = (props: ControlledComboboxProps) => {
       onValueChange={(val) => {
         fields.onChange(val?.value)
       }}
+      data-testid={`${name}-combobox`}
     />
   )
 }
@@ -50,6 +51,7 @@ const MultiComboboxControlled = (props: ControlledComboboxProps) => {
       onValueChange={(val) => {
         fields.onChange(val.map((v) => v.value))
       }}
+      data-testid={`${name}-combobox`}
     />
   )
 }

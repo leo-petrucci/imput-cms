@@ -52,9 +52,14 @@ export type Widgets =
       default?: any
     }
   | {
+      widget: 'object'
+      default?: any
+      multiple?: boolean
+    }
+  | {
       widget: 'string'
       multiple?: boolean
-      default?: string
+      default?: string | string[]
     }
   | { widget: 'markdown'; default?: string }
 

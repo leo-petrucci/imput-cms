@@ -66,15 +66,19 @@ export const FormItemProvider = ({
   children,
   rules,
   name,
+  label,
   setValueAs,
 }: {
   children: React.ReactNode
   rules: RegisterOptions
   name: string
+  label: FormItemProps['label']
   setValueAs: FormItemProps['setValueAs']
 }): JSX.Element => {
   return (
-    <FormItemContextProvider value={{ rules, name, setValueAs: setValueAs! }}>
+    <FormItemContextProvider
+      value={{ rules, name, setValueAs: setValueAs!, label }}
+    >
       {children}
     </FormItemContextProvider>
   )
@@ -124,7 +128,12 @@ const Item = ({
   const methods = useFormContext()
 
   return (
-    <FormItemProvider rules={rules} name={name} setValueAs={setValueAs}>
+    <FormItemProvider
+      rules={rules}
+      name={name}
+      setValueAs={setValueAs}
+      label={label}
+    >
       <div className="imp-flex imp-flex-col imp-gap-1" {...rest}>
         {typeof label === 'string' ? (
           <Label htmlFor={`input-${name}`}>{label}</Label>
@@ -184,11 +193,12 @@ const ItemField = ({
         <FormItemProvider
           key={field.id}
           rules={rules}
+          label={label}
           name={`${name}.${index}`}
           setValueAs={setValueAs}
         >
           <div className="imp-flex imp-flex-1 imp-gap-1">
-            <div className="flex-1">{children}</div>
+            <div className="imp-flex-1">{children}</div>
             <Button
               type="button"
               className="imp-self-center"

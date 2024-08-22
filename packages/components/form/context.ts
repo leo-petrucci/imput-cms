@@ -5,6 +5,7 @@ import { FormItemProps } from './form'
 export interface FormItemContext {
   name: string
   rules: RegisterOptions
+  label: FormItemProps['label']
   setValueAs: NonNullable<FormItemProps['setValueAs']>
 }
 

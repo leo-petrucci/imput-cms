@@ -12,6 +12,16 @@ category:
   - Design
   - Quick Tips
 ---
-My `markdown` `contentsdsd` Something else 
+My `markdown` `contentsdsd` Something else
+
+<ReactComponent name="" date="2024-04-12" datetime="2024-04-20T16:38" boolean={true} variant="option1" padding={8} object={{
+  item: "something",
+  anotherItem: "somethingelse"
+}} array={["Option 1","Option 2"]} numberArray={[12]} >
+
+Children
+
+</ReactComponent>
 
 <ReactComponent name={undefined} date={undefined} datetime={undefined} boolean="" variant={undefined} padding="" object="" array="" numberArray="" />
+

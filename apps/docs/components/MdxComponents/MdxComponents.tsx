@@ -3,6 +3,7 @@ import { Card, CardHeader, CardTitle } from '@imput/components/Card'
 import Link from 'next/link'
 import { ArrowRight } from '@imput/components/Icon'
 import React from 'react'
+import { cn } from '@imput/components/lib/utils'
 
 export const Components = {
   Note: ({ children }: any) => {
@@ -13,6 +14,16 @@ export const Components = {
       </div>
     )
   },
+  code: dynamic(() =>
+    import('../Code').then((module) => ({
+      default: module.Code,
+    }))
+  ),
+  pre: dynamic(() =>
+    import('../Pre').then((module) => ({
+      default: module.Pre,
+    }))
+  ),
   PropsTable: dynamic(() => import('../PropsTable')),
   Video: ({ src }: any) => {
     return <video controls src={src}></video>
@@ -59,5 +70,58 @@ export const Components = {
   ),
   Footer: dynamic(() =>
     import('../Homepage/Footer').then((module) => ({ default: module.Footer }))
+  ),
+  h1: (props: any) => (
+    <h1
+      className="imp-mt-2 imp-text-4xl imp-font-bold imp-tracking-tight imp-text-slate-900 dark:imp-text-slate-100"
+      {...props}
+    />
+  ),
+  h2: (props: any) => (
+    <h2
+      className="imp-mt-10 imp-border-b imp-pb-1 imp-text-3xl imp-border-neutral-200/70 contrast-more:imp-border-neutral-400 dark:imp-border-primary-100/10 contrast-more:dark:imp-border-neutral-400"
+      {...props}
+    />
+  ),
+  h3: (props: any) => <h3 className="imp-mt-8 imp-text-2xl" {...props} />,
+  h4: (props: any) => <h4 className="imp-mt-8 imp-text-xl" {...props} />,
+  h5: (props: any) => <h5 className="imp-mt-8 imp-text-lg" {...props} />,
+  h6: (props: any) => <h6 className="imp-mt-8 imp-text-base" {...props} />,
+  ul: (props: any) => (
+    <ul
+      className="imp-mt-6 imp-list-disc first:imp-mt-0 ltr:imp-ml-6 rtl:imp-mr-6"
+      {...props}
+    />
+  ),
+  ol: (props: any) => (
+    <ol
+      className="imp-mt-6 imp-list-decimal first:imp-mt-0 ltr:imp-ml-6 rtl:imp-mr-6"
+      {...props}
+    />
+  ),
+  li: (props: any) => <li className="imp-my-2" {...props} />,
+  blockquote: (props: any) => (
+    <blockquote
+      className={cn(
+        'imp-mt-6 imp-border-gray-300 imp-italic imp-text-gray-700 dark:imp-border-gray-700 dark:imp-text-gray-400',
+        'first:imp-mt-0 ltr:imp-border-l-2 ltr:imp-pl-6 rtl:imp-border-r-2 rtl:imp-pr-6'
+      )}
+      {...props}
+    />
+  ),
+  hr: (props: any) => (
+    <hr
+      className="imp-my-8 imp-border-neutral-200/70 contrast-more:imp-border-neutral-400 dark:imp-border-primary-100/10 contrast-more:dark:imp-border-neutral-400"
+      {...props}
+    />
+  ),
+  a: (props: any) => (
+    <a
+      {...props}
+      className="nx-text-primary-600 nx-underline nx-decoration-from-font [text-underline-position:from-font]"
+    />
+  ),
+  p: (props: any) => (
+    <p className="imp-mt-6 imp-leading-7 first:imp-mt-0" {...props} />
   ),
 }

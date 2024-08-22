@@ -14,17 +14,18 @@ export const CreateEditor = () => {
     rules,
   })
 
-  const rawBody = watch('rawBody')
+  const rawBody = watch(name)
 
   const handleChange = React.useCallback(
     (nextValue: any[]) => {
-      // serialize slate state to a markdown string
-      const serialized = nextValue.map((v) => serialize(v)).join('')
-      field.onChange(serialized)
+      // field.onChange(serialized)
+      field.onChange(nextValue)
 
       // if this is the main body we save the raw slate array to form
       if (name === 'body') {
-        setValue('rawBody', nextValue)
+        // serialize slate state to a markdown string
+        const serialized = nextValue.map((v) => serialize(v)).join('')
+        setValue('serializedBody', serialized)
       }
     },
     [field]
@@ -34,7 +35,7 @@ export const CreateEditor = () => {
     <DepthProvider>
       <Editor
         value={
-          rawBody.length > 0
+          rawBody && rawBody.length > 0
             ? rawBody
             : [
                 {

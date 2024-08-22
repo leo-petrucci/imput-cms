@@ -29,31 +29,19 @@ const blocks: BlockType[] = [
     label: 'Test Component',
     fields: [
       {
+        name: 'array',
+        label: 'Array',
+        type: {
+          widget: 'string',
+        },
+      },
+      {
         name: 'select',
         label: 'Select',
         type: {
           options: ['Option 1', 'Option 2', 'Option 3'],
           default: 'Option 1',
           widget: 'select',
-        },
-      },
-      {
-        name: 'selectMultipleWithDefault',
-        label: 'SelectMultiple',
-        type: {
-          options: ['Option 1', 'Option 2', 'Option 3'],
-          default: ['Option 1'],
-          widget: 'select',
-          multiple: true,
-        },
-      },
-      {
-        name: 'selectMultiple',
-        label: 'SelectMultiple',
-        type: {
-          options: ['Option 1', 'Option 2', 'Option 3'],
-          widget: 'select',
-          multiple: true,
         },
       },
     ],

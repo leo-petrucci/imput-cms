@@ -3,6 +3,7 @@ import { useFormItem } from '..'
 import { useController, useFormContext } from 'react-hook-form'
 import React from 'react'
 import { cn } from '../lib/utils'
+import { Label } from '../Label'
 
 const Switch = React.forwardRef<
   React.ElementRef<typeof SwitchPrimitives.Root>,
@@ -13,8 +14,10 @@ const Switch = React.forwardRef<
       'imp-peer imp-inline-flex imp-h-6 imp-w-11 imp-shrink-0 imp-cursor-pointer imp-items-center imp-rounded-full imp-border-2 imp-border-transparent imp-transition-colors focus-visible:imp-outline-none focus-visible:imp-ring-2 focus-visible:imp-ring-ring focus-visible:imp-ring-offset-2 focus-visible:imp-ring-offset-background disabled:imp-cursor-not-allowed disabled:imp-opacity-50 data-[state=checked]:imp-bg-primary data-[state=unchecked]:imp-bg-input',
       className
     )}
-    id={`switch-${props.name}`}
     {...props}
+    name={`input-${props.name}`}
+    data-testid={`input-${props.name}`}
+    id={`input-${props.name}`}
     ref={ref}
   >
     <SwitchPrimitives.Thumb

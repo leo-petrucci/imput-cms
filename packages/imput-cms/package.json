@@ -9,7 +9,7 @@
     "imput:release": "release publish",
     "imput:tailwind": "pnpm dlx tailwindcss -i ./src/styles/input.css -o ./src/styles/output.css --watch=always",
     "imput:test": "vitest run",
-    "imput:test:dev": "vitest --watch",
+    "imput:test:dev": "vitest --watch --t \"serialization\"",
     "lint": "dts lint",
     "start": "dts watch",
     "test": "dts test --passWithNoTests"
@@ -67,6 +67,7 @@
     "slugify": "^1.6.5",
     "tslib": "^2.5.0",
     "unified": "^10.1.2",
+    "unist-util-visit": "^5.0.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {
@@ -95,7 +96,7 @@
     "tsup": "^8.0.2",
     "typescript": "4.9.5",
     "vite": "^5.1.4",
-    "vitest": "^1.3.1"
+    "vitest": "^2.0.5"
   },
   "peerDependencies": {
     "@types/react": "18.x",

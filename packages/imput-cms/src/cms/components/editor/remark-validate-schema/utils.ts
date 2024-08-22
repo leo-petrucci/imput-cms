@@ -47,7 +47,7 @@ export const returnLiteralValues = (element: MdxLiteral) => {
  */
 export const returnObjectValues = (element: MdxObjectExpression) => {
   const objectMap: [string, any][] = element.properties.map((p) => {
-    const key = p.key.name
+    const key = p.key.name || p.key.value
     let value = undefined
 
     if (p.value.type === 'Literal') {

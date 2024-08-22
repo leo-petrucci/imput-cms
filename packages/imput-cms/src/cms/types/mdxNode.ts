@@ -57,6 +57,7 @@ export interface MdxArrowunctionExpression {
 export interface MdxIdentifier {
   type: 'Identifier'
   name: string
+  value: string
 }
 
 export interface MDXJSXElement {

@@ -515,6 +515,53 @@ describe('MDX Editor', () => {
       ])
     })
 
+    it('correctly parses an array of JSON objects prop to json', () => {
+      const { result } = deserialize(
+        `<TabsRoot triggers={[{"value":"string","children":"String"},{"value":"date","children":"Date"},{"value":"dateTime","children":"Datetime"},{"value":"select","children":"Select"},{"value":"image","children":"Image"},{"value":"boolean","children":"Boolean"},{"value":"markdown","children":"Markdown"},{"value":"relation","children":"Relation"}]} defaultValue="string" >
+        
+        Test
+        
+        </TabsRoot>
+          `,
+        [
+          {
+            name: 'TabsRoot',
+            label: 'Tabs',
+            fields: [
+              {
+                name: 'triggers',
+                label: 'Triggers',
+                type: {
+                  widget: 'json',
+                },
+              },
+            ],
+          },
+        ]
+      ) as any
+
+      const attributes = result[0].reactAttributes as ReactAttribute[]
+
+      expect(attributes).not.toBe(undefined)
+
+      expect(attributes).toStrictEqual([
+        {
+          attributeName: 'triggers',
+          type: AttributeType.Json,
+          value: JSON.stringify([
+            { value: 'string', children: 'String' },
+            { value: 'date', children: 'Date' },
+            { value: 'dateTime', children: 'Datetime' },
+            { value: 'select', children: 'Select' },
+            { value: 'image', children: 'Image' },
+            { value: 'boolean', children: 'Boolean' },
+            { value: 'markdown', children: 'Markdown' },
+            { value: 'relation', children: 'Relation' },
+          ]),
+        },
+      ])
+    })
+
     // We need to correct an edge case where
     // components as props with children on a single line
     // aren't parsed by the mdx plugin correctly

@@ -12,9 +12,9 @@ const MoveElement = (props: CustomRenderElementProps) => {
   return (
     <div
       style={{
-        flex: 0,
+        flex: 'none',
       }}
-      className="imp-flex imp-self-center imp-flex-col imp-justify-between imp-gap-1"
+      className="controls imp-flex imp-flex-none imp-self-center imp-flex-col imp-justify-between imp-gap-1"
     >
       <Button
         type="button"

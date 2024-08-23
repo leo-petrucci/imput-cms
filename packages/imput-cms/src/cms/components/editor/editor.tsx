@@ -98,7 +98,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
 
     return (
       <div className="imp-flex imp-flex-col imp-gap-2 children:imp-flex-1">
-        <div className="imp-flex imp-gap-2 children:imp-flex-1">
+        <div className="imp-flex imp-gap-2 [&>:not(.controls)]:imp-flex-1">
           {displayControls && <MoveElement {...props} />}
           <Element {...props} />
         </div>

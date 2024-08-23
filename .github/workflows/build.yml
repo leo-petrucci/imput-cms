@@ -29,6 +29,7 @@ jobs:
       - name: Build
         run: |-
           pnpm build
+          cat ./packages/imput-cms/dist/index.css
 
       - name: Test
         run: |-

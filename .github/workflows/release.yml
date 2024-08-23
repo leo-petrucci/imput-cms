@@ -30,7 +30,10 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build
+      - name: Build
+        run: |-
+          pnpm --filter imput-cms imput:tailwind
+          pnpm build
 
       - run: pnpm run release
         env:

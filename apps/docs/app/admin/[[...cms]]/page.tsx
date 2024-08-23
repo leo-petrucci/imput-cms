@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { Components } from '@/components/MdxComponents'
 import { PreviewWrapper } from '@/components/PreviewWrapper'
 import 'nextra-theme-docs/style.css'
+import '../../../styles/debug.css'
 import '../../../styles/tailwind.css'
 
 const NextCMS = dynamic(() => import('local-imput-cms'), {

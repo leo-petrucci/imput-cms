@@ -14,10 +14,10 @@
       "inputs": ["apps/cms"]
     },
     "docs": {
-      "dependsOn": ["imput:tailwind", "docs:dev"]
+      "dependsOn": ["imput:tailwind:watch", "docs:dev"]
     },
     "test": {
-      "dependsOn": ["imput:tailwind", "test:dev"]
+      "dependsOn": ["imput:tailwind:watch", "test:dev"]
     },
     "docs:build": {
       "cache": false

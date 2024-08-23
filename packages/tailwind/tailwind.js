@@ -16,7 +16,6 @@ const tailwind = {
     './src/**/*.{ts,tsx}',
     './utils/**/*.{ts,tsx}',
     './theme.config.jsx',
-    // './packages/components/**/*.{ts,tsx}',
     '../../packages/components/**/*.{ts,tsx}',
     '../../packages/imput-cms/**/*.{ts,tsx}',
   ],

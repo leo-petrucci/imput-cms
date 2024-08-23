@@ -6,7 +6,6 @@ const typography = require('@tailwindcss/typography')
 
 /** @type {import('tailwindcss').Config} */
 const tailwind = {
-  important: true,
   darkMode: ['class'],
   prefix: 'imp-',
   content: [
@@ -17,6 +16,7 @@ const tailwind = {
     './src/**/*.{ts,tsx}',
     './utils/**/*.{ts,tsx}',
     './theme.config.jsx',
+    // './packages/components/**/*.{ts,tsx}',
     '../../packages/components/**/*.{ts,tsx}',
     '../../packages/imput-cms/**/*.{ts,tsx}',
   ],

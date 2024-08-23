@@ -36,7 +36,7 @@ const CMS = () => (
 )
 ```
 
-# HTML Preview
+## HTML Preview
 
 The easiest way to start is to add an empty `preview.components` object:
 
@@ -59,9 +59,25 @@ This will tell Imput to convert your Markdown into HTML, even though it will be 
 }
 ```
 
-# React Preview
+### Previewing Frontmatter
 
-Imput is also able to render React components added with the "Block" feature in real-time.
+All your frontmatter data (i.e. things that aren't the main body of your content like title, date or author) are passed to the `header` and `footer` configurations. You can use these methods to make your preview look more like your actual page, or just display useful information to the editor.
+
+```tsx
+{
+  preview: {
+    components: {},
+    // this will use your title contents and add it to an <h1> tag on top of your content
+    header: ({ title }) => <h1 className="my-blog-heading">{title}</h1>,
+    // this will use your author's name and render it below your content
+    footer: ({ authorName }) => <p className="article-author">{authorName}</p>
+  },
+}
+```
+
+## React Components Preview
+
+Imput is also able to render React components added with the "Block" feature in real-time. Adding a `components` object will replace any components in your MDX with the component matching its name. 
 
 ```tsx
 {
@@ -98,4 +114,20 @@ Imput is also able to render React components added with the "Block" feature in 
   ],
 }
 ```
+
+You can also use this configuration object to replace HTML tags! Define a component that matches an HTML tag:
+
+```javascript
+{
+  preview: {
+    components: {
+      // Imput will now replace all H1 tags with the following HTML
+      h1: (props: any) =>  (
+          <h1 {...props} className="my-custom-class" />
+        )
+      }
+    },
+  },
+```
+
 

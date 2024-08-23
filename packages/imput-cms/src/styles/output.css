@@ -1104,6 +1104,21 @@ video {
   background-color: hsl(210 40% 96.1% / var(--tw-bg-opacity)) !important;
 }
 
+.\!imp-bg-destructive {
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(0 100% 50% / var(--tw-bg-opacity)) !important;
+}
+
+.\!imp-bg-primary {
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(222.2 47.4% 11.2% / var(--tw-bg-opacity)) !important;
+}
+
+.\!imp-bg-secondary {
+  --tw-bg-opacity: 1 !important;
+  background-color: hsl(210 40% 96.1% / var(--tw-bg-opacity)) !important;
+}
+
 .imp-bg-\[\#1e1e1e\] {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(30 30 30 / var(--tw-bg-opacity)) !important;

@@ -29,7 +29,15 @@ jobs:
       - name: Build
         run: |-
           pnpm build
-          cat ./packages/imput-cms/dist/index.css
+
+      - name: Create string content
+        run: cat ./packages/imput-cms/dist/index.css > output.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-artifact
+          path: output.txt
 
       - name: Test
         run: |-

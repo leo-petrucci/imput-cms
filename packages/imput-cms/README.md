@@ -18,3 +18,4 @@ Imput is a **headless**, **static**, **MDX-powered** CMS built for React. It doe
 ## Quick start
 
 Check out the [Quick Start guide on our docs](https://www.imput.computer/docs/quick-start/getting-started).
+

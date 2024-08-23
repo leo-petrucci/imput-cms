@@ -1594,6 +1594,11 @@ video {
   --tw-enter-scale: .95;
 }
 
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 .file\:imp-border-0::file-selector-button {
   border-width: 0px;
 }

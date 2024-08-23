@@ -99,6 +99,7 @@ const Codeblock = React.forwardRef<Editor, CodeblockProps>(
           style={{
             fontFamily: '"Fira code", "Fira Mono", monospace',
             fontSize: 14,
+            caretColor: 'white',
           }}
         />
       </div>

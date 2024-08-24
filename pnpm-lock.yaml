@@ -305,6 +305,9 @@ importers:
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
+      cmdk:
+        specifier: ^0.2.1
+        version: 0.2.1(@types/react@18.0.28)(react-dom@18.2.0)(react@18.2.0)
       escape-html:
         specifier: ^1.0.3
         version: 1.0.3
@@ -2798,8 +2801,8 @@ packages:
   /@radix-ui/react-use-escape-keydown@1.0.3(@types/react@18.0.28)(react@18.2.0):
     resolution: {integrity: sha512-vyL82j40hcFicA+M4Ex7hVkB9vHgSse1ZWomAqV2Je3RleKGO5iM8KMOEtfoSB0PnIelMd2lATjTGMYqN5ylTg==}
     peerDependencies:
-      '@types/react': '*'
-      react: ^16.8 || ^17.0 || ^18.0
+      '@types/react': ^18.2.55
+      react: ^18.2.0
     peerDependenciesMeta:
       '@types/react':
         optional: true
@@ -9266,6 +9269,7 @@ packages:
   /react-remove-scroll-bar@2.3.5(@types/react@18.0.28)(react@18.2.0):
     resolution: {integrity: sha512-3cqjOqg6s0XbOjWvmasmqHch+RLxIEk2r/70rzGXuz3iIGQsQheEQyqYCBb5EECoD01Vo2SIbDqW4paLeLTASw==}
     engines: {node: '>=10'}
+    deprecated: please update to the following version as this contains a bug (https://github.com/theKashey/react-remove-scroll-bar/issues/57)
     peerDependencies:
       '@types/react': ^16.8.0 || ^17.0.0 || ^18.0.0
       react: ^16.8.0 || ^17.0.0 || ^18.0.0

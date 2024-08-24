@@ -116,6 +116,9 @@ const CollectionPage = () => {
                             onClick={() => {
                               navigate(`/${params.cms}/${c.name}`)
                             }}
+                            style={{
+                              justifyContent: 'flex-start',
+                            }}
                           >
                             {c.label}
                           </Button>

@@ -6,7 +6,7 @@ import remarkSlate, {
   defaultNodeTypes,
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
-import { createEditor, Descendant, Path } from 'slate'
+import { BaseEditor, createEditor, Descendant, Path } from 'slate'
 import { withHistory } from 'slate-history'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
@@ -27,6 +27,10 @@ import { FloatingToolbar } from './floatingToolbar'
 import { withImput } from './withImput'
 import { remarkValidateSchema } from './remark-validate-schema'
 import { BlockType } from '../../contexts/cmsContext/context'
+import { shortcuts } from './utils/shortcuts'
+import { withCommands } from './Commands/context'
+import { FloatingCommands } from './Commands/Commands'
+import { useCommands } from './Commands/hook'
 
 export const deserialize = (
   src: string,
@@ -139,18 +143,25 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
     }
   }, [])
 
+  const { onChange: onCommandsChange } = useCommands(editor)
+
   return (
     <>
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
         <FloatingToolbar />
+        <FloatingCommands editor={editor} />
         <div className="children:imp-p-2">
           <Editable
             data-testid="slate-content-editable"
             renderElement={renderElement}
             renderLeaf={renderLeaf}
+            onKeyUp={(event: any) => {
+              onCommandsChange(event, editor)
+            }}
             onKeyDown={(event: any) => {
               listsKeyDown(editor, event)
               onKeyDownOffset(editor, event)
+              shortcuts(event, editor)
             }}
           />
         </div>
@@ -159,4 +170,4 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
   )
 }
 
-export default Editor
+export default withCommands(Editor)

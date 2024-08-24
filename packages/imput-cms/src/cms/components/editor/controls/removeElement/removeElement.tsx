@@ -1,8 +1,8 @@
 import { Trash } from 'phosphor-react'
 import { ReactEditor, useSlate } from 'slate-react'
-import { removeElement } from '../../../../../cms/components/editor/lib/editorControls'
 import React from 'react'
 import { Element } from 'slate'
+import { removeElement } from '../../utils/marksAndBlocks'
 
 /**
  * Renders a button that, when clicked, removes the element it is connected to.

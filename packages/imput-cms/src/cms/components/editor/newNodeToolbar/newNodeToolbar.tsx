@@ -18,7 +18,7 @@ import {
   TooltipTrigger,
 } from '@imput/components/Tooltip'
 import { v4 as uuidv4 } from 'uuid'
-import { addEmptySpace } from '../lib/editorControls'
+import { addEmptySpace } from '../utils/marksAndBlocks'
 
 type NewNodeToolbarProps = {
   children: React.ReactNode
@@ -39,8 +39,8 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
       <PopoverContent side="top" className="!imp-p-0 imp-w-auto">
         <div className="imp-flex">
           <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
                 <Toggle
                   pressed={false}
                   onPressedChange={() => {
@@ -57,8 +57,8 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
           </TooltipProvider>
 
           <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
                 <Toggle
                   pressed={false}
                   onPressedChange={() => {
@@ -85,8 +85,8 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
           </TooltipProvider>
 
           <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
+            <Tooltip delayDuration={0}>
+              <TooltipTrigger asChild>
                 <Toggle
                   pressed={false}
                   onPressedChange={() => {
@@ -105,8 +105,8 @@ const NewNodeToolbar = ({ children, element }: NewNodeToolbarProps) => {
                   }}
                 >
                   <Image size={16} />
-                </Toggle>{' '}
-              </TooltipTrigger>{' '}
+                </Toggle>
+              </TooltipTrigger>
               <TooltipContent className="imp-max-w-sm">
                 Image Block
               </TooltipContent>

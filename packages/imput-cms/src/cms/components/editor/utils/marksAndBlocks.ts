@@ -1,12 +1,16 @@
 import {
   BaseEditor,
   Editor,
+  Element,
   Location,
   Path,
   Element as SlateElement,
   Transforms,
 } from 'slate'
+import { ReactEditor } from 'slate-react'
 import { v4 as uuidv4 } from 'uuid'
+import { defaultNodeTypes } from '../remark-slate'
+import codeblock from '@imput/components/codeblock'
 
 /**
  * Used to wrap a specific selection in a style, for example bold or italics
@@ -118,4 +122,51 @@ export const removeElement = (
   where: Location
 ) => {
   Transforms.removeNodes(editor, { at: where })
+}
+
+/**
+ * Wraps the current node into a code block
+ */
+export const addCodeBlockNode = (
+  editor: ReactEditor,
+  editorRef: HTMLElement
+) => {
+  Transforms.wrapNodes(
+    editor,
+    // @ts-expect-error
+    { type: defaultNodeTypes.code_block, language: 'plain', children: [] },
+    {
+      match: (n) =>
+        // @ts-expect-error
+        Element.isElement(n) && n.type === defaultNodeTypes.paragraph,
+      split: true,
+    }
+  )
+  Transforms.setNodes(
+    editor,
+    // @ts-expect-error
+    { type: defaultNodeTypes.code_line },
+    {
+      match: (n) =>
+        // @ts-expect-error
+        Element.isElement(n) && n.type === defaultNodeTypes.paragraph,
+    }
+  )
+  // Now, move the cursor to the start of the newly created code_block
+  const [codeBlock] = Editor.nodes(editor, {
+    match: (n) =>
+      // @ts-ignore
+      Element.isElement(n) && n.type === defaultNodeTypes.code_line,
+    mode: 'lowest',
+  })
+
+  if (codeBlock) {
+    const [node, path] = codeBlock
+    setTimeout(() => {
+      editorRef.focus()
+      setTimeout(() => {
+        Transforms.select(editor, Editor.end(editor, path))
+      }, 10)
+    }, 0)
+  }
 }

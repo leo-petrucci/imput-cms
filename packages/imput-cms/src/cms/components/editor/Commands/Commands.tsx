@@ -15,17 +15,28 @@ import {
   CommandItem,
 } from '@imput/components/Command'
 import { options } from './Item'
+import { Editor, Path, Range, Transforms } from 'slate'
+import { deleteCommandCharacter } from './utils'
+import { useState } from 'react'
 
 type FloatingCommandsProps = {
   editor: ReactEditor
 }
 
 export const FloatingCommands = ({ editor }: FloatingCommandsProps) => {
-  const { open, position, setOpen, setClosed } = useCommands(editor)
+  const {
+    open,
+    position,
+    setOpen,
+    setClosed,
+    restoreSelection,
+    editor: editorRef,
+  } = useCommands(editor)
+  const [lastPath, setLastPath] = useState<Path | null>(null)
 
   return (
     <>
-      <Popover open={open} modal>
+      <Popover open={open} modal onOpenChange={(open) => {}}>
         <Portal.Root>
           <PopoverAnchor asChild>
             <div
@@ -45,7 +56,10 @@ export const FloatingCommands = ({ editor }: FloatingCommandsProps) => {
           side="top"
           className="!imp-p-0 imp-w-auto"
           onPointerDownOutside={setClosed}
-          onEscapeKeyDown={setClosed}
+          onEscapeKeyDown={() => {
+            setClosed()
+            restoreSelection()
+          }}
         >
           <Command>
             <CommandInput placeholder="Type to search options" />
@@ -57,7 +71,8 @@ export const FloatingCommands = ({ editor }: FloatingCommandsProps) => {
                     value={option.value}
                     key={option.value}
                     onSelect={() => {
-                      option.onSelect(editor)
+                      deleteCommandCharacter(editor)
+                      option.onSelect(editor, editorRef!)
                       setClosed()
                     }}
                   >

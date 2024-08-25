@@ -31,6 +31,11 @@ import { shortcuts } from './utils/shortcuts'
 import { withCommands } from './Commands/context'
 import { FloatingCommands } from './Commands/Commands'
 import { useCommands } from './Commands/hook'
+import {
+  SetNodeToDecorations,
+  codeBlockOnKeyDown,
+  useDecorate,
+} from './codeblockElement/utils'
 
 export const deserialize = (
   src: string,
@@ -145,13 +150,17 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
 
   const { onChange: onCommandsChange } = useCommands(editor)
 
+  const decorate = useDecorate(editor)
+
   return (
     <>
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
+        <SetNodeToDecorations />
         <FloatingToolbar />
         <FloatingCommands editor={editor} />
         <div className="children:imp-p-2">
           <Editable
+            decorate={decorate}
             data-testid="slate-content-editable"
             renderElement={renderElement}
             renderLeaf={renderLeaf}
@@ -162,6 +171,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
               listsKeyDown(editor, event)
               onKeyDownOffset(editor, event)
               shortcuts(event, editor)
+              codeBlockOnKeyDown(editor, event)
             }}
           />
         </div>

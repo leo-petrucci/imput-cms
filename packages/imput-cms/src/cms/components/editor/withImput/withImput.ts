@@ -7,7 +7,7 @@ import { CustomElement } from '../../../../cms/types/slate'
  * Adds custom Imput functions for the slate editor
  */
 export const withImput = (editor: ReactEditor) => {
-  const { isVoid, isInline } = editor
+  const { isVoid, isInline, insertBreak } = editor
 
   /**
    * A void is an element with text that can't be edited
@@ -34,7 +34,10 @@ export const withImput = (editor: ReactEditor) => {
   editor.insertBreak = () => {
     const { selection } = editor
 
-    if (selection) {
+    // we only reset the styling if we're in a root node
+    // if we're any deeper we keep the default behavior
+    // this allows us to maintain the Slate type copy behavior for code_blocks
+    if (selection && selection.anchor.path.length <= 1) {
       Transforms.insertNodes(editor, {
         children: [{ text: '' }],
         // @ts-expect-error
@@ -42,6 +45,8 @@ export const withImput = (editor: ReactEditor) => {
         id: uuidv4(),
       })
       return
+    } else {
+      insertBreak()
     }
   }
 

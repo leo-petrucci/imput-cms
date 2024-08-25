@@ -312,7 +312,10 @@ export default function serialize(
       return `\`\`\`${
         (chunk as BlockType).language || ''
         // @ts-ignore
-      }\n${children}\n\`\`\`\n${BREAK_TAG}`
+      }\n${children}\`\`\`\n${BREAK_TAG}`
+
+    case nodeTypes.code_line:
+      return `${children}${BREAK_TAG}`
 
     case nodeTypes.link:
       return `[${children}](${(chunk as BlockType).url || ''})`

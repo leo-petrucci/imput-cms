@@ -1,4 +1,5 @@
 import {
+  Atom,
   CodeBlock,
   TextHFive,
   TextHFour,
@@ -42,7 +43,7 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<CodeBlock size={32} />}
+        icon={<Atom size={32} />}
         heading={<>Component</>}
         sub={<>Transform this node into a component block.</>}
       />

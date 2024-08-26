@@ -1,11 +1,11 @@
 import React from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { useUploadFile } from '../../../../../cms/queries/github'
 import toast from 'react-hot-toast'
-import { queryKeys } from '../../../../../cms/queries/keys'
-import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
 import { Button } from '@imput/components/Button'
 import { Endpoints } from '@octokit/types'
+import { useUploadFile } from '../../../../../queries/github'
+import { useCMS } from '../../../../../contexts/cmsContext/useCMSContext'
+import { queryKeys } from '../../../../../queries/keys'
 
 /**
  * Renders a button that allows uploading images to github. On success, refreshes the local cache with the new data.

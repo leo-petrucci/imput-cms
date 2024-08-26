@@ -1,6 +1,7 @@
 import {
   Atom,
   CodeBlock,
+  Image,
   TextHFive,
   TextHFour,
   TextHOne,
@@ -10,7 +11,11 @@ import {
 } from '@imput/components/Icon'
 import { Muted } from '@imput/components/Typography'
 import { ReactEditor } from 'slate-react'
-import { addCodeBlockNode, addHeadingNode } from '../utils/marksAndBlocks'
+import {
+  addCodeBlockNode,
+  addHeadingNode,
+  addImageNode,
+} from '../utils/marksAndBlocks'
 import { openComponentsModal } from '../ComponentsModal/store'
 
 type OptionType = {
@@ -52,6 +57,19 @@ export const options: OptionType[] = [
       openComponentsModal()
     },
     value: 'component-block',
+  },
+  {
+    label: (
+      <CommandItem
+        icon={<Image size={32} />}
+        heading={<>Image</>}
+        sub={<>Add an image.</>}
+      />
+    ),
+    onSelect: (editor, editorRef) => {
+      addImageNode(editor, editorRef)
+    },
+    value: 'image-block',
   },
   {
     label: (

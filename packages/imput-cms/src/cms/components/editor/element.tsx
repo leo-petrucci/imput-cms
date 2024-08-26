@@ -1,7 +1,7 @@
 import React from 'react'
 import { RenderElementProps } from 'slate-react'
 import CodeblockElement from './Elements/CodeBlockElement/codeblockElement'
-import Image from '../../../cms/components/editor/images/imageElement'
+import Image from '../../../cms/components/editor/Elements/Images/ImageElement'
 import { MdxElement } from './Elements/MdxElement'
 import { CustomElement } from '../../types/slate'
 import LinkElement, { InlineChromiumBugfix } from './linkElement/linkElement'

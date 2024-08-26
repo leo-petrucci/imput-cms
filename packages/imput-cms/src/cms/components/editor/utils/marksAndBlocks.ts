@@ -10,7 +10,7 @@ import {
 import { ReactEditor } from 'slate-react'
 import { v4 as uuidv4 } from 'uuid'
 import { defaultNodeTypes } from '../remark-slate'
-import codeblock from '@imput/components/codeblock'
+import { ImageElement } from '../Elements/Images/ImageElement'
 
 /**
  * Used to wrap a specific selection in a style, for example bold or italics
@@ -225,4 +225,15 @@ export const selectCreatedNode = (
       }, 10)
     }, 0)
   }
+}
+
+export const addImageNode = (editor: ReactEditor, editorRef: HTMLElement) => {
+  const image: ImageElement = {
+    type: 'image',
+    link: null,
+    title: '',
+    caption: '',
+    children: [{ text: '' }],
+  }
+  Transforms.setNodes(editor, image, {})
 }

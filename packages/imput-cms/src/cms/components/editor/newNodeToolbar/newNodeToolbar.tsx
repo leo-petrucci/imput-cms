@@ -9,7 +9,7 @@ import {
 } from '@imput/components/Popover'
 import { Image } from 'phosphor-react'
 import { Transforms, Element } from 'slate'
-import { ImageElement } from '../images/imageElement'
+import { ImageElement } from '../Elements/Images/ImageElement'
 import { Code, Paragraph } from '@imput/components/Icon'
 import {
   Tooltip,

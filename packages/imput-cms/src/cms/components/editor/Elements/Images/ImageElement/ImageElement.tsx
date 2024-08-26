@@ -1,7 +1,6 @@
 import { Element, Transforms } from 'slate'
 import { ReactEditor, useSelected, useSlateStatic } from 'slate-react'
-import React from 'react'
-import ImagePicker from '../../../imagePicker'
+import ImagePicker from '../../../../imagePicker'
 
 export interface ImageElement extends Element {
   type: 'image'

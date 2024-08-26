@@ -1,9 +1,9 @@
-import Image from '../../../../../cms/components/image'
 import React from 'react'
-import { useCMS } from '../../../../../cms/contexts/cmsContext/useCMSContext'
-import { Imagetree } from '../../../../../cms/contexts/imageContext/context'
-import { useImages } from '../../../../../cms/contexts/imageContext/useImageContext'
 import { Button } from '@imput/components/Button'
+import Image from '../../../../image'
+import { useCMS } from '../../../../../contexts/cmsContext/useCMSContext'
+import { Imagetree } from '../../../../../contexts/imageContext/context'
+import { useImages } from '../../../../../contexts/imageContext/useImageContext'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void

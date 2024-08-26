@@ -8,6 +8,8 @@ import {
   TextHSix,
   TextHThree,
   TextHTwo,
+  ListBullets,
+  ListNumbers,
 } from '@imput/components/Icon'
 import { Muted } from '@imput/components/Typography'
 import { ReactEditor } from 'slate-react'
@@ -15,8 +17,12 @@ import {
   addCodeBlockNode,
   addHeadingNode,
   addImageNode,
+  selectCreatedNode,
 } from '../utils/marksAndBlocks'
 import { openComponentsModal } from '../ComponentsModal/store'
+import { ListType, ListsEditor } from '../slate-lists'
+import { increaseDepth } from '../slate-lists/transformations'
+import { defaultNodeTypes } from '../remark-slate'
 
 type OptionType = {
   value: any
@@ -45,6 +51,44 @@ export const CommandItem = ({
 }
 
 export const options: OptionType[] = [
+  {
+    label: (
+      <CommandItem
+        icon={<ListNumbers size={32} />}
+        heading={<>Numbered List</>}
+        sub={<>Add a numbered list.</>}
+      />
+    ),
+    // @ts-expect-error different type
+    onSelect: (editor: ListsEditor, editorRef) => {
+      increaseDepth(editor, ListType.ORDERED)
+      selectCreatedNode(
+        editor as unknown as ReactEditor,
+        editorRef,
+        defaultNodeTypes.listItemText
+      )
+    },
+    value: 'ol-block',
+  },
+  {
+    label: (
+      <CommandItem
+        icon={<ListBullets size={32} />}
+        heading={<>Bulletpoint List</>}
+        sub={<>Add a bulletpoint list.</>}
+      />
+    ),
+    // @ts-expect-error different type
+    onSelect: (editor: ListsEditor, editorRef) => {
+      increaseDepth(editor, ListType.UNORDERED)
+      selectCreatedNode(
+        editor as unknown as ReactEditor,
+        editorRef,
+        defaultNodeTypes.listItemText
+      )
+    },
+    value: 'ul-block',
+  },
   {
     label: (
       <CommandItem

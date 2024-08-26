@@ -11,7 +11,10 @@ import { wrapInList } from './wrapInList'
  * Increases nesting depth of all "list-items" in the current selection.
  * All nodes matching options.wrappableTypes in the selection will be converted to "list-items" and wrapped in a "list".
  */
-export function increaseDepth(editor: ListsEditor): void {
+export function increaseDepth(
+  editor: ListsEditor,
+  type = ListType.UNORDERED
+): void {
   if (!editor.selection) {
     return
   }
@@ -30,7 +33,7 @@ export function increaseDepth(editor: ListsEditor): void {
 
   Editor.withoutNormalizing(editor, () => {
     // Before we indent "list-items", we want to convert every non list-related block in selection to a "list".
-    wrapInList(editor, ListType.UNORDERED)
+    wrapInList(editor, type)
 
     refs.forEach((ref) => {
       if (ref.current) {

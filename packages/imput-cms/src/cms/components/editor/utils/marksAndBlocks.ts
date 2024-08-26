@@ -11,6 +11,8 @@ import { ReactEditor } from 'slate-react'
 import { v4 as uuidv4 } from 'uuid'
 import { defaultNodeTypes } from '../remark-slate'
 import { ImageElement } from '../Elements/Images/ImageElement'
+import { ListType, ListsEditor } from '../slate-lists'
+import { increaseDepth, setListType } from '../slate-lists/transformations'
 
 /**
  * Used to wrap a specific selection in a style, for example bold or italics

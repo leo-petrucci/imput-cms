@@ -170,3 +170,35 @@ export const addCodeBlockNode = (
     }, 0)
   }
 }
+
+/**
+ * Wraps the current node into a code block
+ */
+export const addHeadingNode = (
+  editor: ReactEditor,
+  editorRef: HTMLElement,
+  level: 1 | 2 | 3 | 4 | 5 | 6
+) => {
+  Transforms.setNodes<SlateElement>(editor, {
+    // @ts-expect-error
+    type: defaultNodeTypes.heading[level],
+  })
+
+  // Now, move the cursor to the start of the newly created code_block
+  const [heading] = Editor.nodes(editor, {
+    match: (n) =>
+      // @ts-ignore
+      Element.isElement(n) && n.type === defaultNodeTypes.heading[level],
+    mode: 'lowest',
+  })
+
+  if (heading) {
+    const [node, path] = heading
+    setTimeout(() => {
+      editorRef.focus()
+      setTimeout(() => {
+        Transforms.select(editor, Editor.end(editor, path))
+      }, 10)
+    }, 0)
+  }
+}

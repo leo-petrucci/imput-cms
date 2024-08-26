@@ -70,7 +70,8 @@
     "tslib": "^2.5.0",
     "unified": "^10.1.2",
     "unist-util-visit": "^5.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@imput/components": "workspace:*",

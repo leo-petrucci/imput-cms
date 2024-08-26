@@ -35,7 +35,8 @@ import {
   SetNodeToDecorations,
   codeBlockOnKeyDown,
   useDecorate,
-} from './codeblockElement/utils'
+} from './Elements/CodeBlockElement/utils'
+import { ComponentsModal } from './ComponentsModal/ComponentsModal'
 
 export const deserialize = (
   src: string,
@@ -155,6 +156,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
   return (
     <>
       <Slate editor={editor} value={value} onChange={debouncedOnChange}>
+        <ComponentsModal />
         <SetNodeToDecorations />
         <FloatingToolbar />
         <FloatingCommands editor={editor} />

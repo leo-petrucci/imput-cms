@@ -7,7 +7,7 @@ import {
   useSlateStatic,
 } from 'slate-react'
 import React, { useEffect } from 'react'
-import { defaultNodeTypes } from '../remark-slate'
+import { defaultNodeTypes } from '../../remark-slate'
 
 interface CodeblockElement extends Pick<RenderElementProps, 'element'> {
   children: Descendant[]

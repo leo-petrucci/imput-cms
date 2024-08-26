@@ -10,7 +10,7 @@ import {
   Transforms,
 } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { defaultNodeTypes } from '../remark-slate'
+import { defaultNodeTypes } from '../../remark-slate'
 import { Children, KeyboardEvent, useCallback } from 'react'
 import { isElement } from 'lodash'
 import isHotkey from 'is-hotkey'

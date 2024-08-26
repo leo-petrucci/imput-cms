@@ -7,16 +7,10 @@ import {
   TextHThree,
   TextHTwo,
 } from '@imput/components/Icon'
-import { Muted, Small } from '@imput/components/Typography'
-import { Element, Transforms } from 'slate'
+import { Muted } from '@imput/components/Typography'
 import { ReactEditor } from 'slate-react'
-import { v4 as uuidv4 } from 'uuid'
-import {
-  addCodeBlockNode,
-  addHeadingNode,
-  toggleBlock,
-} from '../utils/marksAndBlocks'
-import { defaultNodeTypes } from '../remark-slate'
+import { addCodeBlockNode, addHeadingNode } from '../utils/marksAndBlocks'
+import { openComponentsModal } from '../ComponentsModal/store'
 
 type OptionType = {
   value: any
@@ -45,6 +39,19 @@ export const CommandItem = ({
 }
 
 export const options: OptionType[] = [
+  {
+    label: (
+      <CommandItem
+        icon={<CodeBlock size={32} />}
+        heading={<>Component</>}
+        sub={<>Transform this node into a component block.</>}
+      />
+    ),
+    onSelect: (editor: ReactEditor, editorRef) => {
+      openComponentsModal()
+    },
+    value: 'component-block',
+  },
   {
     label: (
       <CommandItem

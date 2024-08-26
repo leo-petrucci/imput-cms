@@ -35,14 +35,25 @@ export const withImput = (editor: ReactEditor) => {
    */
   editor.insertBreak = () => {
     const { selection } = editor
+    const currentNode = getCurrentNodeType(editor)
+    console.log('currentNode', currentNode)
+
     if (selection) {
-      Transforms.insertNodes(editor, {
-        children: [{ text: '' }],
-        // @ts-expect-error
-        type: 'paragraph',
-        id: uuidv4(),
-      })
-      return
+      switch (currentNode) {
+        // we want to stop the default behavior when
+        // an mdx element is selected
+        // so we can open it when the user presses enter instead
+        case defaultNodeTypes.mdxJsxFlowElement:
+          break
+        default:
+          Transforms.insertNodes(editor, {
+            children: [{ text: '' }],
+            // @ts-expect-error
+            type: 'paragraph',
+            id: uuidv4(),
+          })
+          break
+      }
     }
   }
 

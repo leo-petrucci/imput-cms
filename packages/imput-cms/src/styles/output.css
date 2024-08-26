@@ -594,6 +594,10 @@ video {
   left: 50%;
 }
 
+.imp-left-\[50\%\] {
+  left: 50%;
+}
+
 .imp-right-2 {
   right: 0.5rem;
 }
@@ -616,6 +620,10 @@ video {
 
 .imp-top-4 {
   top: 1rem;
+}
+
+.imp-top-\[50\%\] {
+  top: 50%;
 }
 
 .imp-col-span-10 {
@@ -701,6 +709,10 @@ video {
   margin-top: 0.5rem;
 }
 
+.imp-mt-4 {
+  margin-top: 1rem;
+}
+
 .imp-mt-6 {
   margin-top: 1.5rem;
 }
@@ -771,6 +783,10 @@ video {
 
 .imp-max-h-\[300px\] {
   max-height: 300px;
+}
+
+.imp-max-h-\[80vh\] {
+  max-height: 80vh;
 }
 
 .imp-max-h-screen {
@@ -857,6 +873,16 @@ video {
   transform-origin: center;
 }
 
+.imp-translate-x-\[-50\%\] {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.imp-translate-y-\[-50\%\] {
+  --tw-translate-y: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 @keyframes imp-pulse {
   50% {
     opacity: .5;
@@ -917,6 +943,10 @@ video {
 
 .imp-flex-col {
   flex-direction: column;
+}
+
+.imp-flex-col-reverse {
+  flex-direction: column-reverse;
 }
 
 .imp-flex-wrap {
@@ -989,6 +1019,10 @@ video {
 
 .imp-self-center {
   align-self: center;
+}
+
+.imp-overflow-auto {
+  overflow: auto;
 }
 
 .imp-overflow-hidden {
@@ -1593,36 +1627,8 @@ video {
   transition-duration: 150ms;
 }
 
-@keyframes enter {
-  from {
-    opacity: var(--tw-enter-opacity, 1);
-    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
-  }
-}
-
-@keyframes exit {
-  to {
-    opacity: var(--tw-exit-opacity, 1);
-    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
-  }
-}
-
-.imp-animate-in {
-  animation-name: enter;
-  animation-duration: 150ms;
-  --tw-enter-opacity: initial;
-  --tw-enter-scale: initial;
-  --tw-enter-rotate: initial;
-  --tw-enter-translate-x: initial;
-  --tw-enter-translate-y: initial;
-}
-
-.imp-fade-in-0 {
-  --tw-enter-opacity: 0;
-}
-
-.imp-zoom-in-95 {
-  --tw-enter-scale: .95;
+.imp-duration-200 {
+  transition-duration: 200ms;
 }
 
 @keyframes enter {
@@ -1655,6 +1661,46 @@ video {
 
 .imp-zoom-in-95 {
   --tw-enter-scale: .95;
+}
+
+.imp-duration-200 {
+  animation-duration: 200ms;
+}
+
+@keyframes enter {
+  from {
+    opacity: var(--tw-enter-opacity, 1);
+    transform: translate3d(var(--tw-enter-translate-x, 0), var(--tw-enter-translate-y, 0), 0) scale3d(var(--tw-enter-scale, 1), var(--tw-enter-scale, 1), var(--tw-enter-scale, 1)) rotate(var(--tw-enter-rotate, 0));
+  }
+}
+
+@keyframes exit {
+  to {
+    opacity: var(--tw-exit-opacity, 1);
+    transform: translate3d(var(--tw-exit-translate-x, 0), var(--tw-exit-translate-y, 0), 0) scale3d(var(--tw-exit-scale, 1), var(--tw-exit-scale, 1), var(--tw-exit-scale, 1)) rotate(var(--tw-exit-rotate, 0));
+  }
+}
+
+.imp-animate-in {
+  animation-name: enter;
+  animation-duration: 150ms;
+  --tw-enter-opacity: initial;
+  --tw-enter-scale: initial;
+  --tw-enter-rotate: initial;
+  --tw-enter-translate-x: initial;
+  --tw-enter-translate-y: initial;
+}
+
+.imp-fade-in-0 {
+  --tw-enter-opacity: 0;
+}
+
+.imp-zoom-in-95 {
+  --tw-enter-scale: .95;
+}
+
+.imp-duration-200 {
+  animation-duration: 200ms;
 }
 
 html {
@@ -1942,6 +1988,14 @@ html {
   --tw-enter-translate-y: 0.5rem;
 }
 
+.data-\[state\=closed\]\:imp-slide-out-to-left-1\/2[data-state="closed"] {
+  --tw-exit-translate-x: -50%;
+}
+
+.data-\[state\=open\]\:imp-slide-in-from-left-1\/2[data-state="open"] {
+  --tw-enter-translate-x: -50%;
+}
+
 .data-\[state\=open\]\:imp-animate-in[data-state="open"] {
   animation-name: enter;
   animation-duration: 150ms;
@@ -1994,6 +2048,14 @@ html {
   --tw-enter-translate-y: 0.5rem;
 }
 
+.data-\[state\=closed\]\:imp-slide-out-to-left-1\/2[data-state="closed"] {
+  --tw-exit-translate-x: -50%;
+}
+
+.data-\[state\=open\]\:imp-slide-in-from-left-1\/2[data-state="open"] {
+  --tw-enter-translate-x: -50%;
+}
+
 .children\:imp-flex-1 > * {
   flex: 1 1 0%;
 }
@@ -2019,6 +2081,20 @@ html {
 }
 
 @media (min-width: 640px) {
+  .sm\:imp-flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:imp-justify-end {
+    justify-content: flex-end;
+  }
+
+  .sm\:imp-space-x-2 > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 0;
+    margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+    margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+  }
+
   .sm\:imp-rounded-lg {
     border-radius: 0.5rem;
   }

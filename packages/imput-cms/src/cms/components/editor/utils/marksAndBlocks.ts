@@ -202,3 +202,27 @@ export const addHeadingNode = (
     }, 0)
   }
 }
+
+export const selectCreatedNode = (
+  editor: ReactEditor,
+  editorRef: HTMLElement,
+  nodeType: string,
+  mode: 'highest' | 'lowest' = 'lowest'
+) => {
+  const [foundNode] = Editor.nodes(editor, {
+    match: (n) =>
+      // @ts-ignore
+      Element.isElement(n) && !Editor.isEditor(n) && n.type === nodeType,
+    mode,
+  })
+
+  if (foundNode) {
+    const [_node, path] = foundNode
+    setTimeout(() => {
+      editorRef.focus()
+      setTimeout(() => {
+        Transforms.select(editor, Editor.end(editor, path))
+      }, 10)
+    }, 0)
+  }
+}

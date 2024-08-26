@@ -2,7 +2,7 @@ import { useContext, useEffect, useRef } from 'react'
 import { CommandsContext } from './context'
 import { BaseEditor, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
-import { isWithinCodeBlock } from '../codeblockElement/utils'
+import { isWithinCodeBlock } from '../Elements/CodeBlockElement/utils'
 
 export const useCommands = (editor: ReactEditor) => {
   const {
@@ -29,7 +29,6 @@ export const useCommands = (editor: ReactEditor) => {
 
     if (selection && Range.isCollapsed(selection)) {
       const [start] = Range.edges(selection)
-      console.log({ edges: Range.edges(selection) })
       return start
     }
 
@@ -46,7 +45,6 @@ export const useCommands = (editor: ReactEditor) => {
       if (domSelection && domSelection.rangeCount > 0) {
         const domRange = domSelection.getRangeAt(0)
         const rect = domRange.getBoundingClientRect()
-        console.log('Caret DOM position:', { top: rect.top, left: rect.left })
         return { top: rect.top, left: rect.left }
       }
       return null

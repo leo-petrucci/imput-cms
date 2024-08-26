@@ -1,7 +1,7 @@
 import isArray from 'lodash/isArray'
 import { BlockType } from '../../../contexts/cmsContext/context'
 import { MDXNode } from '../../../types/mdxNode'
-import { ReactAttribute } from '../mdxElement'
+import { ReactAttribute } from '../Elements/MdxElement'
 import { AttributeType } from './mdx'
 
 /**

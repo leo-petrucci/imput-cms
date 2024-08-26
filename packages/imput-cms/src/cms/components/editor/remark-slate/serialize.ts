@@ -4,7 +4,7 @@ import {
   LeafType,
   NodeTypes,
 } from '../../../../cms/components/editor/remark-slate/ast-types'
-import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
+import { MdxElementShape } from '../Elements/MdxElement'
 import isObject from 'lodash/isObject'
 import isString from 'lodash/isString'
 import get from 'lodash/get'

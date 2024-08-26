@@ -1,10 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep'
 import { ReactEditor, useSlateStatic } from 'slate-react'
 import { CustomRenderElementProps } from '../../../../cms/components/editor/element'
-import {
-  MdxElementShape,
-  ReactAttribute,
-} from '../../../../cms/components/editor/mdxElement'
+import { MdxElementShape, ReactAttribute } from '../Elements/MdxElement'
 import { Descendant, Node, Path, Transforms } from 'slate'
 import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
 import Form from '@imput/components/form'

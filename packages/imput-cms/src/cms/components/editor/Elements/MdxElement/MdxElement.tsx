@@ -1,16 +1,16 @@
 import { Descendant } from 'slate'
 import { useSelected } from 'slate-react'
-import { CustomRenderElementProps } from '../../../cms/components/editor/element'
-import ComponentEditor from '../../../cms/components/editor/componentEditor'
-import { useEditorDepth } from '../../../cms/components/editor/depthContext'
+import { CustomRenderElementProps } from '../../element'
+import ComponentEditor from '../../componentEditor'
+import { useEditorDepth } from '../../depthContext'
 import { Panel, ErrorBoundary } from '@imput/components'
 import { BracketsSquare } from 'phosphor-react'
-import { MDXNode } from '../../../cms/types/mdxNode'
+import { MDXNode } from '../../../../types/mdxNode'
 import React, { useEffect, useRef } from 'react'
 import { cva } from 'class-variance-authority'
-import { CustomElement } from '../../types/slate'
+import { CustomElement } from '../../../../types/slate'
 import { FakeP } from '@imput/components/Typography'
-import { AttributeType } from './lib/mdx'
+import { AttributeType } from '../../lib/mdx'
 import isHotkey from 'is-hotkey'
 
 const StyledMdxButton = cva(
@@ -65,7 +65,7 @@ export interface MdxElementShape extends CustomElement {
 /**
  * A slate element that represents a React object. Can be clicked.
  */
-const MdxElement = (props: CustomRenderElementProps) => {
+export const MdxElement = (props: CustomRenderElementProps) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const { attributes, children, element } = props
   const mdxElement = element as MdxElementShape
@@ -141,5 +141,3 @@ const MdxElement = (props: CustomRenderElementProps) => {
     </>
   )
 }
-
-export default MdxElement

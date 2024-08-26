@@ -1,5 +1,5 @@
 import { BaseEditor, Descendant, Path, Transforms } from 'slate'
-import { MdxElementShape } from '../../../../cms/components/editor/mdxElement'
+import { MdxElementShape } from '../Elements/MdxElement'
 
 /**
  * Edits a component's children

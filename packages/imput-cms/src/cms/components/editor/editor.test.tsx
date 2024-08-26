@@ -1,19 +1,12 @@
 import { expect, test, describe, vi } from 'vitest'
 import { render, act, screen, fireEvent, waitFor } from '@testing-library/react'
 import Editor, { EditorProps, deserialize, serialize } from './editor'
-import {
-  expectDeeplyNestedProp,
-  expectSlateAtributesObject,
-  expectProp,
-  expectDeeplyNestedPropArray,
-  expectSlateObject,
-  expectSlateChildrenObject,
-} from '../../../../src/test/slateUtils'
+
 import noop from 'lodash/noop'
 import userEvent from '@testing-library/user-event'
 import { MDXNode } from '../../types/mdxNode'
 import { AttributeType, getAttributeType } from './lib/mdx'
-import { MdxElementShape, ReactAttribute } from './mdxElement'
+import { MdxElementShape, ReactAttribute } from './Elements/MdxElement'
 import { Descendant } from 'slate'
 
 const mockedUseEditorDepth = vi.fn()

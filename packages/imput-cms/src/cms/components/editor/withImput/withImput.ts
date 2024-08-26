@@ -36,7 +36,6 @@ export const withImput = (editor: ReactEditor) => {
   editor.insertBreak = () => {
     const { selection } = editor
     const currentNode = getCurrentNodeType(editor)
-    console.log('currentNode', currentNode)
 
     if (selection) {
       switch (currentNode) {

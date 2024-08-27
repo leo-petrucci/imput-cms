@@ -14,7 +14,7 @@ import { TextBolder, TextItalic } from 'phosphor-react'
 /**
  * A floating toolbar that only appears when text is selected
  */
-const FloatingToolbar = () => {
+export const FloatingToolbar = () => {
   const selection = useSlateSelection()
   const popoverRef = React.useRef()
 
@@ -114,5 +114,3 @@ const FloatingToolbar = () => {
     </Popover>
   )
 }
-
-export { FloatingToolbar }

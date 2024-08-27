@@ -3,8 +3,11 @@ import { RenderElementProps } from 'slate-react'
 import CodeblockElement from './Elements/CodeBlockElement/codeblockElement'
 import Image from '../../../cms/components/editor/Elements/Images/ImageElement'
 import { MdxElement } from './Elements/MdxElement'
-import { CustomElement } from '../../types/slate'
-import LinkElement, { InlineChromiumBugfix } from './linkElement/linkElement'
+import {
+  CustomElement,
+  LinkElement as LinkElementType,
+} from '../../types/slate'
+import { LinkElement, InlineChromiumBugfix } from './Elements/LinkElement'
 import { defaultNodeTypes } from './remark-slate'
 
 export interface CustomRenderElementProps
@@ -18,7 +21,7 @@ export const Element = (props: CustomRenderElementProps) => {
 
   switch (element.type) {
     case defaultNodeTypes.link:
-      return <LinkElement {...props} />
+      return <LinkElement {...props} element={element as LinkElementType} />
     case defaultNodeTypes.code_snippet:
       return (
         <code

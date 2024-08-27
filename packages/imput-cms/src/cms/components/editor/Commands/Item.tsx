@@ -27,7 +27,7 @@ import { defaultNodeTypes } from '../remark-slate'
 type OptionType = {
   value: any
   label: JSX.Element
-  onSelect: (editor: ReactEditor, editorRef: HTMLElement) => void
+  onSelect: (editor: ReactEditor) => void
 }
 
 export const CommandItem = ({
@@ -64,7 +64,6 @@ export const options: OptionType[] = [
       increaseDepth(editor, ListType.ORDERED)
       selectCreatedNode(
         editor as unknown as ReactEditor,
-        editorRef,
         defaultNodeTypes.listItemText
       )
     },
@@ -79,11 +78,10 @@ export const options: OptionType[] = [
       />
     ),
     // @ts-expect-error different type
-    onSelect: (editor: ListsEditor, editorRef) => {
+    onSelect: (editor: ListsEditor) => {
       increaseDepth(editor, ListType.UNORDERED)
       selectCreatedNode(
         editor as unknown as ReactEditor,
-        editorRef,
         defaultNodeTypes.listItemText
       )
     },
@@ -97,7 +95,7 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a component block.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
+    onSelect: (editor: ReactEditor) => {
       openComponentsModal()
     },
     value: 'component-block',
@@ -110,8 +108,8 @@ export const options: OptionType[] = [
         sub={<>Add an image.</>}
       />
     ),
-    onSelect: (editor, editorRef) => {
-      addImageNode(editor, editorRef)
+    onSelect: (editor) => {
+      addImageNode(editor)
     },
     value: 'image-block',
   },
@@ -123,8 +121,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a code block.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addCodeBlockNode(editor, editorRef)
+    onSelect: (editor: ReactEditor) => {
+      addCodeBlockNode(editor)
     },
     value: 'code-block',
   },
@@ -136,8 +134,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a level one heading.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addHeadingNode(editor, editorRef, 1)
+    onSelect: (editor: ReactEditor) => {
+      addHeadingNode(editor, 1)
     },
     value: 'heading-1',
   },
@@ -149,8 +147,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a level two heading.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addHeadingNode(editor, editorRef, 2)
+    onSelect: (editor: ReactEditor) => {
+      addHeadingNode(editor, 2)
     },
     value: 'heading-2',
   },
@@ -162,8 +160,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a level three heading.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addHeadingNode(editor, editorRef, 3)
+    onSelect: (editor: ReactEditor) => {
+      addHeadingNode(editor, 3)
     },
     value: 'heading-3',
   },
@@ -175,8 +173,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a level four heading.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addHeadingNode(editor, editorRef, 4)
+    onSelect: (editor: ReactEditor) => {
+      addHeadingNode(editor, 4)
     },
     value: 'heading-4',
   },
@@ -188,8 +186,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a level five heading.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addHeadingNode(editor, editorRef, 5)
+    onSelect: (editor: ReactEditor) => {
+      addHeadingNode(editor, 5)
     },
     value: 'heading-5',
   },
@@ -201,8 +199,8 @@ export const options: OptionType[] = [
         sub={<>Transform this node into a level six heading.</>}
       />
     ),
-    onSelect: (editor: ReactEditor, editorRef) => {
-      addHeadingNode(editor, editorRef, 6)
+    onSelect: (editor: ReactEditor) => {
+      addHeadingNode(editor, 6)
     },
     value: 'heading-6',
   },

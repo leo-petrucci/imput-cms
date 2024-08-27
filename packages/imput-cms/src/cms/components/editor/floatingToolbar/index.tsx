@@ -1,1 +1,1 @@
-export * from './floatingToolbar'
+export * from './FloatingToolbar'

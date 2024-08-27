@@ -1,27 +1,30 @@
 import { BaseEditor, Editor } from 'slate'
-import { toggleMark } from './marksAndBlocks'
+import { addLinkLeaf, toggleMark } from './marksAndBlocks'
+import { ReactEditor } from 'slate-react'
 
 /**
  * Formatting shortcuts
  */
 export const shortcuts = (
   event: React.KeyboardEvent<HTMLInputElement>,
-  editor: BaseEditor
+  editor: ReactEditor
 ) => {
   if (!event.ctrlKey && !event.metaKey) {
     return
   }
 
   switch (event.key) {
-    case 'b': {
+    case 'b':
       event.preventDefault()
       toggleMark(editor, 'bold')
       break
-    }
-    case 'i': {
+    case 'i':
       event.preventDefault()
       toggleMark(editor, 'italic')
       break
-    }
+    case 'k':
+      event.preventDefault()
+      addLinkLeaf(editor)
+      break
   }
 }

@@ -13,6 +13,8 @@ import { defaultNodeTypes } from '../remark-slate'
 import { ImageElement } from '../Elements/Images/ImageElement'
 import { ListType, ListsEditor } from '../slate-lists'
 import { increaseDepth, setListType } from '../slate-lists/transformations'
+import { insertLink, isLinkActive, unwrapLink } from '../button/link'
+import { focusEditor } from '../store'
 
 /**
  * Used to wrap a specific selection in a style, for example bold or italics
@@ -129,10 +131,7 @@ export const removeElement = (
 /**
  * Wraps the current node into a code block
  */
-export const addCodeBlockNode = (
-  editor: ReactEditor,
-  editorRef: HTMLElement
-) => {
+export const addCodeBlockNode = (editor: ReactEditor) => {
   Transforms.wrapNodes(
     editor,
     // @ts-expect-error
@@ -165,7 +164,7 @@ export const addCodeBlockNode = (
   if (codeBlock) {
     const [node, path] = codeBlock
     setTimeout(() => {
-      editorRef.focus()
+      focusEditor()
       setTimeout(() => {
         Transforms.select(editor, Editor.end(editor, path))
       }, 10)
@@ -178,7 +177,6 @@ export const addCodeBlockNode = (
  */
 export const addHeadingNode = (
   editor: ReactEditor,
-  editorRef: HTMLElement,
   level: 1 | 2 | 3 | 4 | 5 | 6
 ) => {
   Transforms.setNodes<SlateElement>(editor, {
@@ -197,7 +195,7 @@ export const addHeadingNode = (
   if (heading) {
     const [node, path] = heading
     setTimeout(() => {
-      editorRef.focus()
+      focusEditor()
       setTimeout(() => {
         Transforms.select(editor, Editor.end(editor, path))
       }, 10)
@@ -207,7 +205,6 @@ export const addHeadingNode = (
 
 export const selectCreatedNode = (
   editor: ReactEditor,
-  editorRef: HTMLElement,
   nodeType: string,
   mode: 'highest' | 'lowest' = 'lowest'
 ) => {
@@ -221,7 +218,7 @@ export const selectCreatedNode = (
   if (foundNode) {
     const [_node, path] = foundNode
     setTimeout(() => {
-      editorRef.focus()
+      focusEditor()
       setTimeout(() => {
         Transforms.select(editor, Editor.end(editor, path))
       }, 10)
@@ -229,13 +226,27 @@ export const selectCreatedNode = (
   }
 }
 
-export const addImageNode = (editor: ReactEditor, editorRef: HTMLElement) => {
+/**
+ * Add an image node to the editor
+ */
+export const addImageNode = (editor: ReactEditor) => {
   const image: ImageElement = {
-    type: 'image',
+    type: defaultNodeTypes.image,
     link: null,
     title: '',
     caption: '',
     children: [{ text: '' }],
   }
   Transforms.setNodes(editor, image, {})
+  selectCreatedNode(editor, defaultNodeTypes.image)
+}
+
+export const addLinkLeaf = (editor: ReactEditor) => {
+  if (isLinkActive(editor)) {
+    unwrapLink(editor)
+  } else {
+    const url = window.prompt('Enter the URL of the link:')
+    if (!url) return
+    insertLink(editor, url)
+  }
 }

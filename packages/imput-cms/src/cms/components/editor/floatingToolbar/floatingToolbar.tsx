@@ -21,6 +21,12 @@ import {
   TextHTwo,
   TextItalic,
 } from 'phosphor-react'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@imput/components/Tooltip'
 
 /**
  * A floating toolbar that only appears when text is selected
@@ -106,18 +112,20 @@ const FloatingToolbar = () => {
         className="!imp-p-0 imp-w-auto"
       >
         <div className="imp-flex">
-          <MarkButton format="bold" icon={<TextBolder size={16} />} />
-          <MarkButton format="italic" icon={<TextItalic size={16} />} />
+          <MarkButton
+            format="bold"
+            icon={<TextBolder size={16} />}
+            description="Bold"
+            shortcut="⌘ + b"
+          />
+          <MarkButton
+            format="italic"
+            icon={<TextItalic size={16} />}
+            description="Italic"
+            shortcut="⌘ + i"
+          />
           <CodeSnippetButton />
-          {/* <MarkButton format="code" icon={<CodeSimple size={16} />} /> */}
           <LinkButton />
-          <BlockButton format="code_block" icon={<Code size={16} />} />
-          <BlockButton format="heading_one" icon={<TextHOne size={16} />} />
-          <BlockButton format="heading_two" icon={<TextHTwo size={16} />} />
-          <BlockButton format="heading_three" icon={<TextHThree size={16} />} />
-          <BlockButton format="block_quote" icon={<Quotes size={16} />} />
-          <BlockButton format="ol_list" icon={<ListNumbers size={16} />} />
-          <BlockButton format="ul_list" icon={<ListBullets size={16} />} />
         </div>
       </PopoverContent>
     </Popover>

@@ -1,4 +1,4 @@
-import { Descendant } from 'slate'
+import { BaseElement, Descendant } from 'slate'
 import { useSelected } from 'slate-react'
 import { CustomRenderElementProps } from '../../element'
 import ComponentEditor from '../../componentEditor'
@@ -36,7 +36,7 @@ export type ReactAttribute = {
 /**
  * Interface for custom MDX element
  */
-export interface MdxElementShape extends CustomElement {
+export interface MdxElementShape extends BaseElement {
   type: string
   align: string
   /**
@@ -68,6 +68,7 @@ export interface MdxElementShape extends CustomElement {
 export const MdxElement = (props: CustomRenderElementProps) => {
   const buttonRef = useRef<HTMLButtonElement | null>(null)
   const { attributes, children, element } = props
+  // TODO: Fix this type
   const mdxElement = element as MdxElementShape
   const { addElement, removeElement, getDepth, depthArray } = useEditorDepth()
 

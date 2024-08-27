@@ -9,7 +9,6 @@ import {
 } from '@imput/components/Dialog'
 import { useCMS } from '../../../contexts/cmsContext/useCMSContext'
 import { useModalStore } from './store'
-import { useCommands } from '../Commands/hook'
 import { selectCreatedNode } from '../utils/marksAndBlocks'
 import { defaultNodeTypes } from '../remark-slate'
 
@@ -19,7 +18,6 @@ import { defaultNodeTypes } from '../remark-slate'
 export const ComponentsModal = () => {
   const editor = useSlate() as ReactEditor
   const { components, createComponent } = useCMS()
-  const { editor: editorRef } = useCommands(editor)
   const { open, closeModal } = useModalStore()
 
   return (
@@ -49,7 +47,6 @@ export const ComponentsModal = () => {
                     closeModal()
                     selectCreatedNode(
                       editor,
-                      editorRef!,
                       defaultNodeTypes.mdxJsxFlowElement,
                       'highest'
                     )

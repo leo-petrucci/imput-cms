@@ -665,10 +665,6 @@ video {
   margin-bottom: 1.5rem;
 }
 
-.-imp-mt-1 {
-  margin-top: -0.25rem;
-}
-
 .imp-mb-2 {
   margin-bottom: 0.5rem;
 }
@@ -719,6 +715,10 @@ video {
 
 .imp-block {
   display: block;
+}
+
+.imp-inline {
+  display: inline;
 }
 
 .imp-flex {
@@ -1513,6 +1513,10 @@ video {
 .imp-text-primary-foreground {
   --tw-text-opacity: 1;
   color: hsl(210 40% 98% / var(--tw-text-opacity));
+}
+
+.imp-text-primary-foreground\/50 {
+  color: hsl(210 40% 98% / 0.5);
 }
 
 .imp-text-red-500 {

@@ -1,8 +1,9 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext } from 'react'
 import { CommandsContext } from './context'
-import { BaseEditor, Range, Transforms } from 'slate'
+import { BaseEditor, Range } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { isWithinCodeBlock } from '../Elements/CodeBlockElement/utils'
+import { focusAndRestoreSelection, focusEditor } from '../store'
 
 export const useCommands = (editor: ReactEditor) => {
   const {
@@ -10,16 +11,7 @@ export const useCommands = (editor: ReactEditor) => {
     setOpen: setOpenState,
     position,
     setPosition,
-    lastSelection,
-    setLastSelection,
-    editorRef,
   } = useContext(CommandsContext)
-
-  useEffect(() => {
-    if (editor) {
-      editorRef.current = ReactEditor.toDOMNode(editor, editor)
-    }
-  }, [editor])
 
   /**
    * Returns the Slate caret position
@@ -60,11 +52,9 @@ export const useCommands = (editor: ReactEditor) => {
   ) => {
     switch (event.key) {
       case '/': {
-        if (editorRef.current) {
-          setPosition(getCaretPositionOnDom())
-          if (!open) {
-            setOpen()
-          }
+        setPosition(getCaretPositionOnDom())
+        if (!open) {
+          setOpen()
         }
         break
       }
@@ -78,7 +68,6 @@ export const useCommands = (editor: ReactEditor) => {
     // we don't want the popover to trigger when someone is writing
     // a code block, that would be annoying
     if (!isWithinCodeBlock(editor)) {
-      setLastSelection(editor.selection)
       setOpenState(true)
     }
   }
@@ -88,18 +77,11 @@ export const useCommands = (editor: ReactEditor) => {
    */
   const setClosed = () => {
     setOpenState(false)
-    editorRef.current?.focus()
+    focusEditor()
   }
 
   const restoreSelection = () => {
-    if (lastSelection) {
-      setTimeout(() => {
-        editorRef.current?.focus()
-        setTimeout(() => {
-          Transforms.select(editor, lastSelection)
-        }, 10)
-      }, 0)
-    }
+    focusAndRestoreSelection(editor)
   }
 
   return {
@@ -108,7 +90,6 @@ export const useCommands = (editor: ReactEditor) => {
     open,
     setOpen,
     setClosed,
-    editor: editorRef.current,
     restoreSelection,
   }
 }

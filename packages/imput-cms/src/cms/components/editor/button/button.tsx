@@ -21,6 +21,7 @@ import {
 import Toggle from '@imput/components/Toggle'
 import { CodeSimple } from '@imput/components/Icon'
 import {
+  addLinkLeaf,
   isBlockActive,
   isMarkActive,
   toggleBlock,
@@ -51,21 +52,37 @@ export const BlockButton = ({
 export const MarkButton = ({
   format,
   icon,
+  description,
+  shortcut,
 }: {
   format: string
   icon: React.ReactNode
+  description?: string
+  shortcut?: string
 }) => {
   const editor = useSlate()
 
   return (
-    <Toggle
-      pressed={isMarkActive(editor, format)}
-      onPressedChange={() => {
-        toggleMark(editor, format)
-      }}
-    >
-      {icon}
-    </Toggle>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={isMarkActive(editor, format)}
+            onPressedChange={() => {
+              toggleMark(editor, format)
+            }}
+          >
+            {icon}
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="imp-flex imp-flex-col">
+            <div className="imp-font-medium">{description}</div>
+            <div className="imp-text-primary-foreground/50">⌘ + b</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
@@ -73,27 +90,31 @@ export const MarkButton = ({
  * A button that wraps selected text into a link. If a link is selected, the link will be removed.
  */
 export const LinkButton = () => {
-  const editor = useSlate()
+  const editor = useSlate() as ReactEditor
 
   return (
-    <Toggle
-      pressed={isLinkActive(editor)}
-      onPressedChange={() => {
-        if (isLinkActive(editor)) {
-          unwrapLink(editor)
-        } else {
-          const url = window.prompt('Enter the URL of the link:')
-          if (!url) return
-          insertLink(editor, url)
-        }
-      }}
-    >
-      {isLinkActive(editor) ? (
-        <LinkBreak size={16} weight="bold" />
-      ) : (
-        <Link size={16} weight="bold" />
-      )}
-    </Toggle>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={isLinkActive(editor)}
+            onPressedChange={() => addLinkLeaf(editor)}
+          >
+            {isLinkActive(editor) ? (
+              <LinkBreak size={16} weight="bold" />
+            ) : (
+              <Link size={16} weight="bold" />
+            )}
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="imp-flex imp-flex-col">
+            <div className="imp-font-medium">Link</div>
+            <div className="imp-text-primary-foreground/50">⌘ + k</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
@@ -145,18 +166,30 @@ export const CodeSnippetButton = () => {
   }
 
   return (
-    <Toggle
-      pressed={isCodeSnippetActive(editor)}
-      onPressedChange={() => {
-        if (isCodeSnippetActive(editor)) {
-          unwrapCodeSnippet(editor)
-        } else {
-          wrapCodeSnippet(editor)
-        }
-      }}
-    >
-      <CodeSimple size={16} />
-    </Toggle>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={isCodeSnippetActive(editor)}
+            onPressedChange={() => {
+              if (isCodeSnippetActive(editor)) {
+                unwrapCodeSnippet(editor)
+              } else {
+                wrapCodeSnippet(editor)
+              }
+            }}
+          >
+            <CodeSimple size={16} />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="imp-flex imp-flex-col">
+            <div className="imp-font-medium">Code</div>
+            <div className="imp-text-primary-foreground/50">⌘ + e</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 

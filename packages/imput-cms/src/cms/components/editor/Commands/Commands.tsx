@@ -24,19 +24,11 @@ type FloatingCommandsProps = {
 }
 
 export const FloatingCommands = ({ editor }: FloatingCommandsProps) => {
-  const {
-    open,
-    position,
-    setOpen,
-    setClosed,
-    restoreSelection,
-    editor: editorRef,
-  } = useCommands(editor)
-  const [lastPath, setLastPath] = useState<Path | null>(null)
+  const { open, position, setClosed, restoreSelection } = useCommands(editor)
 
   return (
     <>
-      <Popover open={open} modal onOpenChange={(open) => {}}>
+      <Popover open={open} modal>
         <Portal.Root>
           <PopoverAnchor asChild>
             <div
@@ -72,7 +64,7 @@ export const FloatingCommands = ({ editor }: FloatingCommandsProps) => {
                     key={option.value}
                     onSelect={() => {
                       deleteCommandCharacter(editor)
-                      option.onSelect(editor, editorRef!)
+                      option.onSelect(editor)
                       setClosed()
                     }}
                   >

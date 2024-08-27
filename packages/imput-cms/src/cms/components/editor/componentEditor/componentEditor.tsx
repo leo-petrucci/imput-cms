@@ -38,7 +38,6 @@ export const ComponentEditor = ({
   element,
 }: Pick<CustomRenderElementProps, 'element'>) => {
   const editor = useSlateStatic() as ReactEditor
-  // const mdxElement = element as MdxElementShape
   const mdxElementRef = useRef<MdxElementShape>(element as MdxElementShape)
   const mdxElement = mdxElementRef.current
 

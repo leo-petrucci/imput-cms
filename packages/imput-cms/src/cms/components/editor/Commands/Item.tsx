@@ -41,7 +41,7 @@ export const CommandItem = ({
 }) => {
   return (
     <div className="imp-flex imp-gap-2 imp-items-center">
-      <div>{icon}</div>
+      <div className="imp-text-muted-foreground">{icon}</div>
       <div className="imp-flex imp-flex-col">
         <div className="imp-font-medium">{heading}</div>
         <Muted>{sub}</Muted>
@@ -54,7 +54,7 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<ListNumbers size={32} />}
+        icon={<ListNumbers size={24} />}
         heading={<>Numbered List</>}
         sub={<>Add a numbered list.</>}
       />
@@ -72,7 +72,7 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<ListBullets size={32} />}
+        icon={<ListBullets size={24} />}
         heading={<>Bulletpoint List</>}
         sub={<>Add a bulletpoint list.</>}
       />
@@ -90,9 +90,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<Atom size={32} />}
-        heading={<>Component</>}
-        sub={<>Transform this node into a component block.</>}
+        icon={<Atom size={24} />}
+        heading={<>Custom Block</>}
+        sub={<>Add a React component.</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -103,7 +103,7 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<Image size={32} />}
+        icon={<Image size={24} />}
         heading={<>Image</>}
         sub={<>Add an image.</>}
       />
@@ -116,9 +116,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<CodeBlock size={32} />}
+        icon={<CodeBlock size={24} />}
         heading={<>Code Block</>}
-        sub={<>Transform this node into a code block.</>}
+        sub={<>Add a code block.</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -129,9 +129,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<TextHOne size={32} />}
+        icon={<TextHOne size={24} />}
         heading={<>Heading 1</>}
-        sub={<>Transform this node into a level one heading.</>}
+        sub={<>Add a level one heading (largest).</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -142,9 +142,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<TextHTwo size={32} />}
+        icon={<TextHTwo size={24} />}
         heading={<>Heading 2</>}
-        sub={<>Transform this node into a level two heading.</>}
+        sub={<>Add a level two heading.</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -155,9 +155,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<TextHThree size={32} />}
+        icon={<TextHThree size={24} />}
         heading={<>Heading 3</>}
-        sub={<>Transform this node into a level three heading.</>}
+        sub={<>Add a level three heading.</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -168,9 +168,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<TextHFour size={32} />}
+        icon={<TextHFour size={24} />}
         heading={<>Heading 4</>}
-        sub={<>Transform this node into a level four heading.</>}
+        sub={<>Add a level four heading.</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -181,9 +181,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<TextHFive size={32} />}
+        icon={<TextHFive size={24} />}
         heading={<>Heading 5</>}
-        sub={<>Transform this node into a level five heading.</>}
+        sub={<>Add a level five heading.</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {
@@ -194,9 +194,9 @@ export const options: OptionType[] = [
   {
     label: (
       <CommandItem
-        icon={<TextHSix size={32} />}
+        icon={<TextHSix size={24} />}
         heading={<>Heading 6</>}
-        sub={<>Transform this node into a level six heading.</>}
+        sub={<>Add a level six heading (smallest).</>}
       />
     ),
     onSelect: (editor: ReactEditor) => {

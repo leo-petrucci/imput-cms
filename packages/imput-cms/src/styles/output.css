@@ -1533,6 +1533,11 @@ video {
   color: hsl(222.2 47.4% 11.2% / var(--tw-text-opacity));
 }
 
+.imp-text-secondary {
+  --tw-text-opacity: 1;
+  color: hsl(210 40% 96.1% / var(--tw-text-opacity));
+}
+
 .imp-underline-offset-4 {
   text-underline-offset: 4px;
 }

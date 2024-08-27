@@ -53,7 +53,6 @@ const getChildNodeToDecorations = ([block, blockPath]: NodeEntry<{
   const language = block.language
   const tokens = Prism.tokenize(text, Prism.languages[language])
   const normalizedTokens = normalizeTokens(tokens) // make tokens flat and grouped by line
-  console.log(normalizedTokens)
   const blockChildren = block.children as Element[]
 
   for (let index = 0; index < normalizedTokens.length; index++) {

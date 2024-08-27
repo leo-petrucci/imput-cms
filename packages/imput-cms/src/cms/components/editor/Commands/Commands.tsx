@@ -33,7 +33,7 @@ export const FloatingCommands = ({ editor }: FloatingCommandsProps) => {
           <PopoverAnchor asChild>
             <div
               id="floating-command-position"
-              className="imp-pointer-events-none imp-bg-red-600"
+              className="imp-pointer-events-none"
               style={{
                 height: 20,
                 width: 2,

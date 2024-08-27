@@ -1615,6 +1615,10 @@ video {
   --tw-ring-offset-color: hsl(0 0% 100%) !important;
 }
 
+.\!imp-ring-offset-transparent {
+  --tw-ring-offset-color: transparent !important;
+}
+
 .imp-transition-all {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);

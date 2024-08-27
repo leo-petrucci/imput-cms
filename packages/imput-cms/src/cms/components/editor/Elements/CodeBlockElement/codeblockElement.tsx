@@ -1,12 +1,6 @@
-import { Codeblock } from '@imput/components'
-import { Transforms, Node, Descendant } from 'slate'
-import {
-  ReactEditor,
-  RenderElementProps,
-  useSelected,
-  useSlateStatic,
-} from 'slate-react'
-import React, { useEffect } from 'react'
+import { Transforms, Descendant } from 'slate'
+import { ReactEditor, RenderElementProps, useSlateStatic } from 'slate-react'
+import { useEffect } from 'react'
 import { defaultNodeTypes } from '../../remark-slate'
 
 interface CodeblockElement extends Pick<RenderElementProps, 'element'> {

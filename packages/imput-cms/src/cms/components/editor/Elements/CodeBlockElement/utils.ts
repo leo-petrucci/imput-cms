@@ -1,19 +1,22 @@
 import Prism from 'prismjs'
-import {
-  Descendant,
-  Editor,
-  Element,
-  Node,
-  NodeEntry,
-  Path,
-  Range,
-  Transforms,
-} from 'slate'
+import { Descendant, Editor, Element, Node, NodeEntry, Range } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 import { defaultNodeTypes } from '../../remark-slate'
-import { Children, KeyboardEvent, useCallback } from 'react'
-import { isElement } from 'lodash'
+import { KeyboardEvent, useCallback } from 'react'
 import isHotkey from 'is-hotkey'
+import 'prismjs/components/prism-javascript'
+import 'prismjs/components/prism-jsx'
+import 'prismjs/components/prism-typescript'
+import 'prismjs/components/prism-tsx'
+import 'prismjs/components/prism-markdown'
+import 'prismjs/components/prism-python'
+import 'prismjs/components/prism-php'
+import 'prismjs/components/prism-sql'
+import 'prismjs/components/prism-java'
+
+/**
+ * TODO: Splitting code to tokens broke at some point, not entirely sure why.
+ */
 
 // precalculate editor.nodeToDecorations map to use it inside decorate function then
 export const SetNodeToDecorations = () => {
@@ -50,6 +53,7 @@ const getChildNodeToDecorations = ([block, blockPath]: NodeEntry<{
   const language = block.language
   const tokens = Prism.tokenize(text, Prism.languages[language])
   const normalizedTokens = normalizeTokens(tokens) // make tokens flat and grouped by line
+  console.log(normalizedTokens)
   const blockChildren = block.children as Element[]
 
   for (let index = 0; index < normalizedTokens.length; index++) {
@@ -218,13 +222,6 @@ export const useDecorate = (editor: any) => {
         // @ts-ignore
         node.type === defaultNodeTypes.code_line
       ) {
-        // const children = node.children
-        //   .map((child) => {
-        //     const ranges = editor.nodeToDecorations.get(child) || []
-        //     return ranges
-        //   })
-        //   .flat()
-        // return children
         const ranges = editor.nodeToDecorations.get(node) || []
         return ranges
       }

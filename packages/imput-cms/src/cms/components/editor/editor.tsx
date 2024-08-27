@@ -6,7 +6,7 @@ import remarkSlate, {
   defaultNodeTypes,
   serialize as remarkSerialize,
 } from '../../../cms/components/editor/remark-slate'
-import { BaseEditor, createEditor, Descendant, Path } from 'slate'
+import { createEditor, Descendant, Path } from 'slate'
 import { withHistory } from 'slate-history'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
@@ -35,8 +35,9 @@ import {
   useDecorate,
 } from './Elements/CodeBlockElement/utils'
 import { ComponentsModal } from './ComponentsModal/ComponentsModal'
-import { setEditorRef, setLastSelection } from './store'
+import { setLastSelection } from './store'
 import { onKeyDownInlineFix } from './withImput/utils'
+import { useImput } from './useImput'
 
 export const deserialize = (
   src: string,
@@ -148,15 +149,11 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
     }
   }, [])
 
-  React.useEffect(() => {
-    if (editor) {
-      setEditorRef(editor)
-    }
-  }, [editor])
-
   const { onChange: onCommandsChange } = useCommands(editor)
 
   const decorate = useDecorate(editor)
+
+  useImput(editor)
 
   return (
     <>
@@ -166,6 +163,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
         onChange={(val) => {
           debouncedOnChange(val)
           setLastSelection(editor)
+          // addEndParagraph(editor)
         }}
       >
         <ComponentsModal />
@@ -182,10 +180,10 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
               onCommandsChange(event, editor)
             }}
             onKeyDown={(event: any) => {
-              // listsKeyDown(editor, event)
+              listsKeyDown(editor, event)
               onKeyDownInlineFix(editor, event)
-              // shortcuts(event, editor)
-              // codeBlockOnKeyDown(editor, event)
+              shortcuts(event, editor)
+              codeBlockOnKeyDown(editor, event)
             }}
           />
         </div>

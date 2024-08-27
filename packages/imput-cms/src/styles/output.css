@@ -673,6 +673,10 @@ video {
   margin-bottom: 1rem;
 }
 
+.imp-mb-\[15ch\] {
+  margin-bottom: 15ch;
+}
+
 .imp-ml-2 {
   margin-left: 0.5rem;
 }

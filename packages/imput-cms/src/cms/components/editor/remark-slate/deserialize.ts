@@ -20,7 +20,7 @@ import {
 import { v4 as uuidv4 } from 'uuid'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { cloneDeep } from 'lodash'
-import { MdxElementShape } from '../mdxElement'
+import { MdxElementShape } from '../Elements/MdxElement'
 
 /**
  * Markdown to Slate deserialization.

@@ -3,7 +3,7 @@ import {
   MdxLiteral,
   MdxObjectExpression,
 } from '../../../types/mdxNode'
-import { MdxElementShape } from '../mdxElement'
+import { MdxElementShape } from '../Elements/MdxElement'
 
 /**
  * These functions are used to extract and simplify values

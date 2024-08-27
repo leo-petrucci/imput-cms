@@ -1,6 +1,6 @@
 import { Plugin } from 'unified'
 import { visit } from 'unist-util-visit'
-import { MdxElementShape } from '../mdxElement'
+import { MdxElementShape } from '../Elements/MdxElement'
 import { BlockType } from '../../../contexts/cmsContext/context'
 import {
   AttributeType,

@@ -19,67 +19,14 @@ import {
   TooltipTrigger,
 } from '@imput/components/Tooltip'
 import Toggle from '@imput/components/Toggle'
-import { CustomElement } from '../../../../cms/types/slate'
 import { CodeSimple } from '@imput/components/Icon'
-
-const LIST_TYPES = ['ul_list', 'ol_list']
-
-const isBlockActive = (
-  editor: BaseEditor,
-  format: string,
-  blockType = 'type'
-) => {
-  const { selection } = editor
-  if (!selection) return false
-
-  const [match] = Array.from(
-    Editor.nodes(editor, {
-      at: Editor.unhangRange(editor, selection),
-      match: (n) =>
-        !Editor.isEditor(n) &&
-        SlateElement.isElement(n) &&
-        // @ts-ignore
-        n[blockType] === format,
-    })
-  )
-
-  return !!match
-}
-
-/**
- * Used to wrap an entire paragraph in a new block, like a code block or a list
- * @param format the type of block it'll be wrapped in (e.g. `code_block`)
- */
-const toggleBlock = (editor: BaseEditor, format: string) => {
-  const isActive = isBlockActive(editor, format)
-  const isList = LIST_TYPES.includes(format)
-
-  Transforms.unwrapNodes(editor, {
-    match: (n: any) =>
-      !Editor.isEditor(n) &&
-      SlateElement.isElement(n) &&
-      // @ts-ignore
-      LIST_TYPES.includes(n.type),
-    split: true,
-  })
-  let newProperties: Partial<SlateElement>
-  newProperties = {
-    // @ts-ignore
-    type: isActive ? 'paragraph' : isList ? 'list_item' : format,
-  }
-  Transforms.setNodes<SlateElement>(editor, newProperties)
-
-  if (!isActive && isList) {
-    const block = { type: format, children: [] }
-    Transforms.wrapNodes(editor, block)
-  }
-}
-
-const isMarkActive = (editor: BaseEditor, format: string) => {
-  const marks = Editor.marks(editor)
-  // @ts-ignore
-  return marks ? marks[format] === true : false
-}
+import {
+  addLinkLeaf,
+  isBlockActive,
+  isMarkActive,
+  toggleBlock,
+  toggleMark,
+} from '../utils/marksAndBlocks'
 
 export const BlockButton = ({
   format,
@@ -102,38 +49,40 @@ export const BlockButton = ({
   )
 }
 
-/**
- * Used to wrap a specific selection in a style, for example bold or italics
- * @param format the type of formatting to apply (e.g. bold)
- */
-const toggleMark = (editor: BaseEditor, format: string) => {
-  const isActive = isMarkActive(editor, format)
-
-  if (isActive) {
-    Editor.removeMark(editor, format)
-  } else {
-    Editor.addMark(editor, format, true)
-  }
-}
-
 export const MarkButton = ({
   format,
   icon,
+  description,
+  shortcut,
 }: {
   format: string
   icon: React.ReactNode
+  description?: string
+  shortcut?: string
 }) => {
   const editor = useSlate()
 
   return (
-    <Toggle
-      pressed={isMarkActive(editor, format)}
-      onPressedChange={() => {
-        toggleMark(editor, format)
-      }}
-    >
-      {icon}
-    </Toggle>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={isMarkActive(editor, format)}
+            onPressedChange={() => {
+              toggleMark(editor, format)
+            }}
+          >
+            {icon}
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="imp-flex imp-flex-col">
+            <div className="imp-font-medium">{description}</div>
+            <div className="imp-text-primary-foreground/50">⌘ + b</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
@@ -141,27 +90,31 @@ export const MarkButton = ({
  * A button that wraps selected text into a link. If a link is selected, the link will be removed.
  */
 export const LinkButton = () => {
-  const editor = useSlate()
+  const editor = useSlate() as ReactEditor
 
   return (
-    <Toggle
-      pressed={isLinkActive(editor)}
-      onPressedChange={() => {
-        if (isLinkActive(editor)) {
-          unwrapLink(editor)
-        } else {
-          const url = window.prompt('Enter the URL of the link:')
-          if (!url) return
-          insertLink(editor, url)
-        }
-      }}
-    >
-      {isLinkActive(editor) ? (
-        <LinkBreak size={16} weight="bold" />
-      ) : (
-        <Link size={16} weight="bold" />
-      )}
-    </Toggle>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={isLinkActive(editor)}
+            onPressedChange={() => addLinkLeaf(editor)}
+          >
+            {isLinkActive(editor) ? (
+              <LinkBreak size={16} weight="bold" />
+            ) : (
+              <Link size={16} weight="bold" />
+            )}
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="imp-flex imp-flex-col">
+            <div className="imp-font-medium">Link</div>
+            <div className="imp-text-primary-foreground/50">⌘ + k</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
@@ -213,18 +166,30 @@ export const CodeSnippetButton = () => {
   }
 
   return (
-    <Toggle
-      pressed={isCodeSnippetActive(editor)}
-      onPressedChange={() => {
-        if (isCodeSnippetActive(editor)) {
-          unwrapCodeSnippet(editor)
-        } else {
-          wrapCodeSnippet(editor)
-        }
-      }}
-    >
-      <CodeSimple size={16} />
-    </Toggle>
+    <TooltipProvider>
+      <Tooltip delayDuration={0}>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={isCodeSnippetActive(editor)}
+            onPressedChange={() => {
+              if (isCodeSnippetActive(editor)) {
+                unwrapCodeSnippet(editor)
+              } else {
+                wrapCodeSnippet(editor)
+              }
+            }}
+          >
+            <CodeSimple size={16} />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>
+          <div className="imp-flex imp-flex-col">
+            <div className="imp-font-medium">Code</div>
+            <div className="imp-text-primary-foreground/50">⌘ + e</div>
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   )
 }
 
@@ -239,7 +204,7 @@ export const ComponentButton = ({ element }: { element: Element }) => {
   return (
     <>
       <TooltipProvider>
-        <Tooltip>
+        <Tooltip delayDuration={0}>
           <Modal
             title={'Select a block to add'}
             className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"

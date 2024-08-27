@@ -1,4 +1,4 @@
-import { MdxElementShape } from '../mdxElement'
+import { MdxElementShape } from '../Elements/MdxElement'
 import { BlockType, LeafType, NodeTypes, defaultNodeTypes } from './ast-types'
 import serialize, { Options } from './serialize'
 

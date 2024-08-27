@@ -1,13 +1,15 @@
 import { ReactEditor } from 'slate-react'
-import { Transforms } from 'slate'
+import { Element, Transforms } from 'slate'
 import { v4 as uuidv4 } from 'uuid'
 import { CustomElement } from '../../../../cms/types/slate'
+import { getCurrentNodeType } from './utils'
+import { defaultNodeTypes } from '../remark-slate'
 
 /**
  * Adds custom Imput functions for the slate editor
  */
 export const withImput = (editor: ReactEditor) => {
-  const { isVoid, isInline } = editor
+  const { isVoid, isInline, normalizeNode } = editor
 
   /**
    * A void is an element with text that can't be edited
@@ -33,15 +35,56 @@ export const withImput = (editor: ReactEditor) => {
    */
   editor.insertBreak = () => {
     const { selection } = editor
+    const currentNode = getCurrentNodeType(editor)
 
     if (selection) {
-      Transforms.insertNodes(editor, {
-        children: [{ text: '' }],
-        // @ts-expect-error
-        type: 'paragraph',
-        id: uuidv4(),
-      })
-      return
+      switch (currentNode) {
+        // we want to stop the default behavior when
+        // an mdx element is selected
+        // so we can open it when the user presses enter instead
+        case defaultNodeTypes.mdxJsxFlowElement:
+          break
+        default:
+          Transforms.insertNodes(editor, {
+            children: [{ text: '' }],
+            // @ts-expect-error
+            type: 'paragraph',
+            id: uuidv4(),
+          })
+          break
+      }
+    }
+
+    /**
+     * It really annoys me when editors allow you to add blocks
+     * but then don't leave a space after them at the end of
+     * the editor for you to continue typing.
+     * This fixes that by adding a paragraph at the end
+     * if the last node isn't a paragraph
+     */
+    editor.normalizeNode = ([node, path]) => {
+      if (path.length === 0) {
+        if (editor.children.length > 0) {
+          const lastNode = editor.children[editor.children.length - 1]
+          if (
+            !Element.isElement(lastNode) ||
+            // @ts-expect-error
+            // TODO: Fix this type
+            lastNode.type !== defaultNodeTypes.paragraph
+          ) {
+            Transforms.insertNodes(
+              editor,
+              // @ts-expect-error
+              // TODO: Fix this type
+              { type: defaultNodeTypes.paragraph, children: [{ text: '' }] },
+              { at: [editor.children.length] }
+            )
+            return
+          }
+        }
+      }
+
+      normalizeNode([node, path])
     }
   }
 

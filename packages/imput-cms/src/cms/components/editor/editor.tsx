@@ -10,7 +10,6 @@ import { createEditor, Descendant, Path } from 'slate'
 import { withHistory } from 'slate-history'
 import { Element } from '../../../cms/components/editor/element'
 import MoveElement from '../../../cms/components/editor/moveElement'
-import Controls from '../../../cms/components/editor/controls'
 import { Leaf } from '../../../cms/components/editor/leaf'
 import { Slate, Editable, withReact, ReactEditor } from 'slate-react'
 import { unified } from 'unified'
@@ -22,11 +21,23 @@ import {
   withListsReact,
 } from '../../../cms/components/editor/slate-lists'
 import { withInlines } from './button/link'
-import { onKeyDownOffset } from './lib/keyDownOffset'
-import { FloatingToolbar } from './floatingToolbar'
+import { FloatingToolbar } from './FloatingToolbar'
 import { withImput } from './withImput'
 import { remarkValidateSchema } from './remark-validate-schema'
 import { BlockType } from '../../contexts/cmsContext/context'
+import { shortcuts } from './utils/shortcuts'
+import { withCommands } from './Commands/context'
+import { FloatingCommands } from './Commands/Commands'
+import { useCommands } from './Commands/hook'
+import {
+  SetNodeToDecorations,
+  codeBlockOnKeyDown,
+  useDecorate,
+} from './Elements/CodeBlockElement/utils'
+import { ComponentsModal } from './ComponentsModal/ComponentsModal'
+import { setLastSelection } from './store'
+import { onKeyDownInlineFix } from './withImput/utils'
+import { useImput } from './useImput'
 
 export const deserialize = (
   src: string,
@@ -102,7 +113,6 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
           {displayControls && <MoveElement {...props} />}
           <Element {...props} />
         </div>
-        {displayControls && <Controls {...props} />}
       </div>
     )
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -139,18 +149,41 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
     }
   }, [])
 
+  const { onChange: onCommandsChange } = useCommands(editor)
+
+  const decorate = useDecorate(editor)
+
+  useImput(editor)
+
   return (
     <>
-      <Slate editor={editor} value={value} onChange={debouncedOnChange}>
+      <Slate
+        editor={editor}
+        value={value}
+        onChange={(val) => {
+          debouncedOnChange(val)
+          setLastSelection(editor)
+          // addEndParagraph(editor)
+        }}
+      >
+        <ComponentsModal />
+        <SetNodeToDecorations />
         <FloatingToolbar />
+        <FloatingCommands editor={editor} />
         <div className="children:imp-p-2">
           <Editable
+            decorate={decorate}
             data-testid="slate-content-editable"
             renderElement={renderElement}
             renderLeaf={renderLeaf}
+            onKeyUp={(event: any) => {
+              onCommandsChange(event, editor)
+            }}
             onKeyDown={(event: any) => {
               listsKeyDown(editor, event)
-              onKeyDownOffset(editor, event)
+              onKeyDownInlineFix(editor, event)
+              shortcuts(event, editor)
+              codeBlockOnKeyDown(editor, event)
             }}
           />
         </div>
@@ -159,4 +192,4 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
   )
 }
 
-export default Editor
+export default withCommands(Editor)

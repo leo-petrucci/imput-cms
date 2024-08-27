@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import ctxt, { BlockType, NextCMSContext } from './context'
 import { generateComponentProp } from '../../components/editor/lib/generateComponentProp'
-import { ReactAttribute } from '../../components/editor/mdxElement'
+import { ReactAttribute } from '../../components/editor/Elements/MdxElement'
 
 /**
  * Returns the CMS settings object

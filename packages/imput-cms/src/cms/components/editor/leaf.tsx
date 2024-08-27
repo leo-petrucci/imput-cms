@@ -25,9 +25,10 @@ export const Leaf = (props: any) => {
 // https://github.com/ianstormtaylor/slate/issues/4704#issuecomment-1006696364
 const Text = (props: any) => {
   const { attributes, children, leaf } = props
+  const { text, ...rest } = leaf
   return (
     <span
-      className={StyledText({ text: leaf.text ? true : true })}
+      className={`${StyledText({ text: leaf.text ? true : true })} ${Object.keys(rest).join(' ')}`}
       {...attributes}
     >
       {children}

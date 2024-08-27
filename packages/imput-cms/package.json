@@ -37,6 +37,7 @@
     "@tanstack/react-query-devtools": "^4.36.1",
     "axios": "^0.27.2",
     "class-variance-authority": "^0.7.0",
+    "cmdk": "^0.2.1",
     "escape-html": "^1.0.3",
     "framer-motion": "6.5.1",
     "gray-matter": "^4.0.3",
@@ -61,7 +62,7 @@
     "remark-parse": "^10.0.1",
     "remark-rehype": "^10.1.0",
     "remark-stringify": "^10.0.2",
-    "slate": "^0.86.0",
+    "slate": "^0.103.0",
     "slate-history": "^0.86.0",
     "slate-hyperscript": "^0.77.0",
     "slate-react": "^0.86.0",
@@ -69,7 +70,8 @@
     "tslib": "^2.5.0",
     "unified": "^10.1.2",
     "unist-util-visit": "^5.0.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@imput/components": "workspace:*",

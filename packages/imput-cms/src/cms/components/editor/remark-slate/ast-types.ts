@@ -2,6 +2,7 @@ export interface NodeTypes {
   paragraph: 'paragraph'
   block_quote: 'block_quote'
   code_block: 'code_block'
+  code_line: 'code_line'
   code_snippet: 'code_snippet'
   link: 'link'
   ul_list: 'ul_list'
@@ -48,6 +49,7 @@ export const defaultNodeTypes: NodeTypes = {
   paragraph: 'paragraph',
   block_quote: 'block_quote',
   code_block: 'code_block',
+  code_line: 'code_line',
   code_snippet: 'code_snippet',
   link: 'link',
   ul_list: 'ul_list',

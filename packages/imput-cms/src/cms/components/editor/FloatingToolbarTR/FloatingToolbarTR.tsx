@@ -3,30 +3,13 @@ import { useSlateSelection } from 'slate-react'
 import { Portal } from '@imput/components/Portal'
 import { useTextSelection } from '../../../utils/useTextSelection'
 import { MarkButton } from '../button'
-import { BlockButton, CodeSnippetButton, LinkButton } from '../button/button'
+import { CodeSnippetButton, LinkButton } from '../button/button'
 import {
   Popover,
   PopoverAnchor,
   PopoverContent,
 } from '@imput/components/Popover'
-import {
-  CodeSimple,
-  Code,
-  ListBullets,
-  ListNumbers,
-  Quotes,
-  TextBolder,
-  TextHOne,
-  TextHThree,
-  TextHTwo,
-  TextItalic,
-} from 'phosphor-react'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@imput/components/Tooltip'
+import { TextBolder, TextItalic } from 'phosphor-react'
 
 /**
  * A floating toolbar that only appears when text is selected

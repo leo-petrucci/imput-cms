@@ -1607,6 +1607,10 @@ video {
   box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
 }
 
+.\!imp-ring-transparent {
+  --tw-ring-color: transparent !important;
+}
+
 .imp-ring-offset-background {
   --tw-ring-offset-color: hsl(0 0% 100%);
 }

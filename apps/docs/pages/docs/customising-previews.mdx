@@ -33,8 +33,7 @@ const CMS = () => (
       },
     }}
   />
-)
-```
+)```
 
 ## HTML Preview
 
@@ -45,8 +44,7 @@ The easiest way to start is to add an empty `preview.components` object:
   preview: {
     components: {},
   },
-}
-```
+}```
 
 This will tell Imput to convert your Markdown into HTML, even though it will be unstyled. To add styles you can use another `preview` configuration: `wrapper`. Wrapper renders an React component around your preview! You can use it to render a CSS-in-JS component that targets your preview or for a utility class like `tailwind-prose`.
 
@@ -56,8 +54,7 @@ This will tell Imput to convert your Markdown into HTML, even though it will be 
     components: {},
     wrapper: ({ children }) => <div className="prose">{children}</div>
   },
-}
-```
+}```
 
 ### Previewing Frontmatter
 
@@ -72,12 +69,11 @@ All your frontmatter data (i.e. things that aren't the main body of your content
     // this will use your author's name and render it below your content
     footer: ({ authorName }) => <p className="article-author">{authorName}</p>
   },
-}
-```
+}```
 
 ## React Components Preview
 
-Imput is also able to render React components added with the "Block" feature in real-time. Adding a `components` object will replace any components in your MDX with the component matching its name. 
+Imput is also able to render React components added with the "Block" feature in real-time. Adding a `components` object will replace any components in your MDX with the component matching its name.
 
 ```tsx
 {
@@ -112,8 +108,7 @@ Imput is also able to render React components added with the "Block" feature in 
       ],
     },
   ],
-}
-```
+}```
 
 You can also use this configuration object to replace HTML tags! Define a component that matches an HTML tag:
 
@@ -127,7 +122,25 @@ You can also use this configuration object to replace HTML tags! Define a compon
         )
       }
     },
-  },
+  },```
+
+## Adding styles to your previews
+
+The last piece of the puzzle is adding styles to your previews. You can do so by using the `styles` array which accepts any number of public CSS files which will be fetched and loaded at runtime.
+
+```typescript
+{
+  preview: {
+    styles: ["/styles/global.css", "https://mysite.com/style.css"]
+  }
+}
+
 ```
+
+<Note>
+
+Styles need to be public to separate Imput's css from yours! If your styles are built at runtime you can usually add an extra rule to output a static version of them into a public-facing folder.
+
+</Note>
 
 

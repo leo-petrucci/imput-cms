@@ -44,7 +44,7 @@ export const Element = (props: CustomRenderElementProps) => {
     case defaultNodeTypes.block_quote:
       return (
         <blockquote
-          className="imp-border-l-4 imp-pl-4 imp-border-primary"
+          className="imp-border-l-4 imp-pl-4 imp-border-primary imp-relative"
           style={style}
           {...attributes}
         >
@@ -53,57 +53,61 @@ export const Element = (props: CustomRenderElementProps) => {
       )
     case defaultNodeTypes.ul_list:
       return (
-        <ul className="imp-ml-4 imp-flex-1" style={style} {...attributes}>
+        <ul
+          className="imp-ml-4 imp-flex-1 imp-relative"
+          style={style}
+          {...attributes}
+        >
           {children}
         </ul>
       )
     case defaultNodeTypes.heading[1]:
       return (
-        <h1 className="imp-text-4xl" {...attributes}>
+        <h1 className="imp-text-4xl imp-relative" {...attributes}>
           {children}
         </h1>
       )
     case defaultNodeTypes.heading[2]:
       return (
-        <h2 className="imp-text-3xl" {...attributes}>
+        <h2 className="imp-text-3xl imp-relative" {...attributes}>
           {children}
         </h2>
       )
     case defaultNodeTypes.heading[3]:
       return (
-        <h3 className="imp-text-2xl" {...attributes}>
+        <h3 className="imp-text-2xl imp-relative" {...attributes}>
           {children}
         </h3>
       )
     case defaultNodeTypes.heading[4]:
       return (
-        <h4 className="imp-text-xl" {...attributes}>
+        <h4 className="imp-text-xl imp-relative" {...attributes}>
           {children}
         </h4>
       )
     case defaultNodeTypes.heading[5]:
       return (
-        <h5 className="imp-text-lg" {...attributes}>
+        <h5 className="imp-text-lg imp-relative" {...attributes}>
           {children}
         </h5>
       )
     case defaultNodeTypes.heading[6]:
       return (
-        <h6 className="imp-text-base" {...attributes}>
+        <h6 className="imp-text-base imp-relative" {...attributes}>
           {children}
         </h6>
       )
 
     case defaultNodeTypes.listItem:
       return (
-        <li className="imp-flex-1" style={style} {...attributes}>
+        <li className="imp-flex-1 imp-relative" style={style} {...attributes}>
           {children}
         </li>
       )
     case defaultNodeTypes.ol_list:
       return (
         <ol
-          className="imp-ml-4 imp-flex-1"
+          className="imp-ml-4 imp-flex-1 imp-relative"
           style={{ ...style }}
           {...attributes}
         >
@@ -116,7 +120,8 @@ export const Element = (props: CustomRenderElementProps) => {
       }
       return (
         <p
-          style={{ ...style, width: '100%', position: 'relative' }}
+          className="imp-w-full imp-relative"
+          style={{ ...style }}
           {...attributes}
         >
           {children}

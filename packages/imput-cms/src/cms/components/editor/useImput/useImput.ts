@@ -27,12 +27,6 @@ export const useImput = (editor: ReactEditor) => {
         Range.includes(editor.selection, path) &&
         Range.isCollapsed(editor.selection)
       ) {
-        console.log('placeholder ranges', [
-          {
-            ...editor.selection,
-            placeholder: true,
-          },
-        ])
         return [
           {
             ...editor.selection,
@@ -47,7 +41,6 @@ export const useImput = (editor: ReactEditor) => {
       ) {
         // @ts-expect-error
         const ranges = editor.nodeToDecorations.get(node) || []
-        console.log('token ranges', ranges)
         return ranges
       }
 

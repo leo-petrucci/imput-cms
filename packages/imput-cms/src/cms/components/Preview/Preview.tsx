@@ -21,10 +21,12 @@ export const Preview = ({
     return (
       <>
         {currentCollection.preview?.components ? (
-          <MdxRenderer
-            descendants={formValues.body}
-            components={currentCollection.preview?.components}
-          />
+          <Frame className="imp-flex-1">
+            <MdxRenderer
+              descendants={formValues.body}
+              components={currentCollection.preview?.components}
+            />
+          </Frame>
         ) : (
           <div className="imp-whitespace-break-spaces">{markdown}</div>
         )}
@@ -33,7 +35,7 @@ export const Preview = ({
   }
 
   return (
-    <Frame className="imp-flex-1">
+    <>
       {currentCollection.preview?.header?.({
         ...omit(formValues, ['body']),
       })}
@@ -43,6 +45,6 @@ export const Preview = ({
       {currentCollection.preview?.footer?.({
         ...omit(formValues, ['body']),
       })}
-    </Frame>
+    </>
   )
 }

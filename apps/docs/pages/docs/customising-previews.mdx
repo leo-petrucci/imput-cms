@@ -33,7 +33,8 @@ const CMS = () => (
       },
     }}
   />
-)```
+)
+```
 
 ## HTML Preview
 
@@ -44,7 +45,8 @@ The easiest way to start is to add an empty `preview.components` object:
   preview: {
     components: {},
   },
-}```
+}
+```
 
 This will tell Imput to convert your Markdown into HTML, even though it will be unstyled. To add styles you can use another `preview` configuration: `wrapper`. Wrapper renders an React component around your preview! You can use it to render a CSS-in-JS component that targets your preview or for a utility class like `tailwind-prose`.
 
@@ -54,7 +56,8 @@ This will tell Imput to convert your Markdown into HTML, even though it will be 
     components: {},
     wrapper: ({ children }) => <div className="prose">{children}</div>
   },
-}```
+}
+```
 
 ### Previewing Frontmatter
 
@@ -69,7 +72,8 @@ All your frontmatter data (i.e. things that aren't the main body of your content
     // this will use your author's name and render it below your content
     footer: ({ authorName }) => <p className="article-author">{authorName}</p>
   },
-}```
+}
+```
 
 ## React Components Preview
 
@@ -108,7 +112,8 @@ Imput is also able to render React components added with the "Block" feature in 
       ],
     },
   ],
-}```
+}
+```
 
 You can also use this configuration object to replace HTML tags! Define a component that matches an HTML tag:
 
@@ -122,7 +127,8 @@ You can also use this configuration object to replace HTML tags! Define a compon
         )
       }
     },
-  },```
+  },
+```
 
 ## Adding styles to your previews
 
@@ -134,7 +140,6 @@ The last piece of the puzzle is adding styles to your previews. You can do so by
     styles: ["/styles/global.css", "https://mysite.com/style.css"]
   }
 }
-
 ```
 
 <Note>

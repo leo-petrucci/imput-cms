@@ -21,7 +21,7 @@ export const Leaf = (props: any) => {
       <>
         <Text {...props}>{children}</Text>
         <span
-          className="imp-text-muted-foreground imp-absolute imp-inset-0 imp-pointer-events-none imp-opacity-75"
+          className="imp-text-muted-foreground imp-text-base imp-absolute imp-inset-0 imp-pointer-events-none imp-opacity-75"
           contentEditable={false}
         >
           Write something or type "/" to select a command

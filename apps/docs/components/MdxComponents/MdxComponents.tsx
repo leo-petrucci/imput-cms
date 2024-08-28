@@ -8,7 +8,7 @@ import { cn } from '@imput/components/lib/utils'
 export const Components = {
   Note: ({ children }: any) => {
     return (
-      <div className="imp-callout imp-mb-6 imp-overflow-x-auto imp-mt-6 imp-flex imp-rounded-lg imp-border imp-py-2 ltr:imp-pr-4 rtl:imp-pl-4 contrast-more:imp-border-current contrast-more:dark:imp-border-current imp-border-orange-100 imp-bg-orange-50 imp-text-orange-800 dark:imp-border-orange-400/30 dark:imp-bg-orange-400/20 dark:imp-text-orange-300">
+      <div className="imp-callout imp-mb-6 imp-overflow-x-auto imp-mt-6 imp-flex imp-rounded-lg imp-border imp-py-2 imp-pr-4 contrast-more:imp-border-current contrast-more:dark:imp-border-current imp-border-orange-100 imp-bg-orange-50 imp-text-orange-800 dark:imp-border-orange-400/30 dark:imp-bg-orange-400/20 dark:imp-text-orange-300">
         <div className="imp-select-none imp-text-xl imp-pl-3 imp-pr-2">💡</div>
         <div className="imp-w-full imp-min-w-0 imp-leading-7">{children}</div>
       </div>
@@ -88,14 +88,11 @@ export const Components = {
   h5: (props: any) => <h5 className="imp-mt-8 imp-text-lg" {...props} />,
   h6: (props: any) => <h6 className="imp-mt-8 imp-text-base" {...props} />,
   ul: (props: any) => (
-    <ul
-      className="imp-mt-6 imp-list-disc first:imp-mt-0 ltr:imp-ml-6 rtl:imp-mr-6"
-      {...props}
-    />
+    <ul className="imp-mt-6 imp-list-disc first:imp-mt-0 imp-ml-6" {...props} />
   ),
   ol: (props: any) => (
     <ol
-      className="imp-mt-6 imp-list-decimal first:imp-mt-0 ltr:imp-ml-6 rtl:imp-mr-6"
+      className="imp-mt-6 imp-list-decimal first:imp-mt-0 imp-ml-6"
       {...props}
     />
   ),
@@ -104,7 +101,7 @@ export const Components = {
     <blockquote
       className={cn(
         'imp-mt-6 imp-border-gray-300 imp-italic imp-text-gray-700 dark:imp-border-gray-700 dark:imp-text-gray-400',
-        'first:imp-mt-0 ltr:imp-border-l-2 ltr:imp-pl-6 rtl:imp-border-r-2 rtl:imp-pr-6'
+        'first:imp-mt-0 imp-border-l-2 imp-pl-6'
       )}
       {...props}
     />

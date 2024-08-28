@@ -7,8 +7,8 @@
     "docs:build": "pnpm --filter apps.docs docs:tailwind && next build",
     "docs:start": "next start",
     "docs:lint": "next lint",
-    "docs:tailwind": "pnpm dlx tailwindcss -i ./styles/tailwind.css -o ./public/styles/tailwind.css",
-    "docs:tailwind:watch": "pnpm dlx tailwindcss -i ./styles/tailwind.css -o ./public/styles/tailwind.css --watch=always"
+    "docs:tailwind": "pnpm dlx tailwindcss -i ./styles/tailwind.css -o ./public/styles/tailwind.css --minify",
+    "docs:tailwind:watch": "pnpm dlx tailwindcss -i ./styles/tailwind.css -o ./public/styles/tailwind.css --watch=always --minify"
   },
   "dependencies": {
     "@imput/components": "workspace:*",

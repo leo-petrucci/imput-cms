@@ -5,6 +5,10 @@
       "cache": false,
       "inputs": ["imput-cms"]
     },
+    "docs:tailwind:watch": {
+      "cache": false,
+      "inputs": ["imput-cms"]
+    },
     "docs:dev": {
       "cache": true,
       "inputs": ["apps/docs"]
@@ -14,7 +18,7 @@
       "inputs": ["apps/cms"]
     },
     "docs": {
-      "dependsOn": ["imput:tailwind:watch", "docs:dev"]
+      "dependsOn": ["imput:tailwind:watch", "docs:dev", "docs:tailwind:watch"]
     },
     "test": {
       "dependsOn": ["imput:tailwind:watch", "test:dev"]

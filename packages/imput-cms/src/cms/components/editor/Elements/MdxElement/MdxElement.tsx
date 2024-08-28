@@ -82,7 +82,6 @@ export const MdxElement = (props: CustomRenderElementProps) => {
    */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log(mdxElement.name, 'onkeydown')
       if (isHotkey('enter', event)) {
         buttonRef.current?.click()
       }

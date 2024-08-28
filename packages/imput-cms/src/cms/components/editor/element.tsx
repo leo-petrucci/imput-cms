@@ -115,7 +115,10 @@ export const Element = (props: CustomRenderElementProps) => {
         return children
       }
       return (
-        <p style={{ ...style, width: '100%' }} {...attributes}>
+        <p
+          style={{ ...style, width: '100%', position: 'relative' }}
+          {...attributes}
+        >
           {children}
         </p>
       )

@@ -215,6 +215,10 @@ export interface NextCMSContext {
        */
       preview?: {
         /**
+         * An array of public css files that will be added to your preview
+         */
+        styles?: string[]
+        /**
          * Components to render within the mdx preview
          */
         components?: {

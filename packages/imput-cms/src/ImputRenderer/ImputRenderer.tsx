@@ -119,26 +119,28 @@ const InternalRenderer = ({ descendant }: { descendant: Descendant }) => {
   const Content = exports.default
 
   return (
-    <div className="imp-relative imp-min-h-12">
-      {errored && (
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger className="imp-absolute imp-right-2 imp-top-2">
-              <Badge variant="destructive" className="imp-flex imp-gap-1">
-                <WarningCircle size={16} weight="bold" /> Error
-              </Badge>
-            </TooltipTrigger>
-            <TooltipContent className="imp-max-w-sm">
-              This doesn't necessarily mean there's an error with your Markdown,
-              it just means we can't display this block!
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      )}
-      <ErrorBoundary>
-        <Content />
-      </ErrorBoundary>
-    </div>
+    <>
+      <span className="imp-relative">
+        {errored && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger className="imp-absolute imp-right-2 imp-top-2">
+                <Badge variant="destructive" className="imp-flex imp-gap-1">
+                  <WarningCircle size={16} weight="bold" /> Error
+                </Badge>
+              </TooltipTrigger>
+              <TooltipContent className="imp-max-w-sm">
+                This doesn't necessarily mean there's an error with your
+                Markdown, it just means we can't display this block!
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+        <ErrorBoundary>
+          <Content />
+        </ErrorBoundary>
+      </span>
+    </>
   )
 }
 

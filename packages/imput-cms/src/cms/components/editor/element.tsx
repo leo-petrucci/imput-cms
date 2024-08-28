@@ -54,7 +54,7 @@ export const Element = (props: CustomRenderElementProps) => {
     case defaultNodeTypes.ul_list:
       return (
         <ul
-          className="imp-ml-4 imp-flex-1 imp-relative"
+          className="imp-list-disc first:imp-mt-0 imp-ml-6 imp-relative"
           style={style}
           {...attributes}
         >
@@ -107,7 +107,7 @@ export const Element = (props: CustomRenderElementProps) => {
     case defaultNodeTypes.ol_list:
       return (
         <ol
-          className="imp-ml-4 imp-flex-1 imp-relative"
+          className="imp-list-decimal first:imp-mt-0 imp-ml-6 imp-relative"
           style={{ ...style }}
           {...attributes}
         >

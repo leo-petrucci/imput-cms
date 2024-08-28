@@ -19,32 +19,28 @@ export const Preview = ({
    */
   const renderPreview = () => {
     return (
-      <>
-        {currentCollection.preview?.components ? (
-          <Frame className="imp-flex-1">
-            <MdxRenderer
-              descendants={formValues.body}
-              components={currentCollection.preview?.components}
-            />
-          </Frame>
-        ) : (
-          <div className="imp-whitespace-break-spaces">{markdown}</div>
-        )}
-      </>
+      <MdxRenderer
+        descendants={formValues.body}
+        components={currentCollection.preview?.components}
+      />
     )
   }
 
   return (
-    <>
+    <Frame className="imp-flex-1">
       {currentCollection.preview?.header?.({
         ...omit(formValues, ['body']),
       })}
-      {currentCollection.preview?.wrapper?.({
-        children: renderPreview(),
-      }) || renderPreview()}
+      {currentCollection.preview?.components ? (
+        currentCollection.preview?.wrapper?.({
+          children: renderPreview(),
+        }) || renderPreview()
+      ) : (
+        <div className="imp-whitespace-break-spaces">{markdown}</div>
+      )}
       {currentCollection.preview?.footer?.({
         ...omit(formValues, ['body']),
       })}
-    </>
+    </Frame>
   )
 }

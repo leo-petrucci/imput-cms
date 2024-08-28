@@ -2,7 +2,7 @@ import { MdxProvider } from '../ImputProvider'
 import { useMDXComponents } from '@mdx-js/react'
 import * as runtime from 'react/jsx-runtime'
 import { evaluate } from '@mdx-js/mdx'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Descendant } from 'slate'
 import { serialize } from '../cms/components/editor'
 import { WarningCircle } from '@imput/components/Icon'
@@ -13,7 +13,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@imput/components/Tooltip'
+import { useFrame } from 'react-frame-component'
 import ErrorBoundary from '@imput/components/errorBoundary'
+import { useCMS } from '../cms/contexts/cmsContext/useCMSContext'
 
 const MdxRenderer = ({
   descendants,
@@ -24,6 +26,48 @@ const MdxRenderer = ({
   })[]
   components?: React.ComponentProps<typeof MdxProvider>['components']
 }) => {
+  const { document } = useFrame()
+  const { currentCollection } = useCMS()
+
+  /**
+   * We fetch all the styles associated with the collection
+   * and insert them into our preview iFrame
+   */
+  useEffect(() => {
+    const getStyles = async () => {
+      const fetchPromises = currentCollection.preview?.styles?.map((path) =>
+        fetch(path)
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! status: ${response.status}`)
+            }
+            return response.text()
+          })
+          .catch((error) => {
+            console.error(`Failed to fetch ${path}: ${error.message}`)
+            return null
+          })
+      )
+
+      if (!fetchPromises) {
+        return
+      }
+      const results = await Promise.allSettled(fetchPromises)
+
+      const styles = results
+        .filter((result) => result.status === 'fulfilled')
+        // @ts-expect-error promises types are silly
+        .map((r) => r.value)
+      for (const style of styles) {
+        document?.head.insertAdjacentHTML(
+          'beforeend',
+          `<style>${style}</style>`
+        )
+      }
+    }
+    getStyles()
+  }, [])
+
   return (
     <MdxProvider components={components}>
       {descendants.map((d) => (

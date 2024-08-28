@@ -1,4 +1,4 @@
-import { Editor, Range, Transforms } from 'slate'
+import { Editor, NodeEntry, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 /**
@@ -21,4 +21,26 @@ export const deleteCommandCharacter = (editor: ReactEditor) => {
       }
     }
   }
+}
+
+export const commandDecorator = (
+  editor: ReactEditor,
+  [node, path]: NodeEntry
+) => {
+  if (editor.selection != null) {
+    if (
+      !Editor.isEditor(node) &&
+      Editor.string(editor, [path[0]]) === '' &&
+      Range.includes(editor.selection, path) &&
+      Range.isCollapsed(editor.selection)
+    ) {
+      return [
+        {
+          ...editor.selection,
+          placeholder: true,
+        },
+      ]
+    }
+  }
+  return []
 }

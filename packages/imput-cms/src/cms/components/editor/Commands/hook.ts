@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import { CommandsContext } from './context'
-import { BaseEditor, Range } from 'slate'
+import { BaseEditor, Editor, Element, NodeEntry, Range } from 'slate'
 import { ReactEditor } from 'slate-react'
 import { isWithinCodeBlock } from '../Elements/CodeBlockElement/utils'
 import { focusAndRestoreSelection, focusEditor } from '../store'

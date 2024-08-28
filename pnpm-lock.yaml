@@ -356,6 +356,9 @@ importers:
       react-error-boundary:
         specifier: ^3.1.4
         version: 3.1.4(react@18.2.0)
+      react-frame-component:
+        specifier: ^5.2.7
+        version: 5.2.7(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
       react-hook-form:
         specifier: ^7.41.5
         version: 7.50.1(react@18.2.0)
@@ -462,6 +465,9 @@ importers:
       '@types/prismjs':
         specifier: ^1.26.0
         version: 1.26.3
+      '@types/react-frame-component':
+        specifier: ^4.1.6
+        version: 4.1.6
       '@types/uuid':
         specifier: ^8.3.4
         version: 8.3.4
@@ -3556,10 +3562,16 @@ packages:
       '@types/react': 18.2.21
     dev: true
 
+  /@types/react-frame-component@4.1.6:
+    resolution: {integrity: sha512-Q99Hv1ky8sdoTIZw5YLGDbbWOcCdwRemxQ7BUU/ypLw2LZ6maov3EuztH5cyBUB4Lnd4MXF/6zwBYQhD/C+Vrg==}
+    dependencies:
+      '@types/react': 18.0.28
+    dev: true
+
   /@types/react-transition-group@4.4.10:
     resolution: {integrity: sha512-hT/+s0VQs2ojCX823m60m5f0sL5idt9SO6Tj6Dg+rdphGPIeJbJ6CxvBYkgkGKrYeDjvIpKTR38UzmtHJOGW3Q==}
     dependencies:
-      '@types/react': 18.2.21
+      '@types/react': 18.0.28
     dev: false
 
   /@types/react@18.0.28:
@@ -3568,7 +3580,6 @@ packages:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
       csstype: 3.1.3
-    dev: false
 
   /@types/react@18.2.21:
     resolution: {integrity: sha512-neFKG/sBAwGxHgXiIxnbm3/AAVQ/cMRS93hvBpg8xYRbeQSPVABp9U2bRnPf0iI4+Ucdv3plSxKK+3CW2ENJxA==}
@@ -3576,6 +3587,7 @@ packages:
       '@types/prop-types': 15.7.11
       '@types/scheduler': 0.16.8
       csstype: 3.1.3
+    dev: true
 
   /@types/registry-auth-token@4.2.4:
     resolution: {integrity: sha512-NsLrPRVZBHXXcDa/3vB3Aqla9xZ0bY8GRcD0UlhpMPeNcht540agdE6mOjYB2BZi/tIHxWD5qtRZ6YDZ4hTiqg==}
@@ -9231,6 +9243,18 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.9
       react: 18.2.0
+    dev: false
+
+  /react-frame-component@5.2.7(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ROjHtSLoSVYUBfTieazj/nL8jIX9rZFmHC0yXEU+dx6Y82OcBEGgU9o7VyHMrBFUN9FuQ849MtIPNNLsb4krbg==}
+    peerDependencies:
+      prop-types: ^15.5.9
+      react: '>= 16.3'
+      react-dom: '>= 16.3'
+    dependencies:
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /react-hook-form@7.50.1(react@18.2.0):

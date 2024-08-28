@@ -151,9 +151,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
 
   const { onChange: onCommandsChange } = useCommands(editor)
 
-  const decorate = useDecorate(editor)
-
-  useImput(editor)
+  const { decorate } = useImput(editor)
 
   return (
     <>
@@ -163,7 +161,6 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
         onChange={(val) => {
           debouncedOnChange(val)
           setLastSelection(editor)
-          // addEndParagraph(editor)
         }}
       >
         <ComponentsModal />
@@ -185,6 +182,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
               shortcuts(event, editor)
               codeBlockOnKeyDown(editor, event)
             }}
+            className="imp-flex imp-flex-col imp-gap-2"
           />
         </div>
       </Slate>

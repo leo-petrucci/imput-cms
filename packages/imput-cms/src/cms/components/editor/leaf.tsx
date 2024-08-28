@@ -3,6 +3,7 @@ import { cva } from 'class-variance-authority'
 
 export const Leaf = (props: any) => {
   let { children, leaf } = props
+
   if (leaf.bold) {
     children = <strong>{children}</strong>
   }
@@ -13,6 +14,20 @@ export const Leaf = (props: any) => {
 
   if (leaf.underline) {
     children = <u>{children}</u>
+  }
+
+  if (leaf.placeholder) {
+    return (
+      <>
+        <Text {...props}>{children}</Text>
+        <span
+          className="imp-text-muted-foreground imp-absolute imp-inset-0 imp-pointer-events-none imp-opacity-75"
+          contentEditable={false}
+        >
+          Write something or type "/" to select a command
+        </span>
+      </>
+    )
   }
 
   return <Text {...props}>{children}</Text>

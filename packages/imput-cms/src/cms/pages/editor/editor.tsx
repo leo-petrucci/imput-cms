@@ -20,10 +20,10 @@ import Loader from '../../components/loader'
 import { Layout } from '../../components/atoms/Layout'
 import cloneDeep from 'lodash/cloneDeep'
 import omit from 'lodash/omit'
-import { MdxRenderer } from '../../../ImputRenderer'
 import { Descendant } from 'slate'
 import { CaretLeft } from '@imput/components/Icon'
 import { EditorFields } from '../../components/editor/fields'
+import { Preview } from '../../components/Preview'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -149,24 +149,6 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
   const navigate = useNavigate()
   const { cms, collection } = useParams<{ cms: string; collection: string }>()
 
-  /**
-   * Renders a custom MDX preview or just the plain markdown
-   */
-  const renderPreview = () => {
-    return (
-      <>
-        {currentCollection.preview?.components ? (
-          <MdxRenderer
-            descendants={formValues.body}
-            components={currentCollection.preview?.components}
-          />
-        ) : (
-          <div className="imp-whitespace-break-spaces">{markdown}</div>
-        )}
-      </>
-    )
-  }
-
   if (markdown) {
     return (
       <Layout
@@ -262,20 +244,12 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
               </Form>
             </div>
             <div
-              className="imp-overflow-y-auto imp-flex-1"
+              className="imp-overflow-y-auto imp-flex-1 imp-flex imp-flex-col"
               style={{
                 maxHeight: `calc(100vh - ${navbarHeight}px)`,
               }}
             >
-              {currentCollection.preview?.header?.({
-                ...omit(formValues, ['body']),
-              })}
-              {currentCollection.preview?.wrapper?.({
-                children: renderPreview(),
-              }) || renderPreview()}
-              {currentCollection.preview?.footer?.({
-                ...omit(formValues, ['body']),
-              })}
+              <Preview formValues={formValues} markdown={markdown} />
             </div>
           </div>
         )}

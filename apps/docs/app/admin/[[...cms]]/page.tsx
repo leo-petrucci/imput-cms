@@ -202,11 +202,11 @@ const CMS = () => (
               { label: 'Name', name: 'name', widget: 'string' },
               { label: 'Content', name: 'body', widget: 'markdown' },
             ],
-            // preview: {
-            //   styles: ['/styles/tailwind.css', '/styles/admin.css'],
-            //   components: Components,
-            //   wrapper: PreviewWrapper,
-            // },
+            preview: {
+              styles: ['/styles/tailwind.css', '/styles/admin.css'],
+              components: Components,
+              wrapper: PreviewWrapper,
+            },
             blocks,
           },
           {

@@ -1,10 +1,23 @@
 'use client'
 
 import { Components } from '../MdxComponents'
-import { MDXRemote as MDXRemotePrimitive } from 'next-mdx-remote'
+import { MDXRemote as MDXRemotePrimitive } from 'next-mdx-remote/rsc'
 
-const MDXRemote = ({ serialized }: any) => {
-  return <MDXRemotePrimitive {...serialized!} components={Components} />
+const MDXRemote = ({
+  source,
+  components,
+}: {
+  source: string
+  components?: any
+}) => {
+  return (
+    // @ts-expect-error
+    <MDXRemotePrimitive
+      source={source}
+      components={{ ...Components, ...(components || {}) }}
+      options={{}}
+    />
+  )
 }
 
 export { MDXRemote }

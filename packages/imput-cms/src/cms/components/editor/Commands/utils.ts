@@ -1,4 +1,4 @@
-import { Editor, Range, Transforms } from 'slate'
+import { Editor, NodeEntry, Range, Transforms } from 'slate'
 import { ReactEditor } from 'slate-react'
 
 /**
@@ -23,7 +23,10 @@ export const deleteCommandCharacter = (editor: ReactEditor) => {
   }
 }
 
-export const commandDecorator = (editor: ReactEditor, [node, path]) => {
+export const commandDecorator = (
+  editor: ReactEditor,
+  [node, path]: NodeEntry
+) => {
   if (editor.selection != null) {
     if (
       !Editor.isEditor(node) &&

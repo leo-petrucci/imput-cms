@@ -31,6 +31,7 @@ const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
               return <ImagePicker.Controlled />
             case 'boolean':
               return <SwitchControlled />
+            // TODO: Switch this for an editor block
             // @ts-expect-error fix this later
             case 'json':
               return <Codeblock hideLanguageSelect language="js" />

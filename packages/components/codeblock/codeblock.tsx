@@ -86,13 +86,8 @@ const Codeblock = React.forwardRef<Editor, CodeblockProps>(
             try {
               const highlighted = highlight(code, languages[lang], lang)
               return highlighted
-            } catch {
-              const highlighted = highlight(
-                code,
-                languages['plaintext'],
-                'plaintext'
-              )
-              return highlighted
+            } catch (err) {
+              return code
             }
           }}
           padding={10}

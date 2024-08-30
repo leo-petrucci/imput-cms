@@ -3,7 +3,7 @@ import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useGetGithubCollection } from '../../queries/github'
 import React from 'react'
 import { useController, useFormContext } from 'react-hook-form'
-import { useFormItem } from '@imput/components'
+import { useFormItem } from '@imput/components/form'
 import { Combobox, ComboboxPrimtive } from '@imput/components/Combobox'
 
 type SelectAndWidget = Omit<

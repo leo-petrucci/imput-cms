@@ -151,7 +151,12 @@ export const ComponentEditor = ({
         className="imp-flex imp-flex-col imp-gap-2"
         data-testid="component-editor"
       >
-        <Form form={form} onSubmit={() => {}}>
+        <Form
+          form={form}
+          onSubmit={() => {
+            console.log('test')
+          }}
+        >
           <EditorFields fields={componentsToFields} />
         </Form>
 

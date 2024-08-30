@@ -1,15 +1,14 @@
-import { Modal } from '@imput/components'
 import { useImages } from '../../contexts/imageContext/useImageContext'
 import { ImageSquare } from 'phosphor-react'
 import { Element } from 'slate'
 import ImageSelector from '../editor/Elements/Images/ImageSelector'
 import ImageUploadButton from '../editor/Elements/Images/UploadButton'
 import { Button } from '@imput/components/Button'
-import { useFormItem } from '@imput/components'
+import { useFormItem } from '@imput/components/form'
 import { Label } from '@imput/components/Label'
 import { useCMS } from '../../contexts/cmsContext/useCMSContext'
 import { useController, useFormContext } from 'react-hook-form'
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useState } from 'react'
 import { cva } from 'class-variance-authority'
 import { FakeP } from '@imput/components/Typography'
 import {
@@ -19,6 +18,14 @@ import {
   PopoverTrigger,
 } from '@imput/components/Popover'
 import { Input } from '@imput/components/Input'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@imput/components/Dialog'
 
 const StyledImageButton = cva(
   'imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-my-1 imp-cursor-pointer imp-p-0 imp-overflow-hidden imp-relative',
@@ -75,6 +82,7 @@ const ImagePickerBase = forwardRef(
     }: ImagePickerProps,
     ref
   ) => {
+    const [open, setOpen] = useState(false)
     const { images, loadImage, setImages } = useImages()
     const { public_folder } = useCMS()
 
@@ -128,27 +136,47 @@ const ImagePickerBase = forwardRef(
               <div className="imp-flex imp-flex-col imp-gap-2">
                 <div className="imp-flex imp-flex-col imp-gap-1">
                   <Label htmlFor={`input-image-file`}>Upload image</Label>
-                  <Modal
-                    title={'Select media'}
-                    className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"
-                    headingContent={
-                      <div className="imp-relative imp-flex-1 imp-flex imp-justify-end imp-border-b imp-border-border imp-mb-2 imp-pb-2">
-                        <ImageUploadButton />
-                      </div>
-                    }
-                    description={(_open, setOpen) => (
-                      <div className="imp-p-4">
-                        <ImageSelector
-                          onImageSelect={(filename: string) => {
-                            setOpen(false)
-                            onImageChange?.(filename)
-                          }}
-                        />
-                      </div>
-                    )}
+                  <Dialog
+                    open={open}
+                    onOpenChange={(val) => {
+                      setOpen(val)
+                    }}
                   >
-                    <Button type="button">Select image</Button>
-                  </Modal>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Select media</DialogTitle>
+                        <DialogDescription>
+                          <div className="imp-relative imp-flex-1 imp-flex imp-justify-end imp-border-b imp-border-border imp-mb-2 imp-pb-2">
+                            <ImageUploadButton />
+                          </div>
+                        </DialogDescription>
+                      </DialogHeader>
+
+                      <div
+                        style={{
+                          overflowY: 'scroll',
+                          maxHeight: `calc(100vh - 160px )`,
+                        }}
+                      >
+                        <div className="imp-p-4">
+                          <ImageSelector
+                            onImageSelect={(filename: string) => {
+                              setOpen(false)
+                              onImageChange?.(filename)
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </DialogContent>
+                    <DialogTrigger
+                      asChild
+                      onClick={() => {
+                        setOpen(true)
+                      }}
+                    >
+                      <Button type="button">Select image</Button>
+                    </DialogTrigger>
+                  </Dialog>
                 </div>
 
                 <div className="imp-flex imp-flex-col imp-gap-1">

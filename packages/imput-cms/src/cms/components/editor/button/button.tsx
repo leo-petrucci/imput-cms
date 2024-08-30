@@ -1,17 +1,14 @@
-import { Modal } from '@imput/components'
-import { useCMS } from '../../../../cms/contexts/cmsContext/useCMSContext'
-import { BracketsSquare, Link, LinkBreak } from 'phosphor-react'
+import { Link, LinkBreak } from 'phosphor-react'
 import React from 'react'
 import {
   BaseEditor,
   Editor,
-  Element,
   Range,
   Element as SlateElement,
   Transforms,
 } from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
-import { insertLink, isLinkActive, unwrapLink } from './link'
+import { isLinkActive } from './link'
 import {
   Tooltip,
   TooltipContent,
@@ -190,58 +187,5 @@ export const CodeSnippetButton = () => {
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
-  )
-}
-
-/**
- * Opens a component selection modal.
- */
-export const ComponentButton = ({ element }: { element: Element }) => {
-  const editor = useSlate() as ReactEditor
-  const { components, createComponent } = useCMS()
-  const path = ReactEditor.findPath(editor, element)
-
-  return (
-    <>
-      <TooltipProvider>
-        <Tooltip delayDuration={0}>
-          <Modal
-            title={'Select a block to add'}
-            className="imp-min-w-screen imp-min-h-screen md:imp-min-w-[968px] md:imp-min-h-[524px]"
-            description={(_open, setOpen) => (
-              <div className="imp-grid imp-grid-cols-1 md:imp-grid-cols-3 imp-gap-2 imp-p-4">
-                {components?.map((c) => (
-                  <button
-                    className="imp-inline-flex imp-p-4 imp-items-start imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-cursor-pointer imp-overflow-hidden imp-relative"
-                    key={c.name}
-                    onClick={() => {
-                      const component = createComponent(c.name)
-                      if (component) {
-                        Transforms.insertNodes(editor, component, {
-                          at: [path[0] + 1],
-                          select: true,
-                        })
-                        setOpen(false)
-                      }
-                    }}
-                  >
-                    {c.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          >
-            <TooltipTrigger asChild>
-              <Toggle pressed={false} onPressedChange={() => {}}>
-                <BracketsSquare size={16} />
-              </Toggle>
-            </TooltipTrigger>
-          </Modal>
-          <TooltipContent className="imp-max-w-sm">
-            Component Block
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </>
   )
 }

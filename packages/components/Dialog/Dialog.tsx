@@ -33,29 +33,33 @@ const DialogContent = React.forwardRef<
   React.ElementRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     onCloseClick?: () => void
+    showOverlay?: boolean
   }
->(({ className, children, onCloseClick, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        'imp-fixed imp-left-[50%] imp-top-[50%] imp-w-full imp-max-w-lg imp-translate-x-[-50%] imp-translate-y-[-50%] imp-gap-4 imp-border imp-bg-background imp-p-6 imp-shadow-lg imp-duration-200 data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[state=closed]:imp-slide-out-to-left-1/2 data-[state=closed]:imp-slide-out-to-top-[48%] data-[state=open]:imp-slide-in-from-left-1/2 data-[state=open]:imp-slide-in-from-top-[48%] sm:imp-rounded-lg',
-        className
-      )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close
-        onClick={onCloseClick}
-        className="imp-absolute imp-right-4 imp-top-4 imp-rounded-sm imp-opacity-70 imp-ring-offset-background imp-transition-opacity hover:imp-opacity-100 focus:imp-outline-none focus:imp-ring-2 focus:imp-ring-ring focus:imp-ring-offset-2 disabled:imp-pointer-events-none data-[state=open]:imp-bg-accent data-[state=open]:imp-text-muted-foreground"
+>(({ className, children, onCloseClick, ...props }, ref) => {
+  const { showOverlay = true } = props
+  return (
+    <DialogPortal>
+      {showOverlay && <DialogOverlay />}
+      <DialogPrimitive.Content
+        ref={ref}
+        className={cn(
+          'imp-fixed imp-left-[50%] imp-top-[50%] imp-w-full imp-max-w-4xl imp-translate-x-[-50%] imp-translate-y-[-50%] imp-gap-4 imp-border imp-bg-background imp-p-6 imp-shadow-lg imp-duration-200 data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[state=closed]:imp-slide-out-to-left-1/2 data-[state=closed]:imp-slide-out-to-top-[48%] data-[state=open]:imp-slide-in-from-left-1/2 data-[state=open]:imp-slide-in-from-top-[48%] sm:imp-rounded-lg',
+          className
+        )}
+        {...props}
       >
-        <X className="imp-h-4 imp-w-4" />
-        <span className="imp-sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPortal>
-))
+        {children}
+        <DialogPrimitive.Close
+          onClick={onCloseClick}
+          className="imp-absolute imp-right-4 imp-top-4 imp-rounded-sm imp-opacity-70 imp-ring-offset-background imp-transition-opacity hover:imp-opacity-100 focus:imp-outline-none focus:imp-ring-2 focus:imp-ring-ring focus:imp-ring-offset-2 disabled:imp-pointer-events-none data-[state=open]:imp-bg-accent data-[state=open]:imp-text-muted-foreground"
+        >
+          <X className="imp-h-4 imp-w-4" />
+          <span className="imp-sr-only">Close</span>
+        </DialogPrimitive.Close>
+      </DialogPrimitive.Content>
+    </DialogPortal>
+  )
+})
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
 const DialogHeader = ({

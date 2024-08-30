@@ -1,1 +1,1 @@
-export { ComponentButton, MarkButton, BlockButton } from './button'
+export { MarkButton, BlockButton } from './button'

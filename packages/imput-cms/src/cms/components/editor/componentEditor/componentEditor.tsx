@@ -13,6 +13,7 @@ import { editReactChildren } from '../lib/editReactChildren'
 import Editor from '../editor'
 import { Label } from '@imput/components/Label'
 import debounce from 'lodash/debounce'
+import { SingleDepthProvider } from '../depthContext/depthContextProvider'
 
 const debouncedUpdateAttributes = (
   editor: ReactEditor,
@@ -146,17 +147,13 @@ export const ComponentEditor = ({
   }, [JSON.stringify(propValues)])
 
   return (
-    <>
+    // @ts-expect-error TODO: Fix this
+    <SingleDepthProvider id={element.id}>
       <div
         className="imp-flex imp-flex-col imp-gap-2"
         data-testid="component-editor"
       >
-        <Form
-          form={form}
-          onSubmit={() => {
-            console.log('test')
-          }}
-        >
+        <Form form={form} onSubmit={() => {}}>
           <EditorFields fields={componentsToFields} />
         </Form>
 
@@ -172,7 +169,7 @@ export const ComponentEditor = ({
           </div>
         )}
       </div>
-    </>
+    </SingleDepthProvider>
   )
 }
 

@@ -24,6 +24,7 @@ import { Descendant } from 'slate'
 import { CaretLeft } from '@imput/components/Icon'
 import { EditorFields } from '../../components/editor/fields'
 import { Preview } from '../../components/Preview'
+import { DepthProvider } from '../../components/editor/depthContext'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -151,109 +152,111 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
   if (markdown) {
     return (
-      <Layout
-        navbar={
-          <div className="imp-flex imp-flex-1 imp-justify-between">
-            <Button
-              variant="outline"
-              className="imp-gap-1"
-              onClick={() => {
-                const pathParts = window.location.pathname.split('/')
-                pathParts.pop()
-                const newPath = pathParts.join('/')
-                navigate(newPath)
-              }}
-            >
-              <CaretLeft size={16} />
-              Back to {currentCollection.name}
-            </Button>
-            <Button
-              type="submit"
-              form="content-form"
-              // loading={isLoading}
-              disabled={isLoading}
-            >
-              {isNewFile ? 'Publish' : 'Update'}
-            </Button>
-          </div>
-        }
-      >
-        {({ navbarHeight }) => (
-          <div className="imp-flex imp-flex-row imp-items-stretch imp-gap-4 imp-flex-1">
-            <div
-              className="imp-overflow-y-auto imp-p-4 imp-flex-1 imp-border-r imp-border-border"
-              style={{
-                maxHeight: `calc(100vh - ${navbarHeight}px)`,
-              }}
-            >
-              <Form
-                id="content-form"
-                form={form}
-                className="imp-mb-[15ch]"
-                // debug
-                onSubmit={() => {
-                  const id = toast.loading('Saving content...')
-                  const { body, serializedBody, ...rest } =
-                    getCorrectedFormValues()
-                  const content = matter.stringify(serializedBody, rest)
-                  console.log(content)
-                  mutate(
-                    {
-                      markdown: {
-                        content,
-                        path: `${currentCollection.folder}/${filename}.${currentCollection.extension}`,
-                      },
-                    },
-                    {
-                      onSuccess: () => {
-                        toast.success('Content saved!', {
-                          id,
-                        })
-
-                        // We can get a big UX win here by upating the cache with the data we get back
-                        queryClient.removeQueries({
-                          queryKey: queryKeys.github.collection(
-                            currentCollection.folder
-                          ).queryKey,
-                          exact: false,
-                        })
-
-                        // We can get a big UX win here by upating the cache with the data we get back
-                        queryClient.removeQueries({
-                          queryKey: queryKeys.github.content(
-                            currentCollection.folder,
-                            filename
-                          ).queryKey,
-                          exact: false,
-                        })
-
-                        // redirect to the file we've just created
-                        if (isNewFile) {
-                          navigate(`/${cms}/${collection}/${filename}`, {
-                            replace: true,
-                          })
-                        }
-                      },
-                    }
-                  )
+      <DepthProvider>
+        <Layout
+          navbar={
+            <div className="imp-flex imp-flex-1 imp-justify-between">
+              <Button
+                variant="outline"
+                className="imp-gap-1"
+                onClick={() => {
+                  const pathParts = window.location.pathname.split('/')
+                  pathParts.pop()
+                  const newPath = pathParts.join('/')
+                  navigate(newPath)
                 }}
               >
-                <div className="imp-flex imp-flex-col imp-gap-2">
-                  <EditorFields fields={currentCollection.fields} />
-                </div>
-              </Form>
+                <CaretLeft size={16} />
+                Back to {currentCollection.name}
+              </Button>
+              <Button
+                type="submit"
+                form="content-form"
+                // loading={isLoading}
+                disabled={isLoading}
+              >
+                {isNewFile ? 'Publish' : 'Update'}
+              </Button>
             </div>
-            <div
-              className="imp-overflow-y-auto imp-flex-1 imp-flex imp-flex-col"
-              style={{
-                maxHeight: `calc(100vh - ${navbarHeight}px)`,
-              }}
-            >
-              <Preview formValues={formValues} markdown={markdown} />
+          }
+        >
+          {({ navbarHeight }) => (
+            <div className="imp-flex imp-flex-row imp-items-stretch imp-gap-4 imp-flex-1">
+              <div
+                className="imp-overflow-y-auto imp-p-4 imp-flex-1 imp-border-r imp-border-border"
+                style={{
+                  maxHeight: `calc(100vh - ${navbarHeight}px)`,
+                }}
+              >
+                <Form
+                  id="content-form"
+                  form={form}
+                  className="imp-mb-[15ch]"
+                  // debug
+                  onSubmit={() => {
+                    const id = toast.loading('Saving content...')
+                    const { body, serializedBody, ...rest } =
+                      getCorrectedFormValues()
+                    const content = matter.stringify(serializedBody, rest)
+                    console.log(content)
+                    mutate(
+                      {
+                        markdown: {
+                          content,
+                          path: `${currentCollection.folder}/${filename}.${currentCollection.extension}`,
+                        },
+                      },
+                      {
+                        onSuccess: () => {
+                          toast.success('Content saved!', {
+                            id,
+                          })
+
+                          // We can get a big UX win here by upating the cache with the data we get back
+                          queryClient.removeQueries({
+                            queryKey: queryKeys.github.collection(
+                              currentCollection.folder
+                            ).queryKey,
+                            exact: false,
+                          })
+
+                          // We can get a big UX win here by upating the cache with the data we get back
+                          queryClient.removeQueries({
+                            queryKey: queryKeys.github.content(
+                              currentCollection.folder,
+                              filename
+                            ).queryKey,
+                            exact: false,
+                          })
+
+                          // redirect to the file we've just created
+                          if (isNewFile) {
+                            navigate(`/${cms}/${collection}/${filename}`, {
+                              replace: true,
+                            })
+                          }
+                        },
+                      }
+                    )
+                  }}
+                >
+                  <div className="imp-flex imp-flex-col imp-gap-2">
+                    <EditorFields fields={currentCollection.fields} />
+                  </div>
+                </Form>
+              </div>
+              <div
+                className="imp-overflow-y-auto imp-flex-1 imp-flex imp-flex-col"
+                style={{
+                  maxHeight: `calc(100vh - ${navbarHeight}px)`,
+                }}
+              >
+                <Preview formValues={formValues} markdown={markdown} />
+              </div>
             </div>
-          </div>
-        )}
-      </Layout>
+          )}
+        </Layout>
+      </DepthProvider>
     )
   }
 

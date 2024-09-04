@@ -32,7 +32,6 @@ import { useCommands } from './Commands/hook'
 import {
   SetNodeToDecorations,
   codeBlockOnKeyDown,
-  useDecorate,
 } from './Elements/CodeBlockElement/utils'
 import { ComponentsModal } from './ComponentsModal/ComponentsModal'
 import { setLastSelection } from './store'

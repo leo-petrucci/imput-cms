@@ -236,6 +236,17 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
                             })
                           }
                         },
+                        onError: (err) => {
+                          const error = err as Error
+                          toast.error(
+                            error?.message
+                              ? `${error.message} - Please try again`
+                              : `Error - Please try again`,
+                            {
+                              id,
+                            }
+                          )
+                        },
                       }
                     )
                   }}

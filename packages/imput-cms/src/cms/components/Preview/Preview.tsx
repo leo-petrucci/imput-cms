@@ -36,7 +36,14 @@ export const Preview = ({
           children: renderPreview(),
         }) || renderPreview()
       ) : (
-        <div className="imp-whitespace-break-spaces">{markdown}</div>
+        <div
+          style={{
+            whiteSpace: 'break-spaces',
+            fontFamily: 'sans-serif',
+          }}
+        >
+          {markdown}
+        </div>
       )}
       {currentCollection.preview?.footer?.({
         ...omit(formValues, ['body']),

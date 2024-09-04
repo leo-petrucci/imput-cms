@@ -541,3 +541,18 @@ export const useUploadFile = () => {
     },
   })
 }
+
+const getRateLimit = () => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+  return octokit.request('GET /rate_limit')
+}
+
+export const useGetRateLimit = () => {
+  return useQuery({
+    queryKey: queryKeys.github.rateLimit.queryKey,
+    context: defaultContext,
+    queryFn: getRateLimit,
+  })
+}

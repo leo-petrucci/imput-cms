@@ -16,5 +16,6 @@ export const queryKeys = createQueryKeyStore({
     },
     content: (type: string, slug: string) => [type, slug],
     fileBlob: (sha: string) => [sha],
+    rateLimit: null,
   },
 })

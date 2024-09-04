@@ -33,6 +33,7 @@ import { H5 } from '@imput/components/Typography'
 import { SortBy } from '../../components/molecules/SortBy'
 import { Card } from '@imput/components/Card'
 import { Logo } from '../../components/atoms/Logo'
+import { RemainingRequests } from '../../components/molecules/RemainingRequests'
 
 const CollectionPage = () => {
   const navigate = useNavigate()
@@ -64,17 +65,22 @@ const CollectionPage = () => {
               navbar={
                 <div className="imp-flex imp-flex-1 imp-justify-between">
                   <Logo />
-                  <Button
-                    onClick={() => {
-                      navigate(`/${params.cms}/${thisCollection?.name}/new`)
-                    }}
-                  >
-                    <PlusCircle
-                      size={16}
-                      className="imp-w-4 imp-h-4 imp-mr-1"
-                    />
-                    New {thisCollection?.label}
-                  </Button>
+                  <div className="imp-self-end imp-flex imp-gap-2 imp-items-center imp-divide-x-8">
+                    <RemainingRequests />
+                    <div>
+                      <Button
+                        onClick={() => {
+                          navigate(`/${params.cms}/${thisCollection?.name}/new`)
+                        }}
+                      >
+                        <PlusCircle
+                          size={16}
+                          className="imp-w-4 imp-h-4 imp-mr-1"
+                        />
+                        New {thisCollection?.label}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               }
             >

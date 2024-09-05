@@ -77,7 +77,6 @@ export const useCommands = (editor: ReactEditor) => {
    */
   const setClosed = () => {
     setOpenState(false)
-    focusEditor()
   }
 
   const restoreSelection = () => {

@@ -60,9 +60,10 @@ export const getLastSelection = () => {
  */
 export const focusAndRestoreSelection = (editor: ReactEditor) => {
   setTimeout(() => {
-    focusEditor()
+    ReactEditor.focus(editor)
+    // focusEditor()
     setTimeout(() => {
       Transforms.select(editor, getLastSelection()!)
-    }, 10)
+    }, 1000)
   }, 0)
 }

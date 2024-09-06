@@ -32,24 +32,22 @@ export const CreateEditor = () => {
   )
 
   return (
-    <DepthProvider>
-      <Editor
-        value={
-          rawBody && rawBody.length > 0
-            ? rawBody
-            : [
-                {
-                  type: 'paragraph',
-                  children: [
-                    {
-                      text: '',
-                    },
-                  ],
-                },
-              ]
-        }
-        onChange={(value) => handleChange(value)}
-      />
-    </DepthProvider>
+    <Editor
+      value={
+        rawBody && rawBody.length > 0
+          ? rawBody
+          : [
+              {
+                type: 'paragraph',
+                children: [
+                  {
+                    text: '',
+                  },
+                ],
+              },
+            ]
+      }
+      onChange={(value) => handleChange(value)}
+    />
   )
 }

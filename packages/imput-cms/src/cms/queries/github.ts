@@ -383,6 +383,16 @@ const saveToGithub = async (
     repo,
     content: blob.content,
     encoding: blob.encoding,
+    /**
+     * I think Github has caching, so if you try to update something
+     * close in quick succession the shas don't update and they cause the
+     * "update is not fast forward" error
+     *
+     * This should bust the cache
+     */
+    headers: {
+      'If-None-Match': '',
+    },
   })
   blob.sha = sha.data.sha
 
@@ -393,6 +403,9 @@ const saveToGithub = async (
       owner,
       repo,
       branch,
+      headers: {
+        'If-None-Match': '',
+      },
     }
   )
 
@@ -408,6 +421,9 @@ const saveToGithub = async (
       },
     ],
     base_tree: currentBranch.data.commit.commit.tree.sha,
+    headers: {
+      'If-None-Match': '',
+    },
   })
 
   const commit = await octokit.request(
@@ -418,6 +434,9 @@ const saveToGithub = async (
       message: `Updated "${filename}" from ImputCMS`,
       tree: tree.data.sha,
       parents: [currentBranch.data.commit.sha],
+      headers: {
+        'If-None-Match': '',
+      },
     }
   )
 
@@ -426,6 +445,9 @@ const saveToGithub = async (
     repo,
     ref: `heads/${branch}`,
     sha: commit.data.sha,
+    headers: {
+      'If-None-Match': '',
+    },
   })
 
   return {

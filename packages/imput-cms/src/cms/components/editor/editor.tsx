@@ -32,12 +32,12 @@ import { useCommands } from './Commands/hook'
 import {
   SetNodeToDecorations,
   codeBlockOnKeyDown,
-  useDecorate,
 } from './Elements/CodeBlockElement/utils'
 import { ComponentsModal } from './ComponentsModal/ComponentsModal'
 import { setLastSelection } from './store'
 import { onKeyDownInlineFix } from './withImput/utils'
 import { useImput } from './useImput'
+import { useElementDepth } from './depthContext/depthContextProvider'
 
 export const deserialize = (
   src: string,
@@ -153,6 +153,8 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
 
   const { decorate } = useImput(editor)
 
+  const { isHighestDepth } = useElementDepth()
+
   return (
     <>
       <Slate
@@ -163,10 +165,14 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
           setLastSelection(editor)
         }}
       >
-        <ComponentsModal />
         <SetNodeToDecorations />
-        <FloatingToolbar />
-        <FloatingCommands editor={editor} />
+        {isHighestDepth && (
+          <>
+            <FloatingToolbar />
+            <ComponentsModal />
+            <FloatingCommands editor={editor} />
+          </>
+        )}
         <div className="children:imp-p-2">
           <Editable
             decorate={decorate}

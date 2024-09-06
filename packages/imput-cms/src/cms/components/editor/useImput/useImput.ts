@@ -1,7 +1,7 @@
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { ReactEditor } from 'slate-react'
 import { setEditorRef } from '../store'
-import { Editor, Element, NodeEntry, Range } from 'slate'
+import { Editor, Element, NodeEntry, Range, Transforms } from 'slate'
 import { defaultNodeTypes } from '../remark-slate'
 
 /**
@@ -47,6 +47,10 @@ export const useImput = (editor: ReactEditor) => {
       return []
     }
     return []
+  }, [])
+
+  useEffect(() => {
+    editor.normalize({ force: true })
   }, [])
 
   return { decorate }

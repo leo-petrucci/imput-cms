@@ -142,7 +142,7 @@ const ImagePickerBase = forwardRef(
                       setOpen(val)
                     }}
                   >
-                    <DialogContent>
+                    <DialogContent className="!imp-max-w-4xl">
                       <DialogHeader>
                         <DialogTitle>Select media</DialogTitle>
                         <DialogDescription>

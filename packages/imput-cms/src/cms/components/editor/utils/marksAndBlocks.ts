@@ -11,10 +11,7 @@ import { ReactEditor } from 'slate-react'
 import { v4 as uuidv4 } from 'uuid'
 import { defaultNodeTypes } from '../remark-slate'
 import { ImageElement } from '../Elements/Images/ImageElement'
-import { ListType, ListsEditor } from '../slate-lists'
-import { increaseDepth, setListType } from '../slate-lists/transformations'
 import { insertLink, isLinkActive, unwrapLink } from '../button/link'
-import { focusEditor } from '../store'
 
 /**
  * Used to wrap a specific selection in a style, for example bold or italics
@@ -164,7 +161,7 @@ export const addCodeBlockNode = (editor: ReactEditor) => {
   if (codeBlock) {
     const [node, path] = codeBlock
     setTimeout(() => {
-      focusEditor()
+      ReactEditor.focus(editor)
       setTimeout(() => {
         Transforms.select(editor, Editor.end(editor, path))
       }, 10)
@@ -195,7 +192,7 @@ export const addHeadingNode = (
   if (heading) {
     const [node, path] = heading
     setTimeout(() => {
-      focusEditor()
+      ReactEditor.focus(editor)
       setTimeout(() => {
         Transforms.select(editor, Editor.end(editor, path))
       }, 10)
@@ -218,7 +215,7 @@ export const selectCreatedNode = (
   if (foundNode) {
     const [_node, path] = foundNode
     setTimeout(() => {
-      focusEditor()
+      ReactEditor.focus(editor)
       setTimeout(() => {
         Transforms.select(editor, Editor.end(editor, path))
       }, 10)
@@ -238,7 +235,7 @@ export const addImageNode = (editor: ReactEditor) => {
     children: [{ text: '' }],
   }
   Transforms.setNodes(editor, image, {})
-  selectCreatedNode(editor, defaultNodeTypes.image)
+  ReactEditor.focus(editor)
 }
 
 export const addLinkLeaf = (editor: ReactEditor) => {

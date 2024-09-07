@@ -103,7 +103,9 @@ function RequestLimitDonut({
       const progress = Math.min(elapsedTime / animationDuration, 1)
 
       const newPercentage = 100 - (100 - targetPercentage) * progress
-      setPercentage(newPercentage)
+      if (!Number.isNaN(newPercentage)) {
+        setPercentage(newPercentage)
+      }
 
       if (progress < 1) {
         requestAnimationFrame(animateDonut)

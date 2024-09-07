@@ -20,7 +20,7 @@ const Layout = ({ children, navbar }: LayoutProps) => {
     >
       <div className="imp-flex imp-flex-col imp-min-h-screen imp-max-h-screen">
         <div ref={ref} className="imp-border-b imp-border-border imp-flex">
-          <div className="imp-max-w-[1920px] imp-m-auto imp-w-full imp-py-2 imp-px-4">
+          <div className="imp-max-w-[1920px] imp-m-auto imp-w-full imp-px-4 imp-flex">
             {navbar}
           </div>
         </div>

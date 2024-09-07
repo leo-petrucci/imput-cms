@@ -25,6 +25,7 @@ import { CaretLeft } from '@imput/components/Icon'
 import { EditorFields } from '../../components/editor/fields'
 import { Preview } from '../../components/Preview'
 import { DepthProvider } from '../../components/editor/depthContext'
+import { Navbar } from '../../components/atoms/Navbar'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -155,29 +156,35 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
       <DepthProvider>
         <Layout
           navbar={
-            <div className="imp-flex imp-flex-1 imp-justify-between">
-              <Button
-                variant="outline"
-                className="imp-gap-1"
-                onClick={() => {
-                  const pathParts = window.location.pathname.split('/')
-                  pathParts.pop()
-                  const newPath = pathParts.join('/')
-                  navigate(newPath)
-                }}
-              >
-                <CaretLeft size={16} />
-                Back to {currentCollection.name}
-              </Button>
-              <Button
-                type="submit"
-                form="content-form"
-                // loading={isLoading}
-                disabled={isLoading}
-              >
-                {isNewFile ? 'Publish' : 'Update'}
-              </Button>
-            </div>
+            <Navbar
+              leftSlot={
+                <Button
+                  variant="outline"
+                  className="imp-gap-1"
+                  onClick={() => {
+                    const pathParts = window.location.pathname.split('/')
+                    pathParts.pop()
+                    const newPath = pathParts.join('/')
+                    navigate(newPath)
+                  }}
+                >
+                  <CaretLeft size={16} />
+                  Back to {currentCollection.name}
+                </Button>
+              }
+              rightSlot={
+                <div className="imp-py-2">
+                  <Button
+                    type="submit"
+                    form="content-form"
+                    // loading={isLoading}
+                    disabled={isLoading}
+                  >
+                    {isNewFile ? 'Publish' : 'Update'}
+                  </Button>
+                </div>
+              }
+            />
           }
         >
           {({ navbarHeight }) => (

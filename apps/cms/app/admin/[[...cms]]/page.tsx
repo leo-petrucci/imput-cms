@@ -242,6 +242,9 @@ const CMS = () => (
                 ],
               },
             ],
+            preview: {
+              components: {},
+            },
           },
           {
             name: 'authors',

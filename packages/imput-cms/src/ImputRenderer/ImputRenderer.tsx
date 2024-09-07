@@ -16,6 +16,7 @@ import {
 import { useFrame } from 'react-frame-component'
 import ErrorBoundary from '@imput/components/errorBoundary'
 import { useCMS } from '../cms/contexts/cmsContext/useCMSContext'
+import { ImageComponent } from './ImageComponent'
 
 const MdxRenderer = ({
   descendants,
@@ -69,7 +70,15 @@ const MdxRenderer = ({
   }, [])
 
   return (
-    <MdxProvider components={components}>
+    <MdxProvider
+      components={{
+        ...components,
+        img: (props) => {
+          // @ts-expect-error
+          return <ImageComponent {...props} CustomComponent={components?.img} />
+        },
+      }}
+    >
       {descendants.map((d) => (
         <InternalRenderer descendant={d} key={d.id} />
       ))}

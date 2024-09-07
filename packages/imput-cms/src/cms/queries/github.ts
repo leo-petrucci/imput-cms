@@ -5,7 +5,7 @@ import { useCMS } from '../../cms/contexts/cmsContext/useCMSContext'
 import { getToken } from '../../cms/queries/auth'
 import { queryKeys } from '../../cms/queries/keys'
 import { slugify } from '../../cms/utils/slugify'
-import { Endpoints } from '@octokit/types'
+import { Endpoints, OctokitResponse } from '@octokit/types'
 import matter from 'gray-matter'
 import React from 'react'
 import get from 'lodash/get'
@@ -564,13 +564,19 @@ export const useUploadFile = () => {
   })
 }
 
-const getRateLimit = () => {
+/**
+ * Returns rate limit info from github
+ */
+const getRateLimit = (): Promise<Endpoints['GET /rate_limit']['response']> => {
   const octokit = new Octokit({
     auth: getToken(),
   })
   return octokit.request('GET /rate_limit')
 }
 
+/**
+ * Hook to get rate limit information from github
+ */
 export const useGetRateLimit = () => {
   return useQuery({
     queryKey: queryKeys.github.rateLimit.queryKey,

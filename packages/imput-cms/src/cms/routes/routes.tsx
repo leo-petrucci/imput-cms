@@ -11,6 +11,11 @@ import { Octokit } from 'octokit'
 import { getToken } from '../../cms/queries/auth'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+
+// Add the relativeTime plugin
+dayjs.extend(relativeTime)
 
 /**
  * Central routing point for all of our private CMS pages

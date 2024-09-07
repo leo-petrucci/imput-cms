@@ -34,6 +34,7 @@ import { SortBy } from '../../components/molecules/SortBy'
 import { Card } from '@imput/components/Card'
 import { Logo } from '../../components/atoms/Logo'
 import { RemainingRequests } from '../../components/molecules/RemainingRequests'
+import { Navbar } from '../../components/atoms/Navbar'
 
 const CollectionPage = () => {
   const navigate = useNavigate()
@@ -63,11 +64,10 @@ const CollectionPage = () => {
           element={
             <Layout
               navbar={
-                <div className="imp-flex imp-flex-1 imp-justify-between">
-                  <Logo />
-                  <div className="imp-self-end imp-flex imp-gap-2 imp-items-center imp-divide-x-8">
-                    <RemainingRequests />
-                    <div>
+                <Navbar
+                  leftSlot={<Logo />}
+                  rightSlot={
+                    <div className="imp-py-2">
                       <Button
                         onClick={() => {
                           navigate(`/${params.cms}/${thisCollection?.name}/new`)
@@ -80,8 +80,8 @@ const CollectionPage = () => {
                         New {thisCollection?.label}
                       </Button>
                     </div>
-                  </div>
-                </div>
+                  }
+                />
               }
             >
               <div className="imp-grid imp-grid-cols-12 imp-flex-1 imp-gap-2">

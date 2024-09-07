@@ -1,88 +1,156 @@
 import React, { useEffect, useState } from 'react'
 import { useGetRateLimit } from '../../../queries/github'
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@imput/components/Popover'
+import { Lightning } from '@imput/components/Icon'
+import { Muted } from '@imput/components/Typography'
+import dayjs from 'dayjs'
 
+/**
+ * Displays a clickable donut that opens a popover to view how many requests the
+ * user has left. Usually rendered in the navbar
+ */
 export const RemainingRequests = () => {
   const { data, isLoading } = useGetRateLimit()
 
-  console.log(data)
+  const getTextColor = (percent: number) => {
+    if (percent > 66) return 'imp-text-green-500'
+    if (percent > 33) return 'imp-text-yellow-500'
+    return 'imp-text-red-500'
+  }
 
-  if (isLoading)
-    return <RequestLimitDonut limit={100} remaining={75} loading={true} />
+  const getBgColor = (percent: number) => {
+    if (percent > 66) return 'imp-bg-green-500'
+    if (percent > 33) return 'imp-bg-yellow-500'
+    return 'imp-bg-red-500'
+  }
 
   return (
-    <RequestLimitDonut
-      limit={data?.data.rate.limit}
-      remaining={data?.data.rate.remaining}
-    />
+    <Popover>
+      <PopoverTrigger>
+        <RequestLimitDonut
+          isLoading={isLoading}
+          limit={isLoading ? 0 : data!.data.rate.limit}
+          remaining={isLoading ? 0 : data!.data.rate.remaining}
+        />
+      </PopoverTrigger>
+      <PopoverContent>
+        {!isLoading && (
+          <>
+            <Muted className="imp-mb-2">
+              Remaining requests you can make to GitHub:
+            </Muted>
+            <div className="imp-space-y-3">
+              <div className="imp-flex imp-justify-between imp-items-center">
+                <div className="imp-flex imp-items-center">
+                  <Lightning
+                    className={`${getTextColor((data!.data.rate.remaining / data!.data.rate.limit) * 100)} imp-w-4 imp-h-4 imp-mr-2`}
+                  />
+
+                  <span className="imp-text-sm imp-text-gray-600">
+                    Requests
+                  </span>
+                </div>
+                <span className="imp-text-sm imp-font-medium imp-text-gray-800">
+                  {data!.data.rate.remaining} / {data!.data.rate.limit}
+                </span>
+              </div>
+              <div className="imp-w-full imp-bg-gray-200 imp-rounded-full imp-h-1.5">
+                <div
+                  className={`${getBgColor((data!.data.rate.remaining / data!.data.rate.limit) * 100)} imp-h-1.5 imp-rounded-full imp-transition-all imp-duration-300 imp-ease-in-out`}
+                  style={{
+                    width: `${(data!.data.rate.remaining / data!.data.rate.limit) * 100}%`,
+                  }}
+                ></div>
+              </div>
+              <div className="imp-flex imp-items-center imp-justify-center imp-space-x-2">
+                <Muted className="imp-text-xs">
+                  Resets {dayjs(data!.data.rate.reset * 1000).fromNow()}
+                </Muted>
+              </div>
+            </div>
+          </>
+        )}
+      </PopoverContent>
+    </Popover>
   )
 }
 
-const RequestLimitDonut = ({
-  limit = 100,
-  remaining = 100,
-  loading = false,
-  size = 24,
-}) => {
-  const [progress, setProgress] = useState(100)
+interface RequestLimitDonutProps {
+  limit: number
+  remaining: number
+  isLoading: boolean
+}
+
+function RequestLimitDonut({
+  limit,
+  remaining,
+  isLoading,
+}: RequestLimitDonutProps) {
+  const [percentage, setPercentage] = useState(100)
 
   useEffect(() => {
-    const percentage = (remaining / limit) * 100
-    setProgress(percentage)
+    const targetPercentage = (remaining / limit) * 100
+    const animationDuration = 1000 // 1 second
+    const startTime = Date.now()
+
+    const animateDonut = () => {
+      const currentTime = Date.now()
+      const elapsedTime = currentTime - startTime
+      const progress = Math.min(elapsedTime / animationDuration, 1)
+
+      const newPercentage = 100 - (100 - targetPercentage) * progress
+      setPercentage(newPercentage)
+
+      if (progress < 1) {
+        requestAnimationFrame(animateDonut)
+      }
+    }
+
+    requestAnimationFrame(animateDonut)
   }, [limit, remaining])
 
-  const getColor = (percentage: any) => {
-    if (percentage > 66) return '#21C55E' // Vercel green
-    if (percentage > 33) return '#F0B429' // Vercel yellow
-    return '#E54D2E' // Vercel red
+  const getColor = (percent: number) => {
+    if (isLoading) return 'imp-text-gray-200'
+    if (percent > 66) return 'imp-text-green-500'
+    if (percent > 33) return 'imp-text-yellow-500'
+    return 'imp-text-red-500'
   }
 
-  const strokeWidth = size * 0.1
-  const radius = (size - strokeWidth) / 2
-  const circumference = radius * 2 * Math.PI
-  const strokeDashoffset = circumference - (progress / 100) * circumference
-
-  if (loading) {
-    return (
-      <div
-        className={`w-${size} h-${size} rounded-full bg-gray-200 animate-pulse`}
-      />
-    )
-  }
+  const strokeWidth = 2
+  const radius = 10
+  const circumference = 2 * Math.PI * radius
+  const strokeDashoffset = circumference - (percentage / 100) * circumference
 
   return (
-    <div
-      style={{
-        width: size,
-        height: size,
-      }}
-    >
-      <svg width="100%" height="100%" viewBox={`0 0 ${size} ${size}`}>
+    <div className="imp-w-6 imp-h-6">
+      <svg className="w-full h-full" viewBox="0 0 24 24">
         <circle
-          stroke="#E5E7EB"
-          fill="transparent"
+          className="imp-text-gray-200"
           strokeWidth={strokeWidth}
+          stroke="currentColor"
+          fill="transparent"
           r={radius}
-          cx={size / 2}
-          cy={size / 2}
+          cx="12"
+          cy="12"
         />
         <circle
-          stroke={getColor(progress)}
-          fill="transparent"
+          className={`${getColor(percentage)} imp-transition-all imp-duration-300 imp-ease-in-out`}
           strokeWidth={strokeWidth}
-          strokeDasharray={`${circumference} ${circumference}`}
-          style={{
-            strokeDashoffset,
-            transition: 'stroke-dashoffset 0.5s ease, stroke 0.5s ease',
-            transform: 'rotate(-90deg)',
-            transformOrigin: '50% 50%',
-          }}
+          strokeDasharray={circumference}
+          strokeDashoffset={strokeDashoffset}
+          strokeLinecap="round"
+          stroke="currentColor"
+          fill="transparent"
           r={radius}
-          cx={size / 2}
-          cy={size / 2}
+          cx="12"
+          cy="12"
+          transform="rotate(-90 12 12)"
         />
       </svg>
     </div>
   )
 }
-
-export default RequestLimitDonut

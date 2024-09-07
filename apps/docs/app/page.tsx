@@ -36,8 +36,6 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-export const revalidate = 60 // revalidate this page every 60 seconds
-
 const Page = async () => {
   try {
     const mdx = await axios.get(`${config.baseUrl}/content/homepage.mdx`)

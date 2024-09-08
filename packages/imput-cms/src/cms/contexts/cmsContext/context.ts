@@ -101,6 +101,10 @@ export type FieldType = {
    */
   label: string
   rules?: RegisterOptions<FieldValues, string>
+  /**
+   * Whether the input should be hidden in the interface
+   */
+  hidden?: boolean
 } & Extract<
   Widgets,
   {

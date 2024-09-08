@@ -32,6 +32,7 @@ const CMS = () => (
                 widget: 'boolean',
               },
               {
+                hidden: true,
                 label: 'Title',
                 name: 'title',
                 widget: 'string',

@@ -112,6 +112,10 @@ export interface FormItemProps
    * If defined, can be used to transform value before it's saved to the form
    */
   setValueAs?: (value: string) => any
+  /**
+   * Whether the input should be hidden
+   */
+  hidden?: boolean
 }
 
 /**
@@ -123,6 +127,7 @@ const Item = ({
   label,
   rules = {},
   setValueAs = (val: string) => val,
+  hidden,
   ...rest
 }: FormItemProps) => {
   const methods = useFormContext()
@@ -134,7 +139,13 @@ const Item = ({
       setValueAs={setValueAs}
       label={label}
     >
-      <div className="imp-flex imp-flex-col imp-gap-1" {...rest}>
+      <div
+        className="imp-flex imp-flex-col imp-gap-1"
+        style={{
+          display: hidden ? 'none' : 'inherit',
+        }}
+        {...rest}
+      >
         {typeof label === 'string' ? (
           <Label htmlFor={`input-${name}`}>{label}</Label>
         ) : (
@@ -165,6 +176,7 @@ const ItemField = ({
   label,
   rules = {},
   setValueAs = (val: string) => val,
+  hidden,
   ...rest
 }: FormItemProps) => {
   const methods = useFormContext()
@@ -183,7 +195,13 @@ const ItemField = ({
   }, [])
 
   return (
-    <div className="imp-flex imp-flex-col imp-gap-1" {...rest}>
+    <div
+      className="imp-flex imp-flex-col imp-gap-1"
+      style={{
+        display: hidden ? 'none' : 'inherit',
+      }}
+      {...rest}
+    >
       {typeof label === 'string' ? (
         <Label htmlFor={`input-${name}`}>{label}</Label>
       ) : (

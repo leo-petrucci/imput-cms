@@ -78,6 +78,7 @@ const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
             if (f.multiple) {
               return (
                 <Form.ItemField
+                  hidden={f.hidden}
                   key={f.name}
                   name={f.name}
                   label={f.label}
@@ -89,6 +90,7 @@ const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
             } else {
               return (
                 <Form.Item
+                  hidden={f.hidden}
                   key={f.name}
                   name={f.name}
                   label={f.label}
@@ -101,6 +103,7 @@ const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
           default:
             return (
               <Form.Item
+                hidden={f.hidden}
                 key={f.name}
                 name={f.name}
                 label={f.label}

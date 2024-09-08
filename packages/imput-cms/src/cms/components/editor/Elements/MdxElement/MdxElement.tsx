@@ -158,7 +158,7 @@ export const MdxElement = (props: CustomRenderElementProps) => {
           </DialogHeader>
 
           <ErrorBoundary>
-            <div className="imp-p-4">
+            <div className="imp-py-4">
               <ComponentEditor {...props} />
             </div>
           </ErrorBoundary>

@@ -24,7 +24,8 @@ export const useEditorDepth = () => {
    * Add an element to the depth array
    */
   const addElement = (id: string) => {
-    setDepthArray([{ id }, ...depthArray])
+    if (!depthArray.map((d) => d.id).includes(id))
+      setDepthArray([{ id }, ...depthArray])
   }
 
   /**
@@ -81,8 +82,8 @@ export const useElementDepth = () => {
    */
   const isHighestDepth = useMemo(() => {
     if (depthArray.length === 0) return true
-    const lastElement = depthArray[depthArray.length - 1]
-    return lastElement.id === id
+    const firstElement = depthArray[0]
+    return firstElement.id === id
   }, [depthArray])
 
   return { isHighestDepth }

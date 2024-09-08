@@ -243,9 +243,9 @@ const CMS = () => (
                 ],
               },
             ],
-            preview: {
-              components: {},
-            },
+            // preview: {
+            //   components: {},
+            // },
           },
           {
             name: 'authors',

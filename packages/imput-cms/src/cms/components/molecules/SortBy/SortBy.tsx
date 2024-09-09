@@ -34,13 +34,21 @@ const SortBy = (
       onSubmit={() => {}}
       className="imp-w-full imp-flex imp-gap-2"
     >
-      <Form.Item label="Direction" name="direction" className="imp-flex-1">
+      <Form.Item
+        label="Direction"
+        name="direction"
+        className="imp-flex imp-flex-col imp-gap-1 imp-flex-1"
+      >
         <Select>
           <option value={'asc'}>Ascending</option>
           <option value={'desc'}>Descending</option>
         </Select>
       </Form.Item>
-      <Form.Item label="Sort by" name="sortBy" className="imp-flex-1">
+      <Form.Item
+        label="Sort by"
+        name="sortBy"
+        className="imp-flex imp-flex-col imp-gap-1 imp-flex-1"
+      >
         <Select>
           {options?.map((o) => (
             <option value={o} key={o}>

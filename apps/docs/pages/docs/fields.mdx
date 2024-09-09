@@ -27,7 +27,6 @@ In case you want to ensure content can't be created or saved without a specific 
   ]
 }
 ```
-
 ## Widgets
 
 Widgets are what Imput calls different types of input you can use for fields.
@@ -52,6 +51,7 @@ The string widget uses a simple text input which is then translated into a strin
   - `default`: accepts a string and defaults to an empty string
   - `label`: the descriptive label associated with the input
   - `rules`: the input's validation rules
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```javascript
@@ -64,7 +64,6 @@ The string widget uses a simple text input which is then translated into a strin
   },
 }
 ```
-
 </TabsContent>
 
 <TabsContent value="date" >
@@ -79,6 +78,7 @@ A simple date input. Outputs a date string.
   - `default`: accepts a string, defaults to an empty string
   - `label`:  the descriptive label associated with the input
   - `rules`: the input's validation rules
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```javascript
@@ -91,7 +91,6 @@ A simple date input. Outputs a date string.
   },
 }
 ```
-
 </TabsContent>
 
 <TabsContent value="dateTime" >
@@ -104,6 +103,7 @@ A simple date input. Outputs a date string.
   - `default`: accepts a string, defaults to an empty string
   - `label`:  the descriptive label associated with the input
   - `rules`: the input's validation rules
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```javascript
@@ -116,7 +116,6 @@ A simple date input. Outputs a date string.
   },
 }
 ```
-
 </TabsContent>
 
 <TabsContent value="select" >
@@ -129,6 +128,7 @@ A simple date input. Outputs a date string.
   - `default`: accepts a string or number, the default value selected
   - `options`: an array of strings or numbers, the options to select from
   - `multiple`: boolean, defines whether the user is able to select more than one value
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```javascript
@@ -143,7 +143,6 @@ A simple date input. Outputs a date string.
         },
       }
 ```
-
 </TabsContent>
 
 <TabsContent value="image" >
@@ -152,6 +151,7 @@ A simple date input. Outputs a date string.
 - **UI:** An image selector
 - **Options:**
   - `default`: accepts a string
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```js
@@ -161,7 +161,6 @@ A simple date input. Outputs a date string.
   widget: 'image',
 }
 ```
-
 </TabsContent>
 
 <TabsContent value="boolean" >
@@ -170,6 +169,7 @@ A simple date input. Outputs a date string.
 - **UI:** A switch
 - **Options:**
   - `default`: accepts a boolean
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```js
@@ -180,7 +180,6 @@ A simple date input. Outputs a date string.
   default: true
 }
 ```
-
 </TabsContent>
 
 <TabsContent value="markdown" >
@@ -189,6 +188,7 @@ A simple date input. Outputs a date string.
 - **UI:** A text editor that accepts rich text
 - **Options:**
   - `default`: accepts a string
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```js
@@ -199,7 +199,6 @@ A simple date input. Outputs a date string.
   default: 'My body content'
 }
 ```
-
 </TabsContent>
 
 <TabsContent value="relation" >
@@ -211,6 +210,7 @@ A simple date input. Outputs a date string.
   - `collection`: the name of another Imput collection
   - `display_field`: the value from the other collection's frontmatter that will be displayed as an option
   - `value_field`: the value from the other collection's frontmatter that will be saved as a value when selected
+  - `hidden`: whether we want the input to be displayed in the editor
 - **Example:**
 
 ```js
@@ -226,7 +226,6 @@ A simple date input. Outputs a date string.
   display_fields: 'name',
 }
 ```
-
 Relation widgets are special, they're essentially just Select widgets but they come pre-populated with values from your other collections.
 
 They allow you to connect different collections with each other!
@@ -253,7 +252,6 @@ For example the following config:
   ]
 }
 ```
-
 Will result in:
 
 <Video src="/images/widget-array-example.mov" />

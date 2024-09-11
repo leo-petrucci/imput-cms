@@ -49,8 +49,30 @@ export const useImput = (editor: ReactEditor) => {
     return []
   }, [])
 
+  /**
+   * This checks that the last node of the editor is a paragraph
+   * at load time. If it isn't, we create a new paragraph node at the end.
+   *
+   * This is similar to what we do in normalize, but for some reason normalize
+   * doesn't work on editor creation. Not sure why.
+   */
   useEffect(() => {
-    editor.normalize({ force: true })
+    if (editor.children.length > 0) {
+      const lastNode = editor.children[editor.children.length - 1]
+      if (
+        !Element.isElement(lastNode) ||
+        // @ts-expect-error Fix this
+        lastNode.type !== defaultNodeTypes.paragraph
+      ) {
+        Transforms.insertNodes(
+          editor,
+          // @ts-expect-error Fix this
+          { type: defaultNodeTypes.paragraph, children: [{ text: '' }] },
+          { at: [editor.children.length] }
+        )
+        return
+      }
+    }
   }, [])
 
   return { decorate }

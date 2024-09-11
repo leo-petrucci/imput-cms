@@ -9,6 +9,7 @@ import ErrorBoundary from '@imput/components/errorBoundary'
 import Form from '@imput/components/form'
 import { CreateEditor } from '../createEditor'
 import { Codeblock } from '@imput/components/codeblock/Controlled'
+import { Textarea } from '@imput/components/Textarea/Controlled'
 
 /**
  * Renders the correct fields for the currently loaded collection
@@ -25,6 +26,8 @@ const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
               return <Input type="date" />
             case 'datetime':
               return <Input type="datetime-local" />
+            case 'textarea':
+              return <Textarea />
             case 'markdown':
               return <CreateEditor />
             case 'image':

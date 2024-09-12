@@ -26,6 +26,8 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@imput/components/Dialog'
+import { Separator } from '@imput/components/Separator'
+import { FileSearch, MagnifyingGlass, X } from '@imput/components/Icon'
 
 const StyledImageButton = cva(
   'imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-my-1 imp-cursor-pointer imp-p-0 imp-overflow-hidden imp-relative',
@@ -82,6 +84,7 @@ const ImagePickerBase = forwardRef(
     }: ImagePickerProps,
     ref
   ) => {
+    const [search, setSearch] = useState('')
     const [open, setOpen] = useState(false)
     const { images, loadImage, setImages } = useImages()
     const { public_folder } = useCMS()
@@ -142,24 +145,59 @@ const ImagePickerBase = forwardRef(
                       setOpen(val)
                     }}
                   >
-                    <DialogContent className="!imp-max-w-4xl">
-                      <DialogHeader>
+                    <DialogContent className="!imp-max-w-4xl imp-px-0">
+                      <DialogHeader className="imp-px-4 imp-mb-2">
                         <DialogTitle>Select media</DialogTitle>
                         <DialogDescription>
-                          <div className="imp-relative imp-flex-1 imp-flex imp-justify-end imp-border-b imp-border-border imp-mb-2 imp-pb-2">
+                          <div className="imp-relative imp-flex-1 imp-flex imp-gap-2 imp-items-center imp-justify-end">
+                            <div className="imp-relative imp-w-full imp-max-w-sm">
+                              <MagnifyingGlass
+                                className="imp-absolute imp-left-2.5 imp-top-1/2 -imp-translate-y-1/2 imp-h-4 imp-w-4 imp-text-gray-500 dark:imp-text-gray-400"
+                                aria-hidden="true"
+                              />
+                              <Input
+                                type="search"
+                                placeholder="Search..."
+                                className="imp-pl-9 imp-pr-10"
+                                aria-label="Search"
+                                onChange={(e) => {
+                                  setSearch(e.target.value)
+                                }}
+                              />
+                              <Button
+                                type="button"
+                                variant="ghost"
+                                size="sm"
+                                className="imp-absolute imp-right-0 imp-top-0 imp-h-full imp-px-3"
+                                aria-label="Clear search"
+                                onClick={() => {
+                                  setSearch('')
+                                }}
+                              >
+                                <X
+                                  className="imp-h-4 imp-w-4"
+                                  aria-hidden="true"
+                                />
+                              </Button>
+                            </div>
                             <ImageUploadButton />
                           </div>
                         </DialogDescription>
                       </DialogHeader>
 
+                      <Separator orientation="horizontal" />
+
                       <div
                         style={{
                           overflowY: 'scroll',
                           maxHeight: `calc(100vh - 160px )`,
+                          height: '100%',
                         }}
+                        className="imp-p-4"
                       >
-                        <div className="imp-p-4">
+                        <div className="">
                           <ImageSelector
+                            search={search}
                             onImageSelect={(filename: string) => {
                               setOpen(false)
                               onImageChange?.(filename)

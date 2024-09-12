@@ -7,20 +7,23 @@ import { useImages } from '../../../../../contexts/imageContext/useImageContext'
 
 export interface ImageSelectorProps {
   onImageSelect?: (filename: string) => void
+  search?: string
 }
 
 /**
  * An interface that allows browsing, selecting and uploading new images
  */
-const ImageSelector = ({ onImageSelect }: ImageSelectorProps) => {
+const ImageSelector = ({ onImageSelect, search }: ImageSelectorProps) => {
   const { imageTree } = useImages()
 
   return (
     <>
       <div className="imp-relative imp-grid imp-gap-2 imp-grid-cols-1 md:imp-grid-cols-3">
-        {imageTree.map((i) => (
-          <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
-        ))}
+        {imageTree
+          .filter((i) => i.path?.includes(search || ''))
+          .map((i) => (
+            <ImageCard onImageSelect={onImageSelect} key={i.path} image={i} />
+          ))}
       </div>
     </>
   )

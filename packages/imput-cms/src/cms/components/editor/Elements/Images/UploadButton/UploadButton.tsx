@@ -6,6 +6,7 @@ import { Endpoints } from '@octokit/types'
 import { useUploadFile } from '../../../../../queries/github'
 import { useCMS } from '../../../../../contexts/cmsContext/useCMSContext'
 import { queryKeys } from '../../../../../queries/keys'
+import { UploadSimple } from '@imput/components/Icon'
 
 /**
  * Renders a button that allows uploading images to github. On success, refreshes the local cache with the new data.
@@ -86,6 +87,7 @@ const ImageUploadButton = () => {
           uploadRef.current!.click()
         }}
       >
+        <UploadSimple className="imp-mr-2 imp-h-4 imp-w-4" />
         Upload
       </Button>
     </div>

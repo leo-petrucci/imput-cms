@@ -102,7 +102,6 @@ const tailwind = {
     },
   },
   plugins: [
-    animate,
     typography,
     require('tailwindcss-animate'),
     require('@tailwindcss/container-queries'),

@@ -42,6 +42,11 @@ export type Widgets =
       default?: string
     }
   | {
+      widget: 'textarea'
+      multiple?: boolean
+      default?: string
+    }
+  | {
       widget: 'image'
       default?: string
       multiple?: boolean
@@ -117,6 +122,7 @@ export type FieldType = {
       | 'boolean'
       | 'markdown'
       | 'relation'
+      | 'textarea'
   }
 >
 

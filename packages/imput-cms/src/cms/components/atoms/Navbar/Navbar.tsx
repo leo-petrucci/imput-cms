@@ -12,7 +12,7 @@ export type NavbarProps = {
  * Reusable navbar component. Includes Imput version and requests remaining
  */
 export const Navbar = ({ leftSlot, rightSlot }: NavbarProps) => (
-  <div className="imp-flex imp-flex-1 imp-justify-between">
+  <div className="imp-flex imp-flex-1 imp-justify-between imp-items-center">
     {leftSlot}
     <div className="imp-self-end imp-flex imp-gap-2 imp-items-center imp-h-full">
       <Muted className="imp-font-mono imp-text-gray imp-text-xs">

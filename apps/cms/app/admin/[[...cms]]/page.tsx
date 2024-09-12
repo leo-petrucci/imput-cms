@@ -38,6 +38,11 @@ const CMS = () => (
                 widget: 'string',
               },
               {
+                label: 'Textarea',
+                name: 'textarea',
+                widget: 'textarea',
+              },
+              {
                 label: 'Select',
                 name: 'select',
                 widget: 'select',
@@ -98,6 +103,14 @@ const CMS = () => (
                       widget: 'string',
                       multiple: true,
                       default: ['Leo', 'Evie', 'Lucio'],
+                    },
+                  },
+                  {
+                    name: 'textarea',
+                    label: 'Textarea',
+                    type: {
+                      widget: 'textarea',
+                      default: 'test',
                     },
                   },
                   {

@@ -32,49 +32,57 @@ const ImageUploadButton = () => {
             const file = e.target.files[0]
             const id = toast.loading(`Uploading ${file.name}...`)
 
-            mutate(
-              {
-                filename: file.name,
-                file: file,
-              },
-              {
-                onSuccess: (newImage) => {
-                  toast.success(`${file.name} uploaded!`, { id })
+            const filesize = file.size / 1024 / 1024 // MB
 
-                  // instead of re-fetching images we just add the returned data (`path` and `sha`) to our cache
-                  client.setQueryData(
-                    queryKeys.github.collection(media_folder).queryKey,
-                    // @ts-ignore
-                    (
-                      oldData: Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
-                    ) => {
-                      // image might have already been uploaded, so we remove duplicates
-                      const uniqueTree = Array.from(
-                        new Map(
-                          [newImage, ...oldData.data.tree].map((item) => [
-                            item['path'],
-                            item,
-                          ])
-                        ).values()
-                      )
+            if (filesize < 100) {
+              mutate(
+                {
+                  filename: file.name,
+                  file: file,
+                },
+                {
+                  onSuccess: (newImage) => {
+                    toast.success(`${file.name} uploaded!`, { id })
 
-                      return {
-                        ...oldData,
-                        data: {
-                          ...oldData.data,
-                          tree: uniqueTree,
-                        },
+                    // instead of re-fetching images we just add the returned data (`path` and `sha`) to our cache
+                    client.setQueryData(
+                      queryKeys.github.collection(media_folder).queryKey,
+                      // @ts-ignore
+                      (
+                        oldData: Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}']['response']
+                      ) => {
+                        // image might have already been uploaded, so we remove duplicates
+                        const uniqueTree = Array.from(
+                          new Map(
+                            [newImage, ...oldData.data.tree].map((item) => [
+                              item['path'],
+                              item,
+                            ])
+                          ).values()
+                        )
+
+                        return {
+                          ...oldData,
+                          data: {
+                            ...oldData.data,
+                            tree: uniqueTree,
+                          },
+                        }
                       }
-                    }
-                  )
-                },
-                onError: () => {
-                  toast.error(`There was a problem uploading ${file.name}`, {
-                    id,
-                  })
-                },
-              }
-            )
+                    )
+                  },
+                  onError: () => {
+                    toast.error(`There was a problem uploading ${file.name}`, {
+                      id,
+                    })
+                  },
+                }
+              )
+            } else {
+              toast.error(`You can't upload media bigger than 100MB`, {
+                id,
+              })
+            }
           }
           // reset input
           uploadRef.current!.value = ''

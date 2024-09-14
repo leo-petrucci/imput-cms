@@ -4,7 +4,19 @@ import { CollectionType } from '../../../types/collection'
 import { Link } from 'react-router-dom'
 import { Card, CardHeader } from '@imput/components/Card'
 import { Skeleton } from '@imput/components/Skeleton'
-import React from 'react'
+import React, { useState } from 'react'
+import { DotsThreeOutlineVertical, Pencil, Trash } from '@imput/components/Icon'
+import { Button } from '@imput/components/Button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@imput/components/DropdownMenu'
+import { useDeleteFile } from '../../../queries/github'
 
 export interface CollectionCardProps extends CollectionType {
   baseUrl: string
@@ -14,7 +26,12 @@ export interface CollectionCardProps extends CollectionType {
  * Render a clickable content card
  */
 export const CollectionCard = (props: CollectionCardProps) => {
+  const [openMenu, setOpenMenu] = useState(false)
   const { currentCollection } = useCMS()
+  const { mutate: deleteMutation } = useDeleteFile(
+    currentCollection.folder,
+    props.filename || ''
+  )
 
   // find the first string field in config
   const firstStringField = currentCollection.fields.find(
@@ -34,11 +51,52 @@ export const CollectionCard = (props: CollectionCardProps) => {
   const image = firstImageField ? props.data[firstImageField.name] : undefined
 
   return (
-    <Link key={props.slug} to={`${props.baseUrl}/${props.slug}`}>
-      <Card className="hover:imp-bg-primary-foreground imp-transition-colors hover:imp-text-accent-foreground imp-overflow-hidden">
+    <Link
+      key={props.slug}
+      to={`${props.baseUrl}/${props.slug}`}
+      className="imp-flex"
+    >
+      <Card className="imp-relative hover:imp-bg-primary-foreground imp-transition-colors hover:imp-text-accent-foreground imp-overflow-hidden imp-flex-1 imp-flex imp-flex-col imp-justify-end">
+        <DropdownMenu open={openMenu} onOpenChange={setOpenMenu}>
+          <DropdownMenuTrigger asChild>
+            <Button
+              className="imp-absolute imp-right-2 imp-top-2 imp-bg-primary/75 hover:imp-bg-primary imp-p-2"
+              variant="ghost"
+              size="icon"
+            >
+              <DotsThreeOutlineVertical className="imp-w-4 imp-h-4 imp-text-primary-foreground" />
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>Content</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.preventDefault()
+                }}
+              >
+                <Pencil className="imp-mr-2 imp-h-4 imp-w-4" />
+                <span>Edit filename</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="imp-text-destructive hover:!imp-bg-destructive hover:!imp-text-primary-foreground"
+                onClick={(e) => {
+                  e.preventDefault()
+                  setOpenMenu(false)
+                  deleteMutation()
+                }}
+              >
+                <Trash className="imp-mr-2 imp-h-4 imp-w-4" />
+                <span>Delete</span>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
         {image && <Image path={image} />}
-        <CardHeader>{title}</CardHeader>
+        <CardHeader className="imp-self-start">{title}</CardHeader>
       </Card>
     </Link>
   )

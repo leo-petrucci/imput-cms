@@ -5,10 +5,12 @@ import { useCMS } from '../../cms/contexts/cmsContext/useCMSContext'
 import { getToken } from '../../cms/queries/auth'
 import { queryKeys } from '../../cms/queries/keys'
 import { slugify } from '../../cms/utils/slugify'
-import { Endpoints, OctokitResponse } from '@octokit/types'
+import { Endpoints } from '@octokit/types'
 import matter from 'gray-matter'
 import React from 'react'
 import get from 'lodash/get'
+import { useQueryClient } from '@tanstack/react-query'
+import path from 'path'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -582,5 +584,114 @@ export const useGetRateLimit = () => {
     queryKey: queryKeys.github.rateLimit.queryKey,
     context: defaultContext,
     queryFn: getRateLimit,
+  })
+}
+
+/**
+ * Deletes a github file located at path
+ */
+const deleteFromGithub = async (
+  { owner, repo, branch }: { owner: string; repo: string; branch: string },
+  filepath: string
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+
+  // Get the current branch info
+  const currentBranch = await octokit.request(
+    'GET /repos/{owner}/{repo}/branches/{branch}',
+    {
+      owner,
+      repo,
+      branch,
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Create a new tree without the file
+  const tree = await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
+    owner,
+    repo,
+    tree: [
+      {
+        path: filepath,
+        mode: '100644',
+        type: 'blob',
+        sha: null,
+      },
+    ],
+    base_tree: currentBranch.data.commit.commit.tree.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  // Create a new commit
+  const commit = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/commits',
+    {
+      owner,
+      repo,
+      message: `Deleted "${filepath}" from ImputCMS`,
+      tree: tree.data.sha,
+      parents: [currentBranch.data.commit.sha],
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Update the branch reference
+  await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
+    owner,
+    repo,
+    ref: `heads/${branch}`,
+    sha: commit.data.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  return {
+    sha: commit.data.sha,
+  }
+}
+
+/**
+ * Delete a specific file
+ */
+export const useDeleteFile = (
+  folder: string,
+  /**
+   * the name of the file we want to delete
+   */
+  filename: string
+) => {
+  const {
+    backend,
+    backend: { branch },
+  } = useCMS()
+  const queryClient = useQueryClient()
+  const [owner, repo] = backend.repo.split('/')
+  return useMutation({
+    mutationFn: async () => {
+      return await deleteFromGithub(
+        {
+          owner,
+          repo,
+          branch,
+        },
+        path.join(folder, filename)
+      )
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.github.collection(folder).queryKey,
+        exact: false,
+      })
+    },
   })
 }

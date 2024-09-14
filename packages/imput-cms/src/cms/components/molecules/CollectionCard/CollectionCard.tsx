@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@imput/components/DropdownMenu'
 import { useDeleteFile } from '../../../queries/github'
+import toast from 'react-hot-toast'
 
 export interface CollectionCardProps extends CollectionType {
   baseUrl: string
@@ -27,7 +28,9 @@ export interface CollectionCardProps extends CollectionType {
  */
 export const CollectionCard = (props: CollectionCardProps) => {
   const [openMenu, setOpenMenu] = useState(false)
+
   const { currentCollection } = useCMS()
+
   const { mutate: deleteMutation } = useDeleteFile(
     currentCollection.folder,
     props.filename || ''
@@ -84,8 +87,15 @@ export const CollectionCard = (props: CollectionCardProps) => {
                 className="imp-text-destructive hover:!imp-bg-destructive hover:!imp-text-primary-foreground"
                 onClick={(e) => {
                   e.preventDefault()
+                  const id = toast.loading(`Deleting ${title}...`)
                   setOpenMenu(false)
-                  deleteMutation()
+                  deleteMutation(undefined, {
+                    onSuccess: () => {
+                      toast.success(`${title} was deleted!`, {
+                        id,
+                      })
+                    },
+                  })
                 }}
               >
                 <Trash className="imp-mr-2 imp-h-4 imp-w-4" />

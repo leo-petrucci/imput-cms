@@ -5,10 +5,13 @@ import { useCMS } from '../../cms/contexts/cmsContext/useCMSContext'
 import { getToken } from '../../cms/queries/auth'
 import { queryKeys } from '../../cms/queries/keys'
 import { slugify } from '../../cms/utils/slugify'
-import { Endpoints, OctokitResponse } from '@octokit/types'
+import { Endpoints } from '@octokit/types'
+import { v4 as uuidv4 } from 'uuid'
 import matter from 'gray-matter'
 import React from 'react'
 import get from 'lodash/get'
+import { useQueryClient } from '@tanstack/react-query'
+import path from 'path'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -128,6 +131,7 @@ export const useGetGithubCollection = (type: string) => {
 
             return {
               ...decoded,
+              id: uuidv4(),
               filename: file.path,
               // updatedAt: file.date,
               slug: file.path?.split(`.${currentCollection.extension}`)[0],
@@ -582,5 +586,268 @@ export const useGetRateLimit = () => {
     queryKey: queryKeys.github.rateLimit.queryKey,
     context: defaultContext,
     queryFn: getRateLimit,
+  })
+}
+
+/**
+ * Deletes a github file located at path
+ */
+const deleteFromGithub = async (
+  { owner, repo, branch }: { owner: string; repo: string; branch: string },
+  filepath: string
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+
+  // Get the current branch info
+  const currentBranch = await octokit.request(
+    'GET /repos/{owner}/{repo}/branches/{branch}',
+    {
+      owner,
+      repo,
+      branch,
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Create a new tree without the file
+  const tree = await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
+    owner,
+    repo,
+    tree: [
+      {
+        path: filepath,
+        mode: '100644',
+        type: 'blob',
+        sha: null,
+      },
+    ],
+    base_tree: currentBranch.data.commit.commit.tree.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  // Create a new commit
+  const commit = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/commits',
+    {
+      owner,
+      repo,
+      message: `Deleted "${filepath}" from ImputCMS`,
+      tree: tree.data.sha,
+      parents: [currentBranch.data.commit.sha],
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Update the branch reference
+  await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
+    owner,
+    repo,
+    ref: `heads/${branch}`,
+    sha: commit.data.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  return {
+    sha: commit.data.sha,
+  }
+}
+
+/**
+ * Delete a specific file
+ */
+export const useDeleteFile = (
+  folder: string,
+  /**
+   * the name of the file we want to delete
+   */
+  filename: string
+) => {
+  const {
+    backend,
+    backend: { branch },
+    currentCollection,
+  } = useCMS()
+  const queryClient = useQueryClient()
+  const [owner, repo] = backend.repo.split('/')
+  const { sorting } = useGetGithubCollection(currentCollection.folder)
+
+  return useMutation({
+    mutationFn: async () => {
+      return await deleteFromGithub(
+        {
+          owner,
+          repo,
+          branch,
+        },
+        path.join(folder, filename)
+      )
+    },
+    onSuccess: (res) => {
+      // we update the existing data instead of fetching it again
+      queryClient.setQueryData(
+        queryKeys.github.collection(
+          folder,
+          sorting.sortBy,
+          sorting.sortDirection
+        ).queryKey,
+        (oldData: any) => {
+          return oldData.filter((d: any) => d.filename !== filename)
+        }
+      )
+    },
+  })
+}
+
+/**
+ * Rename a file to something new
+ */
+const renameFile = async (
+  { owner, repo, branch }: { owner: string; repo: string; branch: string },
+  oldFilepath: string,
+  newFilepath: string
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+
+  // Get the current branch info
+  const currentBranch = await octokit.request(
+    'GET /repos/{owner}/{repo}/branches/{branch}',
+    {
+      owner,
+      repo,
+      branch,
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Get the content of the file
+  const fileContent = await octokit.request(
+    'GET /repos/{owner}/{repo}/contents/{path}',
+    {
+      owner,
+      repo,
+      path: oldFilepath,
+      ref: branch,
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Create a new tree with the file removed from the old path and added to the new path
+  const tree = await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
+    owner,
+    repo,
+    tree: [
+      {
+        path: oldFilepath,
+        mode: '100644',
+        type: 'blob',
+        sha: null,
+      },
+      {
+        path: newFilepath,
+        mode: '100644',
+        type: 'blob',
+        // @ts-expect-error it thinks "content" isn't valid, but it is
+        content: Buffer.from(fileContent.data.content || '', 'base64').toString(
+          'utf-8'
+        ),
+      },
+    ],
+    base_tree: currentBranch.data.commit.commit.tree.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  // Create a new commit
+  const commit = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/commits',
+    {
+      owner,
+      repo,
+      message: `Renamed "${oldFilepath}" to "${newFilepath}" from ImputCMS`,
+      tree: tree.data.sha,
+      parents: [currentBranch.data.commit.sha],
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Update the branch reference
+  await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
+    owner,
+    repo,
+    ref: `heads/${branch}`,
+    sha: commit.data.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  return {
+    filename: newFilepath.split('/').pop(),
+    sha: commit.data.sha,
+  }
+}
+
+/**
+ * Rename a file to something new
+ */
+export const useRenameFile = (oldFilepath: string) => {
+  const {
+    backend,
+    backend: { branch },
+    currentCollection,
+  } = useCMS()
+  const { sorting } = useGetGithubCollection(currentCollection.folder)
+  const queryClient = useQueryClient()
+  const [owner, repo] = backend.repo.split('/')
+  return useMutation({
+    mutationFn: async (newFilepath: string) => {
+      return await renameFile(
+        {
+          owner,
+          repo,
+          branch,
+        },
+        oldFilepath,
+        newFilepath
+      )
+    },
+    onSuccess: (res) => {
+      // we update the existing data instead of fetching it again
+      queryClient.setQueryData(
+        queryKeys.github.collection(
+          currentCollection.folder,
+          sorting.sortBy,
+          sorting.sortDirection
+        ).queryKey,
+        (oldData: any) => {
+          const newFilename = res.filename
+          const currentFileIndex = oldData.findIndex(
+            (file: any) => file.filename === oldFilepath.split('/').pop()
+          )
+          oldData[currentFileIndex].filename = newFilename
+          oldData[currentFileIndex].slug = newFilename?.split('.')[0]
+          return oldData
+        }
+      )
+    },
   })
 }

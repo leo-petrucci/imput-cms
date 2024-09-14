@@ -12,11 +12,10 @@ import ContentPage from '../../../cms/pages/content'
 import {
   CollectionCard,
   CollectionCardSkeleton,
-} from '../../../cms/components/collections/collectionCard'
+} from '../../../cms/components/molecules/CollectionCard'
 import { CollectionType } from '../../../cms/types/collection'
 import { Button } from '@imput/components/Button'
 import NewPage from '../../../cms/pages/new'
-import Loader from '../../components/loader'
 import { GenericError } from '../../components/atoms/GenericError'
 import { Layout } from '../../components/atoms/Layout'
 import {
@@ -33,7 +32,6 @@ import { H5 } from '@imput/components/Typography'
 import { SortBy } from '../../components/molecules/SortBy'
 import { Card } from '@imput/components/Card'
 import { Logo } from '../../components/atoms/Logo'
-import { RemainingRequests } from '../../components/molecules/RemainingRequests'
 import { Navbar } from '../../components/atoms/Navbar'
 
 const CollectionPage = () => {
@@ -168,7 +166,7 @@ const CollectionPage = () => {
                       data.map((content: CollectionType) => {
                         return (
                           <CollectionCard
-                            key={content.slug}
+                            key={content.id}
                             {...content}
                             baseUrl={location.pathname}
                           />

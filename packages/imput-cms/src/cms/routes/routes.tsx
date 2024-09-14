@@ -74,7 +74,7 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
             </ImagesProvider>
           </UserProvider>
         </CMSProvider>
-        {false && <ReactQueryDevtools initialIsOpen={false} />}
+        {true && <ReactQueryDevtools initialIsOpen={false} />}
       </QueryClientProvider>
     </Router>
   )

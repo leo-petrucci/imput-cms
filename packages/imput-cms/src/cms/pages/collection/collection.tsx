@@ -166,7 +166,7 @@ const CollectionPage = () => {
                       data.map((content: CollectionType) => {
                         return (
                           <CollectionCard
-                            key={content.slug}
+                            key={content.id}
                             {...content}
                             baseUrl={location.pathname}
                           />

@@ -14,6 +14,7 @@ import ctxt from './context'
 import { Label } from '../Label'
 import { Button } from '../Button'
 import { Minus, Plus } from '../Icon'
+import { Muted } from '../Typography'
 
 export type FormProps<T extends FieldValues> = {
   form?: UseFormReturn<T, any>
@@ -103,7 +104,7 @@ export interface FormItemProps
   /**
    * (Optional) Description of the input required
    */
-  description?: string
+  description?: string | JSX.Element
   /**
    * Validation rules for the Form item's children
    */
@@ -128,6 +129,7 @@ const Item = ({
   rules = {},
   setValueAs = (val: string) => val,
   hidden,
+  description,
   ...rest
 }: FormItemProps) => {
   const methods = useFormContext()
@@ -146,11 +148,15 @@ const Item = ({
         }}
         {...rest}
       >
-        {typeof label === 'string' ? (
-          <Label htmlFor={`input-${name}`}>{label}</Label>
-        ) : (
-          label
-        )}
+        <div className="imp-flex imp-flex-col imp-gap-1">
+          {typeof label === 'string' ? (
+            <Label htmlFor={`input-${name}`}>{label}</Label>
+          ) : (
+            label
+          )}
+          {Boolean(description) && <Muted>{description}</Muted>}
+        </div>
+
         <div>{children}</div>
         <div className="imp-text-destructive">
           {

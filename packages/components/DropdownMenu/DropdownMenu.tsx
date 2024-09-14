@@ -5,6 +5,8 @@ import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu'
 import { CaretRight, Check, Circle } from '../Icon'
 
 import { cn } from '../lib/utils'
+import { Dialog, DialogContent, DialogTrigger } from '../Dialog'
+import { DialogProps } from '@radix-ui/react-dialog'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -47,7 +49,7 @@ const DropdownMenuSubContent = React.forwardRef<
   <DropdownMenuPrimitive.SubContent
     ref={ref}
     className={cn(
-      'imp-z-50 imp-min-w-[8rem] imp-overflow-hidden imp-rounded-md imp-border imp-bg-popover imp-p-1 imp-text-popover-foreground imp-shadow-lg data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[side=bottom]:imp-slide-in-from-top-2 data-[side=left]:imp-slide-in-from-right-2 data-[side=right]:imp-slide-in-from-left-2 data-[side=top]:imp-slide-in-from-bottom-2',
+      'imp-min-w-[8rem] imp-overflow-hidden imp-rounded-md imp-border imp-bg-popover imp-p-1 imp-text-popover-foreground imp-shadow-lg data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[side=bottom]:imp-slide-in-from-top-2 data-[side=left]:imp-slide-in-from-right-2 data-[side=right]:imp-slide-in-from-left-2 data-[side=top]:imp-slide-in-from-bottom-2',
       className
     )}
     {...props}
@@ -65,7 +67,7 @@ const DropdownMenuContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        'imp-z-50 imp-min-w-[8rem] imp-overflow-hidden imp-rounded-md imp-border imp-bg-popover imp-p-1 imp-text-popover-foreground imp-shadow-md data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[side=bottom]:imp-slide-in-from-top-2 data-[side=left]:imp-slide-in-from-right-2 data-[side=right]:imp-slide-in-from-left-2 data-[side=top]:imp-slide-in-from-bottom-2',
+        'imp-min-w-[8rem] imp-overflow-hidden imp-rounded-md imp-border imp-bg-popover imp-p-1 imp-text-popover-foreground imp-shadow-md data-[state=open]:imp-animate-in data-[state=closed]:imp-animate-out data-[state=closed]:imp-fade-out-0 data-[state=open]:imp-fade-in-0 data-[state=closed]:imp-zoom-out-95 data-[state=open]:imp-zoom-in-95 data-[side=bottom]:imp-slide-in-from-top-2 data-[side=left]:imp-slide-in-from-right-2 data-[side=right]:imp-slide-in-from-left-2 data-[side=top]:imp-slide-in-from-bottom-2',
         className
       )}
       {...props}
@@ -184,6 +186,45 @@ const DropdownMenuShortcut = ({
 }
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
+const DropdownMenuDialogItem = React.forwardRef<
+  React.ElementRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
+    triggerChildren?: JSX.Element
+  } & Pick<DialogProps, 'onOpenChange'>
+>((props, forwardedRef) => {
+  const [open, setOpen] = React.useState(false)
+  const { triggerChildren, children, onSelect, onOpenChange, ...itemProps } =
+    props
+  return (
+    <Dialog
+      onOpenChange={(event) => {
+        onOpenChange?.(event)
+        setOpen(event)
+      }}
+      open={open}
+    >
+      <DialogTrigger asChild>
+        <DropdownMenuItem
+          {...itemProps}
+          ref={forwardedRef}
+          onClick={(e) => {
+            e.preventDefault()
+            setOpen(true)
+          }}
+          onSelect={(event) => {
+            event.preventDefault()
+            onSelect?.(event)
+          }}
+        >
+          {triggerChildren}
+        </DropdownMenuItem>
+      </DialogTrigger>
+      <DialogContent>{children}</DialogContent>
+    </Dialog>
+  )
+})
+DropdownMenuDialogItem.displayName = 'DropdownMenuDialogItem'
+
 export {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -200,4 +241,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuRadioGroup,
+  DropdownMenuDialogItem,
 }

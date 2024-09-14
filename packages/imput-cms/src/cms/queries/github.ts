@@ -6,6 +6,7 @@ import { getToken } from '../../cms/queries/auth'
 import { queryKeys } from '../../cms/queries/keys'
 import { slugify } from '../../cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
+import { v4 as uuidv4 } from 'uuid'
 import matter from 'gray-matter'
 import React from 'react'
 import get from 'lodash/get'
@@ -130,6 +131,7 @@ export const useGetGithubCollection = (type: string) => {
 
             return {
               ...decoded,
+              id: uuidv4(),
               filename: file.path,
               // updatedAt: file.date,
               slug: file.path?.split(`.${currentCollection.extension}`)[0],
@@ -692,6 +694,150 @@ export const useDeleteFile = (
         queryKey: queryKeys.github.collection(folder).queryKey,
         exact: false,
       })
+    },
+  })
+}
+
+/**
+ * Rename a file to something new
+ */
+const renameFile = async (
+  { owner, repo, branch }: { owner: string; repo: string; branch: string },
+  oldFilepath: string,
+  newFilepath: string
+) => {
+  const octokit = new Octokit({
+    auth: getToken(),
+  })
+
+  // Get the current branch info
+  const currentBranch = await octokit.request(
+    'GET /repos/{owner}/{repo}/branches/{branch}',
+    {
+      owner,
+      repo,
+      branch,
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Get the content of the file
+  const fileContent = await octokit.request(
+    'GET /repos/{owner}/{repo}/contents/{path}',
+    {
+      owner,
+      repo,
+      path: oldFilepath,
+      ref: branch,
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Create a new tree with the file removed from the old path and added to the new path
+  const tree = await octokit.request('POST /repos/{owner}/{repo}/git/trees', {
+    owner,
+    repo,
+    tree: [
+      {
+        path: oldFilepath,
+        mode: '100644',
+        type: 'blob',
+        sha: null,
+      },
+      {
+        path: newFilepath,
+        mode: '100644',
+        type: 'blob',
+        // @ts-expect-error it thinks "content" isn't valid, but it is
+        content: Buffer.from(fileContent.data.content || '', 'base64').toString(
+          'utf-8'
+        ),
+      },
+    ],
+    base_tree: currentBranch.data.commit.commit.tree.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  // Create a new commit
+  const commit = await octokit.request(
+    'POST /repos/{owner}/{repo}/git/commits',
+    {
+      owner,
+      repo,
+      message: `Renamed "${oldFilepath}" to "${newFilepath}" from ImputCMS`,
+      tree: tree.data.sha,
+      parents: [currentBranch.data.commit.sha],
+      headers: {
+        'If-None-Match': '',
+      },
+    }
+  )
+
+  // Update the branch reference
+  await octokit.request('PATCH /repos/{owner}/{repo}/git/refs/{ref}', {
+    owner,
+    repo,
+    ref: `heads/${branch}`,
+    sha: commit.data.sha,
+    headers: {
+      'If-None-Match': '',
+    },
+  })
+
+  return {
+    filename: newFilepath.split('/').pop(),
+    sha: commit.data.sha,
+  }
+}
+
+/**
+ * Rename a file to something new
+ */
+export const useRenameFile = (oldFilepath: string) => {
+  const {
+    backend,
+    backend: { branch },
+    currentCollection,
+  } = useCMS()
+  const { sorting } = useGetGithubCollection(currentCollection.folder)
+  const queryClient = useQueryClient()
+  const [owner, repo] = backend.repo.split('/')
+  return useMutation({
+    mutationFn: async (newFilepath: string) => {
+      return await renameFile(
+        {
+          owner,
+          repo,
+          branch,
+        },
+        oldFilepath,
+        newFilepath
+      )
+    },
+    onSuccess: (res) => {
+      // we update the existing data instead of fetching it again
+      queryClient.setQueryData(
+        queryKeys.github.collection(
+          currentCollection.folder,
+          sorting.sortBy,
+          sorting.sortDirection
+        ).queryKey,
+        (oldData: any) => {
+          const newFilename = res.filename
+          const currentFileIndex = oldData.findIndex(
+            (file: any) => file.filename === oldFilepath.split('/').pop()
+          )
+          oldData[currentFileIndex].filename = newFilename
+          oldData[currentFileIndex].slug = newFilename?.split('.')[0]
+          return oldData
+        }
+      )
     },
   })
 }

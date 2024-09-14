@@ -675,9 +675,12 @@ export const useDeleteFile = (
   const {
     backend,
     backend: { branch },
+    currentCollection,
   } = useCMS()
   const queryClient = useQueryClient()
   const [owner, repo] = backend.repo.split('/')
+  const { sorting } = useGetGithubCollection(currentCollection.folder)
+
   return useMutation({
     mutationFn: async () => {
       return await deleteFromGithub(
@@ -689,11 +692,18 @@ export const useDeleteFile = (
         path.join(folder, filename)
       )
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKeys.github.collection(folder).queryKey,
-        exact: false,
-      })
+    onSuccess: (res) => {
+      // we update the existing data instead of fetching it again
+      queryClient.setQueryData(
+        queryKeys.github.collection(
+          folder,
+          sorting.sortBy,
+          sorting.sortDirection
+        ).queryKey,
+        (oldData: any) => {
+          return oldData.filter((d: any) => d.filename !== filename)
+        }
+      )
     },
   })
 }

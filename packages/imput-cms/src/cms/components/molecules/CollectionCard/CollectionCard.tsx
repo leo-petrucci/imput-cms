@@ -24,11 +24,20 @@ import {
 } from '@imput/components/DropdownMenu'
 import { useDeleteFile, useRenameFile } from '../../../queries/github'
 import toast from 'react-hot-toast'
-import { Dialog, DialogContent, DialogTrigger } from '@imput/components/Dialog'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@imput/components/Dialog'
 import Form from '@imput/components/form'
 import { Input as ControlledInput } from '@imput/components/Input/Controlled'
 import { useForm } from 'react-hook-form'
 import path from 'path'
+import { Separator } from '@imput/components/Separator'
+import { P } from '@imput/components/Typography'
 
 export interface CollectionCardProps extends CollectionType {
   baseUrl: string
@@ -77,7 +86,7 @@ export const CollectionCard = (props: CollectionCardProps) => {
           <CardHeader className="imp-self-start">{title}</CardHeader>
         </Card>
       </Link>
-      {/* The card has a dropdown menu with actions */}
+      {/* The card has a dropdown menu with actions. We keep it outside the card to avoid clicks bubbling up and triggering a click to the link */}
       <DropdownMenu open={openMenu} onOpenChange={setOpenMenu}>
         <DropdownMenuTrigger asChild>
           <Button
@@ -94,23 +103,7 @@ export const CollectionCard = (props: CollectionCardProps) => {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <EditDialog defaultValue={props.filename || ''} />
-            <DropdownMenuItem
-              className="imp-text-destructive hover:!imp-bg-destructive hover:!imp-text-primary-foreground"
-              onClick={(e) => {
-                const id = toast.loading(`Deleting ${title}...`)
-                setOpenMenu(false)
-                deleteMutation(undefined, {
-                  onSuccess: () => {
-                    toast.success(`${title} was deleted!`, {
-                      id,
-                    })
-                  },
-                })
-              }}
-            >
-              <Trash className="imp-mr-2 imp-h-4 imp-w-4" />
-              <span>Delete</span>
-            </DropdownMenuItem>
+            <DeleteDialog filename={props.filename || ''} title={title} />
           </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -136,6 +129,9 @@ export const CollectionCardSkeleton = () => {
   )
 }
 
+/**
+ * A menu item that opens a dialog to edit its identifier
+ */
 const EditDialog = ({ defaultValue }: { defaultValue: string }) => {
   const [open, setOpen] = React.useState(false)
   const { currentCollection } = useCMS()
@@ -179,19 +175,133 @@ const EditDialog = ({ defaultValue }: { defaultValue: string }) => {
         </DropdownMenuItem>
       </DialogTrigger>
       <DialogContent
+        className="!imp-p-0 imp-flex imp-flex-col !imp-gap-2"
         onCloseClick={(e) => {
           close()
         }}
       >
-        <Form
-          onSubmit={async ({ filename }) => {
-            const id = toast.loading(`Updating identifier...`)
-            mutate(
-              path.join(currentCollection.folder, `${filename}.${extension}`),
-              {
+        <DialogHeader className="imp-px-2 imp-pt-4 imp-pb-2">
+          <DialogTitle>Edit content identifier</DialogTitle>
+        </DialogHeader>
+        <Separator orientation="horizontal" />
+        <div className="imp-p-2">
+          <Form
+            onSubmit={async ({ filename }) => {
+              const id = toast.loading(`Updating identifier...`)
+              mutate(
+                path.join(currentCollection.folder, `${filename}.${extension}`),
+                {
+                  onSuccess: () => {
+                    close()
+                    toast.success(`Identifier updated!`, {
+                      id,
+                    })
+                  },
+                  onError: () => {
+                    toast.error(`Something went wrong`, {
+                      id,
+                    })
+                  },
+                }
+              )
+            }}
+            form={form}
+          >
+            <div className="imp-flex imp-flex-col imp-gap-2">
+              <Form.Item
+                label="Filename"
+                name="filename"
+                description={
+                  <>
+                    Your identifier is a unique id that is generated when your
+                    content is created. It's essentially your content's
+                    filename. You would usually use this to point at this
+                    specific piece of content.
+                  </>
+                }
+              >
+                <ControlledInput endAdornment={`.${extension}`} />
+              </Form.Item>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading && (
+                  <CircleNotch className="imp-w-4 imp-h-4 imp-mr-2 imp-animate-spin" />
+                )}
+                Save
+              </Button>
+            </div>
+          </Form>
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
+}
+
+/**
+ * A menu item that opens a dialog to delete the content
+ */
+const DeleteDialog = ({
+  filename,
+  title,
+}: {
+  filename: string
+  title: string
+}) => {
+  const [open, setOpen] = React.useState(false)
+  const { currentCollection } = useCMS()
+
+  const { mutate } = useDeleteFile(currentCollection.folder, filename)
+  const close = () => {
+    setOpen(false)
+  }
+
+  return (
+    <Dialog
+      onOpenChange={(event) => {
+        setOpen(event)
+      }}
+      open={open}
+    >
+      <DialogTrigger asChild>
+        <DropdownMenuItem
+          className="imp-text-destructive hover:!imp-bg-destructive hover:!imp-text-primary-foreground"
+          onClick={(e) => {
+            e.preventDefault()
+            setOpen(true)
+          }}
+        >
+          <Trash className="imp-mr-2 imp-h-4 imp-w-4" />
+          <span>Delete</span>
+        </DropdownMenuItem>
+      </DialogTrigger>
+      <DialogContent
+        className="!imp-p-0 imp-flex imp-flex-col !imp-gap-2"
+        onCloseClick={(e) => {
+          close()
+        }}
+      >
+        <DialogHeader className="imp-px-2 imp-pt-4 imp-pb-2">
+          <DialogTitle>Delete {title}?</DialogTitle>
+        </DialogHeader>
+        <Separator orientation="horizontal" />
+        <div className="imp-p-2">
+          <P asChild>
+            <span>
+              Are you sure you want to delete this content? You won't be able to
+              recover it from the Imput interface, although it might still exist
+              in your git provider's history.
+            </span>
+          </P>
+        </div>
+        <Separator orientation="horizontal" />
+        <div className="imp-p-2 imp-flex imp-justify-end">
+          <Button
+            variant="destructive"
+            onClick={() => {
+              const id = toast.loading(`Deleting ${title}...`)
+              mutate(undefined, {
                 onSuccess: () => {
                   close()
-                  toast.success(`Identifier updated!`, {
+                  toast.success(`${title} was deleted!`, {
                     id,
                   })
                 },
@@ -200,34 +310,12 @@ const EditDialog = ({ defaultValue }: { defaultValue: string }) => {
                     id,
                   })
                 },
-              }
-            )
-          }}
-          form={form}
-        >
-          <div className="imp-flex imp-flex-col imp-gap-2">
-            <Form.Item
-              label="Filename"
-              name="filename"
-              description={
-                <>
-                  Your identifier is a unique id that is generated when your
-                  content is created. It's essentially the "filename" of your
-                  content. You would usually use this to point at this specific
-                  piece of content.
-                </>
-              }
-            >
-              <ControlledInput endAdornment={`.${extension}`} />
-            </Form.Item>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading && (
-                <CircleNotch className="imp-w-4 imp-h-4 imp-mr-2 imp-animate-spin" />
-              )}
-              Save
-            </Button>
-          </div>
-        </Form>
+              })
+            }}
+          >
+            Delete
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   )

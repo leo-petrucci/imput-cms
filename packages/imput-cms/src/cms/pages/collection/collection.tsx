@@ -50,7 +50,7 @@ const CollectionPage = () => {
     isError,
     isLoading,
     sorting: { sortBy, setSortBy, options, sortDirection, setSortDirection },
-  } = useGetGithubCollection(thisCollection!.folder || collections[0].folder)
+  } = useGetGithubCollection(thisCollection?.folder || collections[0].folder)
 
   return (
     <React.Fragment>

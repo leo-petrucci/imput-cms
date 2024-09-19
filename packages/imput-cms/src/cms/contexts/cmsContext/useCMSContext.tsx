@@ -1,5 +1,5 @@
 import { MDXNode } from '../../../cms/types/mdxNode'
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import { useParams } from 'react-router-dom'
 import { v4 as uuidv4 } from 'uuid'
 import ctxt, { BlockType, NextCMSContext } from './context'
@@ -13,6 +13,7 @@ export const useCMS = () => {
   const { settings } = useContext(ctxt)
 
   const params = useParams<{
+    cms: string | undefined
     collection: string | undefined
     file: string | undefined
   }>()
@@ -78,8 +79,13 @@ export const useCMS = () => {
     return component.fields
   }
 
+  const imput_path = useMemo(() => {
+    return `/${params.cms}`
+  }, [params])
+
   return {
     ...settings,
+    imput_path,
     components,
     currentCollection,
     currentFile,

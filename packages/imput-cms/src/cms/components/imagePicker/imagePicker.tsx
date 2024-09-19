@@ -27,7 +27,7 @@ import {
   DialogTrigger,
 } from '@imput/components/Dialog'
 import { Separator } from '@imput/components/Separator'
-import { FileSearch, MagnifyingGlass, X } from '@imput/components/Icon'
+import { MagnifyingGlass, X } from '@imput/components/Icon'
 
 const StyledImageButton = cva(
   'imp-w-full imp-rounded-md imp-border imp-border-input imp-transition-colors imp-bg-background imp-shadow-sm hover:imp-bg-accent hover:imp-text-accent-foreground imp-my-1 imp-cursor-pointer imp-p-0 imp-overflow-hidden imp-relative',

@@ -13,6 +13,7 @@
   "dependencies": {
     "@imput/components": "workspace:*",
     "@imput/tailwind": "workspace:*",
+    "@octokit/auth-app": "^7.1.1",
     "@types/node": "18.14.6",
     "@types/react": "18.0.28",
     "@types/react-dom": "18.0.11",

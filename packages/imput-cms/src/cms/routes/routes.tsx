@@ -13,6 +13,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import Login from '../pages/login'
 
 // Add the relativeTime plugin
 dayjs.extend(relativeTime)
@@ -23,8 +24,8 @@ dayjs.extend(relativeTime)
 const NextCMSPrivateRoutes = () => {
   return (
     <Routes>
-      <Route path="/:cms/:collection/*" element={<CollectionPage />} />
-      <Route path="/:cms" element={<HomePage />} />
+      <Route path="/:collection/*" element={<CollectionPage />} />
+      <Route path="/" element={<HomePage />} />
     </Routes>
   )
 }
@@ -56,26 +57,43 @@ const NextCMSRoutes = (props: { settings: NextCMSContext['settings'] }) => {
 
   return (
     <Router>
-      <QueryClientProvider client={queryClient}>
-        {/* CMS settings and such */}
-        <CMSProvider settings={props.settings}>
-          {/* Github user info */}
-          <UserProvider>
-            {/* All images to be used in the CMS */}
-            <ImagesProvider>
-              <div className="imp-text-base">
-                <Toaster
-                  containerStyle={{
-                    zIndex: 99999,
-                  }}
-                />
-                <NextCMSPrivateRoutes />
-              </div>
-            </ImagesProvider>
-          </UserProvider>
-        </CMSProvider>
-        {true && <ReactQueryDevtools initialIsOpen={false} />}
-      </QueryClientProvider>
+      <Routes>
+        <Route
+          path="/:cms/*"
+          element={
+            <QueryClientProvider client={queryClient}>
+              {/* CMS settings and such */}
+              <CMSProvider settings={props.settings}>
+                <Routes>
+                  <Route path="/login" element={<Login />} />
+                  <Route
+                    path="*"
+                    element={
+                      <>
+                        {/* Github user info */}
+                        <UserProvider>
+                          {/* All images to be used in the CMS */}
+                          <ImagesProvider>
+                            <div className="imp-text-base">
+                              <Toaster
+                                containerStyle={{
+                                  zIndex: 99999,
+                                }}
+                              />
+                              <NextCMSPrivateRoutes />
+                            </div>
+                          </ImagesProvider>
+                        </UserProvider>
+                      </>
+                    }
+                  />
+                </Routes>
+              </CMSProvider>
+              {true && <ReactQueryDevtools initialIsOpen={false} />}
+            </QueryClientProvider>
+          }
+        />
+      </Routes>
     </Router>
   )
 }

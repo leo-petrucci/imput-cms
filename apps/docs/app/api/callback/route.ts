@@ -1,5 +1,4 @@
 import { AuthorizationCode } from 'simple-oauth2'
-import { randomBytes } from 'crypto'
 import { config } from '../../../lib/config'
 
 export async function GET(request: Request) {

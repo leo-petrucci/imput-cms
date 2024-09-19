@@ -156,7 +156,11 @@ export interface NextCMSContext {
       /**
        * The location of your login API route.
        */
-      auth_endpoint: string
+      auth_endpoint?: string
+      /**
+       * Whether you want to disable using Imput's managed auth service
+       */
+      disable_imput_auth?: boolean
     }
     /**
      * Git directory where images are stored

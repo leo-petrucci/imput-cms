@@ -11,7 +11,10 @@ export async function GET(request: Request) {
     process.env.NODE_ENV === 'production' ? 'https://' : 'http://'
   const url = new URL(`https://${host}/${request.url}`)
   const urlParams = url.searchParams
-  const provider = urlParams.get('provider') as 'github' | 'gitlab'
+  const provider = urlParams.get('provider') as 'github'
+
+  console.log('provider', provider)
+  console.log(config(provider))
 
   const client = new AuthorizationCode(config(provider))
 

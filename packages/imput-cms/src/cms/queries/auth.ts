@@ -2,7 +2,7 @@ import { Octokit } from 'octokit'
 import { useQuery, defaultContext } from '@tanstack/react-query'
 import { queryKeys } from '../../cms/queries/keys'
 
-function getCookie(cname: string) {
+export function getCookie(cname: string) {
   let name = cname + '='
   let decodedCookie = decodeURIComponent(document.cookie)
   let ca = decodedCookie.split(';')
@@ -19,7 +19,7 @@ function getCookie(cname: string) {
 }
 
 export const getToken = () => {
-  return getCookie('token') || null
+  return getCookie('imput_token') || null
 }
 
 export const useGithubUser = (token: string | null) => {
@@ -39,7 +39,6 @@ export const useGithubUser = (token: string | null) => {
         email: user.data.email,
       }
     },
-    enabled: token !== undefined,
   })
 }
 

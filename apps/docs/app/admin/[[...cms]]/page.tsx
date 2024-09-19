@@ -148,6 +148,7 @@ const CMS = () => (
           name: 'github',
           repo: 'leo-petrucci/imput-cms',
           branch: 'main',
+          // base_url: `https://dinnerwithevie.com`,
           base_url:
             process.env.NODE_ENV === 'production'
               ? 'https://www.imput.computer'

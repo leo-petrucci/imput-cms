@@ -155,12 +155,9 @@ Into actual CSS classes. Imput can't do this since it runs on your browser so we
 
 ```plain
 {
-    // your other scripts
-
-    "styles": "npx tailwindcss -i './app/global.css' -o ./public/css/global.css --minify",
-
-    "dev": "npm run styles && <your dev command>
-
+  // your other scripts
+  "styles": "npx tailwindcss -i './app/global.css' -o ./public/css/global.css --minify",
+  "dev": "npm run styles && <your dev command>
 }
 
 ```

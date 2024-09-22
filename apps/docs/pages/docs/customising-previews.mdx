@@ -35,7 +35,6 @@ const CMS = () => (
   />
 )
 ```
-
 ## HTML Preview
 
 The easiest way to start is to add an empty `preview.components` object:
@@ -47,7 +46,6 @@ The easiest way to start is to add an empty `preview.components` object:
   },
 }
 ```
-
 This will tell Imput to convert your Markdown into HTML, even though it will be unstyled. To add styles you can use another `preview` configuration: `wrapper`. Wrapper renders an React component around your preview! You can use it to render a CSS-in-JS component that targets your preview or for a utility class like `tailwind-prose`.
 
 ```js
@@ -58,7 +56,6 @@ This will tell Imput to convert your Markdown into HTML, even though it will be 
   },
 }
 ```
-
 ### Previewing Frontmatter
 
 All your frontmatter data (i.e. things that aren't the main body of your content like title, date or author) are passed to the `header` and `footer` configurations. You can use these methods to make your preview look more like your actual page, or just display useful information to the editor.
@@ -74,7 +71,6 @@ All your frontmatter data (i.e. things that aren't the main body of your content
   },
 }
 ```
-
 ## React Components Preview
 
 Imput is also able to render React components added with the "Block" feature in real-time. Adding a `components` object will replace any components in your MDX with the component matching its name.
@@ -114,7 +110,6 @@ Imput is also able to render React components added with the "Block" feature in 
   ],
 }
 ```
-
 You can also use this configuration object to replace HTML tags! Define a component that matches an HTML tag:
 
 ```javascript
@@ -129,7 +124,6 @@ You can also use this configuration object to replace HTML tags! Define a compon
     },
   },
 ```
-
 ## Adding styles to your previews
 
 The last piece of the puzzle is adding styles to your previews. You can do so by using the `styles` array which accepts any number of public CSS files which will be fetched and loaded at runtime.
@@ -137,15 +131,38 @@ The last piece of the puzzle is adding styles to your previews. You can do so by
 ```typescript
 {
   preview: {
-    styles: ["/styles/global.css", "https://mysite.com/style.css"]
+    styles: ["/css/global.css", "https://mysite.com/style.css"]
   }
 }
 ```
-
 <Note>
 
 Styles need to be public to separate Imput's css from yours! If your styles are built at runtime you can usually add an extra rule to output a static version of them into a public-facing folder.
 
 </Note>
 
+### Adding TailwindCSS to the preview
+
+A good example of this limitation is TailwindCSS. On a normal application `postcss` would compile Tailwind on the fly transforming:
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+```
+Into actual CSS classes. Imput can't do this since it runs on your browser so we need to tell Tailwind to output CSS that we can read. Doing this is pretty easy thankfully! We just need to add an extra script to our `package.json`.
+
+```plain
+{
+    // your other scripts
+
+    "styles": "npx tailwindcss -i './app/global.css' -o ./public/css/global.css --minify",
+
+    "dev": "npm run styles && <your dev command>
+
+}
+
+```
+We're essentially telling Node that we want it to generate out our CSS before starting our dev server. The CSS is then placed somewhere we can access publicly (like [Next.js' public folder](https://nextjs.org/docs/app/building-your-application/optimizing/static-assets)).
 

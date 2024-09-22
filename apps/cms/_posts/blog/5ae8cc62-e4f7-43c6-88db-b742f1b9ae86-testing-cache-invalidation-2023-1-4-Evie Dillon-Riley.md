@@ -9,5 +9,14 @@ category:
   - Quick Tips
 thumbnail: images/screenshot-2023-01-24-at-14.18.45.png
 ---
-My markdown content 
 
+My markdown content
+
+```csharp
+// Refactoring example: Renaming a method in C#
+public class Calculator {
+    public int Add(int a, int b) {
+        return a + b;
+    }
+}
+```

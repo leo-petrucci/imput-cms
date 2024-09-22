@@ -51,7 +51,9 @@ const getChildNodeToDecorations = ([block, blockPath]: NodeEntry<{
 
   const text = block.children.map((line) => Node.string(line)).join('\n')
   const language = block.language
-  const tokens = Prism.tokenize(text, Prism.languages[language])
+  const prismLanguage =
+    Prism.languages[language] || Prism.languages['plaintext']
+  const tokens = Prism.tokenize(text, prismLanguage)
   const normalizedTokens = normalizeTokens(tokens) // make tokens flat and grouped by line
   const blockChildren = block.children as Element[]
 

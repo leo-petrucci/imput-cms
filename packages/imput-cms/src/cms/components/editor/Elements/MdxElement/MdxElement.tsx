@@ -135,7 +135,7 @@ export const MdxElement = (props: CustomRenderElementProps) => {
         </DialogTrigger>
         <DialogContent
           showOverlay={false}
-          className="imp-translate-x-0 imp-translate-y-0"
+          className="imp-translate-x-0 imp-translate-y-0 data-[state=closed]:!imp-slide-out-to-left-1/2 data-[state=closed]:!imp-slide-out-to-top-0 data-[state=open]:!imp-slide-in-from-left-1/2 data-[state=open]:!imp-slide-in-from-top-0"
           style={{
             boxSizing: 'border-box',
             // height: '100vh',

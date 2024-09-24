@@ -21,6 +21,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { MDXNode } from '../../../../cms/types/mdxNode'
 import { cloneDeep } from 'lodash'
 import { MdxElementShape } from '../Elements/MdxElement'
+import { toCodeLines } from './utils'
 
 /**
  * Markdown to Slate deserialization.
@@ -137,8 +138,7 @@ export default function deserialize<T extends InputNodeTypes>(
       return {
         type: types.code_block,
         language: node.lang,
-        children: [{ text: node.value }],
-        code: [{ text: node.value }],
+        children: toCodeLines(node.value || ''),
       } as CodeBlockNode<T>
 
     case 'html':

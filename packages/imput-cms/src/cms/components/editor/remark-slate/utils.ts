@@ -1,3 +1,4 @@
+import { Element } from 'slate'
 import { MdxElementShape } from '../Elements/MdxElement'
 import { BlockType, LeafType, NodeTypes, defaultNodeTypes } from './ast-types'
 import serialize, { Options } from './serialize'
@@ -111,3 +112,13 @@ export const serializeMdxChildren = (
     })
     .join('')
 }
+
+const toChildren = (content: string) => [{ text: content }]
+/**
+ * Used to break down text into the children accepted by a code block
+ */
+export const toCodeLines = (content: string): Element[] =>
+  content.split('\n').map((line) => ({
+    type: defaultNodeTypes.code_line,
+    children: toChildren(line),
+  }))

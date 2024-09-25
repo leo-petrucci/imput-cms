@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { ReactEditor } from 'slate-react'
 import { setEditorRef } from '../store'
-import { Editor, Element, NodeEntry, Range, Transforms } from 'slate'
+import { Editor, Element, Transforms } from 'slate'
 import { defaultNodeTypes } from '../remark-slate'
 
 /**
@@ -19,61 +19,15 @@ export const useImput = (editor: ReactEditor) => {
     }
   }, [editor])
 
-  const decorate = useCallback(([node, path]: NodeEntry) => {
-    if (editor.selection != null) {
-      if (
-        !Editor.isEditor(node) &&
-        Editor.string(editor, [path[0]]) === '' &&
-        Range.includes(editor.selection, path) &&
-        Range.isCollapsed(editor.selection)
-      ) {
-        return [
-          {
-            ...editor.selection,
-            placeholder: true,
-          },
-        ]
-      }
-      if (
-        Element.isElement(node) &&
-        // @ts-expect-error
-        node.type === defaultNodeTypes.code_line
-      ) {
-        // @ts-expect-error
-        const ranges = editor.nodeToDecorations.get(node) || []
-        return ranges
-      }
-
-      return []
-    }
-    return []
-  }, [])
-
   /**
-   * This checks that the last node of the editor is a paragraph
-   * at load time. If it isn't, we create a new paragraph node at the end.
-   *
-   * This is similar to what we do in normalize, but for some reason normalize
-   * doesn't work on editor creation. Not sure why.
+   * We force a normalization as soon as the editor initializes
+   * This should be the default Slate behavior imo
    */
   useEffect(() => {
     if (editor.children.length > 0) {
-      const lastNode = editor.children[editor.children.length - 1]
-      if (
-        !Element.isElement(lastNode) ||
-        // @ts-expect-error Fix this
-        lastNode.type !== defaultNodeTypes.paragraph
-      ) {
-        Transforms.insertNodes(
-          editor,
-          // @ts-expect-error Fix this
-          { type: defaultNodeTypes.paragraph, children: [{ text: '' }] },
-          { at: [editor.children.length] }
-        )
-        return
-      }
+      Editor.normalize(editor, {
+        force: true,
+      })
     }
   }, [])
-
-  return { decorate }
 }

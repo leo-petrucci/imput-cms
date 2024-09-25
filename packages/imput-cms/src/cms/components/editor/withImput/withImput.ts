@@ -1,15 +1,20 @@
 import { ReactEditor } from 'slate-react'
-import { Element, Transforms } from 'slate'
+import isEqual from 'lodash/isEqual'
+import { Element, Transforms, Node, Path } from 'slate'
 import { v4 as uuidv4 } from 'uuid'
 import { CustomElement } from '../../../../cms/types/slate'
 import { getCurrentNodeType } from './utils'
 import { defaultNodeTypes } from '../remark-slate'
+import {
+  elementIsWithinCodeBlock,
+  isWithinCodeBlock,
+} from '../Elements/CodeBlockElement/utils'
 
 /**
  * Adds custom Imput functions for the slate editor
  */
 export const withImput = (editor: ReactEditor) => {
-  const { isVoid, isInline, normalizeNode } = editor
+  const { isVoid, isInline, normalizeNode, insertBreak } = editor
 
   /**
    * A void is an element with text that can't be edited
@@ -44,6 +49,9 @@ export const withImput = (editor: ReactEditor) => {
         // so we can open it when the user presses enter instead
         case defaultNodeTypes.mdxJsxFlowElement:
           break
+        case defaultNodeTypes.code_block:
+          insertBreak()
+          break
         default:
           Transforms.insertNodes(editor, {
             children: [{ text: '' }],
@@ -54,6 +62,41 @@ export const withImput = (editor: ReactEditor) => {
           break
       }
     }
+  }
+
+  /**
+   * Normalizing allows us to correct nodes as they're being written
+   */
+  editor.normalizeNode = ([node, path]) => {
+    /**
+     * This checks if the parent of the node is a code block
+     * if it is and the node isn't a `code_line` it unwraps it
+     * (leaving just the plain text) and then rewraps it
+     * as a code line.
+     *
+     * This fixes pasting rich text into code blocks.
+     */
+    const parentIsCodeBlock = elementIsWithinCodeBlock(editor, path)
+    if (
+      parentIsCodeBlock &&
+      Boolean((node as any).type) &&
+      (node as any).type !== defaultNodeTypes.code_line
+    ) {
+      Transforms.unwrapNodes(editor, {
+        at: path,
+      })
+      Transforms.wrapNodes(
+        editor,
+        {
+          // @ts-expect-error TODO: fix this
+          type: defaultNodeTypes.code_line,
+          // @ts-expect-error TODO: fix this
+          children: node.children,
+        },
+        { at: path }
+      )
+      return
+    }
 
     /**
      * It really annoys me when editors allow you to add blocks
@@ -62,30 +105,30 @@ export const withImput = (editor: ReactEditor) => {
      * This fixes that by adding a paragraph at the end
      * if the last node isn't a paragraph
      */
-    editor.normalizeNode = ([node, path]) => {
-      if (path.length === 0) {
-        if (editor.children.length > 0) {
-          const lastNode = editor.children[editor.children.length - 1]
-          if (
-            !Element.isElement(lastNode) ||
+    if (path.length === 0) {
+      if (editor.children.length > 0) {
+        const lastNode = editor.children[editor.children.length - 1]
+        if (
+          !Element.isElement(lastNode) ||
+          // @ts-expect-error
+          // TODO: Fix this type
+          lastNode.type !== defaultNodeTypes.paragraph
+        ) {
+          Transforms.insertNodes(
+            editor,
             // @ts-expect-error
             // TODO: Fix this type
-            lastNode.type !== defaultNodeTypes.paragraph
-          ) {
-            Transforms.insertNodes(
-              editor,
-              // @ts-expect-error
-              // TODO: Fix this type
-              { type: defaultNodeTypes.paragraph, children: [{ text: '' }] },
-              { at: [editor.children.length] }
-            )
-            return
-          }
+            { type: defaultNodeTypes.paragraph, children: [{ text: '' }] },
+            { at: [editor.children.length] }
+          )
+          return
         }
+        return
       }
-
-      normalizeNode([node, path])
+      return
     }
+
+    normalizeNode([node, path])
   }
 
   /**

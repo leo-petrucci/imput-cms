@@ -1,5 +1,13 @@
 import Prism from 'prismjs'
-import { Descendant, Editor, Element, Node, NodeEntry, Range } from 'slate'
+import {
+  Descendant,
+  Editor,
+  Element,
+  Node,
+  NodeEntry,
+  Path,
+  Range,
+} from 'slate'
 import { ReactEditor, useSlate } from 'slate-react'
 import { defaultNodeTypes } from '../../remark-slate'
 import { KeyboardEvent, useCallback } from 'react'
@@ -251,6 +259,22 @@ export const isWithinCodeBlock = (editor: ReactEditor) => {
     return Boolean(block)
   }
   return false
+}
+
+/**
+ * returns whether specific path is child of a code_block
+ */
+export const elementIsWithinCodeBlock = (editor: ReactEditor, path: Path) => {
+  const [block] =
+    Editor.above(editor, {
+      at: path,
+      match: (n) =>
+        !Editor.isEditor(n) &&
+        Element.isElement(n) &&
+        // @ts-expect-error
+        n.type === defaultNodeTypes.code_block,
+    }) || []
+  return Boolean(block)
 }
 
 /**

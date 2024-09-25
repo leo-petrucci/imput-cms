@@ -5,6 +5,10 @@ import { v4 as uuidv4 } from 'uuid'
 import { CustomElement } from '../../../../cms/types/slate'
 import { getCurrentNodeType } from './utils'
 import { defaultNodeTypes } from '../remark-slate'
+import {
+  elementIsWithinCodeBlock,
+  isWithinCodeBlock,
+} from '../Elements/CodeBlockElement/utils'
 
 /**
  * Adds custom Imput functions for the slate editor
@@ -72,36 +76,25 @@ export const withImput = (editor: ReactEditor) => {
      *
      * This fixes pasting rich text into code blocks.
      */
-    const ancestors = Path.ancestors(path)
-    if (ancestors.length > 0) {
-      const ancestorsWithoutRoot = ancestors.filter((a) => !isEqual(a, []))
-      if (ancestorsWithoutRoot.length > 0) {
-        const highestElement = ancestorsWithoutRoot[0]
-        const parentIsCodeBlock =
-          (Node.get(editor, highestElement) as any).type ===
-          defaultNodeTypes.code_block
-        if (
-          parentIsCodeBlock &&
-          Boolean((node as any).type) &&
-          (node as any).type !== defaultNodeTypes.code_line
-        ) {
-          Transforms.unwrapNodes(editor, {
-            at: path,
-          })
-          Transforms.wrapNodes(
-            editor,
-            {
-              // @ts-expect-error TODO: fix this
-              type: defaultNodeTypes.code_line,
-              // @ts-expect-error TODO: fix this
-              children: node.children,
-            },
-            { at: path }
-          )
-          return
-        }
-        return
-      }
+    const parentIsCodeBlock = elementIsWithinCodeBlock(editor, path)
+    if (
+      parentIsCodeBlock &&
+      Boolean((node as any).type) &&
+      (node as any).type !== defaultNodeTypes.code_line
+    ) {
+      Transforms.unwrapNodes(editor, {
+        at: path,
+      })
+      Transforms.wrapNodes(
+        editor,
+        {
+          // @ts-expect-error TODO: fix this
+          type: defaultNodeTypes.code_line,
+          // @ts-expect-error TODO: fix this
+          children: node.children,
+        },
+        { at: path }
+      )
       return
     }
 

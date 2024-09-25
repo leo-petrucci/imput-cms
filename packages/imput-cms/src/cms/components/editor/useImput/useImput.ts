@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useEffect } from 'react'
 import { ReactEditor } from 'slate-react'
 import { setEditorRef } from '../store'
-import { Editor, Element, NodeEntry, Range, Transforms } from 'slate'
+import { Element, Transforms } from 'slate'
 import { defaultNodeTypes } from '../remark-slate'
 
 /**
@@ -18,36 +18,6 @@ export const useImput = (editor: ReactEditor) => {
       setEditorRef(editor)
     }
   }, [editor])
-
-  const decorate = useCallback(([node, path]: NodeEntry) => {
-    if (editor.selection != null) {
-      if (
-        !Editor.isEditor(node) &&
-        Editor.string(editor, [path[0]]) === '' &&
-        Range.includes(editor.selection, path) &&
-        Range.isCollapsed(editor.selection)
-      ) {
-        return [
-          {
-            ...editor.selection,
-            placeholder: true,
-          },
-        ]
-      }
-      if (
-        Element.isElement(node) &&
-        // @ts-expect-error
-        node.type === defaultNodeTypes.code_line
-      ) {
-        // @ts-expect-error
-        const ranges = editor.nodeToDecorations.get(node) || []
-        return ranges
-      }
-
-      return []
-    }
-    return []
-  }, [])
 
   /**
    * This checks that the last node of the editor is a paragraph
@@ -74,6 +44,4 @@ export const useImput = (editor: ReactEditor) => {
       }
     }
   }, [])
-
-  return { decorate }
 }

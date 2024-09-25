@@ -85,13 +85,6 @@ const CodeblockElement = ({
       </div>
     )
   }
-
-  const Tag = editor.isInline(element) ? 'span' : 'div'
-  return (
-    <Tag {...attributes} style={{ position: 'relative' }}>
-      {children}
-    </Tag>
-  )
 }
 
 export default CodeblockElement

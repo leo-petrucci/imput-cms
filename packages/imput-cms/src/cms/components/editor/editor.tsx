@@ -29,10 +29,7 @@ import { shortcuts } from './utils/shortcuts'
 import { withCommands } from './Commands/context'
 import { FloatingCommands } from './Commands/Commands'
 import { useCommands } from './Commands/hook'
-import {
-  SetNodeToDecorations,
-  codeBlockOnKeyDown,
-} from './Elements/CodeBlockElement/utils'
+import { codeBlockOnKeyDown } from './Elements/CodeBlockElement/utils'
 import { ComponentsModal } from './ComponentsModal/ComponentsModal'
 import { setLastSelection } from './store'
 import { onKeyDownInlineFix } from './withImput/utils'
@@ -151,7 +148,7 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
 
   const { onChange: onCommandsChange } = useCommands(editor)
 
-  const { decorate } = useImput(editor)
+  useImput(editor)
 
   const { isHighestDepth } = useElementDepth()
 
@@ -165,7 +162,6 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
           setLastSelection(editor)
         }}
       >
-        <SetNodeToDecorations />
         {isHighestDepth && (
           <>
             <FloatingToolbar />
@@ -175,7 +171,6 @@ export const Editor = ({ value, onChange, debug }: EditorProps) => {
         )}
         <div className="children:imp-p-2">
           <Editable
-            decorate={decorate}
             data-testid="slate-content-editable"
             renderElement={renderElement}
             renderLeaf={renderLeaf}

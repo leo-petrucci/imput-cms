@@ -15,7 +15,7 @@ category:
 ---
 My markdown content
 
-<Table data={{headers: [["Header 1", "Header 2", "Header 3", "header 4"]], rows: [[["Value 1", "Value 2", "Empty", "value 2"], ["Value 1", "Value 2", "Another value", "Value"]]]}} />
+<Table data={{headers: ["Header 1", "Header 2", "Header 3", "header 4"], rows: [["Value 1", "Value 2", "Empty", "value 2"], ["Value 1", "Value 2", "Another value", "Value"]]}} />
 
 ```csharp
 // Refactoring example: Renaming a method in C#

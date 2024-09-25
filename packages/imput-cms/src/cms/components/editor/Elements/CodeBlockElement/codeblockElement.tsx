@@ -85,6 +85,8 @@ const CodeblockElement = ({
       </div>
     )
   }
+
+  return <></>
 }
 
 export default CodeblockElement

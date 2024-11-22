@@ -68,7 +68,7 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
   // initialize default values to the form
   useEffect(() => {
-    if (document) {
+    if (document && !markdown) {
       const { content: serializedBody, data: grayMatterObj } = matter(
         document.markdown
       )

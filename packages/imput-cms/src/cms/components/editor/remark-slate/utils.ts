@@ -35,7 +35,7 @@ export const recursivelyStringifyObject = (obj: any): string => {
   if (typeof obj !== 'object') return stringifyValue(obj)
 
   if (Array.isArray(obj)) {
-    return '[' + obj.map(recursivelyStringifyArray).join(', ') + ']'
+    return '[' + recursivelyStringifyArray(obj) + ']'
   }
 
   const entries = Object.entries(obj).map(([key, value]) => {

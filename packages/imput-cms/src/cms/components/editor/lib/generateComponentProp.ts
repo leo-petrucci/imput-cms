@@ -99,11 +99,13 @@ export const generateComponentProp = (
           },
         ],
       }
+
     case 'object':
       let objValue = {}
       if (typeof fieldType.type.default === 'object') {
         objValue = fieldType.type.default
       }
+
       return {
         attributeName: fieldType.name,
         type: AttributeType.Object,

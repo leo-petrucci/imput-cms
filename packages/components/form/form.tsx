@@ -144,7 +144,7 @@ const Item = ({
       <div
         className="imp-flex imp-flex-col imp-gap-1"
         style={{
-          display: hidden ? 'none' : 'inherit',
+          display: hidden ? 'none' : 'auto',
         }}
         {...rest}
       >

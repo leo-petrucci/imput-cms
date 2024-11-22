@@ -1,4 +1,8 @@
+'use client'
+
+import { TableControl } from '@/components/imput/TableControl'
 import dynamic from 'next/dynamic'
+import '../../../styles/imput.css'
 
 const NextCMS = dynamic(() => import('local-imput-cms'), {
   ssr: false,
@@ -85,6 +89,32 @@ const CMS = () => (
               { label: 'Body', name: 'body', widget: 'markdown' },
             ],
             blocks: [
+              {
+                name: 'Table',
+                label: 'Table',
+                fields: [
+                  {
+                    label: 'Data',
+                    name: 'data',
+                    type: {
+                      widget: 'object',
+                      component: TableControl,
+                      default: {
+                        headers: [
+                          'Header 1',
+                          'Header 2',
+                          'Header 3',
+                          'header 4',
+                        ],
+                        rows: [
+                          ['Value 1', 'Value 2', 'Empty', 'value 2'],
+                          ['Value 1', 'Value 2', 'Another value', 'Value'],
+                        ],
+                      },
+                    },
+                  },
+                ],
+              },
               {
                 name: 'ReactComponent',
                 label: 'My first block',

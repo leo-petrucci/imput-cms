@@ -9,13 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@imput/components": "workspace:*",
     "@types/node": "18.11.19",
     "@types/react": "18.x",
     "@types/react-dom": "18.0.10",
     "@types/simple-oauth2": "^5.0.1",
+    "imput-cms": "link:../../packages/imput-cms",
     "is-hotkey": "^0.2.0",
     "local-imput-cms": "workspace:*",
-    "imput-cms": "link:../../packages/imput-cms",
+    "lodash": "^4.17.21",
     "next": "14.2.5",
     "react": "18.x",
     "react-dom": "18.x",
@@ -23,6 +25,7 @@
     "typescript": "4.9.5"
   },
   "devDependencies": {
-    "@types/is-hotkey": "^0.1.7"
+    "@types/is-hotkey": "^0.1.7",
+    "@types/lodash": "^4.14.186"
   }
 }

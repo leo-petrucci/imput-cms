@@ -1,0 +1,9 @@
+.addRowColButton {
+  padding: 1rem 0.5rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.addRowColButton:hover {
+  background-color: rgb(241 245 249);
+}

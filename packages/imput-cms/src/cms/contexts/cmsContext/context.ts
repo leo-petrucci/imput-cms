@@ -1,5 +1,6 @@
 import React from 'react'
-import { FieldValues, RegisterOptions } from 'react-hook-form'
+import { FieldValues, RegisterOptions, UseFormReturn } from 'react-hook-form'
+import { CustomControlProps } from '../../../types/CustomControl'
 
 export type Widgets =
   | {
@@ -60,6 +61,7 @@ export type Widgets =
       widget: 'object'
       default?: any
       multiple?: boolean
+      component: (props: CustomControlProps) => React.ReactElement
     }
   | {
       widget: 'string'
@@ -123,6 +125,7 @@ export type FieldType = {
       | 'markdown'
       | 'relation'
       | 'textarea'
+      | 'object'
   }
 >
 

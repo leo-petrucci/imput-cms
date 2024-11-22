@@ -10,6 +10,8 @@ import Form from '@imput/components/form'
 import { CreateEditor } from '../createEditor'
 import { Codeblock } from '@imput/components/codeblock/Controlled'
 import { Textarea } from '@imput/components/Textarea/Controlled'
+import { useFormContext } from 'react-hook-form'
+import { Frame } from '../../organisms/Framed'
 
 /**
  * Renders the correct fields for the currently loaded collection
@@ -20,6 +22,16 @@ const EditorFields = ({ fields }: { fields?: FieldType[] }) => {
       {fields?.map((f) => {
         const renderControl = () => {
           switch (f.widget) {
+            case 'object':
+              const Component = f.component
+
+              return (
+                <Frame>
+                  <Component useFormContext={useFormContext} />
+                </Frame>
+              )
+            // const Wrapped = withFrame(Component)
+            // return <Wrapped useFormContext={useFormContext} />
             case 'string':
               return <Input />
             case 'date':

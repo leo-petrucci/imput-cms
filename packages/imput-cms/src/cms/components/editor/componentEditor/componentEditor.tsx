@@ -105,6 +105,8 @@ export const ComponentEditor = ({
           options: c.type.options || [],
           // @ts-expect-error fuck typescript
           multiple: c.type.multiple || false,
+          // @ts-expect-error fuck typescript
+          component: c.type.component || undefined,
         }))
     )
   }, [])

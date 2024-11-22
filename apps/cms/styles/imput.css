@@ -1,0 +1,5 @@
+@layer imput, user;
+
+@import url('imput-cms/dist/index.css') layer(imput);
+
+@import url('./globals.css') layer(user);

@@ -26,6 +26,9 @@ importers:
 
   apps/cms:
     dependencies:
+      '@imput/components':
+        specifier: workspace:*
+        version: link:../../packages/components
       '@types/node':
         specifier: 18.11.19
         version: 18.11.19
@@ -47,6 +50,9 @@ importers:
       local-imput-cms:
         specifier: workspace:*
         version: link:../../packages/local-imput-cms
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       next:
         specifier: 14.2.5
         version: 14.2.5(react-dom@18.2.0)(react@18.2.0)
@@ -66,6 +72,9 @@ importers:
       '@types/is-hotkey':
         specifier: ^0.1.7
         version: 0.1.10
+      '@types/lodash':
+        specifier: ^4.14.186
+        version: 4.14.202
 
   apps/docs:
     dependencies:

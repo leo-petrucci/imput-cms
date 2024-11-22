@@ -11,3 +11,4 @@ type NextCMSSettings = NextCMSContext['settings']
 export default NextCMS
 export { MdxProvider, MdxRenderer }
 export type { BlockType, NextCMSSettings }
+export type { CustomControlProps } from './types/CustomControl'

@@ -8,7 +8,7 @@ import { slugify } from '../../cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
 import { v4 as uuidv4 } from 'uuid'
 import matter from 'gray-matter'
-import React from 'react'
+import React, { useMemo } from 'react'
 import get from 'lodash/get'
 import { useQueryClient } from '@tanstack/react-query'
 import path from 'path'
@@ -331,7 +331,17 @@ export const useGetContent = (type: string, slug: string) => {
     enabled: isSuccess,
   })
 
-  return { ...query, collectionIsError: isError }
+  // this is to prevent a weird issue where sometimes the query
+  // reloads and causes the editor to unrender and delete progress
+  const isLoading = useMemo(() => {
+    if (data) {
+      return false
+    } else {
+      return query.isLoading
+    }
+  }, [query.isLoading, query.data])
+
+  return { ...query, collectionIsError: isError, isLoading }
 }
 
 /**

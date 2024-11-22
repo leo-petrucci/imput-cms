@@ -10,7 +10,6 @@ const ContentPage = () => {
   // find the currently opened file from the collection of all files
   const {
     data: document,
-    isSuccess,
     isLoading,
     isError,
     collectionIsError,
@@ -18,13 +17,10 @@ const ContentPage = () => {
 
   if (isLoading) return <Loader />
 
-  if (isSuccess) {
-    return <EditorPage document={document} />
-  }
+  if (isError || collectionIsError)
+    return <>Something went wrong while loading your content.</>
 
-  if (isError || collectionIsError) return <>You fucked up</>
-
-  return <Loader />
+  return <EditorPage document={document} />
 }
 
 export default ContentPage

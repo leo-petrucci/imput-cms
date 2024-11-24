@@ -329,19 +329,11 @@ export const useGetContent = (type: string, slug: string) => {
       return content
     },
     enabled: isSuccess,
+    staleTime: Infinity,
+    cacheTime: Infinity,
   })
 
-  // this is to prevent a weird issue where sometimes the query
-  // reloads and causes the editor to unrender and delete progress
-  const isLoading = useMemo(() => {
-    if (data) {
-      return false
-    } else {
-      return query.isLoading
-    }
-  }, [query.isLoading, query.data])
-
-  return { ...query, collectionIsError: isError, isLoading }
+  return { ...query, collectionIsError: isError }
 }
 
 /**

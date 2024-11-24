@@ -66,9 +66,11 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     },
   })
 
+  const [isInitialized, setIsInitialized] = React.useState(false)
   // initialize default values to the form
   useEffect(() => {
-    if (document && !markdown) {
+    if (document && !isInitialized) {
+      setIsInitialized(true)
       const { content: serializedBody, data: grayMatterObj } = matter(
         document.markdown
       )

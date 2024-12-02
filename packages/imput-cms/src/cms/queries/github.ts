@@ -1,6 +1,6 @@
 import { Octokit } from 'octokit'
 import { Buffer } from 'buffer'
-import { useMutation, useQuery, defaultContext } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useCMS } from '../../cms/contexts/cmsContext/useCMSContext'
 import { getToken } from '../../cms/queries/auth'
 import { queryKeys } from '../../cms/queries/keys'
@@ -8,7 +8,7 @@ import { slugify } from '../../cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
 import { v4 as uuidv4 } from 'uuid'
 import matter from 'gray-matter'
-import React, { useMemo } from 'react'
+import React from 'react'
 import get from 'lodash/get'
 import { useQueryClient } from '@tanstack/react-query'
 import path from 'path'
@@ -53,7 +53,6 @@ export const useGetGithubCollection = (type: string) => {
 
   const query = useQuery({
     queryKey: queryKeys.github.collection(type, sortBy, sortDirection).queryKey,
-    context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({
         auth: getToken(),
@@ -184,6 +183,8 @@ export const useGetGithubCollection = (type: string) => {
 
       return decodedFiles
     },
+    staleTime: Infinity,
+    cacheTime: Infinity,
   })
 
   return {
@@ -214,7 +215,6 @@ export const useGetGithubImages = () => {
 
   return useQuery({
     queryKey: queryKeys.github.collection(media_folder).queryKey,
-    context: defaultContext,
     queryFn: async () => {
       const octokit = new Octokit({
         auth: getToken(),
@@ -322,7 +322,6 @@ export const useGetContent = (type: string, slug: string) => {
   const { data, isSuccess, isError } = useGetGithubCollection(type)
   const query = useQuery({
     ...queryKeys.github.content(type, slug),
-    context: defaultContext,
     queryFn: async () => {
       const content = data!.find((d) => d.slug === slug)
 
@@ -345,7 +344,6 @@ export const useGetGithubDecodedFile = (sha: string | undefined) => {
   const [owner, repo] = backend.repo.split('/')
   return useQuery({
     ...queryKeys.github.fileBlob(sha!),
-    context: defaultContext,
     queryFn: async () => {
       const base64 = await getGithubFileBase64(owner, repo, sha!)
 
@@ -586,7 +584,6 @@ const getRateLimit = (): Promise<Endpoints['GET /rate_limit']['response']> => {
 export const useGetRateLimit = () => {
   return useQuery({
     queryKey: queryKeys.github.rateLimit.queryKey,
-    context: defaultContext,
     queryFn: getRateLimit,
   })
 }

@@ -35,7 +35,7 @@ const queryClient = new QueryClient({
       refetchOnWindowFocus: false,
       refetchOnMount: false,
       retry: false,
-      staleTime: 1000 * 60 * 10, // 10 minutes
+      staleTime: Infinity,
     },
   },
 })

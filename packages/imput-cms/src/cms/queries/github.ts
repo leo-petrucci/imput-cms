@@ -8,10 +8,11 @@ import { slugify } from '../../cms/utils/slugify'
 import { Endpoints } from '@octokit/types'
 import { v4 as uuidv4 } from 'uuid'
 import matter from 'gray-matter'
-import React from 'react'
+import React, { useEffect } from 'react'
 import get from 'lodash/get'
 import { useQueryClient } from '@tanstack/react-query'
 import path from 'path'
+import { queryByTestId } from '@testing-library/react'
 
 type FilesWithDate =
   Endpoints['GET /repos/{owner}/{repo}/git/trees/{tree_sha}'] & {
@@ -332,7 +333,20 @@ export const useGetContent = (type: string, slug: string) => {
     cacheTime: Infinity,
   })
 
-  return { ...query, collectionIsError: isError }
+  // this is disgusting but I think it's the only way I've found
+  // to counteract a bug that causes the query to refetch,
+  // temporary unrendering the article and deleting all progress
+  //
+  // there's probably a real solution to this, but I cant' even
+  // replicate the bug so I can't test it
+  const [isLoading, setIsLoading] = React.useState(true)
+  useEffect(() => {
+    if (!query.isLoading) {
+      setIsLoading(false)
+    }
+  }, [query.isLoading])
+
+  return { ...query, collectionIsError: isError, isLoading }
 }
 
 /**

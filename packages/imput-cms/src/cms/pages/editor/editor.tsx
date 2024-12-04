@@ -19,13 +19,13 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Loader from '../../components/loader'
 import { Layout } from '../../components/atoms/Layout'
 import cloneDeep from 'lodash/cloneDeep'
-import omit from 'lodash/omit'
 import { Descendant } from 'slate'
 import { CaretLeft } from '@imput/components/Icon'
 import { EditorFields } from '../../components/editor/fields'
 import { Preview } from '../../components/Preview'
 import { DepthProvider } from '../../components/editor/depthContext'
 import { Navbar } from '../../components/atoms/Navbar'
+import useDraft from './useDraft'
 
 interface EditorPageProps {
   document?: ReturnType<typeof useGetContent>['data']
@@ -68,17 +68,27 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
 
   // initialize default values to the form
   useEffect(() => {
-    if (document) {
-      const { content: serializedBody, data: grayMatterObj } = matter(
-        document.markdown
-      )
-      const rawBody = deserialize(serializedBody, components || [])
-      form.reset({
-        ...grayMatterObj,
-        body: rawBody.result,
-        serializedBody: serializedBody,
-      })
-      setMarkdown(document.markdown)
+    const initialize = (content?: string) => {
+      if (document) {
+        const { content: serializedBody, data: grayMatterObj } = matter(
+          content || document.markdown
+        )
+        const rawBody = deserialize(serializedBody, components || [])
+        form.reset({
+          ...grayMatterObj,
+          body: rawBody.result,
+          serializedBody: serializedBody,
+        })
+        setMarkdown(document.markdown)
+      }
+    }
+
+    if (draft.isDraftPresent()) {
+      console.log('found draft', draft.draft)
+      initialize(draft.draft)
+    } else {
+      console.log('no draft found, initializing...')
+      initialize()
     }
   }, [document, form])
 
@@ -134,6 +144,8 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [markdown])
 
+  const draft = useDraft(filename)
+
   const { mutate, isLoading } = useSaveMarkdown(filename)
 
   // we parse form values into a graymatter string so we can display it
@@ -143,6 +155,14 @@ const EditorPage = ({ document, slug = '{{slug}}' }: EditorPageProps) => {
     const content = matter.stringify(serializedBody, {
       ...rest,
     })
+    // only save the draft if the body has been modified
+    if (form.getFieldState('body').isDirty) {
+      // console.log(
+      //   'body is dirty, saving draft',
+      //   form.getFieldState('body').isDirty
+      // )
+      draft.saveDraft(content)
+    }
     setMarkdown(content)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues])

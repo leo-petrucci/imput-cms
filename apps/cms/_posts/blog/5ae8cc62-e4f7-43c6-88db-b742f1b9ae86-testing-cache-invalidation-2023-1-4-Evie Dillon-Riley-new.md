@@ -11,3 +11,6 @@ thumbnail: images/0htvgrnoojm61.webp
 ---
 Just an empty article to test
 
+![](images/0htvgrnoojm61.webp "")
+
+

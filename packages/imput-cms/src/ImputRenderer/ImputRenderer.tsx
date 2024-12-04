@@ -69,16 +69,21 @@ const MdxRenderer = ({
     getStyles()
   }, [])
 
+  // We memoize the components to prevent re-renders
+  // specifically for the img component, which causes images
+  // to flicker when they're re-rendered
+  const memoizedComponents = React.useMemo(() => {
+    return {
+      ...components,
+      img: (props: any) => {
+        // @ts-ignore
+        return <ImageComponent {...props} CustomComponent={components?.img} />
+      },
+    }
+  }, [components])
+
   return (
-    <MdxProvider
-      components={{
-        ...components,
-        img: (props) => {
-          // @ts-expect-error
-          return <ImageComponent {...props} CustomComponent={components?.img} />
-        },
-      }}
-    >
+    <MdxProvider components={memoizedComponents}>
       {descendants.map((d) => (
         <InternalRenderer descendant={d} key={d.id} />
       ))}

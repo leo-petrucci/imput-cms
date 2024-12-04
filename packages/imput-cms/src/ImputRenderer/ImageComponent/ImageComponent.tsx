@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { useImages } from '../../cms/contexts/imageContext/useImageContext'
 
 type ImageComponentProps = {
@@ -31,14 +32,13 @@ export const ImageComponent = (
   const { src, CustomComponent, ...rest } = props
   const { images } = useImages()
 
+  const blobUrl = useMemo(() => {
+    return images.find((i) => i.filename === src)?.blobUrl
+  }, [images, src])
+
   if (CustomComponent) {
-    return (
-      <CustomComponent
-        {...rest}
-        src={images.find((i) => i.filename === src)?.blobUrl}
-      />
-    )
+    return <CustomComponent {...rest} src={blobUrl} />
   }
 
-  return <img {...rest} src={images.find((i) => i.filename === src)?.blobUrl} />
+  return <img {...rest} src={blobUrl} key={src} />
 }

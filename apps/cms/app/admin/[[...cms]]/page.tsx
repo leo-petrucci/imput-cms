@@ -1,3 +1,5 @@
+'use client'
+
 import dynamic from 'next/dynamic'
 
 const NextCMS = dynamic(() => import('local-imput-cms'), {
@@ -256,9 +258,7 @@ const CMS = () => (
                 ],
               },
             ],
-            // preview: {
-            //   components: {},
-            // },
+            preview,
           },
           {
             name: 'authors',
@@ -299,5 +299,19 @@ const CMS = () => (
     }}
   />
 )
+
+const preview = {
+  wrapper: ({ children, ...rest }: any) => {
+    return (
+      <div
+        style={{ maxWidth: 655 }}
+        className="mb-4 px-2 prose prose-slate prose-a:text-primary-500 hover:prose-a:text-primary-400 first-of-type:prose-p:mt-2 first-of-type:prose-p:text-xl"
+      >
+        {children}
+      </div>
+    )
+  },
+  components: {},
+}
 
 export default CMS

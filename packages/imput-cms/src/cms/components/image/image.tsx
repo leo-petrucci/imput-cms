@@ -1,17 +1,15 @@
 import { useImages } from '../../../cms/contexts/imageContext/useImageContext'
 import { useOnScreen } from '../../../cms/utils/useOnScreen'
-import React, { useMemo } from 'react'
+import React from 'react'
 
 /**
  * Displays an image from local state, if the image has not yet been loaded to state it loads it and displays it
  */
 const Image = ({ path }: { path: string | undefined }) => {
   const { images, loadImage, setImages } = useImages()
-  const imageBlobUrl = useMemo(() => {
-    return path
-      ? images.find((i) => i.filename.includes(path))?.blobUrl
-      : undefined
-  }, [images, path])
+  const imageBlobUrl = path
+    ? images.find((i) => i.filename.includes(path))?.blobUrl
+    : undefined
 
   const ref: any = React.useRef<HTMLDivElement>()
   const onScreen: boolean = useOnScreen<HTMLDivElement>(ref)
@@ -20,7 +18,6 @@ const Image = ({ path }: { path: string | undefined }) => {
   React.useEffect(() => {
     const doLoad = async () => {
       if (path) {
-        console.log('loading image', path)
         const loadedImage = await loadImage(path)
         setImages((i) => [...i, loadedImage])
       }
